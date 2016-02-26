@@ -1,0 +1,194 @@
+﻿using Cron.Parser.Enums;
+using Cron.Parser.Exceptions;
+using Cron.Parser.Syntax;
+using Cron.Parser.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Cron.Parser
+{
+    public class Parser
+    {
+        private Lexer lexer;
+        private Token currentToken;
+        private Token lastToken;
+
+        public Parser(Lexer lexer)
+        {
+            this.lexer = lexer;
+            lastToken = new NoneToken();
+            currentToken = lexer.NextToken();
+        }
+
+        private void Eat(TokenType type)
+        {
+            if (currentToken.TokenType == type)
+            {
+                lastToken = currentToken;
+                currentToken = lexer.NextToken();
+                return;
+            }
+            throw new UnexpectedTokenException(lexer.Position, currentToken);
+        }
+
+        public RootComponentNode ComposeRootComponents()
+        {
+            List<SegmentNode> rootComponents = new List<SegmentNode>();
+            for (int i = 0; i < 8 && currentToken.TokenType != TokenType.Eof; ++i)
+            {
+                switch (currentToken.TokenType)
+                {
+                    case TokenType.WhiteSpace:
+                        Eat(TokenType.WhiteSpace);
+                        break;
+                }
+                rootComponents.Add(ComposeSegmentComponent((Segment)i));
+            }
+            if(rootComponents[rootComponents.Count - 1].Segment != Segment.Year)
+            {
+                rootComponents.Add(ComposeStarYearSegmentComponent());
+            }
+            if(currentToken.TokenType == TokenType.Eof)
+            {
+                rootComponents.Add(new EndOfFileNode());
+            }
+            return new RootComponentNode(rootComponents.ToArray());
+        }
+
+        private SegmentNode ComposeStarYearSegmentComponent()
+        {
+            return new SegmentNode(new StarNode(Segment.Year), Segment.Year);
+        }
+
+        private SegmentNode ComposeSegmentComponent(Segment segment)
+        {
+            switch (segment)
+            {
+                case Segment.Seconds:
+                    return ComposeComplexSegment(segment);
+                case Segment.Minutes:
+                    return ComposeComplexSegment(segment);
+                case Segment.Hours:
+                    return ComposeComplexSegment(segment);
+                case Segment.DayOfMonth:
+                    return ComposeComplexSegment(segment);
+                case Segment.Month:
+                    return ComposeComplexSegment(segment);
+                case Segment.DayOfWeek:
+                    return ComposeComplexSegment(segment);
+                case Segment.Year:
+                    return ComposeComplexSegment(segment);
+                default:
+                    throw new UnknownSegmentException(lexer.Position);
+            }
+        }
+
+        private SyntaxOperatorNode TakePrimitiveInteger()
+        {
+            var token = currentToken;
+            Eat(currentToken.TokenType);
+            switch (currentToken.TokenType)
+            {
+                case TokenType.L:
+                    Eat(TokenType.L);
+                    return new NumericPrecededLNode(token);
+                case TokenType.W:
+                    Eat(TokenType.W);
+                    return new NumericPrecededWNode(token);
+                case TokenType.LW:
+                    Eat(TokenType.LW);
+                    return new NumericPreceededLWNode(token);
+                default:
+                    return new NumberNode(lastToken);
+            }
+        }
+
+        private SyntaxOperatorNode TakePrimitives()
+        {
+            var token = currentToken;
+            switch (currentToken.TokenType)
+            {
+                case TokenType.Integer:
+                    return TakePrimitiveInteger();
+                case TokenType.Name:
+                    Eat(TokenType.Name);
+                    return new WordNode(token);
+                case TokenType.L:
+                    Eat(TokenType.L);
+                    return new LNode();
+                case TokenType.W:
+                    Eat(TokenType.W);
+                    return new WNode();
+                case TokenType.LW:
+                    Eat(TokenType.LW);
+                    return new LWNode();
+            }
+            switch(currentToken.TokenType)
+            {
+                default:
+                    throw new NestedExpressionException(lexer.Position, token);
+            }
+        }
+
+        private SyntaxOperatorNode RangeTree()
+        {
+            var node = TakePrimitives();
+
+            while (currentToken.TokenType == TokenType.Range || currentToken.TokenType == TokenType.Inc || currentToken.TokenType == TokenType.Hash)
+            {
+                var token = currentToken;
+                Eat(currentToken.TokenType);
+
+                switch (token.TokenType)
+                {
+                    case TokenType.Range:
+                        node = new RangeNode(node, TakePrimitives());
+                        break;
+                    case TokenType.Inc:
+                        node = new IncrementByNode(node, TakePrimitives());
+                        break;
+                    case TokenType.Hash:
+                        node = new HashNode(node.Token, TakePrimitives().Token);
+                        break;
+                }
+            }
+
+            return node;
+        }
+
+        private SyntaxOperatorNode CommaTree()
+        {
+            var node = RangeTree();
+            while (currentToken.TokenType == TokenType.Comma)
+            {
+                switch (currentToken.TokenType)
+                {
+                    case TokenType.Comma:
+                        Eat(TokenType.Comma);
+                        break;
+                }
+
+                node = new CommaNode(node, RangeTree());
+            }
+            return node;
+        }
+
+        private SegmentNode ComposeComplexSegment(Segment segment)
+        {
+            switch (currentToken.TokenType)
+            {
+                case TokenType.Star:
+                    Eat(TokenType.Star);
+                    return new SegmentNode(new StarNode(segment), segment);
+                case TokenType.QuestionMark:
+                    Eat(TokenType.QuestionMark);
+                    return new SegmentNode(new QuestionMarkNode(), segment);
+                default:
+                    return new SegmentNode(CommaTree(), segment);
+            }
+        }
+    }
+}
