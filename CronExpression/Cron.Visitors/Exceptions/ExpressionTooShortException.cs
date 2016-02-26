@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cron.Parser.Exceptions
+namespace Cron.Visitors.Exceptions
 {
     public class ExpressionTooShortException : BaseCronValidationException
     {

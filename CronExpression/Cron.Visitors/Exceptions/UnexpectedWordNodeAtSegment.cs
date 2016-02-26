@@ -1,7 +1,7 @@
 ﻿using Cron.Parser.Enums;
 using Cron.Parser.Tokens;
 
-namespace Cron.Parser.Exceptions
+namespace Cron.Visitors.Exceptions
 {
     public class UnexpectedWordNodeAtSegment : BaseCronValidationException
     {

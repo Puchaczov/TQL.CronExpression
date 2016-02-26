@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Cron.Parser
+namespace Cron.Parser.Exceptions
 {
     [Serializable]
     internal class UnknownSegmentException : Exception

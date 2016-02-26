@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Cron.Parser.Enums;
 
-namespace Cron.Parser.Exceptions
+namespace Cron.Visitors.Exceptions
 {
     [Serializable]
     public class UnexpectedPrecededWNodeAtSegmentException : Exception

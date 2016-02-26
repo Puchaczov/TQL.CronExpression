@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Cron.Parser.Exceptions
+namespace Cron.Visitors.Exceptions
 {
     [Serializable]
     public class BaseCronValidationException : Exception

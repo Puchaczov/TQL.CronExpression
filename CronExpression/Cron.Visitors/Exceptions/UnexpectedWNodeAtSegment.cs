@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cron.Parser.Exceptions
+namespace Cron.Visitors.Exceptions
 {
-    public class UnexpectedQuestionMarkAtSegment : BaseCronValidationException
+    public class UnexpectedWNodeAtSegment : BaseCronValidationException
     {
         private Segment segment;
 
-        public UnexpectedQuestionMarkAtSegment(Token token, Segment segment)
+        public UnexpectedWNodeAtSegment(Token token, Segment segment)
             : base(token)
         {
             this.segment = segment;

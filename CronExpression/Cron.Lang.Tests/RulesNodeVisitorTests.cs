@@ -2,6 +2,7 @@
 using Cron.Parser.Syntax;
 using Cron.Parser.Visitors;
 using Cron.Visitors;
+using Cron.Visitors.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

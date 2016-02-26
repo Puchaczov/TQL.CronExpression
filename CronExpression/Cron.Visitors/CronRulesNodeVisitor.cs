@@ -5,6 +5,7 @@ using Cron.Parser.Enums;
 using Cron.Parser.Exceptions;
 using Cron.Parser.Extensions;
 using Cron.Parser.Visitors;
+using Cron.Visitors.Exceptions;
 
 namespace Cron.Visitors
 {
