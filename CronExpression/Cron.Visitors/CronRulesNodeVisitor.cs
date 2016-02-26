@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cron.Parser.Syntax;
+using Cron.Parser.Nodes;
 using Cron.Parser.Enums;
 using Cron.Parser.Exceptions;
 using Cron.Parser.Extensions;
@@ -134,12 +134,6 @@ namespace Cron.Visitors
                 errors.Add(exc);
             }
         }
-
-        public virtual void Visit(MinRangeValueNode node)
-        { }
-
-        public virtual void Visit(MaxRangeValueNode node)
-        { }
 
         public virtual void Visit(LNode node)
         {

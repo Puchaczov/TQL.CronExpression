@@ -1,29 +1,22 @@
 ﻿using Cron.Parser.Tokens;
+using Cron.Parser.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cron.Parser.Visitors;
-using Cron.Parser.Extensions;
-using Cron.Parser.Enums;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
-    public class LNode : NumberNode
+    public class WNode : NumberNode
     {
-        public LNode()
+        public WNode()
             : base(new IntegerToken("0"))
         { }
 
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
-        }
-
-        public override IList<int> Evaluate(Segment segment)
-        {
-            return ListExtension.Empty();
         }
     }
 }

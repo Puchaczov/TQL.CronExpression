@@ -1,22 +1,24 @@
-﻿using Cron.Parser.Tokens;
+﻿using Cron.Parser.Enums;
+using Cron.Parser.Extensions;
+using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cron.Parser.Enums;
-using Cron.Parser.Extensions;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
-    public class WordNode : SyntaxOperatorNode, IValuableExpression
+    public class HashNode : SyntaxOperatorNode
     {
-        private Token token;
+        private Token left;
+        private Token right;
 
-        public WordNode(Token token)
+        public HashNode(Token left, Token right)
         {
-            this.token = token;
+            this.left = left;
+            this.right = right;
         }
 
         public override void Accept(INodeVisitor visitor)
@@ -29,27 +31,19 @@ namespace Cron.Parser.Syntax
             return ListExtension.Empty();
         }
 
-        public string Value
+        public Token Left
         {
             get
             {
-                return token.Value;
+                return left;
             }
         }
 
-        public SyntaxOperatorNode Self
+        public Token Right
         {
             get
             {
-                return this;
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return token;
+                return right;
             }
         }
 
@@ -59,6 +53,14 @@ namespace Cron.Parser.Syntax
             {
                 return new SyntaxNode[] {
                 };
+            }
+        }
+
+        public override Token Token
+        {
+            get
+            {
+                return new HashToken();
             }
         }
     }

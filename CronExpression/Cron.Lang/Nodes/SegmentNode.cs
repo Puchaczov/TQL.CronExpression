@@ -4,7 +4,7 @@ using Cron.Parser.Visitors;
 using System;
 using System.Collections.Generic;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
     public class SegmentNode : SyntaxOperatorNode
     {

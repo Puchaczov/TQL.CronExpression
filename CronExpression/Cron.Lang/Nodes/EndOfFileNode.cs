@@ -2,7 +2,7 @@
 using Cron.Parser.Visitors;
 using System;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
     public class EndOfFileNode : SegmentNode
     {

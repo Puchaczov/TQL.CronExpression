@@ -1,5 +1,5 @@
 ﻿using System;
-using Cron.Parser.Syntax;
+using Cron.Parser.Nodes;
 using Cron.Visitors.Evaluators;
 
 namespace Cron.Visitors

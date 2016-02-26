@@ -1,5 +1,5 @@
 ﻿using Cron.Parser.Exceptions;
-using Cron.Parser.Syntax;
+using Cron.Parser.Nodes;
 using Cron.Parser.Visitors;
 using Cron.Visitors;
 using Cron.Visitors.Exceptions;

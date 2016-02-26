@@ -8,7 +8,7 @@ using Cron.Parser.Visitors;
 using Cron.Parser.Enums;
 using Cron.Parser.Extensions;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
     public class NumericPrecededLNode : NumberNode
     {

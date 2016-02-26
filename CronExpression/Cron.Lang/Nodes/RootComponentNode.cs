@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
     public class RootComponentNode : SyntaxOperatorNode
     {

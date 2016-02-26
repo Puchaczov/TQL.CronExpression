@@ -1,5 +1,5 @@
 ﻿using Cron.Parser.Enums;
-using Cron.Parser.Syntax;
+using Cron.Parser.Nodes;
 
 namespace Cron.Parser.Visitors
 {
@@ -15,8 +15,6 @@ namespace Cron.Parser.Visitors
         void Visit(NumberNode node);
         void Visit(QuestionMarkNode node);
         void Visit(SyntaxOperatorNode node);
-        void Visit(MinRangeValueNode node);
-        void Visit(MaxRangeValueNode node);
         void Visit(LNode node);
         void Visit(WNode node);
         void Visit(HashNode node);

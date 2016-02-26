@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
     public class NumberNode : SyntaxOperatorNode, IValuableExpression
     {

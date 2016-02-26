@@ -55,7 +55,6 @@
     <Compile Include="Exceptions\UnexpectedTokenException.cs" />
     <Compile Include="Exceptions\UnexpectedWNodeAtSegment.cs" />
     <Compile Include="Exceptions\UnexpectedWordNodeAtSegment.cs" />
-    <Compile Include="Exceptions\UnknownSegmentException.cs" />
     <Compile Include="Exceptions\UnknownTokenException.cs" />
     <Compile Include="Exceptions\UnproperDayOfWeekNameException.cs" />
     <Compile Include="Exceptions\UnproperMonthNameException.cs" />

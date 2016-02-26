@@ -31,7 +31,7 @@ namespace Cron.Parser
 
         public Lexer(string input)
         {
-            this.input = input;
+            this.input = input.Trim();
             this.pos = 0;
             this.currentToken = new NoneToken();
         }
@@ -53,20 +53,16 @@ namespace Cron.Parser
             if(IsLetter(currentChar))
             {
                 var letters = ConsumeLetters();
-                if(letters.Length > 1)
+                switch(letters.Value)
                 {
-                    if(letters.Value == "LW")
-                    {
-                        return new LWToken();
-                    }
-                    return letters;
-                }
-                switch(letters.Value[0])
-                {
-                    case 'W':
+                    case "W":
                         return new WToken();
-                    case 'L':
+                    case "L":
                         return new LToken();
+                    case "LW":
+                        return new LWToken();
+                    default:
+                        return letters;
                 }
             }
 

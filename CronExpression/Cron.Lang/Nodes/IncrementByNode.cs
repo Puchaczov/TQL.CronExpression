@@ -9,7 +9,7 @@ using Cron.Parser.Extensions;
 using Cron.Parser.Enums;
 using Cron.Parser.Exceptions;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
     public class IncrementByNode : SyntaxOperatorNode
     {

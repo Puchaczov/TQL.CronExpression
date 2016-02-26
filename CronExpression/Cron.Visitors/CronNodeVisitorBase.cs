@@ -1,7 +1,7 @@
 ﻿using Cron.Parser.Enums;
 using Cron.Parser.Extensions;
 using Cron.Parser.List;
-using Cron.Parser.Syntax;
+using Cron.Parser.Nodes;
 using Cron.Parser.Utils;
 using System;
 using System.Collections.Generic;
@@ -74,16 +74,6 @@ namespace Cron.Visitors
         }
 
         public override void Visit(RootComponentNode node)
-        {
-            base.Visit(node);
-        }
-
-        public override void Visit(MinRangeValueNode node)
-        {
-            base.Visit(node);
-        }
-
-        public override void Visit(MaxRangeValueNode node)
         {
             base.Visit(node);
         }

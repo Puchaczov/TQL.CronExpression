@@ -1,6 +1,6 @@
 ﻿using Cron.Parser.Enums;
 using Cron.Parser.Exceptions;
-using Cron.Parser.Syntax;
+using Cron.Parser.Nodes;
 using Cron.Parser.Tokens;
 using System.Collections.Generic;
 
@@ -19,7 +19,7 @@ namespace Cron.Parser
             currentToken = lexer.NextToken();
         }
 
-        private void Eat(TokenType type)
+        private void Consume(TokenType type)
         {
             if (currentToken.TokenType == type)
             {
@@ -38,7 +38,7 @@ namespace Cron.Parser
                 switch (currentToken.TokenType)
                 {
                     case TokenType.WhiteSpace:
-                        Eat(TokenType.WhiteSpace);
+                        Consume(TokenType.WhiteSpace);
                         break;
                 }
                 rootComponents.Add(ComposeSegmentComponent((Segment)i));
@@ -85,17 +85,17 @@ namespace Cron.Parser
         private SyntaxOperatorNode TakePrimitiveInteger()
         {
             var token = currentToken;
-            Eat(currentToken.TokenType);
+            Consume(currentToken.TokenType);
             switch (currentToken.TokenType)
             {
                 case TokenType.L:
-                    Eat(TokenType.L);
+                    Consume(TokenType.L);
                     return new NumericPrecededLNode(token);
                 case TokenType.W:
-                    Eat(TokenType.W);
+                    Consume(TokenType.W);
                     return new NumericPrecededWNode(token);
                 case TokenType.LW:
-                    Eat(TokenType.LW);
+                    Consume(TokenType.LW);
                     return new NumericPreceededLWNode(token);
                 default:
                     return new NumberNode(lastToken);
@@ -110,16 +110,16 @@ namespace Cron.Parser
                 case TokenType.Integer:
                     return TakePrimitiveInteger();
                 case TokenType.Name:
-                    Eat(TokenType.Name);
+                    Consume(TokenType.Name);
                     return new WordNode(token);
                 case TokenType.L:
-                    Eat(TokenType.L);
+                    Consume(TokenType.L);
                     return new LNode();
                 case TokenType.W:
-                    Eat(TokenType.W);
+                    Consume(TokenType.W);
                     return new WNode();
                 case TokenType.LW:
-                    Eat(TokenType.LW);
+                    Consume(TokenType.LW);
                     return new LWNode();
             }
             switch(currentToken.TokenType)
@@ -129,14 +129,14 @@ namespace Cron.Parser
             }
         }
 
-        private SyntaxOperatorNode RangeTree()
+        private SyntaxOperatorNode TakeComplex()
         {
             var node = TakePrimitives();
 
             while (currentToken.TokenType == TokenType.Range || currentToken.TokenType == TokenType.Inc || currentToken.TokenType == TokenType.Hash)
             {
                 var token = currentToken;
-                Eat(currentToken.TokenType);
+                Consume(currentToken.TokenType);
 
                 switch (token.TokenType)
                 {
@@ -155,19 +155,19 @@ namespace Cron.Parser
             return node;
         }
 
-        private SyntaxOperatorNode CommaTree()
+        private SyntaxOperatorNode SeparateCommas()
         {
-            var node = RangeTree();
+            var node = TakeComplex();
             while (currentToken.TokenType == TokenType.Comma)
             {
                 switch (currentToken.TokenType)
                 {
                     case TokenType.Comma:
-                        Eat(TokenType.Comma);
+                        Consume(TokenType.Comma);
                         break;
                 }
 
-                node = new CommaNode(node, RangeTree());
+                node = new CommaNode(node, TakeComplex());
             }
             return node;
         }
@@ -177,13 +177,13 @@ namespace Cron.Parser
             switch (currentToken.TokenType)
             {
                 case TokenType.Star:
-                    Eat(TokenType.Star);
+                    Consume(TokenType.Star);
                     return new SegmentNode(new StarNode(segment), segment);
                 case TokenType.QuestionMark:
-                    Eat(TokenType.QuestionMark);
+                    Consume(TokenType.QuestionMark);
                     return new SegmentNode(new QuestionMarkNode(), segment);
                 default:
-                    return new SegmentNode(CommaTree(), segment);
+                    return new SegmentNode(SeparateCommas(), segment);
             }
         }
     }

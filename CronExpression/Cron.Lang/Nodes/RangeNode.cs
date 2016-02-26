@@ -8,30 +8,22 @@ using System.Threading.Tasks;
 using Cron.Parser.Enums;
 using Cron.Parser.Extensions;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
     public class RangeNode : SyntaxOperatorNode
     {
-        private MinRangeValueNode left;
-        private MaxRangeValueNode right;
+        private SyntaxOperatorNode left;
+        private SyntaxOperatorNode right;
 
-        public RangeNode(MinRangeValueNode left, MaxRangeValueNode right)
+        public RangeNode(SyntaxOperatorNode left, SyntaxOperatorNode right)
         {
             this.left = left;
             this.right = right;
         }
 
-        public RangeNode(SyntaxOperatorNode left, SyntaxOperatorNode right)
-        {
-            this.left = new MinRangeValueNode(left);
-            this.right = new MaxRangeValueNode(right);
-        }
-
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
-            left.Accept(visitor);
-            right.Accept(visitor);
         }
 
         public override IList<int> Evaluate(Segment segment)

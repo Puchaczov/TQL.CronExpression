@@ -3,7 +3,7 @@ using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System.Collections.Generic;
 
-namespace Cron.Parser.Syntax
+namespace Cron.Parser.Nodes
 {
     public class CommaNode : SyntaxOperatorNode
     {
