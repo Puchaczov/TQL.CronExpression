@@ -181,7 +181,7 @@ namespace Cron.Parser.Tests
         private CronRulesNodeVisitor CreateExpressionAndPerformVisitor(string expression)
         {
             Lexer lexer = new Lexer(expression);
-            Parser parser = new Parser(lexer);
+            CronParser parser = new CronParser(lexer);
             CronTimelineVisitor visitor = new CronTimelineVisitor();
 
             var node = parser.ComposeRootComponents();

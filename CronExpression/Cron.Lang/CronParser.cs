@@ -6,13 +6,13 @@ using System.Collections.Generic;
 
 namespace Cron.Parser
 {
-    public class Parser
+    public class CronParser
     {
         private Lexer lexer;
         private Token currentToken;
         private Token lastToken;
 
-        public Parser(Lexer lexer)
+        public CronParser(Lexer lexer)
         {
             this.lexer = lexer;
             lastToken = new NoneToken();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cron.Visitors.Evaluators
 {
-    class CronEvaluator : ICronEvaluator
+    class CronFireTimeEvaluator : ICronFireTimeEvaluator
     {
         private RoundRobinRangeVaryingList<int> years;
         private RoundRobinRangeVaryingList<int> months;
@@ -38,7 +38,7 @@ namespace Cron.Visitors.Evaluators
             }
         }
 
-        public CronEvaluator(
+        public CronFireTimeEvaluator(
             RoundRobinRangeVaryingList<int> years,
             RoundRobinRangeVaryingList<int> months,
             RoundRobinRangeVaryingList<int> dayOfMonths,

@@ -43,9 +43,9 @@
     <Compile Include="CronNodeVisitorBase.cs" />
     <Compile Include="CronRulesNodeVisitor.cs" />
     <Compile Include="CronTimelineVisitor.cs" />
-    <Compile Include="Evaluators\CronEvaluator.cs" />
+    <Compile Include="Evaluators\CronFireTimeEvaluator.cs" />
     <Compile Include="Exceptions\ExpressionTooShortException.cs" />
-    <Compile Include="Evaluators\ICronEvaluator.cs" />
+    <Compile Include="Evaluators\ICronFireTimeEvaluator.cs" />
     <Compile Include="Exceptions\BaseCronValidationException.cs" />
     <Compile Include="Exceptions\UnexpectedHashNodeAtSegment.cs" />
     <Compile Include="Exceptions\UnexpectedPrecededLNodeAtSegmentException.cs" />
@@ -59,6 +59,8 @@
     <Compile Include="Exceptions\UnproperDayOfWeekNameException.cs" />
     <Compile Include="Exceptions\UnproperMonthNameException.cs" />
     <Compile Include="Exceptions\UnsupportedValueException.cs" />
+    <Compile Include="Helpers\ExpressionHelpers.cs" />
+    <Compile Include="IEvaluable.cs" />
     <Compile Include="List\DateTimeBasedComputeList.cs" />
     <Compile Include="List\IVirtualList.cs" />
     <Compile Include="List\PersistentList.cs" />

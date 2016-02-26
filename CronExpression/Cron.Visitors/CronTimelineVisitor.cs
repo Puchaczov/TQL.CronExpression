@@ -4,12 +4,12 @@ using Cron.Visitors.Evaluators;
 
 namespace Cron.Visitors
 {
-    public class CronTimelineVisitor : CronNodeVisitorBase
+    public class CronTimelineVisitor : CronNodeVisitorBase, IEvaluable<ICronFireTimeEvaluator>
     {
         private DateTimeOffset referenceTime;
         private bool isVisited = false;
 
-        public ICronEvaluator Analyzer
+        public ICronFireTimeEvaluator Evaluator
         {
             get
             {
@@ -17,7 +17,7 @@ namespace Cron.Visitors
                 {
                     throw new Exception("Nodes must be visited first");
                 }
-                return new CronEvaluator(
+                return new CronFireTimeEvaluator(
                     this[Cron.Parser.Enums.Segment.Year],
                     this[Cron.Parser.Enums.Segment.Month],
                     this[Cron.Parser.Enums.Segment.DayOfMonth],

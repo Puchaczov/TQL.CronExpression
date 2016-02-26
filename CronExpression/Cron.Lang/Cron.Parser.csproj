@@ -60,7 +60,7 @@
     <Compile Include="Enums\Month.cs" />
     <Compile Include="Enums\TokenType.cs" />
     <Compile Include="Enums\WeekDay.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="CronParser.cs" />
     <Compile Include="Nodes\HashNode.cs" />
     <Compile Include="Nodes\LNode.cs" />
     <Compile Include="Nodes\SyntaxNode.cs" />

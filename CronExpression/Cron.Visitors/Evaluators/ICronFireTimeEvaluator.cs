@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cron.Visitors.Evaluators
 {
-    public interface ICronEvaluator
+    public interface ICronFireTimeEvaluator
     {
         DateTime ReferenceTime { set; }
         DateTimeOffset OffsetReferenceTime { set; }
