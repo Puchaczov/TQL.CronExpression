@@ -31,6 +31,10 @@ namespace Cron.Parser
 
         public Lexer(string input)
         {
+            if(input == null || input == string.Empty)
+            {
+                throw new ArgumentException(nameof(input));
+            }
             this.input = input.Trim();
             this.pos = 0;
             this.currentToken = new NoneToken();

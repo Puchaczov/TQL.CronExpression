@@ -74,13 +74,13 @@ namespace Cron.Visitors
                                     switch (segment)
                                     {
                                         case Segment.Month:
-                                            if (!CronWordMappingHelper.ContainsMonth(item.Token.Value))
+                                            if (!CronWordHelper.ContainsMonth(item.Token.Value))
                                             {
                                                 throw new UnproperMonthNameException(item.Token);
                                             }
                                             break;
                                         case Segment.DayOfWeek:
-                                            if (!CronWordMappingHelper.ContainsDayOfWeek(item.Token.Value))
+                                            if (!CronWordHelper.ContainsDayOfWeek(item.Token.Value))
                                             {
                                                 throw new UnproperDayOfWeekException(item.Token);
                                             }
@@ -178,7 +178,7 @@ namespace Cron.Visitors
                         }
                         if (node.Token.TokenType == TokenType.Name)
                         {
-                            if (!CronWordMappingHelper.ContainsDayOfWeek(node.Token.Value))
+                            if (!CronWordHelper.ContainsDayOfWeek(node.Token.Value))
                             {
                                 throw new UnproperDayOfWeekException(node.Token);
                             }

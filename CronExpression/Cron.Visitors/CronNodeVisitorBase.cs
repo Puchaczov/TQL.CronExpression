@@ -88,16 +88,16 @@ namespace Cron.Visitors
             switch(lastSegment)
             {
                 case Segment.DayOfWeek:
-                    left = CronWordMappingHelper.DayOfWeek(node.Left.Token.Value).AsInt();
-                    right = CronWordMappingHelper.DayOfWeek(node.Right.Token.Value).AsInt();
+                    left = CronWordHelper.DayOfWeek(node.Left.Token.Value).AsInt();
+                    right = CronWordHelper.DayOfWeek(node.Right.Token.Value).AsInt();
                     foreach (var dayOfWeek in ListExtension.Expand(left, right, 1))
                     {
                         values[lastSegment].Add(new NthDayOfMonthList(time, dayOfWeek.AsDayOfWeek()));
                     }
                     break;
                 case Segment.Month:
-                    left = CronWordMappingHelper.Month(node.Left.Token.Value).AsInt();
-                    right = CronWordMappingHelper.Month(node.Right.Token.Value).AsInt();
+                    left = CronWordHelper.Month(node.Left.Token.Value).AsInt();
+                    right = CronWordHelper.Month(node.Right.Token.Value).AsInt();
                     skipNumericEvaluation = true;
                     goto default;
                 default:
@@ -123,12 +123,12 @@ namespace Cron.Visitors
             {
                 case Segment.DayOfWeek:
                     values[lastSegment].Add(
-                        new NthDayOfMonthList(time, CronWordMappingHelper.DayOfWeek(node.Token.Value))
+                        new NthDayOfMonthList(time, CronWordHelper.DayOfWeek(node.Token.Value))
                     );
                     break;
                 case Segment.Month:
                     values[lastSegment].Add(
-                            new PersistentList<int>(new List<int> { CronWordMappingHelper.Month(node.Token.Value).AsInt() })
+                            new PersistentList<int>(new List<int> { CronWordHelper.Month(node.Token.Value).AsInt() })
                         );
                     break;
                 default:
@@ -183,7 +183,7 @@ namespace Cron.Visitors
         public override void Visit(HashNode node)
         {
             base.Visit(node);
-            var dayOfWeek = CronWordMappingHelper.DayOfWeek(node.Left.Value);
+            var dayOfWeek = CronWordHelper.DayOfWeek(node.Left.Value);
             var nthOfMonth = int.Parse(node.Right.Value);
             values[lastSegment].Add(new NthDayOfMonthLimitedByNumberOfWeekList(time, dayOfWeek, nthOfMonth));
             values[lastSegment].SetRange(0, values[lastSegment].Count);

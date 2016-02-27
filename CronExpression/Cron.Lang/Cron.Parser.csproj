@@ -44,8 +44,9 @@
     <Compile Include="Exceptions\UnexpectedTokenException.cs" />
     <Compile Include="Exceptions\UnknownSegmentException.cs" />
     <Compile Include="Exceptions\UnknownTokenException.cs" />
-    <Compile Include="Extensions\CronWordMappingHelper.cs" />
+    <Compile Include="Extensions\CronWordHelper.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="Helpers\ExpressionHelpers.cs" />
     <Compile Include="INodeVisitor.cs" />
     <Compile Include="Nodes\LWNode.cs" />
     <Compile Include="Nodes\NumericPrecededLNode.cs" />

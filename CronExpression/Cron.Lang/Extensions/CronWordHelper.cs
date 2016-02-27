@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Extensions
 {
-    public static class CronWordMappingHelper
+    public static class CronWordHelper
     {
         private static Dictionary<string, Month> monthsStringToMonth;
         private static Dictionary<string, DayOfWeek> dayOfWeekStringToDayOfWeek;
         private static Dictionary<DayOfWeek, int> dayOfWeekToInt;
         private static Dictionary<int, DayOfWeek> intToDayOfWeek;
 
-        static CronWordMappingHelper()
+        static CronWordHelper()
         {
             monthsStringToMonth = new Dictionary<string, Month>();
             monthsStringToMonth.Add("january", Cron.Parser.Enums.Month.January);
