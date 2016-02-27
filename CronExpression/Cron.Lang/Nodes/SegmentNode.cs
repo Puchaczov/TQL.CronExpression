@@ -61,5 +61,10 @@ namespace Cron.Parser.Nodes
                 throw new NotImplementedException();
             }
         }
+
+        public override string ToString()
+        {
+            return node.ToString();
+        }
     }
 }

@@ -57,5 +57,10 @@ namespace Cron.Parser.Nodes
                     throw new UnknownSegmentException(0);
             }
         }
+
+        public override string ToString()
+        {
+            return Token.Value;
+        }
     }
 }

@@ -81,5 +81,10 @@ namespace Cron.Parser.Nodes
                 return right;
             }
         }
+
+        public override string ToString()
+        {
+            return left.ToString() + Token.Value + right.ToString();
+        }
     }
 }

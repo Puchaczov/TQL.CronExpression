@@ -53,7 +53,7 @@
     <Compile Include="Nodes\NumericPrecededWNode.cs" />
     <Compile Include="Tokens\LWToken.cs" />
     <Compile Include="Utils\Ref.cs" />
-    <Compile Include="Exceptions\TooLessSegmentsException.cs" />
+    <Compile Include="Exceptions\MismatchedSegmentsCountException.cs" />
     <Compile Include="Exceptions\NestedExpressionException.cs" />
     <Compile Include="Nodes\CommaNode.cs" />
     <Compile Include="Nodes\EndOfFileNode.cs" />

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Exceptions
 {
-    public class TooLessSegmentsException : Exception
+    public class MismatchedSegmentsCountException : Exception
     {
-        public TooLessSegmentsException()
+        public MismatchedSegmentsCountException()
         { }
     }
 }

@@ -63,5 +63,10 @@ namespace Cron.Parser.Nodes
                 return new HashToken();
             }
         }
+
+        public override string ToString()
+        {
+            return Left.Value + Token.Value + Right.Value;
+        }
     }
 }

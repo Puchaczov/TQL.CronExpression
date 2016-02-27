@@ -94,5 +94,10 @@ namespace Cron.Parser.Nodes
                     throw new UnexpectedTokenException(0, left.Token);
             }
         }
+
+        public override string ToString()
+        {
+            return Left.ToString() + Token.Value + Right.ToString();
+        }
     }
 }

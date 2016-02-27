@@ -72,5 +72,10 @@ namespace Cron.Parser.Nodes
                 return new StarToken();
             }
         }
+
+        public override string ToString()
+        {
+            return Token.Value;
+        }
     }
 }

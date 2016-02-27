@@ -65,5 +65,10 @@ namespace Cron.Parser.Nodes
                 return new RangeToken();
             }
         }
+
+        public override string ToString()
+        {
+            return Left.ToString() + Token.Value + Right.ToString();
+        }
     }
 }

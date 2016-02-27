@@ -23,6 +23,11 @@ namespace Cron.Parser.Nodes
         {
             return ListExtension.Empty();
         }
+
+        public override string ToString()
+        {
+            return "LW";
+        }
     }
 
     public class NumericPreceededLWNode : LWNode
@@ -30,5 +35,10 @@ namespace Cron.Parser.Nodes
         public NumericPreceededLWNode(Token token)
             : base(token)
         { }
+
+        public override string ToString()
+        {
+            return Token.Value + "LW";
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace Cron.Parser.Helpers
 {
     public static partial class ExpressionHelpers
     {
-        public static RootComponentNode ParseExpression(this string expression)
+        public static RootComponentNode Parse(this string expression)
         {
             Lexer lexer = new Lexer(expression);
             CronParser parser = new CronParser(lexer);

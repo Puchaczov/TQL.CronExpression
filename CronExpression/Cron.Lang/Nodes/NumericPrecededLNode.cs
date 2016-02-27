@@ -25,5 +25,10 @@ namespace Cron.Parser.Nodes
         {
             return ListExtension.Empty();
         }
+
+        public override string ToString()
+        {
+            return Token.Value + "L";
+        }
     }
 }

@@ -25,16 +25,6 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void CronExpression2()
-        {
-            var visitor = CreateExpressionAndPerformVisitor("1-5 *");
-
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(1, visitor.ValidationErrors.Count());
-            Assert.AreEqual(typeof(ExpressionTooShortException), visitor.ValidationErrors.First().GetType());
-        }
-
-        [TestMethod]
         public void CronExpresion3()
         {
             var visitor = CreateExpressionAndPerformVisitor("0 0 12 * * ?");
@@ -163,7 +153,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void CronExpression17()
         {
-            var visitor = CreateExpressionAndPerformVisitor("* 12 10-16/2 * *");
+            var visitor = CreateExpressionAndPerformVisitor("* 12 10-16/2 * * *");
 
             Assert.AreNotEqual(null, visitor.ValidationErrors);
             Assert.AreEqual(0, visitor.ValidationErrors.Count());

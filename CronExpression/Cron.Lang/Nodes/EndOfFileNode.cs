@@ -30,5 +30,10 @@ namespace Cron.Parser.Nodes
         {
             visitor.Visit(this);
         }
+
+        public override string ToString()
+        {
+            return string.Empty;
+        }
     }
 }

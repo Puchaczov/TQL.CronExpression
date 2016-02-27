@@ -51,6 +51,10 @@ namespace Cron.Parser
             {
                 rootComponents.Add(new EndOfFileNode());
             }
+            if(rootComponents.Count != 8)
+            {
+                throw new MismatchedSegmentsCountException();
+            }
             return new RootComponentNode(rootComponents.ToArray());
         }
 

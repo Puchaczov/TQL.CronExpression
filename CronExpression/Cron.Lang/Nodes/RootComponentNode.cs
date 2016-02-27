@@ -48,5 +48,16 @@ namespace Cron.Parser.Nodes
                 throw new NotImplementedException();
             }
         }
+
+        public override string ToString()
+        {
+            StringBuilder stringifiedNodes = new StringBuilder();
+            for(int i = 0, j = Items.Count() - 2; i < j; ++i)
+            {
+                stringifiedNodes.Append(Items[i].ToString());
+                stringifiedNodes.Append(' ');
+            }
+            return stringifiedNodes.Append(Items[Items.Count() - 2].ToString()).ToString();
+        }
     }
 }
