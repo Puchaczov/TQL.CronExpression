@@ -102,6 +102,22 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
+        public void CheckSyntaxTree_WithQuestionMark_ShouldPass()
+        {
+            var tree = CheckSyntaxTree("* * * ? * * *");
+            CheckHasAppropiateCountsOfSegments(tree);
+            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_WithWeekDay_ShouldPass()
+        {
+            var tree = CheckSyntaxTree("MON TUE WED * * * *");
+            CheckHasAppropiateCountsOfSegments(tree);
+            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(MismatchedSegmentsCountException))]
         public void CheckSyntaxTree_ExpressionIsToShort_ShouldThrow()
         {

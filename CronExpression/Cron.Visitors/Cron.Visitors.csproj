@@ -58,6 +58,8 @@
     <Compile Include="Exceptions\UnknownTokenException.cs" />
     <Compile Include="Exceptions\UnproperDayOfWeekNameException.cs" />
     <Compile Include="Exceptions\UnproperMonthNameException.cs" />
+    <Compile Include="Exceptions\UnrecognizedDayOfWeekException.cs" />
+    <Compile Include="Exceptions\UnrecognizedMonthException.cs" />
     <Compile Include="Exceptions\UnsupportedValueException.cs" />
     <Compile Include="Helpers\ExpressionHelpers.cs" />
     <Compile Include="IEvaluable.cs" />

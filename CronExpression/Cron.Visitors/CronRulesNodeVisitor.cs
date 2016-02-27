@@ -108,7 +108,23 @@ namespace Cron.Visitors
                     case Segment.Hours:
                     case Segment.Minutes:
                     case Segment.DayOfMonth:
+                    case Segment.Year:
                         throw new UnexpectedWordNodeAtSegment(node.Token, segment);
+                }
+                switch(segment)
+                {
+                    case Segment.Month:
+                        if(!CronWordHelper.ContainsMonth(node.Value))
+                        {
+                            throw new UnrecognizedMonthException(node.Token);
+                        }
+                        break;
+                    case Segment.DayOfWeek:
+                        if(!CronWordHelper.ContainsDayOfWeek(node.Value))
+                        {
+                            throw new UnrecognizedDayOfWeekException(node.Token);
+                        }
+                        break;
                 }
             }
             catch(BaseCronValidationException exc)
@@ -164,27 +180,29 @@ namespace Cron.Visitors
                     case Segment.DayOfMonth:
                         if (node.Token.TokenType == TokenType.Integer)
                         {
+                            ThrowIfDayOfWeekIsOutOfRange(node);
                             break;
                         }
                         else if (node.Token.TokenType == TokenType.Name)
                         {
+                            ThrowIfDayOfWeekIsOutOfRange(node);
                             break;
                         }
                         throw new UnsupportedValueException(node.Token);
                     case Segment.DayOfWeek:
                         if (node.Token.TokenType == TokenType.Integer)
                         {
+                            ThrowIfDayOfWeekIsOutOfRange(node);
                             break;
                         }
                         if (node.Token.TokenType == TokenType.Name)
                         {
-                            if (!CronWordHelper.ContainsDayOfWeek(node.Token.Value))
-                            {
-                                throw new UnproperDayOfWeekException(node.Token);
-                            }
+                            ThrowIfDayOfWeekIsOutOfRange(node);
                             break;
                         }
                         throw new UnsupportedValueException(node.Token);
+                    default:
+                        throw new UnexpectedPrecededLNodeAtSegmentException();
                 }
             }
             catch(BaseCronValidationException exc)
@@ -200,6 +218,7 @@ namespace Cron.Visitors
                 switch (segment)
                 {
                     case Segment.DayOfWeek:
+                        ThrowIfDayOfWeekIsOutOfRange(node);
                         return;
                 }
                 throw new UnexpectedPrecededWNodeAtSegmentException(segment);
@@ -217,6 +236,7 @@ namespace Cron.Visitors
                 switch (segment)
                 {
                     case Segment.DayOfWeek:
+                        ThrowIfHashNodeOutOfRange(node);
                         break;
                     default:
                         throw new UnexpectedHashNodeAtSegment(node.Token, segment);
@@ -230,9 +250,10 @@ namespace Cron.Visitors
 
         public virtual void Visit(EndOfFileNode node)
         {
+            segmentsCount += 1;
             try
             {
-                if(segmentsCount < 6)
+                if(segmentsCount != 8)
                     throw new ExpressionTooShortException(node.Token, segment);
             }
             catch(BaseCronValidationException exc)
@@ -292,12 +313,67 @@ namespace Cron.Visitors
                         {
                             throw new UnsupportedValueException(node.Token);
                         }
+                        if(node.Left.Token.TokenType != TokenType.Integer && node.Left.Token.TokenType != TokenType.Range)
+                        {
+                            throw new UnsupportedValueException(node.Token);
+                        }
                         break;
                     default:
                         if (node.Right.Token.TokenType != TokenType.Integer && node.Right.Token.TokenType != TokenType.Name)
                         {
                             throw new UnsupportedValueException(node.Right.Token);
                         }
+                        if (node.Left.Token.TokenType != TokenType.Integer && node.Left.Token.TokenType != TokenType.Name)
+                        {
+                            throw new UnsupportedValueException(node.Right.Token);
+                        }
+                        break;
+                }
+                switch (segment)
+                {
+                    case Segment.Seconds:
+                        ThrowIfSecondIsOutOfRange(node.Right);
+                        if(node.Left.Token.TokenType != TokenType.Range)
+                        {
+                            ThrowIfSecondIsOutOfRange(node.Left);
+                        }
+                        break;
+                    case Segment.Minutes:
+                        ThrowIfMinuteIsOutOfRange(node.Right);
+                        if(node.Left.Token.TokenType != TokenType.Range)
+                        {
+                            ThrowIfMinuteIsOutOfRange(node.Left);
+                        }
+                        break;
+                    case Segment.Hours:
+                        ThrowIfHourIsOutOfRange(node.Right);
+                        if (node.Left.Token.TokenType != TokenType.Range)
+                        {
+                            ThrowIfHourIsOutOfRange(node.Left);
+                        }
+                        break;
+                    case Segment.DayOfMonth:
+                        ThrowIfDayOfMonthIsOutOfRange(node.Right);
+                        if (node.Left.Token.TokenType != TokenType.Range)
+                        {
+                            ThrowIfDayOfMonthIsOutOfRange(node.Left);
+                        }
+                        break;
+                    case Segment.Month:
+                        ThrowIfMonthIsOutOfRange(node.Right);
+                        if (node.Left.Token.TokenType != TokenType.Range)
+                        {
+                            ThrowIfMonthIsOutOfRange(node.Left);
+                        }
+                        break;
+                    case Segment.DayOfWeek:
+                        ThrowIfDayOfWeekIsOutOfRange(node.Right);
+                        if (node.Left.Token.TokenType != TokenType.Range)
+                        {
+                            ThrowIfDayOfWeekIsOutOfRange(node.Left);
+                        }
+                        break;
+                    case Segment.Year:
                         break;
                 }
             }
@@ -315,5 +391,63 @@ namespace Cron.Visitors
 
         public virtual void Visit(CommaNode node)
         { }
+
+        private void ThrowIfSecondIsOutOfRange(SyntaxOperatorNode node)
+        {
+            ThrowIfOutOfRange(0, 59, node, "second");
+        }
+
+        private void ThrowIfMinuteIsOutOfRange(SyntaxOperatorNode node)
+        {
+            ThrowIfOutOfRange(0, 59, node, "minute");
+        }
+
+        private void ThrowIfHourIsOutOfRange(SyntaxOperatorNode node)
+        {
+            ThrowIfOutOfRange(0, 23, node, "hour");
+        }
+
+        private void ThrowIfMonthIsOutOfRange(SyntaxOperatorNode node)
+        {
+            if (!CronWordHelper.ContainsMonth(node.Token.Value))
+            {
+                throw new UnsupportedValueException(node.Token);
+            }
+        }
+
+        private void ThrowIfDayOfWeekIsOutOfRange(SyntaxOperatorNode node)
+        {
+            if (!CronWordHelper.ContainsDayOfWeek(node.Token.Value))
+            {
+                throw new UnsupportedValueException(node.Token);
+            }
+        }
+
+        private void ThrowIfDayOfMonthIsOutOfRange(SyntaxOperatorNode node)
+        {
+            ThrowIfOutOfRange(1, 32, node, "dayInMonth");
+        }
+
+        private void ThrowIfHashNodeOutOfRange(HashNode node)
+        {
+            if (!CronWordHelper.ContainsDayOfWeek(node.Left.Value))
+            {
+                throw new UnsupportedValueException(node.Left);
+            }
+            var weekOfMonth = int.Parse(node.Right.Value);
+            if (weekOfMonth < 0 || weekOfMonth > 4)
+            {
+                throw new UnsupportedValueException(node.Right);
+            }
+        }
+
+        private void ThrowIfOutOfRange(int minValue, int maxValue, SyntaxOperatorNode node, string argName)
+        {
+            var value = int.Parse(node.Token.Value);
+            if(value < minValue || value > maxValue)
+            {
+                throw new UnsupportedValueException(node.Token);
+            }
+        }
     }
 }

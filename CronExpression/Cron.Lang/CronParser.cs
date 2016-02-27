@@ -126,11 +126,7 @@ namespace Cron.Parser
                     Consume(TokenType.LW);
                     return new LWNode();
             }
-            switch(currentToken.TokenType)
-            {
-                default:
-                    throw new NestedExpressionException(lexer.Position, token);
-            }
+            throw new NestedExpressionException(lexer.Position, token);
         }
 
         private SyntaxOperatorNode TakeComplex()

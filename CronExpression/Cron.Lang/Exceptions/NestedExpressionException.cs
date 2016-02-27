@@ -5,7 +5,7 @@ using Cron.Parser.Tokens;
 namespace Cron.Parser.Exceptions
 {
     [Serializable]
-    internal class NestedExpressionException : Exception
+    public class NestedExpressionException : Exception
     {
         private int position;
         private Token token;
