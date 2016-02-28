@@ -11,13 +11,13 @@ namespace Cron.Visitors.Helpers
 {
     public static class ExpressionHelpers
     {
-        public static ICronFireTimeEvaluator AsCronExpression(this string expression)
+        public static ICronFireTimeEvaluator TakeEvaluator(this string expression)
         {
-            return expression.AsCronExpression<CronTimelineVisitor, ICronFireTimeEvaluator>(
+            return expression.TakeEvaluator<CronTimelineVisitor, ICronFireTimeEvaluator>(
                 new CronTimelineVisitor());
         }
 
-        public static F AsCronExpression<T, F>(this string expression, T visitor)
+        public static F TakeEvaluator<T, F>(this string expression, T visitor)
             where T : INodeVisitor, IEvaluable<F>
         {
             Lexer lexer = new Lexer(expression);

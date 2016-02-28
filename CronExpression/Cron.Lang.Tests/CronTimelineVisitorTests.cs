@@ -1,8 +1,4 @@
-﻿using Cron.Parser.Exceptions;
-using Cron.Parser.Nodes;
-using Cron.Parser.Visitors;
-using Cron.Visitors;
-using Cron.Visitors.Exceptions;
+﻿using Cron.Parser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -10,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cron.Parser.Tests
+namespace Cron.Visitors.Tests
 {
     [TestClass]
-    public class RulesNodeVisitorTests
+    public class CronTimelineVisitorTests
     {
         [TestMethod]
         public void CronExpression1()
@@ -162,7 +158,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void CronExpression18()
         {
-            var visitor = CreateExpressionAndPerformVisitor("* 12 1-15,17,20-25 * * *");
+            var visitor = CreateExpressionAndPerformVisitor("* 12 1-15,17,20-23 * * *");
 
             Assert.AreNotEqual(null, visitor.ValidationErrors);
             Assert.AreEqual(0, visitor.ValidationErrors.Count());

@@ -13,7 +13,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireEverySecond_ShouldPass()
         {
             var referenceTime = new DateTime(2000, 1, 1, 0, 0, 59);
-            var analyzer = "* * * * * *".AsCronExpression();
+            var analyzer = "* * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
             
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, secondsToAdd) => {
@@ -25,7 +25,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireEveryMinute_ShouldPass()
         {
             var referenceTime = new DateTime(2000, 1, 1, 0, 59, 0);
-            var analyzer = "0 * * * * *".AsCronExpression();
+            var analyzer = "0 * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, minutesToAdd) => {
@@ -37,7 +37,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireEveryHour_ShouldPass()
         {
             var referenceTime = new DateTime(2000, 1, 1, 23, 0, 0);
-            var analyzer = "0 0 * * * *".AsCronExpression();
+            var analyzer = "0 0 * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, hoursToAdd) => {
@@ -49,7 +49,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireEveryDay_ShouldPass()
         {
             var referenceTime = new DateTime(2000, 1, 1, 0, 0, 0);
-            var analyzer = "0 0 0 * * *".AsCronExpression();
+            var analyzer = "0 0 0 * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, daysToAdd) => {
@@ -61,7 +61,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireAt5thDayOfEveryMonth_ShouldPass()
         {
             var referenceTime = new DateTime(2016, 1, 5, 0, 0, 0);
-            var analyzer = "0 0 0 5 * *".AsCronExpression();
+            var analyzer = "0 0 0 5 * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 12, analyzer, (datetime, monthsToAdd) => {
@@ -73,7 +73,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireAtNewYear_WithFullOverflow_ShouldPass()
         {
             var referenceTime = new DateTime(2016, 12, 31, 23, 59, 59);
-            var analyzer = "* * * * * *".AsCronExpression();
+            var analyzer = "* * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 2, analyzer, (datetime, monthsToAdd) => {
@@ -85,7 +85,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireInSpecificDayOfMonth_ShouldPass()
         {
             var referenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
-            var analyzer = "0 0 0 * * MON".AsCronExpression();
+            var analyzer = "0 0 0 * * MON".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             Assert.AreEqual(new DateTime(2016, 1, 4, 0, 0, 0), analyzer.NextFire());
@@ -104,7 +104,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireInSpecificRangeOfDayOfMonths_ShouldPass()
         {
             var referenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
-            var analyzer = "0 0 0 * * MON-WED".AsCronExpression();
+            var analyzer = "0 0 0 * * MON-WED".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
             
             Assert.AreEqual(new DateTime(2016, 1, 4, 0, 0, 0), analyzer.NextFire());
@@ -128,7 +128,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireInThirdWednesdayOfMonth_ShouldPass()
         {
             var referenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
-            var analyzer = "0 0 0 * * 4#3".AsCronExpression();
+            var analyzer = "0 0 0 * * 4#3".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             Assert.AreEqual(new DateTime(2016, 1, 20, 0, 0, 0), analyzer.NextFire());
@@ -139,7 +139,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireInSpecificYearRange_ShouldPass()
         {
             var referenceTime = new DateTime(2015, 1, 1, 0, 0, 0);
-            var analyzer = "0 0 0 1 1 * 2016-2017".AsCronExpression();
+            var analyzer = "0 0 0 1 1 * 2016-2017".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             Assert.AreEqual(new DateTime(2016, 1, 1, 0, 0, 0), analyzer.NextFire());
@@ -150,7 +150,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireOnlyInLeapYears_ShouldPass()
         {
             var referenceTime = new DateTime(2015, 1, 1, 0, 0, 0);
-            var analyzer = "0 0 0 29 2 * 2015-2045".AsCronExpression();
+            var analyzer = "0 0 0 29 2 * 2015-2045".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             Assert.AreEqual(new DateTime(2016, 2, 29, 0, 0, 0), analyzer.NextFire());
@@ -163,7 +163,7 @@ namespace Cron.Parser.Tests
         public void TestWillFireWithSpecificIncreasedSeconds_ShouldPass()
         {
             var referenceTime = new DateTime(2015, 1, 1, 0, 0, 0);
-            var analyzer = "0/12 * 0 1 1 * *".AsCronExpression();
+            var analyzer = "0/12 * 0 1 1 * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             Assert.AreEqual(new DateTime(2015, 1, 1, 0, 0, 12), analyzer.NextFire());
@@ -189,7 +189,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestExpression2()
         {
-            var analyzer = "20 * * * * *".AsCronExpression();
+            var analyzer = "20 * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2000, 1, 1, 0, 0, 59);
             var time = analyzer.NextFire();
             Assert.AreEqual(new DateTime(2000, 1, 1, 0, 1, 20), time);
@@ -202,7 +202,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestExpression3()
         {
-            var analyzer = "0 1 * * * *".AsCronExpression();
+            var analyzer = "0 1 * * * *".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2000, 1, 1, 0, 0, 58);
             var time = analyzer.NextFire();
             Assert.AreEqual(new DateTime(2000, 1, 1, 0, 1, 0), time);
@@ -215,7 +215,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestExpression4()
         {
-            var analyzer = "0,1 1 * * * *".AsCronExpression();
+            var analyzer = "0,1 1 * * * *".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2000, 1, 1, 0, 0, 58);
             var time = analyzer.NextFire();
             Assert.AreEqual(new DateTime(2000, 1, 1, 0, 1, 0), time);
@@ -230,7 +230,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestExpression5()
         {
-            var analyzer = "0 0 0 1 1 *".AsCronExpression();
+            var analyzer = "0 0 0 1 1 *".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2000, 1, 1, 0, 0, 58);
             var time = analyzer.NextFire();
             Assert.AreEqual(new DateTime(2001, 1, 1, 0, 0, 0), time);
@@ -241,7 +241,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestExpression6()
         {
-            var analyzer = "13 25 15 1 1 ? 2016,2017".AsCronExpression();
+            var analyzer = "13 25 15 1 1 ? 2016,2017".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2000, 1, 1, 0, 0, 58);
             var time = analyzer.NextFire();
             Assert.AreEqual(new DateTime(2016, 1, 1, 15, 25, 13), time);
@@ -252,7 +252,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestExpression7()
         {
-            var analyzer = "0 15 23 * * ?".AsCronExpression();
+            var analyzer = "0 15 23 * * ?".TakeEvaluator();
 
             var refTime = new DateTime(2005, 6, 1, 23, 16, 0);
             analyzer.ReferenceTime = refTime;
@@ -264,7 +264,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestExpression8()
         {
-            var analyzer = "* * 1 * * ?".AsCronExpression();
+            var analyzer = "* * 1 * * ?".TakeEvaluator();
             DateTimeOffset cal = new DateTime(2005, 7, 31, 22, 59, 57).ToUniversalTime();
             DateTimeOffset nextExpectedFireTime = new DateTime(2005, 8, 1, 1, 0, 0).ToUniversalTime();
             analyzer.OffsetReferenceTime = cal;
@@ -275,7 +275,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestFullOverflowedDate()
         {
-            var analyzer = "* * * * * * *".AsCronExpression();
+            var analyzer = "* * * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2005, 12, DateTime.DaysInMonth(2005, 12), 23, 59, 59);
             var expectedFireTime = new DateTime(2006, 1, 1, 0, 0, 0);
             Assert.AreEqual(expectedFireTime, analyzer.NextFire());
@@ -284,7 +284,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestWillFireInTheLastDayOfEveryMonth()
         {
-            var analyzer = "0 15 10 L * ?".AsCronExpression();
+            var analyzer = "0 15 10 L * ?".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
             var expectedFireTime = new DateTime(2016, 1, 31, 10, 15, 0);
             Assert.AreEqual(expectedFireTime, analyzer.NextFire());
@@ -295,7 +295,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestTheLast6thDayOfMonth()
         {
-            var analyzer = "0 0 0 5L * ?".AsCronExpression();
+            var analyzer = "0 0 0 5L * ?".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
             var expectedFireTime = new DateTime(2016, 1, 26, 0, 0, 0);
             Assert.AreEqual(expectedFireTime, analyzer.NextFire());
@@ -304,7 +304,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestTheLastFridayOfMonth()
         {
-            var analyzer = "0 2 0 ? * 6L 2016".AsCronExpression();
+            var analyzer = "0 2 0 ? * 6L 2016".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
             var expectedFireTime = new DateTime(2016, 1, 29, 0, 2, 0);
             Assert.AreEqual(expectedFireTime, analyzer.NextFire());
@@ -313,7 +313,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestWillFireThirdFridayOfEveryMonth()
         {
-            var analyzer = "0 15 10 ? * 6#3".AsCronExpression();
+            var analyzer = "0 15 10 ? * 6#3".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2016, 1, 1);
             var expectedFireTime = new DateTime(2016, 1, 15, 10, 15, 0);
             Assert.AreEqual(expectedFireTime, analyzer.NextFire());

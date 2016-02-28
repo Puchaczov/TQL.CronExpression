@@ -47,11 +47,12 @@
     <Compile Include="Exceptions\ExpressionTooShortException.cs" />
     <Compile Include="Evaluators\ICronFireTimeEvaluator.cs" />
     <Compile Include="Exceptions\BaseCronValidationException.cs" />
+    <Compile Include="Exceptions\InvertedRangeException.cs" />
+    <Compile Include="Exceptions\MismatchedNodeItemsException.cs" />
     <Compile Include="Exceptions\UnexpectedHashNodeAtSegment.cs" />
     <Compile Include="Exceptions\UnexpectedPrecededLNodeAtSegmentException.cs" />
     <Compile Include="Exceptions\UnexpectedPrecededWNodeAtSegmentException.cs" />
     <Compile Include="Exceptions\UnexpectedQuestionMarkAtSegment.cs" />
-    <Compile Include="Exceptions\UnexpectedSegmentException.cs" />
     <Compile Include="Exceptions\UnexpectedTokenException.cs" />
     <Compile Include="Exceptions\UnexpectedWNodeAtSegment.cs" />
     <Compile Include="Exceptions\UnexpectedWordNodeAtSegment.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="List\VirtualListEnumerator.cs" />
     <Compile Include="List\VirtuallyJoinedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Exceptions\RangeNodeException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cron.Lang\Cron.Parser.csproj">

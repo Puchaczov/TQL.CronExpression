@@ -6,6 +6,7 @@ using Cron.Parser.Exceptions;
 using Cron.Parser.Extensions;
 using Cron.Parser.Visitors;
 using Cron.Visitors.Exceptions;
+using System.Linq;
 
 namespace Cron.Visitors
 {
@@ -48,53 +49,59 @@ namespace Cron.Visitors
             try
             {
                 var items = node.Items;
+                ThrowIfNodesCountMismatched(items);
                 switch (segment)
                 {
                     case Segment.Seconds:
+                        if (items[0].Token.TokenType != TokenType.Range)
+                            ThrowIfSecondIsOutOfRange(items[0]);
+                        ThrowIfSecondIsOutOfRange(items[1]);
+                        break;
                     case Segment.Minutes:
+                        if (items[0].Token.TokenType != TokenType.Range)
+                            ThrowIfMinuteIsOutOfRange(items[0]);
+                        ThrowIfMinuteIsOutOfRange(items[1]);
+                        break;
                     case Segment.Hours:
+                        if (items[0].Token.TokenType != TokenType.Range)
+                            ThrowIfHourIsOutOfRange(items[0]);
+                        ThrowIfHourIsOutOfRange(items[1]);
+                        break;
                     case Segment.DayOfMonth:
+                        if (items[0].Token.TokenType != TokenType.Range)
+                            ThrowIfDayOfWeekIsOutOfRange(items[0]);
+                        ThrowIfDayOfWeekIsOutOfRange(items[1]);
+                        break;
                     case Segment.Year:
-                        foreach (var item in items)
-                        {
-                            if (item.Token.TokenType != TokenType.Integer && item.Token.TokenType != TokenType.Range)
-                            {
-                                throw new UnsupportedValueException(item.Token);
-                            }
-                        }
+                        if (items[0].Token.TokenType != TokenType.Range)
+                            ThrowIfYearIsOutOfRange(items[0]);
+                        ThrowIfYearIsOutOfRange(items[1]);
+                            break;
+                    case Segment.DayOfWeek:
+                        if (items[0].Token.TokenType != TokenType.Range)
+                            ThrowIfDayOfWeekIsOutOfRange(items[0]);
+                        ThrowIfDayOfWeekIsOutOfRange(items[1]);
+                        break;
+                    case Segment.Month:
+                        if (items[0].Token.TokenType != TokenType.Range)
+                            ThrowIfMonthIsOutOfRange(items[0]);
+                        ThrowIfMonthIsOutOfRange(items[1]);
                         break;
                     default:
-                        foreach (var item in items)
-                        {
-                            switch (item.Token.TokenType)
-                            {
-                                case TokenType.Integer:
-                                    break;
-                                default:
-                                    switch (segment)
-                                    {
-                                        case Segment.Month:
-                                            if (!CronWordHelper.ContainsMonth(item.Token.Value))
-                                            {
-                                                throw new UnproperMonthNameException(item.Token);
-                                            }
-                                            break;
-                                        case Segment.DayOfWeek:
-                                            if (!CronWordHelper.ContainsDayOfWeek(item.Token.Value))
-                                            {
-                                                throw new UnproperDayOfWeekException(item.Token);
-                                            }
-                                            break;
-                                    }
-                                    break;
-                            }
-                        }
-                        break;
+                        throw new UnexpectedSegmentException(segment);
                 }
             }
             catch(BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                errors.Add(new RangeNodeException(exc));
+            }
+        }
+
+        private void ThrowIfNodesCountMismatched(SyntaxNode[] items)
+        {
+            if(items.Count() != 2)
+            {
+                throw new MismatchedNodeItemsException();
             }
         }
 
@@ -114,16 +121,10 @@ namespace Cron.Visitors
                 switch(segment)
                 {
                     case Segment.Month:
-                        if(!CronWordHelper.ContainsMonth(node.Value))
-                        {
-                            throw new UnrecognizedMonthException(node.Token);
-                        }
+                        ThrowIfMonthIsOutOfRange(node);
                         break;
                     case Segment.DayOfWeek:
-                        if(!CronWordHelper.ContainsDayOfWeek(node.Value))
-                        {
-                            throw new UnrecognizedDayOfWeekException(node.Token);
-                        }
+                        ThrowIfDayOfWeekIsOutOfRange(node);
                         break;
                 }
             }
@@ -289,9 +290,34 @@ namespace Cron.Visitors
         {
             try
             {
-                int.Parse(node.Value);
+                switch(segment)
+                {
+                    case Segment.Seconds:
+                        ThrowIfSecondIsOutOfRange(node);
+                        break;
+                    case Segment.Minutes:
+                        ThrowIfMinuteIsOutOfRange(node);
+                        break;
+                    case Segment.Hours:
+                        ThrowIfHourIsOutOfRange(node);
+                        break;
+                    case Segment.DayOfMonth:
+                        ThrowIfDayOfMonthIsOutOfRange(node);
+                        break;
+                    case Segment.Month:
+                        ThrowIfMonthIsOutOfRange(node);
+                        break;
+                    case Segment.DayOfWeek:
+                        ThrowIfDayOfWeekIsOutOfRange(node);
+                        break;
+                    case Segment.Year:
+                        ThrowIfYearIsOutOfRange(node);
+                        break;
+                    default:
+                        throw new UnexpectedSegmentException(segment);
+                }
             }
-            catch (Exception exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -392,22 +418,37 @@ namespace Cron.Visitors
         public virtual void Visit(CommaNode node)
         { }
 
-        private void ThrowIfSecondIsOutOfRange(SyntaxOperatorNode node)
+        private void ThrowIfSecondIsOutOfRange(SyntaxNode node)
         {
-            ThrowIfOutOfRange(0, 59, node, "second");
+            if(node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(0, 59, node, "second");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
         }
 
-        private void ThrowIfMinuteIsOutOfRange(SyntaxOperatorNode node)
+        private void ThrowIfMinuteIsOutOfRange(SyntaxNode node)
         {
-            ThrowIfOutOfRange(0, 59, node, "minute");
+            if(node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(0, 59, node, "minute");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
         }
 
-        private void ThrowIfHourIsOutOfRange(SyntaxOperatorNode node)
+        private void ThrowIfHourIsOutOfRange(SyntaxNode node)
         {
-            ThrowIfOutOfRange(0, 23, node, "hour");
+            if(node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(0, 23, node, "hour");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
         }
 
-        private void ThrowIfMonthIsOutOfRange(SyntaxOperatorNode node)
+        private void ThrowIfMonthIsOutOfRange(SyntaxNode node)
         {
             if (!CronWordHelper.ContainsMonth(node.Token.Value))
             {
@@ -415,7 +456,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfDayOfWeekIsOutOfRange(SyntaxOperatorNode node)
+        private void ThrowIfDayOfWeekIsOutOfRange(SyntaxNode node)
         {
             if (!CronWordHelper.ContainsDayOfWeek(node.Token.Value))
             {
@@ -423,9 +464,24 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfDayOfMonthIsOutOfRange(SyntaxOperatorNode node)
+        private void ThrowIfDayOfMonthIsOutOfRange(SyntaxNode node)
         {
-            ThrowIfOutOfRange(1, 32, node, "dayInMonth");
+            if(node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(1, 32, node, "dayInMonth");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
+        }
+
+        private void ThrowIfYearIsOutOfRange(SyntaxNode node)
+        {
+            if(node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(1970, 3000, node, "year");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
         }
 
         private void ThrowIfHashNodeOutOfRange(HashNode node)
@@ -441,7 +497,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfOutOfRange(int minValue, int maxValue, SyntaxOperatorNode node, string argName)
+        private void ThrowIfOutOfRange(int minValue, int maxValue, SyntaxNode node, string argName)
         {
             var value = int.Parse(node.Token.Value);
             if(value < minValue || value > maxValue)
