@@ -50,6 +50,7 @@
     <Compile Include="Exceptions\InvertedRangeException.cs" />
     <Compile Include="Exceptions\MismatchedNodeItemsException.cs" />
     <Compile Include="Exceptions\UnexpectedHashNodeAtSegment.cs" />
+    <Compile Include="Exceptions\UnexpectedLNodeAtSegment.cs" />
     <Compile Include="Exceptions\UnexpectedPrecededLNodeAtSegmentException.cs" />
     <Compile Include="Exceptions\UnexpectedPrecededWNodeAtSegmentException.cs" />
     <Compile Include="Exceptions\UnexpectedQuestionMarkAtSegment.cs" />

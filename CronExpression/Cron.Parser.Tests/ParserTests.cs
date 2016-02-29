@@ -124,6 +124,46 @@ namespace Cron.Parser.Tests
             var tree = CheckSyntaxTree("* * *");
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(DuplicatedExpressionException))]
+        public void CheckSyntaxTree_DuplicatedComma_After_ShouldThrow()
+        {
+            CheckSyntaxTree("1,, * * * * * *");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnexpectedOperatorException))]
+        public void CheckSyntaxTree_DuplicatedComma_Middle_ShouldThrow()
+        {
+            CheckSyntaxTree(",1, * * * * * *");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnexpectedOperatorException))]
+        public void CheckSyntaxTree_DuplicatedComma_Before_ShouldThrow()
+        {
+            CheckSyntaxTree(",,1 * * * * * *");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnexpectedOperatorException))]
+        public void CheckSyntaxTree_UnexpectedCommaBeforeInteger_ShouldThrow()
+        {
+            CheckSyntaxTree(",1 * * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_IrregularWhitespaceBetweenSegments_ShouldPass()
+        {
+            CheckSyntaxTree("*  *   *   * *        *             *", "* * * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_IncFollowedByRange_ShouldPass()
+        {
+            CheckSyntaxTree("* * 1-5/10 * * * *");
+        }
+
         private void CheckHasAppropiateCountsOfSegments(RootComponentNode tree)
         {
             //Seven required segments + EndOfFile

@@ -35,11 +35,9 @@ namespace Cron.Parser
             List<SegmentNode> rootComponents = new List<SegmentNode>();
             for (int i = 0; i < 8 && currentToken.TokenType != TokenType.Eof; ++i)
             {
-                switch (currentToken.TokenType)
+                while(currentToken.TokenType == TokenType.WhiteSpace)
                 {
-                    case TokenType.WhiteSpace:
-                        Consume(TokenType.WhiteSpace);
-                        break;
+                    Consume(TokenType.WhiteSpace);
                 }
                 rootComponents.Add(ComposeSegmentComponent((Segment)i));
             }
@@ -125,6 +123,14 @@ namespace Cron.Parser
                 case TokenType.LW:
                     Consume(TokenType.LW);
                     return new LWNode();
+            }
+            if(currentToken.TokenType == lastToken.TokenType)
+            {
+                throw new DuplicatedExpressionException(lexer.Position, currentToken);
+            }
+            else if(lastToken.TokenType == TokenType.WhiteSpace || lastToken.TokenType == TokenType.None)
+            {
+                throw new UnexpectedOperatorException(lexer.Position, currentToken);
             }
             throw new NestedExpressionException(lexer.Position, token);
         }

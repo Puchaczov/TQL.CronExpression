@@ -1,11 +1,8 @@
 ﻿using Cron.Visitors.Exceptions;
 using Cron.Visitors.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+using Cron.Visitors.Helpers;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cron.Visitors.Tests
 {
@@ -24,17 +21,49 @@ namespace Cron.Visitors.Tests
         [TestMethod]
         public void CheckValues_AllSimpleValuesAreCorrect_ShouldPass()
         {
-            var visitor = "0 0 0 1 1 1 2000".TakeVisitor();
-            Assert.AreEqual(true, visitor.IsValid);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("0 0 0 1 1 1 2000");
         }
 
         [TestMethod]
         public void CheckValues_SecondsAreCommaSeparated_ShouldPass()
         {
-            var visitor = "1,2,5,8 * * * * * *".TakeVisitor();
-            Assert.AreEqual(true, visitor.IsValid);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1,2,5,8 * * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckValues_MinutesAreCommaSeparated_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* 1,2,5,8 * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckValues_HoursAreCommaSeparated_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * 1,2,5,8 * * * *");
+        }
+
+        [TestMethod]
+        public void CheckValues_DaysInMonthAreCommaSeperated_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * 1,2,5,8 * * *");
+        }
+
+        [TestMethod]
+        public void CheckValues_MonthsAreCommaSeperated_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * 1,FEB,3,NOV,DEC * *");
+        }
+
+        [TestMethod]
+        public void CheckValues_DayOfWeeksAreCommaSeperated_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * 1,2,WED,THU *");
+        }
+
+        [TestMethod]
+        public void CheckValues_YearsAreCommaSeperated_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * * 2000,2001");
         }
     }
 }

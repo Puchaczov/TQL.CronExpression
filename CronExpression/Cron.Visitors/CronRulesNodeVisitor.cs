@@ -163,7 +163,7 @@ namespace Cron.Visitors
                     case Segment.DayOfWeek:
                         break;
                     default:
-                        throw new UnexpectedWNodeAtSegment(node.Token, segment);
+                        throw new UnexpectedLNodeAtSegment(node.Token, segment);
                 }
             }
             catch(BaseCronValidationException exc)
@@ -179,29 +179,11 @@ namespace Cron.Visitors
                 switch (segment)
                 {
                     case Segment.DayOfMonth:
-                        if (node.Token.TokenType == TokenType.Integer)
-                        {
-                            ThrowIfDayOfWeekIsOutOfRange(node);
-                            break;
-                        }
-                        else if (node.Token.TokenType == TokenType.Name)
-                        {
-                            ThrowIfDayOfWeekIsOutOfRange(node);
-                            break;
-                        }
-                        throw new UnsupportedValueException(node.Token);
+                        ThrowIfDayOfMonthIsOutOfRange(node);
+                        break;
                     case Segment.DayOfWeek:
-                        if (node.Token.TokenType == TokenType.Integer)
-                        {
-                            ThrowIfDayOfWeekIsOutOfRange(node);
-                            break;
-                        }
-                        if (node.Token.TokenType == TokenType.Name)
-                        {
-                            ThrowIfDayOfWeekIsOutOfRange(node);
-                            break;
-                        }
-                        throw new UnsupportedValueException(node.Token);
+                        ThrowIfDayOfWeekIsOutOfRange(node);
+                        break;
                     default:
                         throw new UnexpectedPrecededLNodeAtSegmentException();
                 }
@@ -327,34 +309,6 @@ namespace Cron.Visitors
         {
             try
             {
-                var items = node.Items;
-                switch (segment)
-                {
-                    case Segment.Seconds:
-                    case Segment.Minutes:
-                    case Segment.Hours:
-                    case Segment.DayOfMonth:
-                    case Segment.Year:
-                        if (node.Right.Token.TokenType != TokenType.Integer)
-                        {
-                            throw new UnsupportedValueException(node.Token);
-                        }
-                        if(node.Left.Token.TokenType != TokenType.Integer && node.Left.Token.TokenType != TokenType.Range)
-                        {
-                            throw new UnsupportedValueException(node.Token);
-                        }
-                        break;
-                    default:
-                        if (node.Right.Token.TokenType != TokenType.Integer && node.Right.Token.TokenType != TokenType.Name)
-                        {
-                            throw new UnsupportedValueException(node.Right.Token);
-                        }
-                        if (node.Left.Token.TokenType != TokenType.Integer && node.Left.Token.TokenType != TokenType.Name)
-                        {
-                            throw new UnsupportedValueException(node.Right.Token);
-                        }
-                        break;
-                }
                 switch (segment)
                 {
                     case Segment.Seconds:
@@ -400,6 +354,11 @@ namespace Cron.Visitors
                         }
                         break;
                     case Segment.Year:
+                        ThrowIfYearIsOutOfRange(node.Right);
+                        if(node.Left.Token.TokenType != TokenType.Range)
+                        {
+                            ThrowIfYearIsOutOfRange(node.Right);
+                        }
                         break;
                 }
             }

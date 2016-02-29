@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\DuplicatedExpressionException.cs" />
     <Compile Include="Exceptions\UnexpectedSegmentException.cs" />
     <Compile Include="Exceptions\UnexpectedTokenException.cs" />
     <Compile Include="Exceptions\UnknownSegmentException.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Nodes\NumericPrecededLNode.cs" />
     <Compile Include="Nodes\NumericPrecededWNode.cs" />
     <Compile Include="Tokens\LWToken.cs" />
+    <Compile Include="Exceptions\UnexpectedOperatorException.cs" />
     <Compile Include="Utils\Ref.cs" />
     <Compile Include="Exceptions\MismatchedSegmentsCountException.cs" />
     <Compile Include="Exceptions\NestedExpressionException.cs" />
