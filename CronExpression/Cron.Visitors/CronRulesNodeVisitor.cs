@@ -251,7 +251,7 @@ namespace Cron.Visitors
             {
                 switch (segment)
                 {
-                    case Segment.DayOfWeek:
+                    case Segment.DayOfMonth:
                         break;
                     default:
                         throw new UnexpectedWNodeAtSegment(node.Token, segment);
