@@ -60,8 +60,6 @@ namespace Cron.Parser.Nodes
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
-            left.Accept(visitor);
-            right.Accept(visitor);
         }
 
         public override IList<int> Evaluate(Segment segment)

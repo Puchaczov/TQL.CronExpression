@@ -118,10 +118,16 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(MismatchedSegmentsCountException))]
-        public void CheckSyntaxTree_ExpressionIsToShort_ShouldThrow()
+        public void CheckSyntaxTree_ExpressionIsTooShort_ShouldPass()
         {
-            var tree = CheckSyntaxTree("* * *");
+            var tree = CheckSyntaxTree("* * *", false);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnknownSegmentException))]
+        public void CheckSyntaxTree_ExpressionIsTooLong_ShouldFail()
+        {
+            var tree = CheckSyntaxTree("* * * * * * * * * *");
         }
 
         [TestMethod]
@@ -175,16 +181,16 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(typeof(T), tree.Items.Last().GetType());
         }
 
-        private RootComponentNode CheckSyntaxTree(string expression, string expectedOutputExpression)
+        private RootComponentNode CheckSyntaxTree(string expression, string expectedOutputExpression, bool produceMissingYearSegment = true)
         {
-            var ast = expression.Parse();
+            var ast = expression.Parse(produceMissingYearSegment);
             Assert.AreEqual(expectedOutputExpression, ast.ToString());
             return ast;
         }
 
-        private RootComponentNode CheckSyntaxTree(string expression)
+        private RootComponentNode CheckSyntaxTree(string expression, bool produceMissingYearSegment = true)
         {
-            return CheckSyntaxTree(expression, expression);
+            return CheckSyntaxTree(expression, expression, produceMissingYearSegment);
         }
     }
 }

@@ -12,11 +12,20 @@ namespace Cron.Parser
         private Token currentToken;
         private Token lastToken;
 
+        private bool produceMissingYearSegment;
+
+        public CronParser(Lexer lexer, bool produceMissingYearSegment)
+            : this(lexer)
+        {
+            this.produceMissingYearSegment = produceMissingYearSegment;
+        }
+
         public CronParser(Lexer lexer)
         {
             this.lexer = lexer;
             lastToken = new NoneToken();
             currentToken = lexer.NextToken();
+            this.produceMissingYearSegment = true;
         }
 
         private void Consume(TokenType type)
@@ -41,17 +50,13 @@ namespace Cron.Parser
                 }
                 rootComponents.Add(ComposeSegmentComponent((Segment)i));
             }
-            if(rootComponents[rootComponents.Count - 1].Segment != Segment.Year)
+            if(produceMissingYearSegment && rootComponents[rootComponents.Count - 1].Segment != Segment.Year)
             {
                 rootComponents.Add(ComposeStarYearSegmentComponent());
             }
             if(currentToken.TokenType == TokenType.Eof)
             {
                 rootComponents.Add(new EndOfFileNode());
-            }
-            if(rootComponents.Count != 8)
-            {
-                throw new MismatchedSegmentsCountException();
             }
             return new RootComponentNode(rootComponents.ToArray());
         }

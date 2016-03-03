@@ -312,52 +312,52 @@ namespace Cron.Visitors
                 switch (segment)
                 {
                     case Segment.Seconds:
-                        ThrowIfSecondIsOutOfRange(node.Right);
-                        if(node.Left.Token.TokenType != TokenType.Range)
+                        ThrowIfLessThanZero(node.Right, nameof(node.Right));
+                        if (node.Left.Token.TokenType != TokenType.Range)
                         {
                             ThrowIfSecondIsOutOfRange(node.Left);
                         }
                         break;
                     case Segment.Minutes:
-                        ThrowIfMinuteIsOutOfRange(node.Right);
-                        if(node.Left.Token.TokenType != TokenType.Range)
+                        ThrowIfLessThanZero(node.Right, nameof(node.Right));
+                        if (node.Left.Token.TokenType != TokenType.Range)
                         {
                             ThrowIfMinuteIsOutOfRange(node.Left);
                         }
                         break;
                     case Segment.Hours:
-                        ThrowIfHourIsOutOfRange(node.Right);
+                        ThrowIfLessThanZero(node.Right, nameof(node.Right));
                         if (node.Left.Token.TokenType != TokenType.Range)
                         {
                             ThrowIfHourIsOutOfRange(node.Left);
                         }
                         break;
                     case Segment.DayOfMonth:
-                        ThrowIfDayOfMonthIsOutOfRange(node.Right);
+                        ThrowIfLessThanZero(node.Right, nameof(node.Right));
                         if (node.Left.Token.TokenType != TokenType.Range)
                         {
                             ThrowIfDayOfMonthIsOutOfRange(node.Left);
                         }
                         break;
                     case Segment.Month:
-                        ThrowIfMonthIsOutOfRange(node.Right);
+                        ThrowIfLessThanZero(node.Right, nameof(node.Right));
                         if (node.Left.Token.TokenType != TokenType.Range)
                         {
                             ThrowIfMonthIsOutOfRange(node.Left);
                         }
                         break;
                     case Segment.DayOfWeek:
-                        ThrowIfDayOfWeekIsOutOfRange(node.Right);
+                        ThrowIfLessThanZero(node.Right, nameof(node.Right));
                         if (node.Left.Token.TokenType != TokenType.Range)
                         {
                             ThrowIfDayOfWeekIsOutOfRange(node.Left);
                         }
                         break;
                     case Segment.Year:
-                        ThrowIfYearIsOutOfRange(node.Right);
+                        ThrowIfLessThanZero(node.Right, nameof(node.Right));
                         if(node.Left.Token.TokenType != TokenType.Range)
                         {
-                            ThrowIfYearIsOutOfRange(node.Right);
+                            ThrowIfYearIsOutOfRange(node.Left);
                         }
                         break;
                 }
@@ -453,6 +453,20 @@ namespace Cron.Visitors
             if (weekOfMonth < 0 || weekOfMonth > 4)
             {
                 throw new UnsupportedValueException(node.Right);
+            }
+        }
+
+        private void ThrowIfLessThanZero(SyntaxNode node, string argName)
+        {
+            ThrowIfOutOfRange(0, node, argName);
+        }
+
+        private void ThrowIfOutOfRange(int minValue, SyntaxNode node, string argName)
+        {
+            var value = int.Parse(node.Token.Value);
+            if(value < minValue)
+            {
+                throw new UnsupportedValueException(node.Token);
             }
         }
 

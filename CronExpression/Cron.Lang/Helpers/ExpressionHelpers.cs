@@ -9,10 +9,10 @@ namespace Cron.Parser.Helpers
 {
     public static partial class ExpressionHelpers
     {
-        public static RootComponentNode Parse(this string expression)
+        public static RootComponentNode Parse(this string expression, bool produceMissingYearComponent = true)
         {
             Lexer lexer = new Lexer(expression);
-            CronParser parser = new CronParser(lexer);
+            CronParser parser = new CronParser(lexer, produceMissingYearComponent);
             return parser.ComposeRootComponents();
         }
     }

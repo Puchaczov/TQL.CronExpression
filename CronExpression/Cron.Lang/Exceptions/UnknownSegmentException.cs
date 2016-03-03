@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Cron.Parser.Exceptions
 {
     [Serializable]
-    internal class UnknownSegmentException : Exception
+    public class UnknownSegmentException : Exception
     {
         private int position;
 

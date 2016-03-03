@@ -14,7 +14,7 @@ namespace Cron.Visitors.Tests
         [TestMethod]
         public void CheckInc_IncInSeconds_ShouldPass()
         {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * * *");
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1/5 * * * * * *");
         }
         
         [TestMethod]
@@ -50,7 +50,7 @@ namespace Cron.Visitors.Tests
         [TestMethod]
         public void CheckInc_IncInYears_ShouldPass()
         {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * * 200/5");
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * * 2100/5");
         }
     }
 }
