@@ -2,6 +2,7 @@
 using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Cron.Parser.Nodes
 {
@@ -56,6 +57,17 @@ namespace Cron.Parser.Nodes
                     }
                 }
                 return commaItems.ToArray();
+            }
+        }
+
+        public override TextSpan FullSpan
+        {
+            get
+            {
+                var items = Desecendants;
+                var start = items.Last().FullSpan.Start;
+                var stop = items.First().FullSpan.End;
+                return new TextSpan(start, stop - start);
             }
         }
 

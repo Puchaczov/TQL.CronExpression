@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace Cron.Parser.Tokens
     /// This class allows to store association between source text and parsed tree.
     /// Every single token must contains TextSpan to allow determine which part of source it concers
     /// </summary>
+    [DebuggerDisplay("Start: {Start}, Length: {Length}, End: {End}")]
     public struct TextSpan
     {
         /// <summary>
@@ -31,6 +33,25 @@ namespace Cron.Parser.Tokens
         {
             this.Start = start;
             this.Length = lenght;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if(obj is TextSpan)
+            {
+                var span = (TextSpan)obj;
+                return span.Start == this.Start && span.Length == this.Length;
+            }
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Start.GetHashCode() ^ Length.GetHashCode();
         }
     }
 

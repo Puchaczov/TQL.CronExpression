@@ -1,6 +1,7 @@
 ﻿using Cron.Parser.Exceptions;
 using Cron.Parser.Helpers;
 using Cron.Parser.Nodes;
+using Cron.Parser.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -192,6 +193,82 @@ namespace Cron.Parser.Tests
         public void CheckSyntaxTree_WithHashNode_ShouldPass()
         {
             CheckSyntaxTree("* 3#5 * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_CheckFullSpanStarExpression_ShouldPass()
+        {
+            CheckFullSpan("* * * * * * *", 
+                new TextSpan(0, 1), 
+                new TextSpan(2, 1), 
+                new TextSpan(4, 1), 
+                new TextSpan(6, 1),
+                new TextSpan(8, 1),
+                new TextSpan(10, 1),
+                new TextSpan(12, 1));
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_CheckFullSpanRangeExpression_ShouldPass()
+        {
+            CheckFullSpan("1-5 1-5 1-5 1-5 1-5 1-5 2000-2005",
+                new TextSpan(0, 3),
+                new TextSpan(4, 3),
+                new TextSpan(8, 3),
+                new TextSpan(12, 3),
+                new TextSpan(16, 3),
+                new TextSpan(20, 3),
+                new TextSpan(24, 9));
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_CheckFullSpanHashExpression_ShouldPass()
+        {
+            CheckFullSpan("2#4 2#4 2#4 2#4 2#4 2#4 2#4",
+                new TextSpan(0, 3),
+                new TextSpan(4, 3),
+                new TextSpan(8, 3),
+                new TextSpan(12, 3),
+                new TextSpan(16, 3),
+                new TextSpan(20, 3),
+                new TextSpan(24, 3));
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_CheckFullSpanCommaExpression_ShouldPass()
+        {
+            CheckFullSpan("2,45,5 2,45,5 2,45,5 2,45,5 2,45,5 2,45,5 2,45,5",
+                new TextSpan(0, 6),
+                new TextSpan(7, 6),
+                new TextSpan(14, 6),
+                new TextSpan(21, 6),
+                new TextSpan(28, 6),
+                new TextSpan(35, 6),
+                new TextSpan(42, 6));
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_CheckFullSpanMixedExpression_ShouldPass()
+        {
+            CheckFullSpan("1,3,2#5 * 1-23 * 2#5 * ?",
+                new TextSpan(0, 7),
+                new TextSpan(8, 1),
+                new TextSpan(10, 4),
+                new TextSpan(15, 1),
+                new TextSpan(17, 3),
+                new TextSpan(21, 1),
+                new TextSpan(23, 1));
+        }
+
+        private void CheckFullSpan(string expression, params TextSpan[] spans)
+        {
+            var exp = expression.Parse();
+            for (int i = 0; i < 7; ++i)
+            {
+                var child = exp.Desecendants[i];
+                var span = child.FullSpan;
+                Assert.AreEqual(spans[i], span);
+            }
         }
 
         private void CheckHasAppropiateCountsOfSegments(RootComponentNode tree)
