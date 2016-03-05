@@ -11,18 +11,19 @@ using Cron.Parser.Exceptions;
 
 namespace Cron.Parser.Nodes
 {
-    public class IncrementByNode : SyntaxOperatorNode
+    public class IncrementByNode : BinaryExpressionNode
     {
-        private SyntaxOperatorNode left;
-        private SyntaxOperatorNode right;
+        private SyntaxNode left;
+        private SyntaxNode right;
 
-        public IncrementByNode(SyntaxOperatorNode left, SyntaxOperatorNode right)
+        public IncrementByNode(SyntaxNode left, SyntaxNode right, Token token)
+            : base(token)
         {
             this.left = left;
             this.right = right;
         }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
@@ -33,7 +34,7 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public SyntaxOperatorNode Left
+        public override SyntaxNode Left
         {
             get
             {
@@ -41,19 +42,11 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public SyntaxOperatorNode Right
+        public override SyntaxNode Right
         {
             get
             {
                 return right;
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return new IncrementByToken();
             }
         }
 
@@ -67,7 +60,7 @@ namespace Cron.Parser.Nodes
             switch(left.Token.TokenType)
             {
                 case TokenType.Range:
-                    return left.Evaluate(segment).CutMe(left.Items[0].Token.Value, left.Items[1].Token.Value, right.Token.Value);
+                    return left.Evaluate(segment).CutMe(left.Desecendants[0].Token.Value, left.Desecendants[1].Token.Value, right.Token.Value);
                 case TokenType.Name:
                 case TokenType.Integer:
                     switch(segment)

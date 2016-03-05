@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Nodes
 {
-    public interface IVisitedOperator
+    public interface IVisitedNode
     {
         void Accept(INodeVisitor visitor);
     }

@@ -15,10 +15,6 @@ namespace Cron.Parser.Nodes
             : base(token)
         { }
 
-        public LWNode()
-            : base(new IntegerToken("0"))
-        { }
-
         public override IList<int> Evaluate(Segment segment)
         {
             return ListExtension.Empty();

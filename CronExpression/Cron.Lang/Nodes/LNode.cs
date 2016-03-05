@@ -12,8 +12,8 @@ namespace Cron.Parser.Nodes
 {
     public class LNode : NumberNode
     {
-        public LNode()
-            : base(new IntegerToken("0"))
+        public LNode(Token token)
+            : base(token)
         { }
 
         public override void Accept(INodeVisitor visitor)

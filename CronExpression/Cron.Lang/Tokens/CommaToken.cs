@@ -8,8 +8,13 @@ namespace Cron.Parser.Tokens
 {
     public class CommaToken : Token
     {
-        public CommaToken()
-            : base(",", Enums.TokenType.Comma)
+        public CommaToken(TextSpan span)
+            : base(",", Enums.TokenType.Comma, span)
         { }
+
+        public override Token Clone()
+        {
+            return new CommaToken(this.Span.Clone());
+        }
     }
 }

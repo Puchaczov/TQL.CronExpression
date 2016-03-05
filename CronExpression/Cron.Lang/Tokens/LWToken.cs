@@ -8,8 +8,13 @@ namespace Cron.Parser.Tokens
 {
     public class LWToken : Token
     {
-        public LWToken()
-            : base("LW", Enums.TokenType.LW)
+        public LWToken(TextSpan span)
+            : base("LW", Enums.TokenType.LW, span)
         { }
+
+        public override Token Clone()
+        {
+            return new LWToken(Span.Clone());
+        }
     }
 }

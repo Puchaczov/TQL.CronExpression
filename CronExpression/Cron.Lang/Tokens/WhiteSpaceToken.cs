@@ -8,8 +8,13 @@ namespace Cron.Parser.Tokens
 {
     public class WhiteSpaceToken : Token
     {
-        public WhiteSpaceToken()
-            : base(" ", Enums.TokenType.WhiteSpace)
+        public WhiteSpaceToken(TextSpan span)
+            : base(" ", Enums.TokenType.WhiteSpace, span)
         { }
+
+        public override Token Clone()
+        {
+            return new WhiteSpaceToken(Span.Clone());
+        }
     }
 }

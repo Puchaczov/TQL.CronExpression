@@ -8,8 +8,13 @@ namespace Cron.Parser.Tokens
 {
     public class StarToken : Token
     {
-        public StarToken()
-            : base("*", Enums.TokenType.Star)
+        public StarToken(TextSpan span)
+            : base("*", Enums.TokenType.Star, span)
         { }
+
+        public override Token Clone()
+        {
+            return new StarToken(Span.Clone());
+        }
     }
 }

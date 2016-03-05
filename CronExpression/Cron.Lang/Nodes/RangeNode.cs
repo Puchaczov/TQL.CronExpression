@@ -10,12 +10,13 @@ using Cron.Parser.Extensions;
 
 namespace Cron.Parser.Nodes
 {
-    public class RangeNode : SyntaxOperatorNode
+    public class RangeNode : BinaryExpressionNode
     {
-        private SyntaxOperatorNode left;
-        private SyntaxOperatorNode right;
+        private SyntaxNode left;
+        private SyntaxNode right;
 
-        public RangeNode(SyntaxOperatorNode left, SyntaxOperatorNode right)
+        public RangeNode(SyntaxNode left, SyntaxNode right, Token token)
+            : base(token)
         {
             this.left = left;
             this.right = right;
@@ -31,7 +32,7 @@ namespace Cron.Parser.Nodes
             return ListExtension.Empty();
         }
 
-        public SyntaxOperatorNode Left
+        public override SyntaxNode Left
         {
             get
             {
@@ -39,7 +40,7 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public SyntaxOperatorNode Right
+        public override SyntaxNode Right
         {
             get
             {
@@ -47,7 +48,7 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
@@ -55,14 +56,6 @@ namespace Cron.Parser.Nodes
                     left,
                     right
                 };
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return new RangeToken();
             }
         }
 

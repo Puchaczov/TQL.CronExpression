@@ -9,8 +9,8 @@ namespace Cron.Visitors.Exceptions
 {
     public class MismatchedNodeItemsException : BaseCronValidationException
     {
-        public MismatchedNodeItemsException()
-            : base(new NoneToken())
+        public MismatchedNodeItemsException(Token token)
+            : base(token)
         { }
     }
 }

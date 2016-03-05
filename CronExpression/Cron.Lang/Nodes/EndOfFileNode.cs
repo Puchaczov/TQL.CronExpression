@@ -6,23 +6,15 @@ namespace Cron.Parser.Nodes
 {
     public class EndOfFileNode : SegmentNode
     {
-        public EndOfFileNode()
-            : base(null, 0)
+        public EndOfFileNode(Token token)
+            : base(null, 0, token)
         { }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
                 return new SyntaxNode[0];
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return new EndOfFileToken();
             }
         }
 
@@ -34,6 +26,14 @@ namespace Cron.Parser.Nodes
         public override string ToString()
         {
             return string.Empty;
+        }
+
+        public override TextSpan FullSpan
+        {
+            get
+            {
+                return Token.Span;
+            }
         }
     }
 }

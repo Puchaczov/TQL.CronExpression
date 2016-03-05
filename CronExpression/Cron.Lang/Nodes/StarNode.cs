@@ -5,17 +5,15 @@ using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cron.Parser.Nodes
 {
-    public class StarNode : SyntaxOperatorNode
+    public class StarNode : LeafNode
     {
         private Segment segment;
 
-        public StarNode(Segment segment)
+        public StarNode(Segment segment, Token token)
+            : base(token)
         {
             this.segment = segment;
         }
@@ -56,20 +54,11 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
-                return new SyntaxNode[] {
-                };
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return new StarToken();
+                return new SyntaxNode[0];
             }
         }
 

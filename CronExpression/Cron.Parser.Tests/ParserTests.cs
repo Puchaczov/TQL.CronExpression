@@ -170,15 +170,39 @@ namespace Cron.Parser.Tests
             CheckSyntaxTree("* * 1-5/10 * * * *");
         }
 
+        [TestMethod]
+        public void CheckSyntaxTree_WithNumericPrecededLNode_ShouldPass()
+        {
+            CheckSyntaxTree("* 50L * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_WithNumericPrecededWNode_ShouldPass()
+        {
+            CheckSyntaxTree("* 50W * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_WithNumericPrecededLWNode_ShouldPass()
+        {
+            CheckSyntaxTree("* 50LW * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_WithHashNode_ShouldPass()
+        {
+            CheckSyntaxTree("* 3#5 * * * * *");
+        }
+
         private void CheckHasAppropiateCountsOfSegments(RootComponentNode tree)
         {
             //Seven required segments + EndOfFile
-            Assert.AreEqual(8, tree.Items.Count());
+            Assert.AreEqual(8, tree.Desecendants.Count());
         }
 
         private void CheckLastOfSegmentsIsOfType<T>(RootComponentNode tree)
         {
-            Assert.AreEqual(typeof(T), tree.Items.Last().GetType());
+            Assert.AreEqual(typeof(T), tree.Desecendants.Last().GetType());
         }
 
         private RootComponentNode CheckSyntaxTree(string expression, string expectedOutputExpression, bool produceMissingYearSegment = true)

@@ -10,8 +10,8 @@ namespace Cron.Parser.Nodes
 {
     public class WNode : NumberNode
     {
-        public WNode()
-            : base(new IntegerToken("0"))
+        public WNode(Token token)
+            : base(token)
         { }
 
         public override void Accept(INodeVisitor visitor)

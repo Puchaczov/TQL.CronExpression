@@ -8,8 +8,13 @@ namespace Cron.Parser.Tokens
 {
     public class IntegerToken : Token
     {
-        public IntegerToken(string number)
-            : base(number, Enums.TokenType.Integer)
+        public IntegerToken(string number, TextSpan span)
+            : base(number, Enums.TokenType.Integer, span)
         { }
+
+        public override Token Clone()
+        {
+            return new IntegerToken(base.Value, Span.Clone());
+        }
     }
 }

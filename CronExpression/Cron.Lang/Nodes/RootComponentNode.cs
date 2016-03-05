@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Nodes
 {
-    public class RootComponentNode : SyntaxOperatorNode
+    public class RootComponentNode : SyntaxNode
     {
         private SegmentNode[] cronComponents;
 
@@ -33,7 +33,7 @@ namespace Cron.Parser.Nodes
             throw new NotImplementedException();
         }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
@@ -49,15 +49,33 @@ namespace Cron.Parser.Nodes
             }
         }
 
+        public override bool IsLeaf
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public override TextSpan FullSpan
+        {
+            get
+            {
+                var start = Desecendants.First().FullSpan.Start;
+                var stop = Desecendants.Last().FullSpan.End;
+                return new TextSpan(start, stop - start);
+            }
+        }
+
         public override string ToString()
         {
             StringBuilder stringifiedNodes = new StringBuilder();
-            for(int i = 0, j = Items.Count() - 2; i < j; ++i)
+            for(int i = 0, j = Desecendants.Count() - 2; i < j; ++i)
             {
-                stringifiedNodes.Append(Items[i].ToString());
+                stringifiedNodes.Append(Desecendants[i].ToString());
                 stringifiedNodes.Append(' ');
             }
-            return stringifiedNodes.Append(Items[Items.Count() - 2].ToString()).ToString();
+            return stringifiedNodes.Append(Desecendants[Desecendants.Count() - 2].ToString()).ToString();
         }
     }
 }

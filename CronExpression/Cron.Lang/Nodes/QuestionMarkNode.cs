@@ -11,27 +11,22 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Nodes
 {
-    public class QuestionMarkNode : SyntaxOperatorNode
+    public class QuestionMarkNode : LeafNode
     {
+        public QuestionMarkNode(Token token)
+            : base(token)
+        { }
+
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
-                return new SyntaxNode[] {
-                };
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return new QuestionMarkToken();
+                return new SyntaxNode[0];
             }
         }
 

@@ -6,18 +6,20 @@ using System.Collections.Generic;
 
 namespace Cron.Parser.Nodes
 {
-    public class SegmentNode : SyntaxOperatorNode
+    public class SegmentNode : UnaryExpressionNode
     {
-        private SyntaxOperatorNode node;
+        private SyntaxNode node;
         private Segment segment;
+        private Token token;
 
-        public SegmentNode(SyntaxOperatorNode segmentTree, Segment segment)
+        public SegmentNode(SyntaxNode segmentTree, Segment segment, Token token)
         {
             this.node = segmentTree;
             this.segment = segment;
+            this.token = token;
         }
 
-        public SyntaxOperatorNode Node
+        public override SyntaxNode Descendant
         {
             get
             {
@@ -44,7 +46,7 @@ namespace Cron.Parser.Nodes
             return node.Evaluate(segment);
         }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
@@ -58,7 +60,7 @@ namespace Cron.Parser.Nodes
         {
             get
             {
-                throw new NotImplementedException();
+                return token;
             }
         }
 

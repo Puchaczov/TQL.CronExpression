@@ -23,7 +23,7 @@ namespace Cron.Parser
         public CronParser(Lexer lexer)
         {
             this.lexer = lexer;
-            lastToken = new NoneToken();
+            lastToken = new NoneToken(new TextSpan(0, 0));
             currentToken = lexer.NextToken();
             this.produceMissingYearSegment = true;
         }
@@ -56,14 +56,14 @@ namespace Cron.Parser
             }
             if(currentToken.TokenType == TokenType.Eof)
             {
-                rootComponents.Add(new EndOfFileNode());
+                rootComponents.Add(new EndOfFileNode(new EndOfFileToken(currentToken.Span)));
             }
             return new RootComponentNode(rootComponents.ToArray());
         }
 
         private SegmentNode ComposeStarYearSegmentComponent()
         {
-            return new SegmentNode(new StarNode(Segment.Year), Segment.Year);
+            return new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(lexer.Position, 0))), Segment.Year, null);
         }
 
         private SegmentNode ComposeSegmentComponent(Segment segment)
@@ -89,7 +89,7 @@ namespace Cron.Parser
             }
         }
 
-        private SyntaxOperatorNode TakePrimitiveInteger()
+        private LeafNode TakePrimitiveInteger()
         {
             var token = currentToken;
             Consume(currentToken.TokenType);
@@ -109,7 +109,7 @@ namespace Cron.Parser
             }
         }
 
-        private SyntaxOperatorNode TakePrimitives()
+        private LeafNode TakePrimitives()
         {
             var token = currentToken;
             switch (currentToken.TokenType)
@@ -121,13 +121,13 @@ namespace Cron.Parser
                     return new WordNode(token);
                 case TokenType.L:
                     Consume(TokenType.L);
-                    return new LNode();
+                    return new LNode(token);
                 case TokenType.W:
                     Consume(TokenType.W);
-                    return new WNode();
+                    return new WNode(token);
                 case TokenType.LW:
                     Consume(TokenType.LW);
-                    return new LWNode();
+                    return new LWNode(token);
             }
             if(currentToken.TokenType == lastToken.TokenType)
             {
@@ -140,9 +140,9 @@ namespace Cron.Parser
             throw new NestedExpressionException(lexer.Position, token);
         }
 
-        private SyntaxOperatorNode TakeComplex()
+        private SyntaxNode TakeComplex()
         {
-            var node = TakePrimitives();
+            SyntaxNode node = TakePrimitives();
 
             while (currentToken.TokenType == TokenType.Range || currentToken.TokenType == TokenType.Inc || currentToken.TokenType == TokenType.Hash)
             {
@@ -152,13 +152,13 @@ namespace Cron.Parser
                 switch (token.TokenType)
                 {
                     case TokenType.Range:
-                        node = new RangeNode(node, TakePrimitives());
+                        node = new RangeNode(node, TakePrimitives(), token);
                         break;
                     case TokenType.Inc:
-                        node = new IncrementByNode(node, TakePrimitives());
+                        node = new IncrementByNode(node, TakePrimitives(), token);
                         break;
                     case TokenType.Hash:
-                        node = new HashNode(node.Token, TakePrimitives().Token);
+                        node = new HashNode(node, TakePrimitives(), token);
                         break;
                 }
             }
@@ -166,7 +166,7 @@ namespace Cron.Parser
             return node;
         }
 
-        private SyntaxOperatorNode SeparateCommas()
+        private SyntaxNode SeparateCommas()
         {
             var node = TakeComplex();
             while (currentToken.TokenType == TokenType.Comma)
@@ -178,7 +178,8 @@ namespace Cron.Parser
                         break;
                 }
 
-                node = new CommaNode(node, TakeComplex());
+                var comma = lastToken;
+                node = new CommaNode(node, TakeComplex(), comma);
             }
             return node;
         }
@@ -189,12 +190,12 @@ namespace Cron.Parser
             {
                 case TokenType.Star:
                     Consume(TokenType.Star);
-                    return new SegmentNode(new StarNode(segment), segment);
+                    return new SegmentNode(new StarNode(segment, lexer.Last), segment, null);
                 case TokenType.QuestionMark:
                     Consume(TokenType.QuestionMark);
-                    return new SegmentNode(new QuestionMarkNode(), segment);
+                    return new SegmentNode(new QuestionMarkNode(lexer.Last), segment, null);
                 default:
-                    return new SegmentNode(SeparateCommas(), segment);
+                    return new SegmentNode(SeparateCommas(), segment, null);
             }
         }
     }

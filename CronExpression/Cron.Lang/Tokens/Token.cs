@@ -9,7 +9,15 @@ namespace Cron.Parser.Tokens
 {
     public abstract class Token
     {
-        public TokenType TokenType { get; private set; }
+        public TokenType TokenType { get; }
+        public TextSpan Span { get; }
+
+        public Token(string value, TokenType type, TextSpan span)
+        {
+            this.Value = value;
+            this.TokenType = type;
+            this.Span = span;
+        }
 
         public string Value
         {
@@ -17,10 +25,6 @@ namespace Cron.Parser.Tokens
             private set;
         }
 
-        public Token(string value, TokenType type)
-        {
-            this.Value = value;
-            this.TokenType = type;
-        }
+        public abstract Token Clone();
     }
 }

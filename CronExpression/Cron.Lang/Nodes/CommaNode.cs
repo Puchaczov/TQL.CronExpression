@@ -5,12 +5,13 @@ using System.Collections.Generic;
 
 namespace Cron.Parser.Nodes
 {
-    public class CommaNode : SyntaxOperatorNode
+    public class CommaNode : BinaryExpressionNode
     {
-        private SyntaxOperatorNode left;
-        private SyntaxOperatorNode right;
+        private SyntaxNode left;
+        private SyntaxNode right;
 
-        public CommaNode(SyntaxOperatorNode left, SyntaxOperatorNode right)
+        public CommaNode(SyntaxNode left, SyntaxNode right, Token token)
+            : base(token)
         {
             this.left = left;
             this.right = right;
@@ -26,19 +27,19 @@ namespace Cron.Parser.Nodes
         public override IList<int> Evaluate(Segment segment)
         {
             var list = new List<int>();
-            foreach(var item in Items)
+            foreach(var item in Desecendants)
             {
                 list.AddRange(item.Evaluate(segment));
             }
             return list;
         }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
-                List<SyntaxOperatorNode> commaItems = new List<SyntaxOperatorNode>();
-                SyntaxOperatorNode current = left;
+                List<SyntaxNode> commaItems = new List<SyntaxNode>();
+                SyntaxNode current = left;
                 commaItems.Add(right);
                 while(current != null)
                 {
@@ -58,15 +59,7 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override Token Token
-        {
-            get
-            {
-                return new CommaToken();
-            }
-        }
-
-        public SyntaxOperatorNode Left
+        public override SyntaxNode Left
         {
             get
             {
@@ -74,7 +67,7 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public SyntaxOperatorNode Right
+        public override SyntaxNode Right
         {
             get
             {

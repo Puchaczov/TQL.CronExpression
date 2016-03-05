@@ -10,11 +10,12 @@ using Cron.Parser.Extensions;
 
 namespace Cron.Parser.Nodes
 {
-    public class WordNode : SyntaxOperatorNode, IValuableExpression
+    public class WordNode : LeafNode
     {
         private Token token;
 
         public WordNode(Token token)
+            : base(token)
         {
             this.token = token;
         }
@@ -29,36 +30,11 @@ namespace Cron.Parser.Nodes
             return ListExtension.Empty();
         }
 
-        public string Value
+        public override SyntaxNode[] Desecendants
         {
             get
             {
-                return token.Value;
-            }
-        }
-
-        public SyntaxOperatorNode Self
-        {
-            get
-            {
-                return this;
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return token;
-            }
-        }
-
-        public override SyntaxNode[] Items
-        {
-            get
-            {
-                return new SyntaxNode[] {
-                };
+                return new SyntaxNode[0];
             }
         }
 

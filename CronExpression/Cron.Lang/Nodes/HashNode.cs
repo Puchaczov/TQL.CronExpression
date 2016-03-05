@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Nodes
 {
-    public class HashNode : SyntaxOperatorNode
+    public class HashNode : BinaryExpressionNode
     {
-        private Token left;
-        private Token right;
+        private SyntaxNode left;
+        private SyntaxNode right;
 
-        public HashNode(Token left, Token right)
+        public HashNode(SyntaxNode left, SyntaxNode right, Token token)
+            : base(token)
         {
             this.left = left;
             this.right = right;
@@ -31,7 +32,7 @@ namespace Cron.Parser.Nodes
             return ListExtension.Empty();
         }
 
-        public Token Left
+        public override SyntaxNode Left
         {
             get
             {
@@ -39,7 +40,7 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public Token Right
+        public override SyntaxNode Right
         {
             get
             {
@@ -47,26 +48,20 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override SyntaxNode[] Items
+        public override SyntaxNode[] Desecendants
         {
             get
             {
                 return new SyntaxNode[] {
+                    left,
+                    right
                 };
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return new HashToken();
             }
         }
 
         public override string ToString()
         {
-            return Left.Value + Token.Value + Right.Value;
+            return Left.ToString() + Token.Value + Right.ToString();
         }
     }
 }

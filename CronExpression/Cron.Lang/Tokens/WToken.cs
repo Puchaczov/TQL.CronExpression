@@ -8,8 +8,13 @@ namespace Cron.Parser.Tokens
 {
     public class WToken : Token
     {
-        public WToken()
-            : base("W", Enums.TokenType.W)
+        public WToken(TextSpan span)
+            : base("W", Enums.TokenType.W, span)
         { }
+
+        public override Token Clone()
+        {
+            return new WToken(Span.Clone());
+        }
     }
 }

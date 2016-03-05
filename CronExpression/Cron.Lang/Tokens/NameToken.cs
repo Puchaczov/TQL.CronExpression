@@ -8,8 +8,8 @@ namespace Cron.Parser.Tokens
 {
     public class NameToken : Token
     {
-        public NameToken(string word)
-            : base(word, Enums.TokenType.Name)
+        public NameToken(string word, TextSpan span)
+            : base(word, Enums.TokenType.Name, span)
         { }
 
         public int Length
@@ -18,6 +18,11 @@ namespace Cron.Parser.Tokens
             {
                 return base.Value.Count();
             }
+        }
+
+        public override Token Clone()
+        {
+            return new NameToken(base.Value, Span.Clone());
         }
     }
 }

@@ -48,8 +48,8 @@ namespace Cron.Visitors
         {
             try
             {
-                var items = node.Items;
-                ThrowIfNodesCountMismatched(items);
+                var items = node.Desecendants;
+                ThrowIfNodesCountMismatched(items, node);
                 switch (segment)
                 {
                     case Segment.Seconds:
@@ -97,11 +97,11 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfNodesCountMismatched(SyntaxNode[] items)
+        private void ThrowIfNodesCountMismatched(SyntaxNode[] items, SyntaxNode parent)
         {
             if(items.Count() != 2)
             {
-                throw new MismatchedNodeItemsException();
+                throw new MismatchedNodeItemsException(parent.Token);
             }
         }
 
@@ -263,7 +263,7 @@ namespace Cron.Visitors
             }
         }
 
-        public virtual void Visit(SyntaxOperatorNode node)
+        public virtual void Visit(BinaryExpressionNode node)
         {
             throw new Exception("Unknown node exception");
         }
@@ -445,14 +445,14 @@ namespace Cron.Visitors
 
         private void ThrowIfHashNodeOutOfRange(HashNode node)
         {
-            if (!CronWordHelper.ContainsDayOfWeek(node.Left.Value))
+            if (!CronWordHelper.ContainsDayOfWeek(node.Left.Token.Value))
             {
-                throw new UnsupportedValueException(node.Left);
+                throw new UnsupportedValueException(node.Left.Token);
             }
-            var weekOfMonth = int.Parse(node.Right.Value);
+            var weekOfMonth = int.Parse(node.Right.Token.Value);
             if (weekOfMonth < 0 || weekOfMonth > 4)
             {
-                throw new UnsupportedValueException(node.Right);
+                throw new UnsupportedValueException(node.Right.Token);
             }
         }
 

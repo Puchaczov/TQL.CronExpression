@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Nodes
 {
-    public class NumberNode : SyntaxOperatorNode, IValuableExpression
+    public class NumberNode : LeafNode
     {
-        private Token token;
-
         public NumberNode(Token token)
-        {
-            this.token = token;
-        }
+            : base(token)
+        { }
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -25,39 +22,14 @@ namespace Cron.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment)
         {
-            return new List<int> { int.Parse(token.Value) };
+            return new List<int> { int.Parse(Token.Value) };
         }
 
-        public string Value
+        public override SyntaxNode[] Desecendants
         {
             get
             {
-                return token.Value;
-            }
-        }
-
-        public SyntaxOperatorNode Self
-        {
-            get
-            {
-                return this;
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return token;
-            }
-        }
-
-        public override SyntaxNode[] Items
-        {
-            get
-            {
-                return new SyntaxNode[] {
-                };
+                return new SyntaxNode[0];
             }
         }
 

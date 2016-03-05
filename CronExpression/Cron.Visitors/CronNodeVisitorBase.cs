@@ -38,7 +38,7 @@ namespace Cron.Visitors
             time = new Ref<DateTimeOffset>(() => refTime, time => { refTime = time; });
         }
 
-        public override void Visit(SyntaxOperatorNode node)
+        public override void Visit(BinaryExpressionNode node)
         {
             base.Visit(node);
             node.Accept(this);
@@ -169,7 +169,7 @@ namespace Cron.Visitors
                     values[lastSegment].SetRange(0, values[lastSegment].Count);
                     break;
                 case Segment.DayOfWeek:
-                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputedList(time, new int[] { int.Parse(node.Value) }));
+                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputedList(time, new int[] { int.Parse(node.Token.Value) }));
                     values[lastSegment].SetRange(0, values[lastSegment].Count);
                     break;
             }
@@ -183,8 +183,8 @@ namespace Cron.Visitors
         public override void Visit(HashNode node)
         {
             base.Visit(node);
-            var dayOfWeek = CronWordHelper.DayOfWeek(node.Left.Value);
-            var nthOfMonth = int.Parse(node.Right.Value);
+            var dayOfWeek = CronWordHelper.DayOfWeek(node.Left.Token.Value);
+            var nthOfMonth = int.Parse(node.Right.Token.Value);
             values[lastSegment].Add(new NthDayOfMonthLimitedByNumberOfWeekList(time, dayOfWeek, nthOfMonth));
             values[lastSegment].SetRange(0, values[lastSegment].Count);
         }
@@ -201,11 +201,11 @@ namespace Cron.Visitors
             switch(lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new MonthBasedComputedList(time, new int[] { int.Parse(node.Value) }));
+                    values[lastSegment].Add(new MonthBasedComputedList(time, new int[] { int.Parse(node.Token.Value) }));
                     values[lastSegment].SetRange(0, count);
                     break;
                 case Segment.DayOfWeek:
-                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputedList(time, new int[] { int.Parse(node.Value) }));
+                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputedList(time, new int[] { int.Parse(node.Token.Value) }));
                     values[lastSegment].SetRange(0, count);
                     break;
             }

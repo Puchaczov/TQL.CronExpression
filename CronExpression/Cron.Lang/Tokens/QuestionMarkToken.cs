@@ -8,8 +8,13 @@ namespace Cron.Parser.Tokens
 {
     public class QuestionMarkToken : Token
     {
-        public QuestionMarkToken()
-            : base("?", Enums.TokenType.QuestionMark)
+        public QuestionMarkToken(TextSpan span)
+            : base("?", Enums.TokenType.QuestionMark, span)
         { }
+
+        public override Token Clone()
+        {
+            return new QuestionMarkToken(Span.Clone());
+        }
     }
 }
