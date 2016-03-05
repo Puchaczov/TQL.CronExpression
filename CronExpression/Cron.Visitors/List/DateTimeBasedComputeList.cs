@@ -59,6 +59,26 @@ namespace Cron.Parser.List
         }
     }
 
+    public class NearWeekendComputedList : DateTimeBasedComputeList
+    {
+        public NearWeekendComputedList(Ref<DateTimeOffset> referenceTime, int number)
+            : base(referenceTime, new List<int> { number })
+        { }
+
+        public override int Element(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Count
+        {
+            get
+            {
+                return 1;
+            }
+        }
+    }
+
     public class MonthBasedComputedList : DateTimeBasedComputeList
     {
         public MonthBasedComputedList(Ref<DateTimeOffset> referenceTime, IList<int> list)

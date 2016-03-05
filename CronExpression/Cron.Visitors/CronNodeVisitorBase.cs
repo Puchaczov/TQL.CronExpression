@@ -178,6 +178,12 @@ namespace Cron.Visitors
         public override void Visit(WNode node)
         {
             base.Visit(node);
+            switch(lastSegment)
+            {
+                case Segment.DayOfMonth:
+                    values[lastSegment].Add(new NearWeekendComputedList(time, 0));
+                    break;
+            }
         }
 
         public override void Visit(HashNode node)
@@ -214,6 +220,12 @@ namespace Cron.Visitors
         public override void Visit(NumericPrecededWNode node)
         {
             base.Visit(node);
+            switch(lastSegment)
+            {
+                case Segment.DayOfMonth:
+                    values[lastSegment].Add(new NearWeekendComputedList(time, int.Parse(node.Token.Value)));
+                    break;
+            }
         }
     }
 }

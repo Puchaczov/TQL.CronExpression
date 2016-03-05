@@ -275,7 +275,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void TestFullOverflowedDate()
+        public void TestFullOverflowedDate_ShouldPass()
         {
             var analyzer = "* * * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2005, 12, DateTime.DaysInMonth(2005, 12), 23, 59, 59);
@@ -283,7 +283,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void TestWillFireInTheLastDayOfEveryMonth()
+        public void TestWillFireInTheLastDayOfEveryMonth_ShouldPass()
         {
             var analyzer = "0 15 10 L * ?".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
@@ -294,7 +294,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void TestTheLast6thDayOfMonth()
+        public void TestTheLast6thDayOfMonth_ShouldPass()
         {
             var analyzer = "0 0 0 5L * ?".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
@@ -303,7 +303,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void TestTheLastFridayOfMonth()
+        public void TestTheLastFridayOfMonth_ShouldPass()
         {
             var analyzer = "0 2 0 ? * 6L 2016".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
@@ -312,7 +312,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void TestWillFireThirdFridayOfEveryMonth()
+        public void TestWillFireThirdFridayOfEveryMonth_ShouldPass()
         {
             var analyzer = "0 15 10 ? * 6#3".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2016, 1, 1);
@@ -320,6 +320,20 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(expectedFireTime, analyzer.NextFire());
             expectedFireTime = new DateTime(2016, 2, 19, 10, 15, 0);
             Assert.AreEqual(expectedFireTime, analyzer.NextFire());
+        }
+
+        [TestMethod]
+        public void TestWillFireInEveryWeekday_ShouldPass()
+        {
+            var analyzer = "0 0 0 * * 2-6 *".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2015, 12, DateTime.DaysInMonth(2015, 12), 23, 59, 0);
+            Assert.AreEqual(new DateTime(2016, 1, 1), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 1, 4), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 1, 5), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 1, 6), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 1, 7), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 1, 8), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 1, 11), analyzer.NextFire());
         }
     }
 }
