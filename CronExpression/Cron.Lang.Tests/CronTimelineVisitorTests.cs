@@ -12,7 +12,7 @@ namespace Cron.Visitors.Tests
     public class CronTimelineVisitorTests
     {
         [TestMethod]
-        public void CronExpression1()
+        public void ValidateExpression_AllStars_ShouldNotContainErrors()
         {
             var visitor = CreateExpressionAndPerformVisitor("* * * * * * *");
 
@@ -168,7 +168,7 @@ namespace Cron.Visitors.Tests
         {
             Lexer lexer = new Lexer(expression);
             CronParser parser = new CronParser(lexer);
-            CronTimelineVisitor visitor = new CronTimelineVisitor();
+            CronRulesNodeVisitor visitor = new CronRulesNodeVisitor();
 
             var node = parser.ComposeRootComponents();
             node.Accept(visitor);
