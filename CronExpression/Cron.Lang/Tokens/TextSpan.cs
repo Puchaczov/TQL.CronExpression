@@ -37,9 +37,9 @@ namespace Cron.Parser.Tokens
 
         public override bool Equals(object obj)
         {
-            if(object.ReferenceEquals(this, obj))
+            if(obj == null)
             {
-                return true;
+                return false;
             }
             if(obj is TextSpan)
             {
