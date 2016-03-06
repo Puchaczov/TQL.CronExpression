@@ -6,14 +6,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cron.Parser.Visitors;
 
 namespace Cron.Parser.Nodes
 {
-    public class LWNode : NumberNode
+    public class LWNode : LeafNode
     {
         public LWNode(Token token)
             : base(token)
         { }
+
+        public override SyntaxNode[] Desecendants
+        {
+            get
+            {
+                return new SyntaxNode[0];
+            }
+        }
+
+        public override void Accept(INodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
 
         public override IList<int> Evaluate(Segment segment)
         {
@@ -23,18 +37,6 @@ namespace Cron.Parser.Nodes
         public override string ToString()
         {
             return "LW";
-        }
-    }
-
-    public class NumericPreceededLWNode : LWNode
-    {
-        public NumericPreceededLWNode(Token token)
-            : base(token)
-        { }
-
-        public override string ToString()
-        {
-            return Token.Value + "LW";
         }
     }
 }

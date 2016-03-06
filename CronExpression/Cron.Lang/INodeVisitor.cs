@@ -14,12 +14,12 @@ namespace Cron.Parser.Visitors
         void Visit(WordNode node);
         void Visit(NumberNode node);
         void Visit(QuestionMarkNode node);
-        void Visit(BinaryExpressionNode node);
         void Visit(LNode node);
         void Visit(WNode node);
         void Visit(HashNode node);
         void Visit(EndOfFileNode node);
         void Visit(NumericPrecededLNode node);
         void Visit(NumericPrecededWNode node);
+        void Visit(LWNode node);
     }
 }

@@ -3,9 +3,11 @@ using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Cron.Parser.Nodes
 {
+    [DebuggerDisplay("{GetType().Name,nq}: {ToString(),nq}")]
     public class SegmentNode : UnaryExpressionNode
     {
         private SyntaxNode node;
@@ -50,9 +52,15 @@ namespace Cron.Parser.Nodes
         {
             get
             {
-                return new SyntaxNode[] {
-                    node
-                };
+                switch(node.Token.TokenType)
+                {
+                    case TokenType.Comma:
+                        return node.Desecendants;
+                    default:
+                        return new SyntaxNode[] {
+                            node
+                        };
+                }
             }
         }
 

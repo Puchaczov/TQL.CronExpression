@@ -335,5 +335,44 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(new DateTime(2016, 1, 8), analyzer.NextFire());
             Assert.AreEqual(new DateTime(2016, 1, 11), analyzer.NextFire());
         }
+
+        [TestMethod]
+        public void TestWillFireNearWeekday_ShouldPass()
+        {
+            var analyzer = "0 0 0 W * * *".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2016, 2, 29);
+            Assert.AreEqual(new DateTime(2016, 3, 1), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 4, 1), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 5, 2), analyzer.NextFire());
+        }
+
+        [TestMethod]
+        public void TestWillFireNearWeekday_NumericPrecedeed_ShouldPass()
+        {
+            var analyzer = "0 0 0 1W * * *".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2016, 2, 29);
+            Assert.AreEqual(new DateTime(2016, 3, 1), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 4, 1), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 5, 2), analyzer.NextFire());
+        }
+
+        [TestMethod]
+        public void TestWillFireNearWeekday_LastDayInMonth_ShouldPass()
+        {
+            var analyzer = "0 0 0 31W * * *".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2016, 1, 1);
+            Assert.AreEqual(new DateTime(2016, 1, 29), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 3, 31), analyzer.NextFire());
+        }
+
+        [TestMethod] 
+        public void TestWillFireInTheLastWeekdayOfMonth_ShouldPass()
+        {
+            var analyzer = "0 0 0 LW * * *".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2016, 1, 1);
+            Assert.AreEqual(new DateTime(2016, 1, 29), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 2, 29), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 3, 31), analyzer.NextFire());
+        }
     }
 }

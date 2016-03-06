@@ -19,7 +19,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("* * * * * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
 
@@ -28,7 +28,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("1-5 * * * * * 2000-3000");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("1/5 * * 0-7 * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("1,2,3,4 7,6,5,4 * * * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("* L * * L * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("W * * W * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("LW LW LW * * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("MON-WED * SAT-MON * * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("* * * * * *", "* * * * * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree(" * * * * * * * ", "* * * * * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("* * * ? * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -115,7 +115,7 @@ namespace Cron.Parser.Tests
         {
             var tree = CheckSyntaxTree("MON TUE WED * * * *");
             CheckHasAppropiateCountsOfSegments(tree);
-            CheckLastOfSegmentsIsOfType<EndOfFileNode>(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
         [TestMethod]
@@ -181,12 +181,6 @@ namespace Cron.Parser.Tests
         public void CheckSyntaxTree_WithNumericPrecededWNode_ShouldPass()
         {
             CheckSyntaxTree("* 50W * * * * *");
-        }
-
-        [TestMethod]
-        public void CheckSyntaxTree_WithNumericPrecededLWNode_ShouldPass()
-        {
-            CheckSyntaxTree("* 50LW * * * * *");
         }
 
         [TestMethod]
@@ -260,6 +254,31 @@ namespace Cron.Parser.Tests
                 new TextSpan(23, 1));
         }
 
+
+        [TestMethod]
+        public void CheckSyntaxTree_MixedComplexExpression_ShouldPass()
+        {
+            Lexer lexer = new Lexer("0/5 14,18,3-39,52 * ? JAN,MAR,SEP MON-FRI 2002-2010");
+            CronParser parser = new CronParser(lexer);
+            parser.ComposeRootComponents();
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_MixedComplexExpression_WithNestedRangeInIncNode_ShouldPass()
+        {
+            Lexer lexer = new Lexer("0,3#2,1-5,2-6,6,1,0 0/5 14,18-20,25 * FEB-MAY,1-8/2,JANUARY,FEBRUARY MON-FRI,1W,1545L,6#3 ?");
+            CronParser parser = new CronParser(lexer);
+            parser.ComposeRootComponents();
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_WithMonthMapping_ShouldPass()
+        {
+            Lexer lexer = new Lexer("* * * * * MON#5,6#3 ?");
+            CronParser parser = new CronParser(lexer);
+            parser.ComposeRootComponents();
+        }
+
         private void CheckFullSpan(string expression, params TextSpan[] spans)
         {
             var exp = expression.Parse();
@@ -277,7 +296,7 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(8, tree.Desecendants.Count());
         }
 
-        private void CheckLastOfSegmentsIsOfType<T>(RootComponentNode tree)
+        private void CheckLastSegmentIsOfType<T>(RootComponentNode tree)
         {
             Assert.AreEqual(typeof(T), tree.Desecendants.Last().GetType());
         }

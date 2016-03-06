@@ -1,33 +1,19 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using Cron.Parser.Enums;
+using Cron.Parser.Tokens;
 
 namespace Cron.Visitors.Exceptions
 {
     [Serializable]
-    public class UnexpectedPrecededWNodeAtSegmentException : Exception
+    public class UnexpectedPrecededWNodeAtSegmentException : BaseCronValidationException
     {
         private Segment segment;
 
-        public UnexpectedPrecededWNodeAtSegmentException()
-        {
-        }
-
-        public UnexpectedPrecededWNodeAtSegmentException(string message) : base(message)
-        {
-        }
-
-        public UnexpectedPrecededWNodeAtSegmentException(Segment segment)
+        public UnexpectedPrecededWNodeAtSegmentException(Token token, Segment segment)
+            : base(token)
         {
             this.segment = segment;
-        }
-
-        public UnexpectedPrecededWNodeAtSegmentException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected UnexpectedPrecededWNodeAtSegmentException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

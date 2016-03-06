@@ -38,12 +38,6 @@ namespace Cron.Visitors
             time = new Ref<DateTimeOffset>(() => refTime, time => { refTime = time; });
         }
 
-        public override void Visit(BinaryExpressionNode node)
-        {
-            base.Visit(node);
-            node.Accept(this);
-        }
-
         public override void Visit(CommaNode node)
         {
             base.Visit(node);
@@ -181,7 +175,7 @@ namespace Cron.Visitors
             switch(lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new NearWeekendComputedList(time, 0));
+                    values[lastSegment].Add(new NearWeekdayComputedList(time, 1));
                     break;
             }
         }
@@ -223,7 +217,18 @@ namespace Cron.Visitors
             switch(lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new NearWeekendComputedList(time, int.Parse(node.Token.Value)));
+                    values[lastSegment].Add(new NearWeekdayComputedList(time, int.Parse(node.Token.Value)));
+                    break;
+            }
+        }
+
+        public override void Visit(LWNode node)
+        {
+            base.Visit(node);
+            switch(lastSegment)
+            {
+                case Segment.DayOfMonth:
+                    values[lastSegment].Add(new LastWeekdayOfMonthComputedList(time));
                     break;
             }
         }

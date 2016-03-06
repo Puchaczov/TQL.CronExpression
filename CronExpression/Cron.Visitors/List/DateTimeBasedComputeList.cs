@@ -2,9 +2,6 @@
 using Cron.Parser.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections;
 
 namespace Cron.Parser.List
@@ -59,21 +56,91 @@ namespace Cron.Parser.List
         }
     }
 
-    public class NearWeekendComputedList : DateTimeBasedComputeList
+    public class LastWeekdayOfMonthComputedList : DateTimeBasedComputeList
     {
-        public NearWeekendComputedList(Ref<DateTimeOffset> referenceTime, int number)
-            : base(referenceTime, new List<int> { number })
+        public LastWeekdayOfMonthComputedList(Ref<DateTimeOffset> referenceTime)
+            : base(referenceTime, null)
         { }
 
         public override int Element(int index)
         {
-            throw new NotImplementedException();
+            if(index != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            var refTime = referenceTime.Value;
+            var daysInMonth = DateTime.DaysInMonth(refTime.Year, refTime.Month);
+            var day = new DateTime(refTime.Year, refTime.Month, daysInMonth);
+            if(day.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return daysInMonth - 1;
+            }
+            else if(day.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return daysInMonth - 2;
+            }
+            return daysInMonth;
         }
 
         public override int Count
         {
             get
             {
+                return 1;
+            }
+        }
+    }
+
+    public class NearWeekdayComputedList : DateTimeBasedComputeList
+    {
+        public NearWeekdayComputedList(Ref<DateTimeOffset> referenceTime, int dayOfMonth)
+            : base(referenceTime, new List<int> { dayOfMonth })
+        { }
+
+        public override int Element(int index)
+        {
+            var refTime = referenceTime.Value;
+            var candidateTime = new DateTime(refTime.Year, refTime.Month, list[0]);
+            if(candidateTime.DayOfWeek != DayOfWeek.Saturday && candidateTime.DayOfWeek != DayOfWeek.Sunday)
+            {
+                return list[0];
+            }
+            if(candidateTime.DayOfWeek == DayOfWeek.Saturday)
+            {
+                var friday = candidateTime.AddDays(-1);
+                //still the same month
+                if(friday.Month == candidateTime.Month)
+                {
+                    return list[0] - 1;
+                }
+                else
+                {
+                    return list[0] + 2;
+                }
+            }
+            else
+            {
+                var monday = candidateTime.AddDays(1);
+                //still the same month
+                if(monday.Month == candidateTime.Month)
+                {
+                    return list[0] + 1;
+                }
+                else
+                {
+                    return list[0] - 2;
+                }
+            }
+        }
+
+        public override int Count
+        {
+            get
+            {
+                if(DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month) < list[0])
+                {
+                    return 0;
+                }
                 return 1;
             }
         }

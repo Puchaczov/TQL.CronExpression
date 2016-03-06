@@ -9,7 +9,13 @@ namespace Cron.Parser.Nodes
 {
     public abstract class UnaryExpressionNode : SyntaxNode
     {
-        public abstract SyntaxNode Descendant { get; }
+        public virtual SyntaxNode Descendant
+        {
+            get
+            {
+                return Desecendants[0];
+            }
+        }
 
         public override bool IsLeaf
         {

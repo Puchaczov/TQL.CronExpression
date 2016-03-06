@@ -101,9 +101,6 @@ namespace Cron.Parser
                 case TokenType.W:
                     Consume(TokenType.W);
                     return new NumericPrecededWNode(token);
-                case TokenType.LW:
-                    Consume(TokenType.LW);
-                    return new NumericPreceededLWNode(token);
                 default:
                     return new NumberNode(lastToken);
             }

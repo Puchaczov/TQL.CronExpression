@@ -89,5 +89,14 @@ namespace Cron.Visitors.Tests
             Assert.AreEqual(1, visitor.ValidationErrors.Count());
             Assert.AreEqual(typeof(UnexpectedHashNodeAtSegment), visitor.ValidationErrors.First().GetType());
         }
+
+        [TestMethod]
+        public void SpecialOptions_WNodeIncorectlyWithOtherValuesInSegment_ShouldThrow()
+        {
+            var visitor = "* * * 1,W,1-5 * *".TakeVisitor();
+            Assert.AreEqual(false, visitor.IsValid);
+            Assert.AreEqual(1, visitor.ValidationErrors.Count());
+            Assert.AreEqual(typeof(WNodeCannotBeMixedException), visitor.ValidationErrors.First().GetType());
+        }
     }
 }

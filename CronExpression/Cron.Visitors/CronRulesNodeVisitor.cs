@@ -15,6 +15,7 @@ namespace Cron.Visitors
         private Segment segment;
         private short segmentsCount;
         private List<Exception> errors;
+        private SyntaxNode parent;
 
         public CronRulesNodeVisitor()
         {
@@ -24,6 +25,7 @@ namespace Cron.Visitors
 
         public virtual void Visit(SegmentNode node)
         {
+            parent = node;
             segment = node.Segment;
             segmentsCount += 1;
         }
@@ -200,11 +202,12 @@ namespace Cron.Visitors
             {
                 switch (segment)
                 {
-                    case Segment.DayOfWeek:
+                    case Segment.DayOfMonth:
+                        ThrowIfWNodeAmongOtherValues(node);
                         ThrowIfDayOfWeekIsOutOfRange(node);
                         return;
                 }
-                throw new UnexpectedPrecededWNodeAtSegmentException(segment);
+                throw new UnexpectedPrecededWNodeAtSegmentException(node.Token, segment);
             }
             catch(BaseCronValidationException exc)
             {
@@ -252,6 +255,7 @@ namespace Cron.Visitors
                 switch (segment)
                 {
                     case Segment.DayOfMonth:
+                        ThrowIfWNodeAmongOtherValues(node);
                         break;
                     default:
                         throw new UnexpectedWNodeAtSegment(node.Token, segment);
@@ -263,9 +267,23 @@ namespace Cron.Visitors
             }
         }
 
-        public virtual void Visit(BinaryExpressionNode node)
+        public virtual void Visit(LWNode node)
         {
-            throw new Exception("Unknown node exception");
+            try
+            {
+                switch(segment)
+                {
+                    case Segment.DayOfMonth:
+                        ThrowIfLWNodeAmongOtherValues(node);
+                        break;
+                    default:
+                        throw new UnexpectedLWNodeAtSegment(node.Token, segment);
+                }
+            }
+            catch(BaseCronValidationException exc)
+            {
+                errors.Add(exc);
+            }
         }
 
         public virtual void Visit(NumberNode node)
@@ -476,6 +494,24 @@ namespace Cron.Visitors
             if(value < minValue || value > maxValue)
             {
                 throw new UnsupportedValueException(node.Token);
+            }
+        }
+
+        private void ThrowIfWNodeAmongOtherValues(SyntaxNode node)
+        {
+            ThrowIfMoreThanOneDescendants(node);
+        }
+
+        private void ThrowIfLWNodeAmongOtherValues(SyntaxNode node)
+        {
+            ThrowIfMoreThanOneDescendants(node);
+        }
+
+        private void ThrowIfMoreThanOneDescendants(SyntaxNode node)
+        {
+            if (parent.Desecendants.Count() != 1)
+            {
+                throw new WNodeCannotBeMixedException(node.Token);
             }
         }
     }
