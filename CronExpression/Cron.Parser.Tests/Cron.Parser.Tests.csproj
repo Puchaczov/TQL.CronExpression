@@ -42,12 +42,11 @@
     <Compile Include="TextSpanTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Lang\Cron.Parser.csproj">
+    <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
       <Name>Cron.Parser</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -80,7 +80,7 @@
     <Compile Include="Exceptions\RangeNodeException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Lang\Cron.Parser.csproj">
+    <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
       <Name>Cron.Parser</Name>
     </ProjectReference>
