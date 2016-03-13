@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using Cron.Parser.Enums;
 
 namespace Cron.Visitors.Exceptions
 {
-    [Serializable]
     internal class UnexpectedPrecededLNodeAtSegmentException : Exception
     {
         private Segment segment;
@@ -20,14 +18,6 @@ namespace Cron.Visitors.Exceptions
         public UnexpectedPrecededLNodeAtSegmentException(Segment segment)
         {
             this.segment = segment;
-        }
-
-        public UnexpectedPrecededLNodeAtSegmentException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected UnexpectedPrecededLNodeAtSegmentException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Cron.Parser.Exceptions
 {
-    [Serializable]
     public class UnknownSegmentException : Exception
     {
         private int position;
@@ -19,10 +17,6 @@ namespace Cron.Parser.Exceptions
         public UnknownSegmentException(int position)
         {
             this.position = position;
-        }
-
-        protected UnknownSegmentException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
 
         public override string Message
