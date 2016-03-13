@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cron.Visitors.Tests</RootNamespace>
     <AssemblyName>Cron.Visitors.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,7 +16,6 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,13 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cron.Parser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\artifacts\bin\Cron.Parser\Release\dotnet5.4\Cron.Parser.dll</HintPath>
-    </Reference>
-    <Reference Include="Cron.Visitors">
-      <HintPath>..\artifacts\bin\Cron.Visitors\Release\dotnet5.4\Cron.Visitors.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -69,6 +61,16 @@
     <Compile Include="RangeUnwindCronRulesTests.cs" />
     <Compile Include="SimpleCronRulesTests.cs" />
     <Compile Include="SpecialOptionsCronRulesTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cron.Lang\Cron.Parser.csproj">
+      <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
+      <Name>Cron.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.Visitors\Cron.Visitors.csproj">
+      <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
+      <Name>Cron.Visitors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

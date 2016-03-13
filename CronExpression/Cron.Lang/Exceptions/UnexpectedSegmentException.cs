@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Exceptions
 {
+    [Serializable]
     public class UnexpectedSegmentException : Exception
     {
         public Segment Segment

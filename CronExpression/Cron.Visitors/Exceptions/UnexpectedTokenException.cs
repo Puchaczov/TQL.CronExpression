@@ -1,8 +1,10 @@
 ﻿using Cron.Parser.Tokens;
 using System;
+using System.Runtime.Serialization;
 
 namespace Cron.Visitors.Exceptions
 {
+    [Serializable]
     public class UnexpectedTokenException : Exception
     {
         public int Position { get; private set; }
@@ -11,6 +13,10 @@ namespace Cron.Visitors.Exceptions
         public UnexpectedTokenException(int pos, Token token)
         {
             this.Position = pos;
+        }
+
+        protected UnexpectedTokenException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
 
         public override string Message

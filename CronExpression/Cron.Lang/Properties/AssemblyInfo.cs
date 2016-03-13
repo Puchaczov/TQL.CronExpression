@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Cron.Visitors")]
+[assembly: AssemblyTitle("Cron.Lang")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Cron.Visitors")]
+[assembly: AssemblyProduct("Cron.Lang")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d3cbf7c1-87c6-4500-85c5-3d7d4580c309")]
+[assembly: Guid("b8735922-c602-44ee-9df5-45679e2a1436")]
 
 // Version information for an assembly consists of the following four values:
 //

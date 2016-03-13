@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Cron.Parser.Tokens;
 
 namespace Cron.Parser.Exceptions
 {
+    [Serializable]
     public class DuplicatedExpressionException : Exception
     {
         private Token currentToken;
@@ -24,6 +26,10 @@ namespace Cron.Parser.Exceptions
         {
             this.position = position;
             this.currentToken = currentToken;
+        }
+
+        protected DuplicatedExpressionException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

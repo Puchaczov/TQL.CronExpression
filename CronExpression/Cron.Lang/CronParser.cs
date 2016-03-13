@@ -25,7 +25,7 @@ namespace Cron.Parser
             this.lexer = lexer;
             lastToken = new NoneToken(new TextSpan(0, 0));
             currentToken = lexer.NextToken();
-            produceMissingYearSegment = true;
+            this.produceMissingYearSegment = true;
         }
 
         private void Consume(TokenType type)

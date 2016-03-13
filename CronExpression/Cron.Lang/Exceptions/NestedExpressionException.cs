@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Cron.Parser.Tokens;
 
 namespace Cron.Parser.Exceptions
 {
+    [Serializable]
     public class NestedExpressionException : Exception
     {
         private int position;
@@ -32,6 +34,10 @@ namespace Cron.Parser.Exceptions
         {
             this.position = position;
             this.token = token;
+        }
+
+        protected NestedExpressionException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
 
         public override string Message

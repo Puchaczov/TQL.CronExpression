@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B8735922-C602-44EE-9DF5-45679E2A1436}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cron.Parser</RootNamespace>
+    <AssemblyName>Cron.Parser</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\DuplicatedExpressionException.cs" />
+    <Compile Include="Exceptions\UnexpectedSegmentException.cs" />
+    <Compile Include="Exceptions\UnexpectedTokenException.cs" />
+    <Compile Include="Exceptions\UnknownSegmentException.cs" />
+    <Compile Include="Exceptions\UnknownTokenException.cs" />
+    <Compile Include="Extensions\CronWordHelper.cs" />
+    <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="Helpers\ExpressionHelpers.cs" />
+    <Compile Include="INodeVisitor.cs" />
+    <Compile Include="Nodes\LeafNode.cs" />
+    <Compile Include="Nodes\LWNode.cs" />
+    <Compile Include="Nodes\NumericPrecededLNode.cs" />
+    <Compile Include="Nodes\NumericPrecededWNode.cs" />
+    <Compile Include="Nodes\UnaryExpressionNode.cs" />
+    <Compile Include="Tokens\LWToken.cs" />
+    <Compile Include="Exceptions\UnexpectedOperatorException.cs" />
+    <Compile Include="Tokens\TextSpan.cs" />
+    <Compile Include="Utils\Ref.cs" />
+    <Compile Include="Exceptions\MismatchedSegmentsCountException.cs" />
+    <Compile Include="Exceptions\NestedExpressionException.cs" />
+    <Compile Include="Nodes\CommaNode.cs" />
+    <Compile Include="Nodes\EndOfFileNode.cs" />
+    <Compile Include="Enums\Segment.cs" />
+    <Compile Include="Enums\Month.cs" />
+    <Compile Include="Enums\TokenType.cs" />
+    <Compile Include="Enums\WeekDay.cs" />
+    <Compile Include="CronParser.cs" />
+    <Compile Include="Nodes\HashNode.cs" />
+    <Compile Include="Nodes\LNode.cs" />
+    <Compile Include="Nodes\SyntaxNode.cs" />
+    <Compile Include="Nodes\StarNode.cs" />
+    <Compile Include="Nodes\IncrementByNode.cs" />
+    <Compile Include="Nodes\IVisitedOperator.cs" />
+    <Compile Include="Nodes\WNode.cs" />
+    <Compile Include="Tokens\CommaToken.cs" />
+    <Compile Include="Tokens\EndOfFileToken.cs" />
+    <Compile Include="Tokens\HashToken.cs" />
+    <Compile Include="Tokens\IncrementByToken.cs" />
+    <Compile Include="Tokens\LToken.cs" />
+    <Compile Include="Tokens\NoneToken.cs" />
+    <Compile Include="Tokens\IntegerToken.cs" />
+    <Compile Include="Tokens\QuestionMarkToken.cs" />
+    <Compile Include="Tokens\RangeToken.cs" />
+    <Compile Include="Tokens\StarToken.cs" />
+    <Compile Include="Tokens\WhiteSpaceToken.cs" />
+    <Compile Include="Tokens\NameToken.cs" />
+    <Compile Include="Tokens\WToken.cs" />
+    <Compile Include="Nodes\NumberNode.cs" />
+    <Compile Include="Nodes\RangeNode.cs" />
+    <Compile Include="Nodes\RootComponentNode.cs" />
+    <Compile Include="Nodes\SegmentNode.cs" />
+    <Compile Include="Nodes\BinaryExpressionNode.cs" />
+    <Compile Include="Nodes\QuestionMarkNode.cs" />
+    <Compile Include="Nodes\WordNode.cs" />
+    <Compile Include="Lexer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tokens\Token.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

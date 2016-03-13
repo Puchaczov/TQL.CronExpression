@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Cron.Parser.Tokens;
 
 namespace Cron.Parser
 {
+    [Serializable]
     public class UnexpectedOperatorException : Exception
     {
         private Token currentToken;
@@ -24,6 +26,10 @@ namespace Cron.Parser
         {
             this.position = position;
             this.currentToken = currentToken;
+        }
+
+        protected UnexpectedOperatorException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }
