@@ -48,6 +48,8 @@
     <Compile Include="Extensions\CronWordHelper.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="Helpers\ExpressionHelpers.cs" />
+    <Compile Include="Helpers\TextSpanHelpers.cs" />
+    <Compile Include="Helpers\TreeHelpers.cs" />
     <Compile Include="INodeVisitor.cs" />
     <Compile Include="Nodes\LeafNode.cs" />
     <Compile Include="Nodes\LWNode.cs" />

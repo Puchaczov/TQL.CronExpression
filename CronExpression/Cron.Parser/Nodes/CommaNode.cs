@@ -56,6 +56,7 @@ namespace Cron.Parser.Nodes
                         current = null;
                     }
                 }
+                commaItems.Reverse();
                 return commaItems.ToArray();
             }
         }
@@ -65,8 +66,8 @@ namespace Cron.Parser.Nodes
             get
             {
                 var items = Desecendants;
-                var start = items.Last().FullSpan.Start;
-                var stop = items.First().FullSpan.End;
+                var stop = items.Last().FullSpan.End;
+                var start = items.First().FullSpan.Start;
                 return new TextSpan(start, stop - start);
             }
         }
