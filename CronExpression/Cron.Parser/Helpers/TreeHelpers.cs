@@ -31,25 +31,6 @@ namespace Cron.Parser.Helpers
         {
             List<SyntaxNode> candidates = new List<SyntaxNode>();
             TreeHelpers.Traverse(tree, (SyntaxNode node) => {
-                if (span.IsEqual(node.FullSpan))
-                {
-                    candidates.Add(node);
-                }
-            });
-
-            if(candidates.Count == 0)
-            {
-                return null;
-            }
-
-            return RemoveEndOfFileNodeAndReturnFirst(candidates);
-        }
-
-        public static SyntaxNode FindBySpan(this RootComponentNode tree, int caret)
-        {
-            List<SyntaxNode> candidates = new List<SyntaxNode>();
-            var span = new TextSpan(caret, 1);
-            TreeHelpers.Traverse(tree, (SyntaxNode node) => {
                 if (span.IsInside(node.FullSpan))
                 {
                     candidates.Add(node);
@@ -63,7 +44,12 @@ namespace Cron.Parser.Helpers
 
             candidates = candidates.OrderBy(f => f.FullSpan.Length).ToList();
 
-            return RemoveEndOfFileNodeAndReturnFirst(candidates);
+            return candidates.FirstOrDefault();
+        }
+
+        public static SyntaxNode FindBySpan(this RootComponentNode tree, int caret)
+        {
+            return FindBySpan(tree, new TextSpan(caret, 1));
         }
 
         public static void Traverse(this RootComponentNode tree, Action<SyntaxNode> fun)
@@ -85,21 +71,6 @@ namespace Cron.Parser.Helpers
                 }
                 nodesOnSameLevel.RemoveAt(currentItem);
             }
-        }
-
-        private static SyntaxNode RemoveEndOfFileNodeAndReturnFirst(List<SyntaxNode> candidates)
-        {
-            int i = 0;
-            for (; i < candidates.Count; ++i)
-            {
-                //Can't use it becouse it's zero-length.
-                if (candidates[i] is EndOfFileNode)
-                {
-                    candidates.RemoveAt(i);
-                    break;
-                }
-            }
-            return candidates.FirstOrDefault();
         }
     }
 }

@@ -61,11 +61,29 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void TreeHelper_GetSpan_ShouldPass()
+        public void TreeHelper_GetSpanByCaret_ShouldPass()
         {
             var ast = "1-2,5-6#4".Parse(false);
             var node = ast.FindBySpan(new Tokens.TextSpan(0, 3));
             Assert.AreEqual("1-2", node.ToString()); //should select whole segment
+            node = ast.FindBySpan(0);
+            Assert.AreEqual("1", node.ToString());
+            node = ast.FindBySpan(1);
+            Assert.AreEqual("1-2", node.ToString());
+            node = ast.FindBySpan(2);
+            Assert.AreEqual("2", node.ToString());
+            node = ast.FindBySpan(3);
+            Assert.AreEqual("1-2,5-6#4", node.ToString());
+            node = ast.FindBySpan(4);
+            Assert.AreEqual("5", node.ToString());
+            node = ast.FindBySpan(5);
+            Assert.AreEqual("5-6", node.ToString());
+            node = ast.FindBySpan(6);
+            Assert.AreEqual("6", node.ToString());
+            node = ast.FindBySpan(7);
+            Assert.AreEqual("5-6#4", node.ToString());
+            node = ast.FindBySpan(8);
+            Assert.AreEqual("4", node.ToString());
         }
     }
 }

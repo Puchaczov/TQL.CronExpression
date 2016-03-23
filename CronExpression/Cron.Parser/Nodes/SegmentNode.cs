@@ -72,6 +72,17 @@ namespace Cron.Parser.Nodes
             }
         }
 
+        public override TextSpan FullSpan
+        {
+            get
+            {
+                var descs = this.Desecendants;
+                var start = descs[0].FullSpan;
+                var stop = descs[descs.Length - 1].FullSpan;
+                return new TextSpan(start.Start, stop.End - start.Start);
+            }
+        }
+
         public override string ToString()
         {
             return node.ToString();

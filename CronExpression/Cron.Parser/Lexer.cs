@@ -46,7 +46,7 @@ namespace Cron.Parser
         {
             if(pos > input.Count() - 1)
             {
-                AssignTokenOfType(() => new EndOfFileToken(new TextSpan(input.Count() - 1, 0)));
+                AssignTokenOfType(() => new EndOfFileToken(new TextSpan(input.Count(), 0)));
                 return currentToken;
             }
 
