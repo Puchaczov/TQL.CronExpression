@@ -27,6 +27,18 @@ namespace Cron.Parser.Helpers
             return current;
         }
 
+        public static SegmentNode GetSegmentByCaret(this RootComponentNode tree, int caret)
+        {
+            foreach(var segment in tree.Desecendants)
+            {
+                if(caret >= segment.FullSpan.Start && caret <= segment.FullSpan.End)
+                {
+                    return (SegmentNode)segment;
+                }
+            }
+            return null;
+        }
+
         public static SyntaxNode FindBySpan(this RootComponentNode tree, TextSpan span)
         {
             List<SyntaxNode> candidates = new List<SyntaxNode>();
@@ -54,17 +66,22 @@ namespace Cron.Parser.Helpers
 
         public static void Traverse(this RootComponentNode tree, Action<SyntaxNode> fun)
         {
+            Traverse((SyntaxNode)tree, fun);
+        }
+
+        public static void Traverse(this SyntaxNode node, Action<SyntaxNode> fun)
+        {
             List<SyntaxNode> nodesOnSameLevel = new List<SyntaxNode>();
-            nodesOnSameLevel.Add(tree);
-            fun(tree);
-            while(nodesOnSameLevel.Count > 0)
+            nodesOnSameLevel.Add(node);
+            fun(node);
+            while (nodesOnSameLevel.Count > 0)
             {
                 var currentItem = 0;
                 var child = nodesOnSameLevel[currentItem].Desecendants;
                 for (int i = 0; i < child.Count(); ++i)
                 {
                     fun(child[i]);
-                    if(child[i].Desecendants.Count() > 0)
+                    if (child[i].Desecendants.Count() > 0)
                     {
                         nodesOnSameLevel.Add(child[i]);
                     }

@@ -254,7 +254,6 @@ namespace Cron.Parser.Tests
                 new TextSpan(23, 1));
         }
 
-
         [TestMethod]
         public void CheckSyntaxTree_MixedComplexExpression_ShouldPass()
         {

@@ -45,7 +45,7 @@ namespace Cron.Parser.Nodes
         {
             get
             {
-                throw new NotImplementedException();
+                return null;
             }
         }
 
