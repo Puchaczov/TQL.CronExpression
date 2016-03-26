@@ -125,17 +125,9 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnknownSegmentException))]
-        public void CheckSyntaxTree_ExpressionIsTooLong_ShouldFail()
-        {
-            var tree = CheckSyntaxTree("* * * * * * * * * *");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(DuplicatedExpressionException))]
         public void CheckSyntaxTree_DuplicatedComma_After_ShouldThrow()
         {
-            CheckSyntaxTree("1,, * * * * * *");
+            CheckSyntaxTree("1,, * * * * * *", "1,_,_ * * * * * *");
         }
 
         [TestMethod]
@@ -145,10 +137,9 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(DuplicatedExpressionException))]
         public void CheckSyntaxTree_DuplicatedComma_Before_ShouldThrow()
         {
-            CheckSyntaxTree(",,1 * * * * * *");
+            CheckSyntaxTree(",,1 * * * * * *", "_,_,1 * * * * * *");
         }
 
         [TestMethod]

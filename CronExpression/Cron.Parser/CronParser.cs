@@ -13,8 +13,8 @@ namespace Cron.Parser
         private Token lastToken;
         private Segment currentSegment;
 
-        private bool produceMissingYearSegment;
-        private bool produceEndOfFileNode;
+        private bool produceMissingYearSegment = true;
+        private bool produceEndOfFileNode = true;
 
         public CronParser(Lexer lexer, bool produceMissingYearSegment, bool produceEndOfFileNode)
             : this(lexer)
@@ -28,7 +28,6 @@ namespace Cron.Parser
             this.lexer = lexer;
             lastToken = new NoneToken(new TextSpan(0, 0));
             currentToken = lexer.NextToken();
-            this.produceMissingYearSegment = true;
         }
 
         private void Consume(TokenType type)
