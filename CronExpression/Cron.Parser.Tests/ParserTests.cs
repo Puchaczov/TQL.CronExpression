@@ -311,6 +311,22 @@ namespace Cron.Parser.Tests
             Assert.AreEqual("_#1", tree.ToString());
         }
 
+        [TestMethod]
+        public void CheckSyntaxTree_MixedMissingNodes_ShouldProduceTreeWithMissingNodes()
+        {
+            var tree = "-#,,".Parse(false);
+            Assert.AreEqual("_-_#_,_,_", tree.ToString());
+            tree = ",,".Parse(false);
+            Assert.AreEqual("_,_,_", tree.ToString());
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_MoreSegmentsThatSeven_ShouldProduceTree()
+        {
+            var tree = "* * * * * * * * *".Parse(false, false);
+            Assert.AreEqual(9, tree.Desecendants.Count());
+        }
+
         private void CheckFullSpan(string expression, params TextSpan[] spans)
         {
             var exp = expression.Parse();

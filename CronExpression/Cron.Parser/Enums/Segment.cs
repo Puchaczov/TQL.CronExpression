@@ -14,6 +14,7 @@ namespace Cron.Parser.Enums
         DayOfMonth,
         Month,
         DayOfWeek,
-        Year
+        Year,
+        Unknown
     }
 }

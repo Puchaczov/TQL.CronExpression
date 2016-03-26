@@ -14,11 +14,13 @@ namespace Cron.Parser
         private Segment currentSegment;
 
         private bool produceMissingYearSegment;
+        private bool produceEndOfFileNode;
 
-        public CronParser(Lexer lexer, bool produceMissingYearSegment)
+        public CronParser(Lexer lexer, bool produceMissingYearSegment, bool produceEndOfFileNode)
             : this(lexer)
         {
             this.produceMissingYearSegment = produceMissingYearSegment;
+            this.produceEndOfFileNode = produceEndOfFileNode;
         }
 
         public CronParser(Lexer lexer)
@@ -43,7 +45,7 @@ namespace Cron.Parser
         public RootComponentNode ComposeRootComponents()
         {
             List<SegmentNode> rootComponents = new List<SegmentNode>();
-            for (int i = 0; i < 8 && currentToken.TokenType != TokenType.Eof; ++i)
+            for (int i = 0; currentToken.TokenType != TokenType.Eof; ++i)
             {
                 while(currentToken.TokenType == TokenType.WhiteSpace)
                 {
@@ -51,11 +53,11 @@ namespace Cron.Parser
                 }
                 rootComponents.Add(ComposeSegmentComponent((Segment)i));
             }
-            if(produceMissingYearSegment && rootComponents[rootComponents.Count - 1].Segment != Segment.Year)
+            if(produceMissingYearSegment && rootComponents[rootComponents.Count - 1].Segment == Segment.DayOfWeek)
             {
                 rootComponents.Add(ComposeStarYearSegmentComponent());
             }
-            if(currentToken.TokenType == TokenType.Eof)
+            if(produceEndOfFileNode && currentToken.TokenType == TokenType.Eof)
             {
                 rootComponents.Add(new EndOfFileNode(new EndOfFileToken(currentToken.Span)));
             }
@@ -78,28 +80,30 @@ namespace Cron.Parser
             {
                 case Segment.Seconds:
                     currentSegment = Segment.Seconds;
-                    return ComposeComplexSegment(segment);
+                    break;
                 case Segment.Minutes:
                     currentSegment = Segment.Minutes;
-                    return ComposeComplexSegment(segment);
+                    break;
                 case Segment.Hours:
                     currentSegment = Segment.Hours;
-                    return ComposeComplexSegment(segment);
+                    break;
                 case Segment.DayOfMonth:
                     currentSegment = Segment.DayOfMonth;
-                    return ComposeComplexSegment(segment);
+                    break;
                 case Segment.Month:
                     currentSegment = Segment.Month;
-                    return ComposeComplexSegment(segment);
+                    break;
                 case Segment.DayOfWeek:
                     currentSegment = Segment.DayOfWeek;
-                    return ComposeComplexSegment(segment);
+                    break;
                 case Segment.Year:
                     currentSegment = Segment.Year;
-                    return ComposeComplexSegment(segment);
+                    break;
                 default:
-                    throw new UnknownSegmentException(lexer.Position);
+                    currentSegment = Segment.Unknown;
+                    break;
             }
+            return ComposeComplexSegment(segment);
         }
 
         private LeafNode TakePrimitiveInteger()
@@ -142,10 +146,6 @@ namespace Cron.Parser
                     return new StarNode(currentSegment, token);
                 case TokenType.Missing:
                     return ComposeMissingNodeOnCurrentPosition();
-            }
-            if(currentToken.TokenType == lastToken.TokenType)
-            {
-                throw new DuplicatedExpressionException(lexer.Position, currentToken);
             }
             return ComposeMissingNodeOnCurrentPosition();
         }
