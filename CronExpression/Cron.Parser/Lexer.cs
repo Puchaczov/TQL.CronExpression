@@ -74,6 +74,11 @@ namespace Cron.Parser
                         return letters;
                 }
             }
+
+            if (IsMissing(currentChar))
+            {
+                return AssignTokenOfType(() => new MissingToken(new TextSpan(Position, 0)));
+            }
             
             var lastPos = pos;
             pos += 1;
@@ -115,6 +120,11 @@ namespace Cron.Parser
             }
 
             return AssignTokenOfType(() => new NameToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos))) as NameToken;
+        }
+
+        private bool IsMissing(char currentChar)
+        {
+            return currentChar == '_';
         }
 
         private bool IsLetter(char currentChar)

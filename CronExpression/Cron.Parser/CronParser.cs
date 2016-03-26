@@ -11,6 +11,7 @@ namespace Cron.Parser
         private Lexer lexer;
         private Token currentToken;
         private Token lastToken;
+        private Segment currentSegment;
 
         private bool produceMissingYearSegment;
 
@@ -66,23 +67,35 @@ namespace Cron.Parser
             return new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(lexer.Position, 0))), Segment.Year, null);
         }
 
+        private LeafNode ComposeMissingNodeOnCurrentPosition()
+        {
+            return new MissingNode(new MissingToken(new TextSpan(lexer.Position, 0)));
+        }
+
         private SegmentNode ComposeSegmentComponent(Segment segment)
         {
             switch (segment)
             {
                 case Segment.Seconds:
+                    currentSegment = Segment.Seconds;
                     return ComposeComplexSegment(segment);
                 case Segment.Minutes:
+                    currentSegment = Segment.Minutes;
                     return ComposeComplexSegment(segment);
                 case Segment.Hours:
+                    currentSegment = Segment.Hours;
                     return ComposeComplexSegment(segment);
                 case Segment.DayOfMonth:
+                    currentSegment = Segment.DayOfMonth;
                     return ComposeComplexSegment(segment);
                 case Segment.Month:
+                    currentSegment = Segment.Month;
                     return ComposeComplexSegment(segment);
                 case Segment.DayOfWeek:
+                    currentSegment = Segment.DayOfWeek;
                     return ComposeComplexSegment(segment);
                 case Segment.Year:
+                    currentSegment = Segment.Year;
                     return ComposeComplexSegment(segment);
                 default:
                     throw new UnknownSegmentException(lexer.Position);
@@ -125,16 +138,16 @@ namespace Cron.Parser
                 case TokenType.LW:
                     Consume(TokenType.LW);
                     return new LWNode(token);
+                case TokenType.Star:
+                    return new StarNode(currentSegment, token);
+                case TokenType.Missing:
+                    return ComposeMissingNodeOnCurrentPosition();
             }
             if(currentToken.TokenType == lastToken.TokenType)
             {
                 throw new DuplicatedExpressionException(lexer.Position, currentToken);
             }
-            else if(lastToken.TokenType == TokenType.WhiteSpace || lastToken.TokenType == TokenType.None)
-            {
-                throw new UnexpectedOperatorException(lexer.Position, currentToken);
-            }
-            throw new NestedExpressionException(lexer.Position, token);
+            return ComposeMissingNodeOnCurrentPosition();
         }
 
         private SyntaxNode TakeComplex()

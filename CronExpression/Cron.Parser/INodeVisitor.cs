@@ -21,5 +21,6 @@ namespace Cron.Parser.Visitors
         void Visit(NumericPrecededLNode node);
         void Visit(NumericPrecededWNode node);
         void Visit(LWNode node);
+        void Visit(MissingNode node);
     }
 }

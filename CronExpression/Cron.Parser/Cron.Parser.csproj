@@ -53,11 +53,13 @@
     <Compile Include="INodeVisitor.cs" />
     <Compile Include="Nodes\LeafNode.cs" />
     <Compile Include="Nodes\LWNode.cs" />
+    <Compile Include="Nodes\MissingNode.cs" />
     <Compile Include="Nodes\NumericPrecededLNode.cs" />
     <Compile Include="Nodes\NumericPrecededWNode.cs" />
     <Compile Include="Nodes\UnaryExpressionNode.cs" />
     <Compile Include="Tokens\LWToken.cs" />
     <Compile Include="Exceptions\UnexpectedOperatorException.cs" />
+    <Compile Include="Tokens\MissingToken.cs" />
     <Compile Include="Tokens\TextSpan.cs" />
     <Compile Include="Utils\Ref.cs" />
     <Compile Include="Exceptions\MismatchedSegmentsCountException.cs" />

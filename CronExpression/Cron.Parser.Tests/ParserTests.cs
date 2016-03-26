@@ -139,24 +139,22 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnexpectedOperatorException))]
         public void CheckSyntaxTree_DuplicatedComma_Middle_ShouldThrow()
         {
-            CheckSyntaxTree(",1, * * * * * *");
+            CheckSyntaxTree(",1, * * * * * *", "_,1,_ * * * * * *");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnexpectedOperatorException))]
+        [ExpectedException(typeof(DuplicatedExpressionException))]
         public void CheckSyntaxTree_DuplicatedComma_Before_ShouldThrow()
         {
             CheckSyntaxTree(",,1 * * * * * *");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnexpectedOperatorException))]
         public void CheckSyntaxTree_UnexpectedCommaBeforeInteger_ShouldThrow()
         {
-            CheckSyntaxTree(",1 * * * * * *");
+            CheckSyntaxTree(",1 * * * * * *", "_,1 * * * * * *");
         }
 
         [TestMethod]
@@ -276,6 +274,41 @@ namespace Cron.Parser.Tests
             Lexer lexer = new Lexer("* * * * * MON#5,6#3 ?");
             CronParser parser = new CronParser(lexer);
             parser.ComposeRootComponents();
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_MissingNodeAfterComma_ShouldProduceTreeWithMissingNode()
+        {
+            var tree = "1,".Parse(false);
+            Assert.AreEqual("1,_", tree.ToString());
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_MissingNodeRange_ShouldProduceTreeWithMissingNode()
+        {
+            var tree = "1-".Parse(false);
+            Assert.AreEqual("1-_", tree.ToString());
+            tree = "-1".Parse(false);
+            Assert.AreEqual("_-1", tree.ToString());
+            tree = " -1".Parse(false);
+            Assert.AreEqual("_-1", tree.ToString());
+            tree = "* * -1 1- * * *".Parse();
+            Assert.AreEqual("* * _-1 1-_ * * *", tree.ToString());
+            tree = "-1,1-,5".Parse(false);
+            Assert.AreEqual("_-1,1-_,5", tree.ToString());
+            tree = "-".Parse(false);
+            Assert.AreEqual("_-_", tree.ToString());
+        }
+
+        [TestMethod]
+        public void CheckSyntaxTree_MissingHashNode_ShouldProduceTreeWithMissingNode()
+        {
+            var tree = "#".Parse(false);
+            Assert.AreEqual("_#_", tree.ToString());
+            tree = "1#".Parse(false);
+            Assert.AreEqual("1#_", tree.ToString());
+            tree = "#1".Parse(false);
+            Assert.AreEqual("_#1", tree.ToString());
         }
 
         private void CheckFullSpan(string expression, params TextSpan[] spans)

@@ -395,6 +395,9 @@ namespace Cron.Visitors
         public virtual void Visit(CommaNode node)
         { }
 
+        public void Visit(MissingNode node)
+        { }
+
         private void ThrowIfSecondIsOutOfRange(SyntaxNode node)
         {
             if(node.Token.TokenType == TokenType.Integer)
