@@ -142,8 +142,13 @@ namespace Cron.Parser
                     Consume(TokenType.LW);
                     return new LWNode(token);
                 case TokenType.Star:
+                    Consume(TokenType.Star);
                     return new StarNode(currentSegment, token);
+                case TokenType.QuestionMark:
+                    Consume(TokenType.QuestionMark);
+                    return new QuestionMarkNode(token);
                 case TokenType.Missing:
+                    Consume(TokenType.Missing);
                     return ComposeMissingNodeOnCurrentPosition();
             }
             return ComposeMissingNodeOnCurrentPosition();
@@ -195,17 +200,7 @@ namespace Cron.Parser
 
         private SegmentNode ComposeComplexSegment(Segment segment)
         {
-            switch (currentToken.TokenType)
-            {
-                case TokenType.Star:
-                    Consume(TokenType.Star);
-                    return new SegmentNode(new StarNode(segment, lexer.Last), segment, null);
-                case TokenType.QuestionMark:
-                    Consume(TokenType.QuestionMark);
-                    return new SegmentNode(new QuestionMarkNode(lexer.Last), segment, null);
-                default:
-                    return new SegmentNode(SeparateCommas(), segment, null);
-            }
+            return new SegmentNode(SeparateCommas(), segment, null);
         }
     }
 }

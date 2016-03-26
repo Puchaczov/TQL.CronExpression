@@ -318,6 +318,12 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(9, tree.Desecendants.Count());
         }
 
+        [TestMethod]
+        public void CheckSyntaxTree_StarMixedWithValues_ShouldPass()
+        {
+            var tree = "0 0 0 29 2,August,November *,2 2015-2016".Parse(false, false);
+        }
+
         private void CheckFullSpan(string expression, params TextSpan[] spans)
         {
             var exp = expression.Parse();
