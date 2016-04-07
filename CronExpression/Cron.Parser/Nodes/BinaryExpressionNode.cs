@@ -13,7 +13,7 @@ namespace Cron.Parser.Nodes
         public abstract SyntaxNode Right { get; }
         private Token token;
 
-        public BinaryExpressionNode(Token token)
+        protected BinaryExpressionNode(Token token)
         {
             this.token = token;
         }

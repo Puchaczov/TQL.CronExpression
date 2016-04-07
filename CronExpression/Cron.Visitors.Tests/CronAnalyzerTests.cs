@@ -15,7 +15,7 @@ namespace Cron.Parser.Tests
             var referenceTime = new DateTime(2000, 1, 1, 0, 0, 59);
             var analyzer = "* * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
-            
+
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, secondsToAdd) => {
                 Assert.AreEqual(referenceTime.AddSeconds(secondsToAdd), datetime);
             });
@@ -106,7 +106,7 @@ namespace Cron.Parser.Tests
             var referenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
             var analyzer = "0 0 0 * * MON-WED".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
-            
+
             Assert.AreEqual(new DateTime(2016, 1, 4, 0, 0, 0), analyzer.NextFire());
             Assert.AreEqual(new DateTime(2016, 1, 5, 0, 0, 0), analyzer.NextFire());
             Assert.AreEqual(new DateTime(2016, 1, 6, 0, 0, 0), analyzer.NextFire());
@@ -173,13 +173,18 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(new DateTime(2015, 1, 1, 0, 1, 0), analyzer.NextFire());
         }
 
-        private void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTime, int> assertCallback)
+        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTime, int> assertCallback)
         {
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(from, to, 1, analyzer, assertCallback);
         }
-        
-        private void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, int inc, ICronFireTimeEvaluator analyzer, Action<DateTime, int> assertCallback)
+
+        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, int inc, ICronFireTimeEvaluator analyzer, Action<DateTime, int> assertCallback)
         {
+            if(assertCallback == null)
+            {
+                throw new ArgumentNullException(nameof(assertCallback));
+            }
+
             for (int i = from; i < to; i += inc)
             {
                 assertCallback(analyzer.NextFire(), i);
@@ -365,7 +370,7 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(new DateTime(2016, 3, 31), analyzer.NextFire());
         }
 
-        [TestMethod] 
+        [TestMethod]
         public void TestWillFireInTheLastWeekdayOfMonth_ShouldPass()
         {
             var analyzer = "0 0 0 LW * * *".TakeEvaluator();

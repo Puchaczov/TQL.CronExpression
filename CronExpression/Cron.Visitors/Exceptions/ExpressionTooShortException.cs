@@ -10,7 +10,7 @@ namespace Cron.Visitors.Exceptions
 {
     public class ExpressionTooShortException : BaseCronValidationException
     {
-        private Segment segment;
+        private readonly Segment segment;
 
         public ExpressionTooShortException(Token token, Segment segment)
             : base(token)

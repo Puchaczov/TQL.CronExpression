@@ -76,10 +76,10 @@ namespace Cron.Visitors
         {
             base.Visit(node);
 
-            int left = 0;
-            int right = 0;
-            bool skipNumericEvaluation = false;
-            switch(lastSegment)
+            var left = 0;
+            var right = 0;
+            var skipNumericEvaluation = false;
+            switch (lastSegment)
             {
                 case Segment.DayOfWeek:
                     left = CronWordHelper.DayOfWeek(node.Left.Token.Value).AsInt();

@@ -181,10 +181,10 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void CheckSyntaxTree_CheckFullSpanStarExpression_ShouldPass()
         {
-            CheckFullSpan("* * * * * * *", 
-                new TextSpan(0, 1), 
-                new TextSpan(2, 1), 
-                new TextSpan(4, 1), 
+            CheckFullSpan("* * * * * * *",
+                new TextSpan(0, 1),
+                new TextSpan(2, 1),
+                new TextSpan(4, 1),
                 new TextSpan(6, 1),
                 new TextSpan(8, 1),
                 new TextSpan(10, 1),
@@ -246,24 +246,24 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void CheckSyntaxTree_MixedComplexExpression_ShouldPass()
         {
-            Lexer lexer = new Lexer("0/5 14,18,3-39,52 * ? JAN,MAR,SEP MON-FRI 2002-2010");
-            CronParser parser = new CronParser(lexer);
+            var lexer = new Lexer("0/5 14,18,3-39,52 * ? JAN,MAR,SEP MON-FRI 2002-2010");
+            var parser = new CronParser(lexer);
             parser.ComposeRootComponents();
         }
 
         [TestMethod]
         public void CheckSyntaxTree_MixedComplexExpression_WithNestedRangeInIncNode_ShouldPass()
         {
-            Lexer lexer = new Lexer("0,3#2,1-5,2-6,6,1,0 0/5 14,18-20,25 * FEB-MAY,1-8/2,JANUARY,FEBRUARY MON-FRI,1W,1545L,6#3 ?");
-            CronParser parser = new CronParser(lexer);
+            var lexer = new Lexer("0,3#2,1-5,2-6,6,1,0 0/5 14,18-20,25 * FEB-MAY,1-8/2,JANUARY,FEBRUARY MON-FRI,1W,1545L,6#3 ?");
+            var parser = new CronParser(lexer);
             parser.ComposeRootComponents();
         }
 
         [TestMethod]
         public void CheckSyntaxTree_WithMonthMapping_ShouldPass()
         {
-            Lexer lexer = new Lexer("* * * * * MON#5,6#3 ?");
-            CronParser parser = new CronParser(lexer);
+            var lexer = new Lexer("* * * * * MON#5,6#3 ?");
+            var parser = new CronParser(lexer);
             parser.ComposeRootComponents();
         }
 
@@ -324,7 +324,7 @@ namespace Cron.Parser.Tests
             var tree = "0 0 0 29 2,August,November *,2 2015-2016".Parse(false, false);
         }
 
-        private void CheckFullSpan(string expression, params TextSpan[] spans)
+        private static void CheckFullSpan(string expression, params TextSpan[] spans)
         {
             var exp = expression.Parse();
             for (int i = 0; i < 7; ++i)
@@ -335,25 +335,25 @@ namespace Cron.Parser.Tests
             }
         }
 
-        private void CheckHasAppropiateCountsOfSegments(RootComponentNode tree)
+        private static void CheckHasAppropiateCountsOfSegments(RootComponentNode tree)
         {
             //Seven required segments + EndOfFile
             Assert.AreEqual(8, tree.Desecendants.Count());
         }
 
-        private void CheckLastSegmentIsOfType<T>(RootComponentNode tree)
+        private static void CheckLastSegmentIsOfType<T>(RootComponentNode tree)
         {
             Assert.AreEqual(typeof(T), tree.Desecendants.Last().GetType());
         }
 
-        private RootComponentNode CheckSyntaxTree(string expression, string expectedOutputExpression, bool produceMissingYearSegment = true)
+        private static RootComponentNode CheckSyntaxTree(string expression, string expectedOutputExpression, bool produceMissingYearSegment = true)
         {
             var ast = expression.Parse(produceMissingYearSegment);
             Assert.AreEqual(expectedOutputExpression, ast.ToString());
             return ast;
         }
 
-        private RootComponentNode CheckSyntaxTree(string expression, bool produceMissingYearSegment = true)
+        private static RootComponentNode CheckSyntaxTree(string expression, bool produceMissingYearSegment = true)
         {
             return CheckSyntaxTree(expression, expression, produceMissingYearSegment);
         }

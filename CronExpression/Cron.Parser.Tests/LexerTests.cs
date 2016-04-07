@@ -9,7 +9,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void Lexer_ReturnAppropiatePosition()
         {
-            Lexer lexer = new Lexer("1-2,5-6#4");
+            var lexer = new Lexer("1-2,5-6#4");
 
             Assert.AreEqual(0, lexer.Position);
             lexer.NextToken();
@@ -34,7 +34,7 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void Lexer_ReturnAppropiateToken()
         {
-            Lexer lexer = new Lexer("1-2,5-6#4");
+            var lexer = new Lexer("1-2,5-6#4");
 
             var token = lexer.NextToken();
             Assert.AreEqual(Enums.TokenType.Integer, token.TokenType);

@@ -32,8 +32,8 @@ namespace Cron.Parser.List
         {
             get
             {
-                int count = 0;
-                foreach(var list in sources)
+                var count = 0;
+                foreach (var list in sources)
                 {
                     count += list.Count;
                 }
@@ -48,8 +48,8 @@ namespace Cron.Parser.List
 
         public virtual T Element(int index)
         {
-            int i = -1;
-            foreach(var l in sources)
+            var i = -1;
+            foreach (var l in sources)
             {
                 foreach(var k in l)
                 {

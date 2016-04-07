@@ -16,7 +16,7 @@ namespace Cron.Visitors.Tests
         {
             TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1/5 * * * * * *");
         }
-        
+
         [TestMethod]
         public void CheckInc_IncInMinutes_ShouldPass()
         {

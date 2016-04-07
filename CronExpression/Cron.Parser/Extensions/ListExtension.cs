@@ -10,8 +10,8 @@ namespace Cron.Parser.Extensions
     {
         public static IList<int> Expand(int from, int to, int inc)
         {
-            List<int> values = new List<int>();
-            int i = from;
+            var values = new List<int>();
+            var i = from;
             for (int j = to - inc; i <= j; i += inc)
             {
                 values.Add(i);

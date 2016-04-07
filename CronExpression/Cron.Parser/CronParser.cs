@@ -8,13 +8,13 @@ namespace Cron.Parser
 {
     public class CronParser
     {
-        private Lexer lexer;
+        private readonly Lexer lexer;
         private Token currentToken;
         private Token lastToken;
         private Segment currentSegment;
 
-        private bool produceMissingYearSegment = true;
-        private bool produceEndOfFileNode = true;
+        private readonly bool produceMissingYearSegment = true;
+        private readonly bool produceEndOfFileNode = true;
 
         public CronParser(Lexer lexer, bool produceMissingYearSegment, bool produceEndOfFileNode)
             : this(lexer)
@@ -43,7 +43,7 @@ namespace Cron.Parser
 
         public RootComponentNode ComposeRootComponents()
         {
-            List<SegmentNode> rootComponents = new List<SegmentNode>();
+            var rootComponents = new List<SegmentNode>();
             for (int i = 0; currentToken.TokenType != TokenType.Eof; ++i)
             {
                 while(currentToken.TokenType == TokenType.WhiteSpace)

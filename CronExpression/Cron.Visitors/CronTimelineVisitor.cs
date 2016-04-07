@@ -7,7 +7,7 @@ namespace Cron.Visitors
     public class CronTimelineVisitor : CronNodeVisitorBase, IEvaluable<ICronFireTimeEvaluator>
     {
         private DateTimeOffset referenceTime;
-        private bool isVisited = false;
+        private bool isVisited;
 
         public ICronFireTimeEvaluator Evaluator
         {

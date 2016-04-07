@@ -10,6 +10,8 @@ namespace Cron.Visitors.Tests
     [TestClass]
     public class RangeUnwindCronRulesTests
     {
+        [TestMethod]
+        [Ignore]
         public void CheckRange_RangesAreInverted_ShouldThrow()
         {
             var visitor = "* * * * * *".TakeVisitor();

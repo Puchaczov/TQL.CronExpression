@@ -69,8 +69,8 @@ namespace Cron.Parser.Nodes
 
         public override string ToString()
         {
-            StringBuilder stringifiedNodes = new StringBuilder();
-            for(int i = 0, j = Desecendants.Count() - 2; i < j; ++i)
+            var stringifiedNodes = new StringBuilder();
+            for (int i = 0, j = Desecendants.Count() - 2; i < j; ++i)
             {
                 stringifiedNodes.Append(Desecendants[i].ToString());
                 stringifiedNodes.Append(' ');

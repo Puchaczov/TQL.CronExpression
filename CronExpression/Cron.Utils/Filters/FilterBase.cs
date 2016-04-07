@@ -12,7 +12,7 @@ namespace Cron.Utils.Filters
 
         public T Execute(T input)
         {
-            T val = Process(input);
+            var val = Process(input);
             if (next != null) val = next.Execute(val);
             return val;
         }

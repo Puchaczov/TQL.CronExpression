@@ -20,10 +20,10 @@ namespace Cron
             {
                 throw new ArgumentException();
             }
-            Preprocessor preprocessor = new Preprocessor();
-            string input = preprocessor.Execute(request.Input);
-            Lexer lexer = new Lexer(input);
-            CronParser parser = new CronParser(lexer, request.Options.ProduceYearIfMissing, request.Options.ProduceEndOfFileNode);
+            var preprocessor = new Preprocessor();
+            var input = preprocessor.Execute(request.Input);
+            var lexer = new Lexer(input);
+            var parser = new CronParser(lexer, request.Options.ProduceYearIfMissing, request.Options.ProduceEndOfFileNode);
             return converter.Convert(parser.ComposeRootComponents());
         }
 

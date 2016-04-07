@@ -11,7 +11,7 @@ namespace Cron.Parser.List
         protected Ref<DateTimeOffset> referenceTime;
         protected IList<int> list;
 
-        public DateTimeBasedComputeList(Ref<DateTimeOffset> referenceTime, IList<int> list)
+        protected DateTimeBasedComputeList(Ref<DateTimeOffset> referenceTime, IList<int> list)
         {
             this.referenceTime = referenceTime;
             this.list = list;
@@ -109,27 +109,13 @@ namespace Cron.Parser.List
             {
                 var friday = candidateTime.AddDays(-1);
                 //still the same month
-                if(friday.Month == candidateTime.Month)
-                {
-                    return list[0] - 1;
-                }
-                else
-                {
-                    return list[0] + 2;
-                }
+                return friday.Month == candidateTime.Month ? list[0] - 1 : list[0] + 2;
             }
             else
             {
                 var monday = candidateTime.AddDays(1);
                 //still the same month
-                if(monday.Month == candidateTime.Month)
-                {
-                    return list[0] + 1;
-                }
-                else
-                {
-                    return list[0] - 2;
-                }
+                return monday.Month == candidateTime.Month ? list[0] + 1 : list[0] - 2;
             }
         }
 
@@ -242,29 +228,20 @@ namespace Cron.Parser.List
         public virtual int Element(int index)
         {
             var foundedDate = GetFirstMatchingDateInMonth();
-            if(index == 0)
+            switch (index)
             {
-                return foundedDate.Day;
-            }
-            else if(index == 1)
-            {
-                return foundedDate.AddDays(7).Day;
-            }
-            else if(index == 2)
-            {
-                return foundedDate.AddDays(14).Day;
-            }
-            else if(index == 3)
-            {
-                return foundedDate.AddDays(21).Day;
-            }
-            else if(index == 4)
-            {
-                return foundedDate.AddDays(28).Day;
-            }
-            else
-            {
-                throw new IndexOutOfRangeException(nameof(index));
+                case 0:
+                    return foundedDate.Day;
+                case 1:
+                    return foundedDate.AddDays(7).Day;
+                case 2:
+                    return foundedDate.AddDays(14).Day;
+                case 3:
+                    return foundedDate.AddDays(21).Day;
+                case 4:
+                    return foundedDate.AddDays(28).Day;
+                default:
+                    throw new IndexOutOfRangeException(nameof(index));
             }
         }
 
@@ -300,8 +277,8 @@ namespace Cron.Parser.List
             {
                 var foundedDate = GetFirstMatchingDateInMonth();
                 var month = foundedDate.Month;
-                int count = 1;
-                while((foundedDate = foundedDate.AddDays(7)).Month == month)
+                var count = 1;
+                while ((foundedDate = foundedDate.AddDays(7)).Month == month)
                 {
                     count += 1;
                 }

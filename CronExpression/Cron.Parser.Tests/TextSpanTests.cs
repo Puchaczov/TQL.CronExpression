@@ -14,8 +14,8 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void CheckEquality_DifferentTextSpans_ShouldPass()
         {
-            TextSpan first = new TextSpan(1, 2);
-            TextSpan second = new TextSpan(2, 5);
+            var first = new TextSpan(1, 2);
+            var second = new TextSpan(2, 5);
 
             Assert.AreNotEqual(first, second);
         }
@@ -23,8 +23,8 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void CheckEquality_SameTextSpans_ShouldPass()
         {
-            TextSpan first = new TextSpan(1, 2);
-            TextSpan second = new TextSpan(1, 2);
+            var first = new TextSpan(1, 2);
+            var second = new TextSpan(1, 2);
 
             Assert.AreEqual(first, second);
             Assert.AreEqual(first, first);

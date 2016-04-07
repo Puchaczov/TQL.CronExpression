@@ -99,7 +99,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfNodesCountMismatched(SyntaxNode[] items, SyntaxNode parent)
+        private static void ThrowIfNodesCountMismatched(SyntaxNode[] items, SyntaxNode parent)
         {
             if(items.Count() != 2)
             {
@@ -398,7 +398,7 @@ namespace Cron.Visitors
         public void Visit(MissingNode node)
         { }
 
-        private void ThrowIfSecondIsOutOfRange(SyntaxNode node)
+        private static void ThrowIfSecondIsOutOfRange(SyntaxNode node)
         {
             if(node.Token.TokenType == TokenType.Integer)
             {
@@ -408,7 +408,7 @@ namespace Cron.Visitors
             throw new UnsupportedValueException(node.Token);
         }
 
-        private void ThrowIfMinuteIsOutOfRange(SyntaxNode node)
+        private static void ThrowIfMinuteIsOutOfRange(SyntaxNode node)
         {
             if(node.Token.TokenType == TokenType.Integer)
             {
@@ -418,7 +418,7 @@ namespace Cron.Visitors
             throw new UnsupportedValueException(node.Token);
         }
 
-        private void ThrowIfHourIsOutOfRange(SyntaxNode node)
+        private static void ThrowIfHourIsOutOfRange(SyntaxNode node)
         {
             if(node.Token.TokenType == TokenType.Integer)
             {
@@ -428,7 +428,7 @@ namespace Cron.Visitors
             throw new UnsupportedValueException(node.Token);
         }
 
-        private void ThrowIfMonthIsOutOfRange(SyntaxNode node)
+        private static void ThrowIfMonthIsOutOfRange(SyntaxNode node)
         {
             if (!CronWordHelper.ContainsMonth(node.Token.Value))
             {
@@ -436,7 +436,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfDayOfWeekIsOutOfRange(SyntaxNode node)
+        private static void ThrowIfDayOfWeekIsOutOfRange(SyntaxNode node)
         {
             if (!CronWordHelper.ContainsDayOfWeek(node.Token.Value))
             {
@@ -444,7 +444,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfDayOfMonthIsOutOfRange(SyntaxNode node)
+        private static void ThrowIfDayOfMonthIsOutOfRange(SyntaxNode node)
         {
             if(node.Token.TokenType == TokenType.Integer)
             {
@@ -454,7 +454,7 @@ namespace Cron.Visitors
             throw new UnsupportedValueException(node.Token);
         }
 
-        private void ThrowIfYearIsOutOfRange(SyntaxNode node)
+        private static void ThrowIfYearIsOutOfRange(SyntaxNode node)
         {
             if(node.Token.TokenType == TokenType.Integer)
             {
@@ -464,7 +464,7 @@ namespace Cron.Visitors
             throw new UnsupportedValueException(node.Token);
         }
 
-        private void ThrowIfHashNodeOutOfRange(HashNode node)
+        private static void ThrowIfHashNodeOutOfRange(HashNode node)
         {
             if (!CronWordHelper.ContainsDayOfWeek(node.Left.Token.Value))
             {
@@ -477,12 +477,12 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfLessThanZero(SyntaxNode node, string argName)
+        private static void ThrowIfLessThanZero(SyntaxNode node, string argName)
         {
             ThrowIfOutOfRange(0, node, argName);
         }
 
-        private void ThrowIfOutOfRange(int minValue, SyntaxNode node, string argName)
+        private static void ThrowIfOutOfRange(int minValue, SyntaxNode node, string argName)
         {
             var value = int.Parse(node.Token.Value);
             if(value < minValue)
@@ -491,7 +491,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ThrowIfOutOfRange(int minValue, int maxValue, SyntaxNode node, string argName)
+        private static void ThrowIfOutOfRange(int minValue, int maxValue, SyntaxNode node, string argName)
         {
             var value = int.Parse(node.Token.Value);
             if(value < minValue || value > maxValue)

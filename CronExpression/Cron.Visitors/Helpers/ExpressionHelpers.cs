@@ -20,8 +20,8 @@ namespace Cron.Visitors.Helpers
         public static F TakeEvaluator<T, F>(this string expression, T visitor)
             where T : INodeVisitor, IEvaluable<F>
         {
-            Lexer lexer = new Lexer(expression);
-            CronParser parser = new CronParser(lexer);
+            var lexer = new Lexer(expression);
+            var parser = new CronParser(lexer);
             var nodes = parser.ComposeRootComponents();
             nodes.Accept(visitor);
             return visitor.Evaluator;

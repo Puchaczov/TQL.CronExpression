@@ -22,9 +22,9 @@ namespace Cron.Compiler
             return base.Compile(request, Convert);
         }
 
-        private ICronFireTimeEvaluator Convert(RootComponentNode input)
+        private static ICronFireTimeEvaluator Convert(RootComponentNode input)
         {
-            CronTimelineVisitor visitor = new CronTimelineVisitor();
+            var visitor = new CronTimelineVisitor();
             input.Accept(visitor);
             return visitor.Evaluator;
         }

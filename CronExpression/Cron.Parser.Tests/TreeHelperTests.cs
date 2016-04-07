@@ -44,8 +44,8 @@ namespace Cron.Parser.Tests
         public void TreeHelper_TraverseCheckSimpleCase_ShouldPass()
         {
             var ast = "* * * * * * *".Parse();
-            int countToVisit = 16;
-            int count = 0;
+            const int countToVisit = 16;
+            var count = 0;
             ast.Traverse(f => count += 1);
             Assert.AreEqual(countToVisit, count);
         }
@@ -54,8 +54,8 @@ namespace Cron.Parser.Tests
         public void TreeHelper_TraverseCheckAllNodesVisited_ShouldPass()
         {
             var ast = "1-2/3 4 5#6 1/2 1-6,2,1-19/2,5#1 L W,LW".Parse();
-            int countToVisit = 36;
-            int count = 0;
+            const int countToVisit = 36;
+            var count = 0;
             ast.Traverse(f => count += 1);
             Assert.AreEqual(countToVisit, count);
         }

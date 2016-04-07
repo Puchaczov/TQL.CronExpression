@@ -100,7 +100,7 @@ namespace Cron.Visitors.Evaluators
                     years.Next();
                 }
 
-                bool sameOrFurtherYear = years.Current >= referenceTime.Year;
+                var sameOrFurtherYear = years.Current >= referenceTime.Year;
                 while (!months.WillOverflow() && months.Current < referenceTime.Month && sameOrFurtherYear)
                 {
                     months.Next();
@@ -118,7 +118,7 @@ namespace Cron.Visitors.Evaluators
 
                 LimitMonthRange();
 
-                bool sameOrFurtherMonth = months.Current >= referenceTime.Month;
+                var sameOrFurtherMonth = months.Current >= referenceTime.Month;
                 var days = filteredDayOfMonths;
                 while (!days.WillOverflow() && days.Current < referenceTime.Day && sameOrFurtherMonth)
                 {
@@ -135,7 +135,7 @@ namespace Cron.Visitors.Evaluators
                     this.referenceTime.Value = referenceTime;
                 }
 
-                bool sameOrFurtherDayOfMonth = days.Current >= referenceTime.Day;
+                var sameOrFurtherDayOfMonth = days.Current >= referenceTime.Day;
                 while (!hours.WillOverflow() && hours.Current < referenceTime.Hour && sameOrFurtherDayOfMonth)
                 {
                     hours.Next();
@@ -151,7 +151,7 @@ namespace Cron.Visitors.Evaluators
                     this.referenceTime.Value = referenceTime;
                 }
 
-                bool sameOrFurtherHour = hours.Current >= referenceTime.Hour;
+                var sameOrFurtherHour = hours.Current >= referenceTime.Hour;
                 while (!minutes.WillOverflow() && minutes.Current < referenceTime.Minute && sameOrFurtherHour)
                 {
                     minutes.Next();
@@ -167,7 +167,7 @@ namespace Cron.Visitors.Evaluators
                     this.referenceTime.Value = referenceTime;
                 }
 
-                bool sameOrFurtherMinute = minutes.Current >= referenceTime.Minute;
+                var sameOrFurtherMinute = minutes.Current >= referenceTime.Minute;
                 while (!seconds.WillOverflow() && seconds.Current < referenceTime.Second && sameOrFurtherMinute)
                 {
                     seconds.Next();
@@ -183,8 +183,8 @@ namespace Cron.Visitors.Evaluators
                     this.referenceTime.Value = referenceTime;
                 }
 
-                bool sameOrFurtherSecond = seconds.Current >= referenceTime.Second;
-                if(!sameOrFurtherSecond && IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
+                var sameOrFurtherSecond = seconds.Current >= referenceTime.Second;
+                if (!sameOrFurtherSecond && IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
                 {
                     seconds.Overflow();
                     continue;
@@ -221,8 +221,8 @@ namespace Cron.Visitors.Evaluators
         private bool IsDatePartBefore(int year1, int month1)
         {
             var referenceTime = this.referenceTime.Value;
-            return 
-                new DateTimeOffset(year1, month1, 1, 0, 0, 0, referenceTime.Offset) < 
+            return
+                new DateTimeOffset(year1, month1, 1, 0, 0, 0, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, 1, 0, 0, 0, referenceTime.Offset);
         }
 
@@ -230,15 +230,15 @@ namespace Cron.Visitors.Evaluators
         {
             var referenceTime = this.referenceTime.Value;
             return 
-                new DateTimeOffset(year1, month1, day1, 0, 0, 0, referenceTime.Offset) < 
+                new DateTimeOffset(year1, month1, day1, 0, 0, 0, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, 0, 0, 0, referenceTime.Offset);
         }
 
         private bool IsDatePartBefore(int year1, int month1, int day1, int hours1)
         {
             var referenceTime = this.referenceTime.Value;
-            return 
-                new DateTimeOffset(year1, month1, day1, hours1, 0, 0, 0, referenceTime.Offset) < 
+            return
+                new DateTimeOffset(year1, month1, day1, hours1, 0, 0, 0, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, 0, 0, referenceTime.Offset);
         }
 
@@ -246,14 +246,14 @@ namespace Cron.Visitors.Evaluators
         {
             var referenceTime = this.referenceTime.Value;
             return 
-                new DateTimeOffset(year1, month1, day1, hours1, minute1, 0, referenceTime.Offset) < 
+                new DateTimeOffset(year1, month1, day1, hours1, minute1, 0, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, 0, referenceTime.Offset);
         }
 
         private bool IsDatePartBefore(int year1, int month1, int day1, int hours1, int minute1, int second1)
         {
             var referenceTime = this.referenceTime.Value;
-            return 
+            return
                 new DateTimeOffset(year1, month1, day1, hours1, minute1, second1, referenceTime.Offset) < 
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, referenceTime.Second, referenceTime.Offset);
         }

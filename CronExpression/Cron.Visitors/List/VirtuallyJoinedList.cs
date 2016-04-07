@@ -21,7 +21,7 @@ namespace Cron.Parser.List
 
         public void RebuildCorrespondingKeys()
         {
-            int index = 0;
+            var index = 0;
             correspondingKeys.Clear();
             for(int i = 0; i < dayOfMonths.Count; ++i)
             {

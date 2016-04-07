@@ -12,7 +12,7 @@ namespace Cron.Parser.Helpers
     {
         public static SyntaxNode FindByPath(this RootComponentNode tree, string path)
         {
-            int pathIndex = 1;
+            var pathIndex = 1;
             SyntaxNode current = tree;
             var splitedPath = path.Split('>');
             for(;pathIndex < splitedPath.Count(); ++pathIndex)
@@ -41,7 +41,7 @@ namespace Cron.Parser.Helpers
 
         public static SyntaxNode FindBySpan(this RootComponentNode tree, TextSpan span)
         {
-            List<SyntaxNode> candidates = new List<SyntaxNode>();
+            var candidates = new List<SyntaxNode>();
             TreeHelpers.Traverse(tree, (SyntaxNode node) => {
                 if (span.IsInside(node.FullSpan))
                 {
@@ -71,13 +71,25 @@ namespace Cron.Parser.Helpers
 
         public static void Traverse(this SyntaxNode node, Action<SyntaxNode> fun)
         {
-            List<SyntaxNode> nodesOnSameLevel = new List<SyntaxNode>();
+            if(node == null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            if(fun == null)
+            {
+                throw new ArgumentNullException(nameof(fun));
+            }
+
+            var nodesOnSameLevel = new List<SyntaxNode>();
             nodesOnSameLevel.Add(node);
+
             fun(node);
+
+            const int firstItem = 0;
             while (nodesOnSameLevel.Count > 0)
             {
-                var currentItem = 0;
-                var child = nodesOnSameLevel[currentItem].Desecendants;
+                var child = nodesOnSameLevel[firstItem].Desecendants;
                 for (int i = 0; i < child.Count(); ++i)
                 {
                     fun(child[i]);
@@ -86,7 +98,7 @@ namespace Cron.Parser.Helpers
                         nodesOnSameLevel.Add(child[i]);
                     }
                 }
-                nodesOnSameLevel.RemoveAt(currentItem);
+                nodesOnSameLevel.RemoveAt(firstItem);
             }
         }
     }

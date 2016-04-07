@@ -11,8 +11,8 @@ namespace Cron.Parser.Helpers
     {
         public static RootComponentNode Parse(this string expression, bool produceMissingYearComponent = true, bool produceEndOfFileNodeComponent = true)
         {
-            Lexer lexer = new Lexer(expression);
-            CronParser parser = new CronParser(lexer, produceMissingYearComponent, produceEndOfFileNodeComponent);
+            var lexer = new Lexer(expression);
+            var parser = new CronParser(lexer, produceMissingYearComponent, produceEndOfFileNodeComponent);
             return parser.ComposeRootComponents();
         }
     }

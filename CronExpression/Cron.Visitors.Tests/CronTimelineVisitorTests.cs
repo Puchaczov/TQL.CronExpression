@@ -164,11 +164,11 @@ namespace Cron.Visitors.Tests
             Assert.AreEqual(0, visitor.ValidationErrors.Count());
         }
 
-        private CronRulesNodeVisitor CreateExpressionAndPerformVisitor(string expression)
+        private static CronRulesNodeVisitor CreateExpressionAndPerformVisitor(string expression)
         {
-            Lexer lexer = new Lexer(expression);
-            CronParser parser = new CronParser(lexer);
-            CronRulesNodeVisitor visitor = new CronRulesNodeVisitor();
+            var lexer = new Lexer(expression);
+            var parser = new CronParser(lexer);
+            var visitor = new CronRulesNodeVisitor();
 
             var node = parser.ComposeRootComponents();
             node.Accept(visitor);

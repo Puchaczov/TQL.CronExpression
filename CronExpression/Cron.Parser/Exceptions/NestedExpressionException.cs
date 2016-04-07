@@ -44,7 +44,7 @@ namespace Cron.Parser.Exceptions
         {
             get
             {
-                return string.Format("There is to deep founded in position {0} when parsing token {1}", position, token.Value);
+                return $"There is to deep founded in position {position} when parsing token {token.Value}";
             }
         }
     }

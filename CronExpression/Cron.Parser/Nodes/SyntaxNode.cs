@@ -16,7 +16,7 @@ namespace Cron.Parser.Nodes
         /// </summary>
         /// <param name="visitor"></param>
         public abstract void Accept(INodeVisitor visitor);
-        
+
         /// <summary>
         /// Get child items of node.
         /// </summary>

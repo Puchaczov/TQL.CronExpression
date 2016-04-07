@@ -11,13 +11,13 @@ namespace Cron.Compiler.Tests
         [TestMethod]
         public void Compiler_CheckProduceAst_ShouldPass()
         {
-            StandardCompiler compiler = new StandardCompiler();
-            CompilationRequest.CompilationOptions options = new CompilationRequest.CompilationOptions() {
+            var compiler = new StandardCompiler();
+            var options = new CompilationRequest.CompilationOptions {
                 ProduceEndOfFileNode = true,
                 ProduceYearIfMissing = true
             };
 
-            CompilationRequest request = new CompilationRequest("* * * * * * *", options);
+            var request = new CompilationRequest("* * * * * * *", options);
 
             Assert.IsNotNull(compiler.Compile(request));
         }

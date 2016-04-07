@@ -12,7 +12,7 @@ namespace Cron.Parser.Tokens
         public TokenType TokenType { get; }
         public TextSpan Span { get; }
 
-        public Token(string value, TokenType type, TextSpan span)
+        protected Token(string value, TokenType type, TextSpan span)
         {
             this.Value = value;
             this.TokenType = type;

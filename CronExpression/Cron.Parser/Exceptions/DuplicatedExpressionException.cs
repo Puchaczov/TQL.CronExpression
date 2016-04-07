@@ -7,8 +7,8 @@ namespace Cron.Parser.Exceptions
     [Serializable]
     public class DuplicatedExpressionException : Exception
     {
-        private Token currentToken;
-        private int position;
+        private readonly Token currentToken;
+        private readonly int position;
 
         public DuplicatedExpressionException()
         {

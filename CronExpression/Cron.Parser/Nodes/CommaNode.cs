@@ -39,8 +39,8 @@ namespace Cron.Parser.Nodes
         {
             get
             {
-                List<SyntaxNode> commaItems = new List<SyntaxNode>();
-                SyntaxNode current = left;
+                var commaItems = new List<SyntaxNode>();
+                var current = left;
                 commaItems.Add(right);
                 while(current != null)
                 {

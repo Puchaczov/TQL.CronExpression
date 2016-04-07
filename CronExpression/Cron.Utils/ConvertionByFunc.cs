@@ -17,6 +17,11 @@ namespace Cron.Utils
 
         public Output Convert(Input input)
         {
+            if(converter == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
             return converter(input);
         }
     }

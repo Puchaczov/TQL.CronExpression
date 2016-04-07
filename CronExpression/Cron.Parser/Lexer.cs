@@ -50,19 +50,19 @@ namespace Cron.Parser
                 return currentToken;
             }
 
-            char currentChar = input[pos];
+            var currentChar = input[pos];
 
-            if(IsDigit(currentChar))
+            if (IsDigit(currentChar))
             {
                 return ConsumeInterger();
             }
 
             if(IsLetter(currentChar))
             {
-                int tmpStartPos = Position;
+                var tmpStartPos = Position;
                 var letters = ConsumeLetters();
-                int tmpStopPos = Position;
-                switch(letters.Value)
+                var tmpStopPos = Position;
+                switch (letters.Value)
                 {
                     case "W":
                         return AssignTokenOfType(() => new WToken(new TextSpan(tmpStartPos, tmpStopPos - tmpStartPos)));
@@ -79,7 +79,7 @@ namespace Cron.Parser
             {
                 return AssignTokenOfType(() => new MissingToken(new TextSpan(Position, 0)));
             }
-            
+
             var lastPos = pos;
             pos += 1;
             switch(currentChar)
@@ -105,6 +105,11 @@ namespace Cron.Parser
 
         private Token AssignTokenOfType(Func<Token> instantiate)
         {
+            if(instantiate == null)
+            {
+                throw new ArgumentNullException(nameof(instantiate));
+            }
+
             lastToken = currentToken;
             currentToken = instantiate();
             return currentToken;
@@ -112,8 +117,8 @@ namespace Cron.Parser
 
         private NameToken ConsumeLetters()
         {
-            int startPos = pos;
-            int cnt = input.Count();
+            var startPos = pos;
+            var cnt = input.Count();
             while (cnt > pos && IsLetter(input[pos]))
             {
                 ++pos;
@@ -122,12 +127,12 @@ namespace Cron.Parser
             return AssignTokenOfType(() => new NameToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos))) as NameToken;
         }
 
-        private bool IsMissing(char currentChar)
+        private static bool IsMissing(char currentChar)
         {
             return currentChar == '_';
         }
 
-        private bool IsLetter(char currentChar)
+        private static bool IsLetter(char currentChar)
         {
             if(Regex.IsMatch(currentChar.ToString(), "[a-zA-Z]+"))
             {
@@ -138,8 +143,8 @@ namespace Cron.Parser
 
         private Token ConsumeInterger()
         {
-            int startPos = pos;
-            int cnt = input.Count();
+            var startPos = pos;
+            var cnt = input.Count();
             while (cnt > pos && IsDigit(input[pos]))
             {
                 ++pos;
@@ -148,7 +153,7 @@ namespace Cron.Parser
             return AssignTokenOfType(() => new IntegerToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos)));
         }
 
-        public bool IsDigit(char letter)
+        public static bool IsDigit(char letter)
         {
             if(letter >= '0' && letter <= '9')
             {

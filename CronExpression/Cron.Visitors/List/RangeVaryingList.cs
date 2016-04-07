@@ -9,7 +9,7 @@ namespace Cron.Parser.List
 
         public void SetRange(int minRange, int maxRange)
         {
-            bool isEmpty = (minRange == 0 && maxRange == -1);
+            var isEmpty = (minRange == 0 && maxRange == -1);
             if (minRange < 0 || (minRange >= this.Count && minRange > 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(minRange));

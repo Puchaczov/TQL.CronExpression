@@ -11,7 +11,8 @@ namespace Cron.Parser.Nodes
     {
         private Token token;
 
-        public LeafNode(Token token)
+        protected LeafNode(Token token)
+            : base()
         {
             this.token = token;
         }
