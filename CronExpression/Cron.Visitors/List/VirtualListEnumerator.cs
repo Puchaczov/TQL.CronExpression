@@ -9,8 +9,8 @@ namespace Cron.Parser.List
 {
     public class VirtualListEnumerator<T> : IEnumerator<T>
     {
-        private IVirtualList<T> list;
         private int index;
+        private readonly IVirtualList<T> list;
 
         public VirtualListEnumerator(IVirtualList<T> list)
         {
@@ -35,11 +35,18 @@ namespace Cron.Parser.List
         }
 
         public void Dispose()
-        { }
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual void Dispose(bool withManaged)
+        {
+        }
 
         public bool MoveNext()
         {
-            if(index + 1 < list.Count)
+            if (index + 1 < list.Count)
             {
                 index += 1;
                 return true;

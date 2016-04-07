@@ -10,7 +10,7 @@ namespace Cron.Visitors.Exceptions
 {
     public class UnexpectedQuestionMarkAtSegment : BaseCronValidationException
     {
-        private Segment segment;
+        private readonly Segment segment;
 
         public UnexpectedQuestionMarkAtSegment(Token token, Segment segment)
             : base(token)

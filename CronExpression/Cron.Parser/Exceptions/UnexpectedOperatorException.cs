@@ -7,8 +7,8 @@ namespace Cron.Parser
     [Serializable]
     public class UnexpectedOperatorException : Exception
     {
-        private Token currentToken;
-        private int position;
+        private readonly Token currentToken;
+        private readonly int position;
 
         public UnexpectedOperatorException()
         {

@@ -11,7 +11,7 @@ namespace Cron.Parser.Nodes
     {
         public abstract SyntaxNode Left { get; }
         public abstract SyntaxNode Right { get; }
-        private Token token;
+        private readonly Token token;
 
         protected BinaryExpressionNode(Token token)
         {

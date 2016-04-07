@@ -6,9 +6,9 @@ namespace Cron.Parser.List
 {
     internal class VirtuallyJoinedList : IVirtualList<int>
     {
-        private RoundRobinRangeVaryingList<int> dayOfMonths;
-        private RoundRobinRangeVaryingList<int> dayOfWeeks;
-        private Dictionary<int, int> correspondingKeys;
+        private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
+        private readonly RoundRobinRangeVaryingList<int> dayOfWeeks;
+        private readonly Dictionary<int, int> correspondingKeys;
         private int index;
 
         public VirtuallyJoinedList(RoundRobinRangeVaryingList<int> dayOfMonths, RoundRobinRangeVaryingList<int> dayOfWeeks)

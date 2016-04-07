@@ -6,8 +6,8 @@ namespace Cron.Parser.Exceptions
     [Serializable]
     public class UnknownTokenException : Exception
     {
-        private char currentChar;
-        private int pos;
+        private readonly char currentChar;
+        private readonly int pos;
 
         public UnknownTokenException(int pos, char currentChar)
         {

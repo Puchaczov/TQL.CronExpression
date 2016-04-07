@@ -5,7 +5,7 @@ namespace Cron.Visitors.Exceptions
 {
     public class UnexpectedWordNodeAtSegment : BaseCronValidationException
     {
-        private Segment segment;
+        private readonly Segment segment;
 
         public UnexpectedWordNodeAtSegment(Token token, Segment segment)
             : base(token)

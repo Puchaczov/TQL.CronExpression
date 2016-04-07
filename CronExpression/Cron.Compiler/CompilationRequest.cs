@@ -14,8 +14,8 @@ namespace Cron.Compilation
             public bool ProduceEndOfFileNode { get; set; }
         }
 
-        private string input;
-        private CompilationOptions options;
+        private readonly string input;
+        private readonly CompilationOptions options;
 
         public CompilationRequest(string input, CompilationOptions options)
         {

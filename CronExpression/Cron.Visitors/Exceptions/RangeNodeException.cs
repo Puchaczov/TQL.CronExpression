@@ -7,7 +7,7 @@ namespace Cron.Visitors.Exceptions
     [Serializable]
     public class RangeNodeException : Exception
     {
-        private BaseCronValidationException exc;
+        private readonly BaseCronValidationException exc;
 
         public RangeNodeException()
         {

@@ -8,7 +8,7 @@ namespace Cron.Utils
 {
     public class ConvertionByFunc<Input, Output> : IConvertible<Input, Output>
     {
-        private Func<Input, Output> converter;
+        private readonly Func<Input, Output> converter;
 
         public ConvertionByFunc(Func<Input, Output> converter)
         {

@@ -216,8 +216,8 @@ namespace Cron.Parser.List
     /// </summary>
     public class NthDayOfMonthList : IVirtualList<int>
     {
-        private Ref<DateTimeOffset> referenceTime;
-        private DayOfWeek dayOfWeekToFind;
+        private readonly Ref<DateTimeOffset> referenceTime;
+        private readonly DayOfWeek dayOfWeekToFind;
 
         public NthDayOfMonthList(Ref<DateTimeOffset> referenceTime, DayOfWeek dayOfWeekToFind)
         {
@@ -302,7 +302,7 @@ namespace Cron.Parser.List
 
     public class NthDayOfMonthLimitedByNumberOfWeekList : NthDayOfMonthList
     {
-        private int numberOfWeek;
+        private readonly int numberOfWeek;
 
         public NthDayOfMonthLimitedByNumberOfWeekList(Ref<DateTimeOffset> referenceTime, DayOfWeek dayOfWeekToFind, int numberOfWeek)
             : base(referenceTime, dayOfWeekToFind)

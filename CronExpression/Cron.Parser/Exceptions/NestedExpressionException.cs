@@ -7,8 +7,8 @@ namespace Cron.Parser.Exceptions
     [Serializable]
     public class NestedExpressionException : Exception
     {
-        private int position;
-        private Token token;
+        private readonly int position;
+        private readonly Token token;
 
         public int Position
         {

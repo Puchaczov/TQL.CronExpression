@@ -7,7 +7,7 @@ namespace Cron.Visitors.Exceptions
     [Serializable]
     internal class UnexpectedPrecededLNodeAtSegmentException : Exception
     {
-        private Segment segment;
+        private readonly Segment segment;
 
         public UnexpectedPrecededLNodeAtSegmentException()
         {

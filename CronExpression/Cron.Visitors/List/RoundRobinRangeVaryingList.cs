@@ -21,7 +21,7 @@ namespace Cron.Parser.List
         {
             if(index + 1 >= Count)
             {
-                Overflowed(this, null);
+                Overflowed?.Invoke(this, null);
                 index = 0;
                 return;
             }
@@ -30,7 +30,7 @@ namespace Cron.Parser.List
 
         public void Overflow()
         {
-            Overflowed(this, null);
+            Overflowed?.Invoke(this, null);
             index = 0;
         }
 

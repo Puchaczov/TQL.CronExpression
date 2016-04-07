@@ -10,9 +10,9 @@ namespace Cron.Parser.Nodes
     [DebuggerDisplay("{GetType().Name,nq}: {ToString(),nq}")]
     public class SegmentNode : UnaryExpressionNode
     {
-        private SyntaxNode node;
-        private Segment segment;
-        private Token token;
+        private readonly SyntaxNode node;
+        private readonly Segment segment;
+        private readonly Token token;
 
         public SegmentNode(SyntaxNode segmentTree, Segment segment, Token token)
         {

@@ -11,7 +11,7 @@ namespace Cron.Visitors
 {
     public class CronNodeVisitorBase : CronRulesNodeVisitor
     {
-        private Dictionary<Segment, RoundRobinRangeVaryingList<int>> values;
+        private readonly Dictionary<Segment, RoundRobinRangeVaryingList<int>> values;
         private Segment lastSegment;
         protected Ref<DateTimeOffset> time;
 

@@ -24,7 +24,7 @@ namespace Cron.Visitors.Exceptions
         {
             get
             {
-                return string.Format("Unexpected token {0} occured at position {1}", Token.Value, Position);
+                return $"Unexpected token {Token.Value} occured at position {Position}";
             }
         }
     }

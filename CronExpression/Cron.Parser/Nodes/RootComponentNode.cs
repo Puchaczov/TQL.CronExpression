@@ -12,7 +12,7 @@ namespace Cron.Parser.Nodes
 {
     public class RootComponentNode : SyntaxNode
     {
-        private SegmentNode[] cronComponents;
+        private readonly SegmentNode[] cronComponents;
 
         public RootComponentNode(SegmentNode[] cronComponents)
         {

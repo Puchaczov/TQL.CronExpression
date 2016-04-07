@@ -6,7 +6,7 @@ namespace Cron.Parser.Exceptions
     [Serializable]
     public class UnknownSegmentException : Exception
     {
-        private int position;
+        private readonly int position;
 
         public int Position
         {
@@ -29,7 +29,7 @@ namespace Cron.Parser.Exceptions
         {
             get
             {
-                return string.Format("Unknown segment while processing expression. Exception occured in position {0}", Position);
+                return $"Unknown segment while processing expression. Exception occured in position {Position}";
             }
         }
     }

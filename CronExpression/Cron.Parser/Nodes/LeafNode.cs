@@ -9,7 +9,7 @@ namespace Cron.Parser.Nodes
 {
     public abstract class LeafNode : SyntaxNode
     {
-        private Token token;
+        private readonly Token token;
 
         protected LeafNode(Token token)
             : base()

@@ -12,8 +12,8 @@ namespace Cron.Parser.Nodes
 {
     public class RangeNode : BinaryExpressionNode
     {
-        private SyntaxNode left;
-        private SyntaxNode right;
+        private readonly SyntaxNode left;
+        private readonly SyntaxNode right;
 
         public RangeNode(SyntaxNode left, SyntaxNode right, Token token)
             : base(token)

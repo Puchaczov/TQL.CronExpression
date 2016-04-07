@@ -6,7 +6,7 @@ namespace Cron.Parser.List
 {
     internal class RoundRobinRangeVaryingListEnumerator<T> : IEnumerator<T>
     {
-        private RoundRobinRangeVaryingList<T> roundRobinRangeVaryingList;
+        private readonly RoundRobinRangeVaryingList<T> roundRobinRangeVaryingList;
         private int index = -1;
 
         public RoundRobinRangeVaryingListEnumerator(RoundRobinRangeVaryingList<T> roundRobinRangeVaryingList)

@@ -10,7 +10,7 @@ namespace Cron.Visitors.Exceptions
 {
     public class UnexpectedLWNodeAtSegment : BaseCronValidationException
     {
-        private Segment segment;
+        private readonly Segment segment;
 
         public UnexpectedLWNodeAtSegment(Token token, Segment segment)
             : base(token)

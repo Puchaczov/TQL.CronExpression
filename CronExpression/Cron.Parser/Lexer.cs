@@ -10,7 +10,7 @@ namespace Cron.Parser
 {
     public class Lexer
     {
-        private string input;
+        private readonly string input;
         private int pos;
         private Token lastToken;
         private Token currentToken;

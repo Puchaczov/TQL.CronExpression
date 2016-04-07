@@ -6,7 +6,7 @@ namespace Cron.Visitors
 {
     public class CronTimelineVisitor : CronNodeVisitorBase, IEvaluable<ICronFireTimeEvaluator>
     {
-        private DateTimeOffset referenceTime;
+        private readonly DateTimeOffset referenceTime;
         private bool isVisited;
 
         public ICronFireTimeEvaluator Evaluator
@@ -24,7 +24,7 @@ namespace Cron.Visitors
                     this[Cron.Parser.Enums.Segment.DayOfWeek],
                     this[Cron.Parser.Enums.Segment.Hours],
                     this[Cron.Parser.Enums.Segment.Minutes],
-                    this[Cron.Parser.Enums.Segment.Seconds], 
+                    this[Cron.Parser.Enums.Segment.Seconds],
                     time);
             }
         }

@@ -11,10 +11,10 @@ namespace Cron.Parser.Extensions
     [ExcludeFromCodeCoverage]
     public static class CronWordHelper
     {
-        private static Dictionary<string, Month> monthsStringToMonth;
-        private static Dictionary<string, DayOfWeek> dayOfWeekStringToDayOfWeek;
-        private static Dictionary<DayOfWeek, int> dayOfWeekToInt;
-        private static Dictionary<int, DayOfWeek> intToDayOfWeek;
+        private static readonly Dictionary<string, Month> monthsStringToMonth;
+        private static readonly Dictionary<string, DayOfWeek> dayOfWeekStringToDayOfWeek;
+        private static readonly Dictionary<DayOfWeek, int> dayOfWeekToInt;
+        private static readonly Dictionary<int, DayOfWeek> intToDayOfWeek;
 
         static CronWordHelper()
         {

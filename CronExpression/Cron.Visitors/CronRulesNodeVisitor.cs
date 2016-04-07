@@ -14,7 +14,7 @@ namespace Cron.Visitors
     {
         private Segment segment;
         private short segmentsCount;
-        private List<Exception> errors;
+        private readonly List<Exception> errors;
         private SyntaxNode parent;
 
         public CronRulesNodeVisitor()

@@ -11,16 +11,16 @@ namespace Cron.Visitors.Evaluators
 {
     class CronFireTimeEvaluator : ICronFireTimeEvaluator
     {
-        private RoundRobinRangeVaryingList<int> years;
-        private RoundRobinRangeVaryingList<int> months;
-        private RoundRobinRangeVaryingList<int> dayOfMonths;
-        private RoundRobinRangeVaryingList<int> dayOfWeeks;
-        private RoundRobinRangeVaryingList<int> hours;
-        private RoundRobinRangeVaryingList<int> minutes;
-        private RoundRobinRangeVaryingList<int> seconds;
-        private VirtuallyJoinedList filteredDayOfMonths;
+        private readonly RoundRobinRangeVaryingList<int> years;
+        private readonly RoundRobinRangeVaryingList<int> months;
+        private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
+        private readonly RoundRobinRangeVaryingList<int> dayOfWeeks;
+        private readonly RoundRobinRangeVaryingList<int> hours;
+        private readonly RoundRobinRangeVaryingList<int> minutes;
+        private readonly RoundRobinRangeVaryingList<int> seconds;
+        private readonly VirtuallyJoinedList filteredDayOfMonths;
 
-        private Ref<DateTimeOffset> referenceTime;
+        private readonly Ref<DateTimeOffset> referenceTime;
 
         public DateTime ReferenceTime
         {
@@ -229,7 +229,7 @@ namespace Cron.Visitors.Evaluators
         private bool IsDatePartBefore(int year1, int month1, int day1)
         {
             var referenceTime = this.referenceTime.Value;
-            return 
+            return
                 new DateTimeOffset(year1, month1, day1, 0, 0, 0, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, 0, 0, 0, referenceTime.Offset);
         }
@@ -245,7 +245,7 @@ namespace Cron.Visitors.Evaluators
         private bool IsDatePartBefore(int year1, int month1, int day1, int hours1, int minute1)
         {
             var referenceTime = this.referenceTime.Value;
-            return 
+            return
                 new DateTimeOffset(year1, month1, day1, hours1, minute1, 0, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, 0, referenceTime.Offset);
         }
@@ -254,7 +254,7 @@ namespace Cron.Visitors.Evaluators
         {
             var referenceTime = this.referenceTime.Value;
             return
-                new DateTimeOffset(year1, month1, day1, hours1, minute1, second1, referenceTime.Offset) < 
+                new DateTimeOffset(year1, month1, day1, hours1, minute1, second1, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, referenceTime.Second, referenceTime.Offset);
         }
     }

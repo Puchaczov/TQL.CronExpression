@@ -10,7 +10,7 @@ namespace Cron.Parser.Nodes
 {
     public class StarNode : LeafNode
     {
-        private Segment segment;
+        private readonly Segment segment;
 
         public StarNode(Segment segment, Token token)
             : base(token)

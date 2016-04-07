@@ -12,7 +12,7 @@ namespace Cron.Parser.Nodes
 {
     public class WordNode : LeafNode
     {
-        private Token token;
+        private readonly Token token;
 
         public WordNode(Token token)
             : base(token)

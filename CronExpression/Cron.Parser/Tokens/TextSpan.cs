@@ -49,6 +49,17 @@ namespace Cron.Parser.Tokens
             return base.Equals(obj);
         }
 
+        public static bool operator==(TextSpan left, TextSpan right)
+        {
+            if(object.Equals(left, null))
+            {
+                return object.Equals(right, null);
+            }
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(TextSpan left, TextSpan right) => !(left == right);
+
         public override int GetHashCode()
         {
             return Start.GetHashCode() ^ Length.GetHashCode();
