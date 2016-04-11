@@ -15,6 +15,22 @@ namespace Cron.Parser.Tests
     public class ParserTests
     {
         [TestMethod]
+        public void CheckSyntaxTree_NodesSeparatedByNewLine_ShouldPass()
+        {
+            var tree = CheckSyntaxTree(
+                "*" + Environment.NewLine + 
+                "*" + Environment.NewLine + 
+                "*" + Environment.NewLine + 
+                "*" + Environment.NewLine + 
+                "*" + Environment.NewLine + 
+                "*" + Environment.NewLine + 
+                "*", "* * * * * * *");
+
+            CheckHasAppropiateCountsOfSegments(tree);
+            CheckLastSegmentIsOfType<EndOfFileNode>(tree);
+        }
+
+        [TestMethod]
         public void CheckSyntaxTree_AllStarNodes_ShouldPass()
         {
             var tree = CheckSyntaxTree("* * * * * * *");

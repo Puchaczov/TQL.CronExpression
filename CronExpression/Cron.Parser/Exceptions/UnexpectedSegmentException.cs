@@ -13,7 +13,6 @@ namespace Cron.Parser.Exceptions
         public Segment Segment
         {
             get;
-            private set;
         }
 
         public UnexpectedSegmentException(Segment segment)

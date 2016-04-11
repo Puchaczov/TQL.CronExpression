@@ -7,8 +7,8 @@ namespace Cron.Parser.Exceptions
     [Serializable]
     public class UnexpectedTokenException : Exception
     {
-        public int Position { get; private set; }
-        public Token Token { get; private set; }
+        public int Position { get; }
+        public Token Token { get; }
 
         public UnexpectedTokenException(int pos, Token token)
         {

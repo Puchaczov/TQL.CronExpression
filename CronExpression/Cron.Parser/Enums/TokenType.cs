@@ -25,6 +25,7 @@ namespace Cron.Parser.Enums
         Name,
         None,
         LW,
-        Missing
+        Missing,
+        NewLine
     }
 }

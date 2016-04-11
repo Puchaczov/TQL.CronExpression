@@ -14,6 +14,7 @@ namespace Cron.Parser
         private int pos;
         private Token lastToken;
         private Token currentToken;
+        private Dictionary<char, char> endLines = new Dictionary<char, char>();
 
         public int Position
         {
@@ -40,6 +41,7 @@ namespace Cron.Parser
             this.input = input.Trim();
             this.pos = 0;
             this.currentToken = new NoneToken(new TextSpan(0, 0));
+            this.endLines.Add('\r', '\n');
         }
 
         public Token NextToken()
@@ -51,6 +53,13 @@ namespace Cron.Parser
             }
 
             var currentChar = input[pos];
+
+            if(pos + 1 < input.Count() && IsEndLineCharacter(currentChar, input[pos + 1]))
+            {
+                var token = new WhiteSpaceToken(new TextSpan(pos, 2));
+                pos += 2;
+                return token;
+            }
 
             if (IsDigit(currentChar))
             {
@@ -103,6 +112,19 @@ namespace Cron.Parser
             throw new UnknownTokenException(pos, currentChar);
         }
 
+        private Token ConsumeCharacters(char currentChar)
+        {
+            var startPos = pos;
+            var cnt = input.Count();
+            var ppos = pos + 1;
+            if (cnt > ppos && IsEndLineCharacter(currentChar, input[ppos]))
+            {
+                ++ppos;
+                pos += 1;
+            }
+            return new WhiteSpaceToken(new TextSpan(startPos, pos - startPos));
+        }
+
         private Token AssignTokenOfType(Func<Token> instantiate)
         {
             if(instantiate == null)
@@ -125,6 +147,15 @@ namespace Cron.Parser
             }
 
             return AssignTokenOfType(() => new NameToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos))) as NameToken;
+        }
+
+        private bool IsEndLineCharacter(char currentChar, char v)
+        {
+            if(this.endLines.ContainsKey(currentChar))
+            {
+                return v == this.endLines[currentChar];
+            }
+            return false;
         }
 
         private static bool IsMissing(char currentChar)

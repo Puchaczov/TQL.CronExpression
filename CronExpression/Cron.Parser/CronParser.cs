@@ -46,9 +46,9 @@ namespace Cron.Parser
             var rootComponents = new List<SegmentNode>();
             for (int i = 0; currentToken.TokenType != TokenType.Eof; ++i)
             {
-                while(currentToken.TokenType == TokenType.WhiteSpace)
+                while(currentToken.TokenType == TokenType.WhiteSpace || currentToken.TokenType == TokenType.NewLine)
                 {
-                    Consume(TokenType.WhiteSpace);
+                    Consume(currentToken.TokenType);
                 }
                 rootComponents.Add(ComposeSegmentComponent((Segment)i));
             }
