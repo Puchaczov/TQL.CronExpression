@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/Puchaczov/CronExpression.png?label=ready&title=Ready)](https://waffle.io/Puchaczov/CronExpression)
 # CronExpression
 Parser and evaluator for CRON expressions. In assumption, this library will expose complete implementation to parse and evaluate EVERY expression that is valid and makes sense.
 
