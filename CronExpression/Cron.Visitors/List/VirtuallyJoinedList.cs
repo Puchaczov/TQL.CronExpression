@@ -19,6 +19,11 @@ namespace Cron.Parser.List
             index = 0;
         }
 
+        public void Reset()
+        {
+            index = 0;
+        }
+
         public void RebuildCorrespondingKeys()
         {
             var index = 0;

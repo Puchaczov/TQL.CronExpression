@@ -387,5 +387,33 @@ namespace Cron.Parser.Tests
             analyzer.ReferenceTime = new DateTime(2016, 1, 1);
             Assert.IsNull(analyzer.NextFire());
         }
+
+        [TestMethod]
+        public void TestIsSatisfiedByWillReturnTrueWhenTimesMatched_ShouldReturnTrue()
+        {
+            var analyzer = "12 15 1 * * * 2015".TakeEvaluator();
+
+            analyzer.ReferenceTime = new DateTime(2015, 1, 1, 0, 0, 0);
+            Assert.IsTrue(analyzer.IsSatisfiedBy(new DateTime(2015, 1, 1, 1, 15, 12)));
+
+            analyzer.ReferenceTime = new DateTime(2015, 5, 1, 0, 0, 0);
+            Assert.IsTrue(analyzer.IsSatisfiedBy(new DateTime(2015, 5, 1, 1, 15, 12)));
+        }
+
+        [TestMethod]
+        public void TestIsSatisfiedByWillReturnNullWhenTimeBoundaryExceed_ShouldReturnFalse()
+        {
+            var analyzer = "12 15 1 * * * 2015".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2016, 1, 1, 0, 0, 0);
+            Assert.IsFalse(analyzer.IsSatisfiedBy(new DateTime(2016, 1, 1, 1, 15, 12)));
+        }
+
+        [TestMethod]
+        public void TestIsSatisfiedByWillReturnFalseWhenPastTimePassed_ShouldReturnFalse()
+        {
+            var analyzer = "12 15 1 * * * 2015".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2015, 1, 1, 0, 0, 0);
+            Assert.IsFalse(analyzer.IsSatisfiedBy(new DateTime(2014, 1, 1, 0, 0, 0)));
+        }
     }
 }

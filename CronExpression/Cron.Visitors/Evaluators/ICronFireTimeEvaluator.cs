@@ -12,5 +12,6 @@ namespace Cron.Visitors.Evaluators
         DateTimeOffset OffsetReferenceTime { set; }
         DateTime? NextFire();
         DateTime? PreviousFire();
+        bool IsSatisfiedBy(DateTime time);
     }
 }

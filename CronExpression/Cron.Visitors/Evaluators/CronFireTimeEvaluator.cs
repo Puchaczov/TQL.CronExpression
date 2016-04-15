@@ -36,6 +36,7 @@ namespace Cron.Visitors.Evaluators
         {
             set
             {
+                Reset();
                 referenceTime.Value = value;
             }
         }
@@ -44,6 +45,7 @@ namespace Cron.Visitors.Evaluators
         {
             set
             {
+                Reset();
                 referenceTime.Value = value;
             }
         }
@@ -279,6 +281,32 @@ namespace Cron.Visitors.Evaluators
             return
                 new DateTimeOffset(year1, month1, day1, hours1, minute1, second1, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, referenceTime.Second, referenceTime.Offset);
+        }
+
+        public bool IsSatisfiedBy(DateTime time)
+        {
+            ReferenceTime = time.AddSeconds(-1);
+            DateTime? score = null;
+            Reset();
+            do
+            {
+                score = NextFire();
+            }
+            while (score.HasValue && this.referenceTime.Value < time);
+            return score.HasValue && this.referenceTime.Value == time;
+        }
+
+        private void Reset()
+        {
+            this.expressionExceedTimeBoundary = false;
+            this.years.Reset();
+            this.months.Reset();
+            this.dayOfMonths.Reset();
+            this.dayOfWeeks.Reset();
+            this.hours.Reset();
+            this.minutes.Reset();
+            this.seconds.Reset();
+            this.filteredDayOfMonths.Reset();
         }
     }
 }
