@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cron.Parser.Helpers;
 using Cron.Parser.Nodes;
+using System.Linq;
 
 namespace Cron.Parser.Tests
 {
@@ -84,6 +85,23 @@ namespace Cron.Parser.Tests
             var count = 0;
             ast.Traverse(f => count += 1);
             Assert.AreEqual(countToVisit, count);
+        }
+
+        [TestMethod]
+        public void TreeHelper_GetSiblingsOfRoot_ShouldReturnNull()
+        {
+            var ast = @"* * * * * * *".Parse();
+            Assert.IsNull(ast.Siblings(ast));
+        }
+
+        [TestMethod]
+        public void TreeHelper_GetSiblingsOfSegment_ShouldReturnSegments()
+        {
+            var ast = @"* * * * * * *".Parse();
+            var segments = ast.Siblings(ast.Segments[1]);
+            Assert.IsNotNull(segments);
+            Assert.AreEqual(7, segments.Length);
+            Assert.AreEqual(0, segments.Count(f => ReferenceEquals(f, ast.Segments[1])));
         }
     }
 }

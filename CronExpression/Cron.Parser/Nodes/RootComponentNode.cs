@@ -19,13 +19,9 @@ namespace Cron.Parser.Nodes
             this.cronComponents = cronComponents;
         }
 
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return cronComponents;
-            }
-        }
+        public override SyntaxNode[] Desecendants => cronComponents;
+
+        public SegmentNode[] Segments => cronComponents;
 
         public override TextSpan FullSpan
         {
