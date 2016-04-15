@@ -12,10 +12,10 @@ namespace Cron.Visitors
 {
     public class CronRulesNodeVisitor : INodeVisitor
     {
-        private Segment segment;
-        private short segmentsCount;
         private readonly List<Exception> errors;
         private SyntaxNode parent;
+        private Segment segment;
+        private short segmentsCount;
 
         public CronRulesNodeVisitor()
         {
@@ -23,11 +23,12 @@ namespace Cron.Visitors
             segmentsCount = 0;
         }
 
-        public virtual void Visit(SegmentNode node)
+        public virtual bool IsValid
         {
-            parent = node;
-            segment = node.Segment;
-            segmentsCount += 1;
+            get
+            {
+                return errors.Count == 0;
+            }
         }
 
         public virtual IEnumerable<Exception> ValidationErrors
@@ -38,12 +39,11 @@ namespace Cron.Visitors
             }
         }
 
-        public virtual bool IsValid
+        public virtual void Visit(SegmentNode node)
         {
-            get
-            {
-                return errors.Count == 0;
-            }
+            parent = node;
+            segment = node.Segment;
+            segmentsCount += 1;
         }
 
         public virtual void Visit(RangeNode node)
@@ -78,7 +78,7 @@ namespace Cron.Visitors
                         if (items[0].Token.TokenType != TokenType.Range)
                             ThrowIfYearIsOutOfRange(items[0]);
                         ThrowIfYearIsOutOfRange(items[1]);
-                            break;
+                        break;
                     case Segment.DayOfWeek:
                         if (items[0].Token.TokenType != TokenType.Range)
                             ThrowIfDayOfWeekIsOutOfRange(items[0]);
@@ -93,17 +93,9 @@ namespace Cron.Visitors
                         throw new UnexpectedSegmentException(segment);
                 }
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(new RangeNodeException(exc));
-            }
-        }
-
-        private static void ThrowIfNodesCountMismatched(SyntaxNode[] items, SyntaxNode parent)
-        {
-            if(items.Count() != 2)
-            {
-                throw new MismatchedNodeItemsException(parent.Token);
             }
         }
 
@@ -120,7 +112,7 @@ namespace Cron.Visitors
                     case Segment.Year:
                         throw new UnexpectedWordNodeAtSegment(node.Token, segment);
                 }
-                switch(segment)
+                switch (segment)
                 {
                     case Segment.Month:
                         ThrowIfMonthIsOutOfRange(node);
@@ -130,7 +122,7 @@ namespace Cron.Visitors
                         break;
                 }
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -148,7 +140,7 @@ namespace Cron.Visitors
                 }
                 throw new UnexpectedQuestionMarkAtSegment(node.Token, segment);
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -168,7 +160,7 @@ namespace Cron.Visitors
                         throw new UnexpectedLNodeAtSegment(node.Token, segment);
                 }
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -190,7 +182,7 @@ namespace Cron.Visitors
                         throw new UnexpectedPrecededLNodeAtSegmentException();
                 }
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -209,7 +201,7 @@ namespace Cron.Visitors
                 }
                 throw new UnexpectedPrecededWNodeAtSegmentException(node.Token, segment);
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -228,7 +220,7 @@ namespace Cron.Visitors
                         throw new UnexpectedHashNodeAtSegment(node.Token, segment);
                 }
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -239,10 +231,10 @@ namespace Cron.Visitors
             segmentsCount += 1;
             try
             {
-                if(segmentsCount != 8)
+                if (segmentsCount != 8)
                     throw new ExpressionTooShortException(node.Token, segment);
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -261,7 +253,7 @@ namespace Cron.Visitors
                         throw new UnexpectedWNodeAtSegment(node.Token, segment);
                 }
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -271,7 +263,7 @@ namespace Cron.Visitors
         {
             try
             {
-                switch(segment)
+                switch (segment)
                 {
                     case Segment.DayOfMonth:
                         ThrowIfLWNodeAmongOtherValues(node);
@@ -280,7 +272,7 @@ namespace Cron.Visitors
                         throw new UnexpectedLWNodeAtSegment(node.Token, segment);
                 }
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -290,7 +282,7 @@ namespace Cron.Visitors
         {
             try
             {
-                switch(segment)
+                switch (segment)
                 {
                     case Segment.Seconds:
                         ThrowIfSecondIsOutOfRange(node);
@@ -373,14 +365,14 @@ namespace Cron.Visitors
                         break;
                     case Segment.Year:
                         ThrowIfLessThanZero(node.Right, nameof(node.Right));
-                        if(node.Left.Token.TokenType != TokenType.Range)
+                        if (node.Left.Token.TokenType != TokenType.Range)
                         {
                             ThrowIfYearIsOutOfRange(node.Left);
                         }
                         break;
                 }
             }
-            catch(BaseCronValidationException exc)
+            catch (BaseCronValidationException exc)
             {
                 errors.Add(exc);
             }
@@ -398,42 +390,14 @@ namespace Cron.Visitors
         public void Visit(MissingNode node)
         { }
 
-        private static void ThrowIfSecondIsOutOfRange(SyntaxNode node)
+        private static void ThrowIfDayOfMonthIsOutOfRange(SyntaxNode node)
         {
-            if(node.Token.TokenType == TokenType.Integer)
+            if (node.Token.TokenType == TokenType.Integer)
             {
-                ThrowIfOutOfRange(0, 59, node, "second");
+                ThrowIfOutOfRange(1, 32, node, "dayInMonth");
                 return;
             }
             throw new UnsupportedValueException(node.Token);
-        }
-
-        private static void ThrowIfMinuteIsOutOfRange(SyntaxNode node)
-        {
-            if(node.Token.TokenType == TokenType.Integer)
-            {
-                ThrowIfOutOfRange(0, 59, node, "minute");
-                return;
-            }
-            throw new UnsupportedValueException(node.Token);
-        }
-
-        private static void ThrowIfHourIsOutOfRange(SyntaxNode node)
-        {
-            if(node.Token.TokenType == TokenType.Integer)
-            {
-                ThrowIfOutOfRange(0, 23, node, "hour");
-                return;
-            }
-            throw new UnsupportedValueException(node.Token);
-        }
-
-        private static void ThrowIfMonthIsOutOfRange(SyntaxNode node)
-        {
-            if (!CronWordHelper.ContainsMonth(node.Token.Value))
-            {
-                throw new UnsupportedValueException(node.Token);
-            }
         }
 
         private static void ThrowIfDayOfWeekIsOutOfRange(SyntaxNode node)
@@ -442,26 +406,6 @@ namespace Cron.Visitors
             {
                 throw new UnsupportedValueException(node.Token);
             }
-        }
-
-        private static void ThrowIfDayOfMonthIsOutOfRange(SyntaxNode node)
-        {
-            if(node.Token.TokenType == TokenType.Integer)
-            {
-                ThrowIfOutOfRange(1, 32, node, "dayInMonth");
-                return;
-            }
-            throw new UnsupportedValueException(node.Token);
-        }
-
-        private static void ThrowIfYearIsOutOfRange(SyntaxNode node)
-        {
-            if(node.Token.TokenType == TokenType.Integer)
-            {
-                ThrowIfOutOfRange(1970, 3000, node, "year");
-                return;
-            }
-            throw new UnsupportedValueException(node.Token);
         }
 
         private static void ThrowIfHashNodeOutOfRange(HashNode node)
@@ -477,15 +421,51 @@ namespace Cron.Visitors
             }
         }
 
+        private static void ThrowIfHourIsOutOfRange(SyntaxNode node)
+        {
+            if (node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(0, 23, node, "hour");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
+        }
+
         private static void ThrowIfLessThanZero(SyntaxNode node, string argName)
         {
             ThrowIfOutOfRange(0, node, argName);
         }
 
+        private static void ThrowIfMinuteIsOutOfRange(SyntaxNode node)
+        {
+            if (node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(0, 59, node, "minute");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
+        }
+
+        private static void ThrowIfMonthIsOutOfRange(SyntaxNode node)
+        {
+            if (!CronWordHelper.ContainsMonth(node.Token.Value))
+            {
+                throw new UnsupportedValueException(node.Token);
+            }
+        }
+
+        private static void ThrowIfNodesCountMismatched(SyntaxNode[] items, SyntaxNode parent)
+        {
+            if (items.Count() != 2)
+            {
+                throw new MismatchedNodeItemsException(parent.Token);
+            }
+        }
+
         private static void ThrowIfOutOfRange(int minValue, SyntaxNode node, string argName)
         {
             var value = int.Parse(node.Token.Value);
-            if(value < minValue)
+            if (value < minValue)
             {
                 throw new UnsupportedValueException(node.Token);
             }
@@ -494,15 +474,30 @@ namespace Cron.Visitors
         private static void ThrowIfOutOfRange(int minValue, int maxValue, SyntaxNode node, string argName)
         {
             var value = int.Parse(node.Token.Value);
-            if(value < minValue || value > maxValue)
+            if (value < minValue || value > maxValue)
             {
                 throw new UnsupportedValueException(node.Token);
             }
         }
 
-        private void ThrowIfWNodeAmongOtherValues(SyntaxNode node)
+        private static void ThrowIfSecondIsOutOfRange(SyntaxNode node)
         {
-            ThrowIfMoreThanOneDescendants(node);
+            if (node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(0, 59, node, "second");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
+        }
+
+        private static void ThrowIfYearIsOutOfRange(SyntaxNode node)
+        {
+            if (node.Token.TokenType == TokenType.Integer)
+            {
+                ThrowIfOutOfRange(1970, 3000, node, "year");
+                return;
+            }
+            throw new UnsupportedValueException(node.Token);
         }
 
         private void ThrowIfLWNodeAmongOtherValues(SyntaxNode node)
@@ -516,6 +511,11 @@ namespace Cron.Visitors
             {
                 throw new WNodeCannotBeMixedException(node.Token);
             }
+        }
+
+        private void ThrowIfWNodeAmongOtherValues(SyntaxNode node)
+        {
+            ThrowIfMoreThanOneDescendants(node);
         }
     }
 }
