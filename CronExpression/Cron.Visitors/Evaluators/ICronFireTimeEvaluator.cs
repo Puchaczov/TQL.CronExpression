@@ -10,7 +10,7 @@ namespace Cron.Visitors.Evaluators
     {
         DateTime ReferenceTime { set; }
         DateTimeOffset OffsetReferenceTime { set; }
-        DateTime NextFire();
-        DateTime PreviousFire();
+        DateTime? NextFire();
+        DateTime? PreviousFire();
     }
 }

@@ -22,6 +22,16 @@ namespace Cron.Visitors.Evaluators
 
         private readonly Ref<DateTimeOffset> referenceTime;
 
+        private bool expressionExceedTimeBoundary;
+
+        public bool IsExceededTimeBoundary
+        {
+            get
+            {
+                return this.expressionExceedTimeBoundary;
+            }
+        }
+
         public DateTime ReferenceTime
         {
             set
@@ -48,6 +58,7 @@ namespace Cron.Visitors.Evaluators
             RoundRobinRangeVaryingList<int> seconds,
             Ref<DateTimeOffset> referenceTime)
         {
+            this.expressionExceedTimeBoundary = false;
             this.years = years;
             this.months = months;
             this.dayOfMonths = dayOfMonths;
@@ -58,6 +69,10 @@ namespace Cron.Visitors.Evaluators
             this.referenceTime = referenceTime;
             this.filteredDayOfMonths = new VirtuallyJoinedList(this.dayOfMonths, this.dayOfWeeks);
             months.Overflowed += (sender, args) => {
+                if (years.WillOverflow())
+                {
+                    expressionExceedTimeBoundary = true;
+                }
                 years.Next();
                 var refTime = referenceTime.Value;
                 referenceTime.Value = new DateTimeOffset(years.Current, 1, 1, 0, 0, 0, refTime.Offset);
@@ -87,7 +102,7 @@ namespace Cron.Visitors.Evaluators
         }
 
 
-        public DateTime NextFire()
+        public DateTime? NextFire()
         {
             referenceTime.Value = referenceTime.Value.AddSeconds(1);
             LimitMonthRange();
@@ -98,6 +113,11 @@ namespace Cron.Visitors.Evaluators
                 while (!years.WillOverflow() && years.Current < referenceTime.Year)
                 {
                     years.Next();
+                }
+
+                if(IsExceededTimeBoundary)
+                {
+                    break;
                 }
 
                 var sameOrFurtherYear = years.Current >= referenceTime.Year;
@@ -203,9 +223,12 @@ namespace Cron.Visitors.Evaluators
 
                 return referenceTime.DateTime;
             }
+
+            //Time boundary had beed exceed.
+            return null;
         }
 
-        public DateTime PreviousFire()
+        public DateTime? PreviousFire()
         {
             throw new NotImplementedException();
         }

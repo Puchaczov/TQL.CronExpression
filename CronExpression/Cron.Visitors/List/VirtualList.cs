@@ -8,7 +8,7 @@ namespace Cron.Parser.List
 {
     public class VirtualList<T> : IVirtualList<T>, IEnumerable<T>
     {
-        protected IList<IVirtualList<T>> sources;
+        protected readonly IList<IVirtualList<T>> sources;
 
         public VirtualList()
         {

@@ -8,8 +8,8 @@ namespace Cron.Parser.List
 {
     public abstract class DateTimeBasedComputeList : IVirtualList<int>
     {
-        protected Ref<DateTimeOffset> referenceTime;
-        protected IList<int> list;
+        protected readonly Ref<DateTimeOffset> referenceTime;
+        protected readonly IList<int> list;
 
         protected DateTimeBasedComputeList(Ref<DateTimeOffset> referenceTime, IList<int> list)
         {

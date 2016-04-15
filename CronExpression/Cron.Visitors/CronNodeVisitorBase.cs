@@ -13,7 +13,7 @@ namespace Cron.Visitors
     {
         private readonly Dictionary<Segment, RoundRobinRangeVaryingList<int>> values;
         private Segment lastSegment;
-        protected Ref<DateTimeOffset> time;
+        protected readonly Ref<DateTimeOffset> time;
 
         public Dictionary<Segment, RoundRobinRangeVaryingList<int>> Result
         {

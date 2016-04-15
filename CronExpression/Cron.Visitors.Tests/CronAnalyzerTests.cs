@@ -187,7 +187,7 @@ namespace Cron.Parser.Tests
 
             for (int i = from; i < to; i += inc)
             {
-                assertCallback(analyzer.NextFire(), i);
+                assertCallback(analyzer.NextFire().Value, i);
             }
         }
 
@@ -276,7 +276,7 @@ namespace Cron.Parser.Tests
             DateTimeOffset nextExpectedFireTime = new DateTime(2005, 8, 1, 1, 0, 0).ToUniversalTime();
             analyzer.OffsetReferenceTime = cal;
             var value = analyzer.NextFire();
-            Assert.AreEqual(nextExpectedFireTime, value);
+            Assert.AreEqual(nextExpectedFireTime, value.Value.ToUniversalTime());
         }
 
         [TestMethod]
@@ -378,6 +378,14 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(new DateTime(2016, 1, 29), analyzer.NextFire());
             Assert.AreEqual(new DateTime(2016, 2, 29), analyzer.NextFire());
             Assert.AreEqual(new DateTime(2016, 3, 31), analyzer.NextFire());
+        }
+
+        [TestMethod]
+        public void TestWillReturnNullWhenExpressionExceedTimeBoundary_ShouldReturnNull()
+        {
+            var analyzer = "0 0 1 * * * 2015".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2016, 1, 1);
+            Assert.IsNull(analyzer.NextFire());
         }
     }
 }

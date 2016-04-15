@@ -10,7 +10,7 @@ namespace Cron.Visitors.Exceptions
 {
     public class UnexpectedHashNodeAtSegment : BaseCronValidationException
     {
-        private Segment segment;
+        private readonly Segment segment;
         public UnexpectedHashNodeAtSegment(Token token, Segment segment)
             : base(token)
         {

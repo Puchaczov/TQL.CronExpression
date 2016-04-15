@@ -14,7 +14,7 @@ namespace Cron.Parser
         private int pos;
         private Token lastToken;
         private Token currentToken;
-        private Dictionary<char, char> endLines = new Dictionary<char, char>();
+        private readonly Dictionary<char, char> endLines = new Dictionary<char, char>();
 
         public int Position
         {
@@ -110,19 +110,6 @@ namespace Cron.Parser
             }
 
             throw new UnknownTokenException(pos, currentChar);
-        }
-
-        private Token ConsumeCharacters(char currentChar)
-        {
-            var startPos = pos;
-            var cnt = input.Count();
-            var ppos = pos + 1;
-            if (cnt > ppos && IsEndLineCharacter(currentChar, input[ppos]))
-            {
-                ++ppos;
-                pos += 1;
-            }
-            return new WhiteSpaceToken(new TextSpan(startPos, pos - startPos));
         }
 
         private Token AssignTokenOfType(Func<Token> instantiate)
