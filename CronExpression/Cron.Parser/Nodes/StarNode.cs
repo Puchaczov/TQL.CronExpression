@@ -18,6 +18,22 @@ namespace Cron.Parser.Nodes
             this.segment = segment;
         }
 
+        public override SyntaxNode[] Desecendants
+        {
+            get
+            {
+                return new SyntaxNode[0];
+            }
+        }
+
+        public Segment Segment
+        {
+            get
+            {
+                return segment;
+            }
+        }
+
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
@@ -25,7 +41,7 @@ namespace Cron.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment)
         {
-            switch(segment)
+            switch (segment)
             {
                 case Segment.Seconds:
                     return ListExtension.Expand(0, 59, 1);
@@ -43,22 +59,6 @@ namespace Cron.Parser.Nodes
                     return ListExtension.Expand(1970, 3000, 1);
                 default:
                     throw new UnknownSegmentException(0);
-            }
-        }
-
-        public Segment Segment
-        {
-            get
-            {
-                return segment;
-            }
-        }
-
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return new SyntaxNode[0];
             }
         }
 

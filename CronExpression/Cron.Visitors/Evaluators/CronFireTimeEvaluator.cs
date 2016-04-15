@@ -11,44 +11,18 @@ namespace Cron.Visitors.Evaluators
 {
     class CronFireTimeEvaluator : ICronFireTimeEvaluator
     {
-        private readonly RoundRobinRangeVaryingList<int> years;
-        private readonly RoundRobinRangeVaryingList<int> months;
         private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
         private readonly RoundRobinRangeVaryingList<int> dayOfWeeks;
-        private readonly RoundRobinRangeVaryingList<int> hours;
-        private readonly RoundRobinRangeVaryingList<int> minutes;
-        private readonly RoundRobinRangeVaryingList<int> seconds;
-        private readonly VirtuallyJoinedList filteredDayOfMonths;
-
-        private readonly Ref<DateTimeOffset> referenceTime;
 
         private bool expressionExceedTimeBoundary;
+        private readonly VirtuallyJoinedList filteredDayOfMonths;
+        private readonly RoundRobinRangeVaryingList<int> hours;
+        private readonly RoundRobinRangeVaryingList<int> minutes;
+        private readonly RoundRobinRangeVaryingList<int> months;
 
-        public bool IsExceededTimeBoundary
-        {
-            get
-            {
-                return this.expressionExceedTimeBoundary;
-            }
-        }
-
-        public DateTime ReferenceTime
-        {
-            set
-            {
-                Reset();
-                referenceTime.Value = value;
-            }
-        }
-
-        public DateTimeOffset OffsetReferenceTime
-        {
-            set
-            {
-                Reset();
-                referenceTime.Value = value;
-            }
-        }
+        private readonly Ref<DateTimeOffset> referenceTime;
+        private readonly RoundRobinRangeVaryingList<int> seconds;
+        private readonly RoundRobinRangeVaryingList<int> years;
 
         public CronFireTimeEvaluator(
             RoundRobinRangeVaryingList<int> years,
@@ -70,7 +44,8 @@ namespace Cron.Visitors.Evaluators
             this.seconds = seconds;
             this.referenceTime = referenceTime;
             this.filteredDayOfMonths = new VirtuallyJoinedList(this.dayOfMonths, this.dayOfWeeks);
-            months.Overflowed += (sender, args) => {
+            months.Overflowed += (sender, args) =>
+            {
                 if (years.WillOverflow())
                 {
                     expressionExceedTimeBoundary = true;
@@ -79,28 +54,79 @@ namespace Cron.Visitors.Evaluators
                 var refTime = referenceTime.Value;
                 referenceTime.Value = new DateTimeOffset(years.Current, 1, 1, 0, 0, 0, refTime.Offset);
             };
-            dayOfMonths.Overflowed += (sender, args) => {
+            dayOfMonths.Overflowed += (sender, args) =>
+            {
                 months.Next();
                 var refTime = referenceTime.Value;
                 referenceTime.Value = new DateTimeOffset(refTime.Year, months.Current, 1, 0, 0, 0, refTime.Offset);
                 LimitMonthRange();
             };
-            hours.Overflowed += (sender, args) => {
+            hours.Overflowed += (sender, args) =>
+            {
                 filteredDayOfMonths.Next();
                 var refTime = referenceTime.Value;
                 var newDay = filteredDayOfMonths.Count > 0 ? filteredDayOfMonths.Current : 1;
                 referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, newDay, 0, 0, 0, refTime.Offset);
             };
-            minutes.Overflowed += (sender, args) => {
+            minutes.Overflowed += (sender, args) =>
+            {
                 hours.Next();
                 var refTime = referenceTime.Value;
                 referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, refTime.Day, hours.Current, 0, 0, refTime.Offset);
             };
-            seconds.Overflowed += (sender, args) => {
+            seconds.Overflowed += (sender, args) =>
+            {
                 minutes.Next();
                 var refTime = referenceTime.Value;
                 referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, refTime.Day, refTime.Hour, minutes.Current, 0, refTime.Offset);
             };
+        }
+
+        public bool IsExceededTimeBoundary
+        {
+            get
+            {
+                return this.expressionExceedTimeBoundary;
+            }
+        }
+
+        public DateTimeOffset OffsetReferenceTime
+        {
+            set
+            {
+                Reset();
+                referenceTime.Value = value;
+            }
+        }
+
+        public DateTime ReferenceTime
+        {
+            set
+            {
+                Reset();
+                referenceTime.Value = value;
+            }
+        }
+
+        public bool IsSatisfiedBy(DateTime time)
+        {
+            ReferenceTime = time.AddSeconds(-1);
+            DateTime? score = null;
+            Reset();
+            do
+            {
+                score = NextFire();
+            }
+            while (score.HasValue && this.referenceTime.Value < time);
+            return score.HasValue && this.referenceTime.Value == time;
+        }
+
+        public void LimitMonthRange()
+        {
+            var val = DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month) - 1;
+            filteredDayOfMonths.SetRange(0, val);
+            dayOfWeeks.SetRange(0, val);
+            filteredDayOfMonths.RebuildCorrespondingKeys();
         }
 
 
@@ -117,7 +143,7 @@ namespace Cron.Visitors.Evaluators
                     years.Next();
                 }
 
-                if(IsExceededTimeBoundary)
+                if (IsExceededTimeBoundary)
                 {
                     break;
                 }
@@ -151,7 +177,7 @@ namespace Cron.Visitors.Evaluators
                     days.Overflow();
                     continue;
                 }
-                if(days.Current > referenceTime.Day)
+                if (days.Current > referenceTime.Day)
                 {
                     referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, days.Current, 0, 0, 0, referenceTime.Offset);
                     this.referenceTime.Value = referenceTime;
@@ -183,7 +209,7 @@ namespace Cron.Visitors.Evaluators
                     minutes.Overflow();
                     continue;
                 }
-                if(minutes.Current > referenceTime.Minute)
+                if (minutes.Current > referenceTime.Minute)
                 {
                     referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, minutes.Current, 0, referenceTime.Offset);
                     this.referenceTime.Value = referenceTime;
@@ -235,14 +261,6 @@ namespace Cron.Visitors.Evaluators
             throw new NotImplementedException();
         }
 
-        public void LimitMonthRange()
-        {
-            var val = DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month) - 1;
-            filteredDayOfMonths.SetRange(0, val);
-            dayOfWeeks.SetRange(0, val);
-            filteredDayOfMonths.RebuildCorrespondingKeys();
-        }
-
         private bool IsDatePartBefore(int year1, int month1)
         {
             var referenceTime = this.referenceTime.Value;
@@ -281,19 +299,6 @@ namespace Cron.Visitors.Evaluators
             return
                 new DateTimeOffset(year1, month1, day1, hours1, minute1, second1, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, referenceTime.Second, referenceTime.Offset);
-        }
-
-        public bool IsSatisfiedBy(DateTime time)
-        {
-            ReferenceTime = time.AddSeconds(-1);
-            DateTime? score = null;
-            Reset();
-            do
-            {
-                score = NextFire();
-            }
-            while (score.HasValue && this.referenceTime.Value < time);
-            return score.HasValue && this.referenceTime.Value == time;
         }
 
         private void Reset()

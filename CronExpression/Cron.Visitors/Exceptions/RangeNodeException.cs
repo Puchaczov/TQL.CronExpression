@@ -31,19 +31,19 @@ namespace Cron.Visitors.Exceptions
         {
         }
 
-        public override string StackTrace
-        {
-            get
-            {
-                return exc.StackTrace;
-            }
-        }
-
         public override string Message
         {
             get
             {
                 return exc.Message;
+            }
+        }
+
+        public override string StackTrace
+        {
+            get
+            {
+                return exc.StackTrace;
             }
         }
     }

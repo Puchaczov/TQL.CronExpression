@@ -6,12 +6,6 @@ namespace Cron.Tests
     [TestClass]
     public class PreprocessorTests
     {
-        [TestMethod]
-        public void Preprocessor_TrimInput_ShouldPass()
-        {
-            var preprocessor = new Preprocessor();
-            Assert.AreEqual("* *", preprocessor.Execute(" * *   "));
-        }
 
         [TestMethod]
         public void Preprocessor_LowercaseInput_ShouldPass()
@@ -30,6 +24,12 @@ namespace Cron.Tests
             Assert.AreEqual("0 0 0 * * 0 *", preprocessor.Execute("@weekly"));
             Assert.AreEqual("0 0 0 * * * *", preprocessor.Execute("@daily"));
             Assert.AreEqual("0 0 * * * * *", preprocessor.Execute("@hourly"));
+        }
+        [TestMethod]
+        public void Preprocessor_TrimInput_ShouldPass()
+        {
+            var preprocessor = new Preprocessor();
+            Assert.AreEqual("* *", preprocessor.Execute(" * *   "));
         }
     }
 }

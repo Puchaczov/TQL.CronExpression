@@ -10,16 +10,34 @@ namespace Cron.Parser.List
 
     public class RoundRobinRangeVaryingList<T> : RangeVaryingList<T>
     {
-        public event OverflowedEventHandler Overflowed;
         private int index;
 
         public RoundRobinRangeVaryingList()
             : base()
         { }
+        public event OverflowedEventHandler Overflowed;
+
+        public virtual T Current
+        {
+            get
+            {
+                return Element();
+            }
+        }
+
+        public T Element()
+        {
+            return base.Element(index);
+        }
+
+        public override IEnumerator<T> GetEnumerator()
+        {
+            return new RoundRobinRangeVaryingListEnumerator<T>(this);
+        }
 
         public virtual void Next()
         {
-            if(index + 1 >= Count)
+            if (index + 1 >= Count)
             {
                 Overflowed?.Invoke(this, null);
                 index = 0;
@@ -34,32 +52,14 @@ namespace Cron.Parser.List
             index = 0;
         }
 
-        public virtual bool WillOverflow()
-        {
-            return index + 1 >= Count;
-        }
-
-        public T Element()
-        {
-            return base.Element(index);
-        }
-
-        public virtual T Current
-        {
-            get
-            {
-                return Element();
-            }
-        }
-
-        public override IEnumerator<T> GetEnumerator()
-        {
-            return new RoundRobinRangeVaryingListEnumerator<T>(this);
-        }
-
         public void Reset()
         {
             this.index = 0;
+        }
+
+        public virtual bool WillOverflow()
+        {
+            return index + 1 >= Count;
         }
     }
 }

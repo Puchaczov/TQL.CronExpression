@@ -7,8 +7,6 @@ namespace Cron.Visitors.Exceptions
     [Serializable]
     public class UnexpectedTokenException : Exception
     {
-        public int Position { get; private set; }
-        public Token Token { get; private set; }
 
         public UnexpectedTokenException(int pos, Token token)
         {
@@ -27,5 +25,7 @@ namespace Cron.Visitors.Exceptions
                 return $"Unexpected token {Token.Value} occured at position {Position}";
             }
         }
+        public int Position { get; private set; }
+        public Token Token { get; private set; }
     }
 }

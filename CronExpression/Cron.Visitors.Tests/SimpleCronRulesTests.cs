@@ -9,6 +9,12 @@ namespace Cron.Visitors.Tests
     [TestClass]
     public class SimpleCronRulesTests
     {
+
+        [TestMethod]
+        public void CheckValues_AllSimpleValuesAreCorrect_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("0 0 0 1 1 1 2000");
+        }
         [TestMethod]
         public void CheckValues_AllValuesAreOutOfRange_ShouldAggregateExceptions()
         {
@@ -19,27 +25,9 @@ namespace Cron.Visitors.Tests
         }
 
         [TestMethod]
-        public void CheckValues_AllSimpleValuesAreCorrect_ShouldPass()
+        public void CheckValues_DayOfWeeksAreCommaSeperated_ShouldPass()
         {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("0 0 0 1 1 1 2000");
-        }
-
-        [TestMethod]
-        public void CheckValues_SecondsAreCommaSeparated_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1,2,5,8 * * * * * *");
-        }
-
-        [TestMethod]
-        public void CheckValues_MinutesAreCommaSeparated_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* 1,2,5,8 * * * * *");
-        }
-
-        [TestMethod]
-        public void CheckValues_HoursAreCommaSeparated_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * 1,2,5,8 * * * *");
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * 1,2,WED,THU *");
         }
 
         [TestMethod]
@@ -49,15 +37,27 @@ namespace Cron.Visitors.Tests
         }
 
         [TestMethod]
+        public void CheckValues_HoursAreCommaSeparated_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * 1,2,5,8 * * * *");
+        }
+
+        [TestMethod]
+        public void CheckValues_MinutesAreCommaSeparated_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* 1,2,5,8 * * * * *");
+        }
+
+        [TestMethod]
         public void CheckValues_MonthsAreCommaSeperated_ShouldPass()
         {
             TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * 1,FEB,3,NOV,DEC * *");
         }
 
         [TestMethod]
-        public void CheckValues_DayOfWeeksAreCommaSeperated_ShouldPass()
+        public void CheckValues_SecondsAreCommaSeparated_ShouldPass()
         {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * 1,2,WED,THU *");
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1,2,5,8 * * * * * *");
         }
 
         [TestMethod]

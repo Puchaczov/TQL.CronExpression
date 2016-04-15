@@ -15,19 +15,6 @@ namespace Cron.Parser.List
             this.sources = new List<IVirtualList<T>>();
         }
 
-        public T this[int index]
-        {
-            get
-            {
-                return Element(index);
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public virtual int Count
         {
             get
@@ -41,6 +28,19 @@ namespace Cron.Parser.List
             }
         }
 
+        public T this[int index]
+        {
+            get
+            {
+                return Element(index);
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public virtual void Add(IVirtualList<T> list)
         {
             sources.Add(list);
@@ -51,10 +51,10 @@ namespace Cron.Parser.List
             var i = -1;
             foreach (var l in sources)
             {
-                foreach(var k in l)
+                foreach (var k in l)
                 {
                     i += 1;
-                    if(i == index)
+                    if (i == index)
                     {
                         return k;
                     }

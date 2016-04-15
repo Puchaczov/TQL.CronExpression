@@ -4,8 +4,30 @@ namespace Cron.Parser.List
 {
     public class RangeVaryingList<T> : VirtualList<T>
     {
-        private int minRange;
         private int maxRange;
+        private int minRange;
+
+        public override int Count
+        {
+            get
+            {
+                return (maxRange - minRange) + 1;
+            }
+        }
+
+        public override void Add(IVirtualList<T> list)
+        {
+            base.Add(list);
+        }
+
+        public override T Element(int index)
+        {
+            if (minRange + index > maxRange)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            return base.Element(minRange + index);
+        }
 
         public void SetRange(int minRange, int maxRange)
         {
@@ -14,7 +36,7 @@ namespace Cron.Parser.List
             {
                 throw new ArgumentOutOfRangeException(nameof(minRange));
             }
-            if (minRange > maxRange && !isEmpty )
+            if (minRange > maxRange && !isEmpty)
             {
                 throw new ArgumentOutOfRangeException(nameof(minRange));
             }
@@ -29,28 +51,6 @@ namespace Cron.Parser.List
 
             this.minRange = minRange;
             this.maxRange = Math.Min(base.Count - 1, maxRange);
-        }
-
-        public override void Add(IVirtualList<T> list)
-        {
-            base.Add(list);
-        }
-
-        public override T Element(int index)
-        {
-            if(minRange + index > maxRange)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index));
-            }
-            return base.Element(minRange + index);
-        }
-
-        public override int Count
-        {
-            get
-            {
-                return (maxRange - minRange) + 1;
-            }
         }
     }
 }

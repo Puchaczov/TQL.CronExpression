@@ -8,13 +8,13 @@ namespace Cron.Parser
 {
     public class CronParser
     {
-        private readonly Lexer lexer;
+        private Segment currentSegment;
         private Token currentToken;
         private Token lastToken;
-        private Segment currentSegment;
+        private readonly Lexer lexer;
+        private readonly bool produceEndOfFileNode = true;
 
         private readonly bool produceMissingYearSegment = true;
-        private readonly bool produceEndOfFileNode = true;
 
         public CronParser(Lexer lexer, bool produceMissingYearSegment, bool produceEndOfFileNode)
             : this(lexer)
@@ -30,42 +30,31 @@ namespace Cron.Parser
             currentToken = lexer.NextToken();
         }
 
-        private void Consume(TokenType type)
-        {
-            if (currentToken.TokenType == type)
-            {
-                lastToken = currentToken;
-                currentToken = lexer.NextToken();
-                return;
-            }
-            throw new UnexpectedTokenException(lexer.Position, currentToken);
-        }
-
         public RootComponentNode ComposeRootComponents()
         {
             var rootComponents = new List<SegmentNode>();
             for (int i = 0; currentToken.TokenType != TokenType.Eof; ++i)
             {
-                while(currentToken.TokenType == TokenType.WhiteSpace || currentToken.TokenType == TokenType.NewLine)
+                while (currentToken.TokenType == TokenType.WhiteSpace || currentToken.TokenType == TokenType.NewLine)
                 {
                     Consume(currentToken.TokenType);
                 }
                 rootComponents.Add(ComposeSegmentComponent((Segment)i));
             }
-            if(produceMissingYearSegment && rootComponents[rootComponents.Count - 1].Segment == Segment.DayOfWeek)
+            if (produceMissingYearSegment && rootComponents[rootComponents.Count - 1].Segment == Segment.DayOfWeek)
             {
                 rootComponents.Add(ComposeStarYearSegmentComponent());
             }
-            if(produceEndOfFileNode && currentToken.TokenType == TokenType.Eof)
+            if (produceEndOfFileNode && currentToken.TokenType == TokenType.Eof)
             {
                 rootComponents.Add(new EndOfFileNode(new EndOfFileToken(currentToken.Span)));
             }
             return new RootComponentNode(rootComponents.ToArray());
         }
 
-        private SegmentNode ComposeStarYearSegmentComponent()
+        private SegmentNode ComposeComplexSegment(Segment segment)
         {
-            return new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(lexer.Position, 0))), Segment.Year, null);
+            return new SegmentNode(SeparateCommas(), segment, null);
         }
 
         private LeafNode ComposeMissingNodeOnCurrentPosition()
@@ -103,6 +92,66 @@ namespace Cron.Parser
                     break;
             }
             return ComposeComplexSegment(segment);
+        }
+
+        private SegmentNode ComposeStarYearSegmentComponent()
+        {
+            return new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(lexer.Position, 0))), Segment.Year, null);
+        }
+
+        private void Consume(TokenType type)
+        {
+            if (currentToken.TokenType == type)
+            {
+                lastToken = currentToken;
+                currentToken = lexer.NextToken();
+                return;
+            }
+            throw new UnexpectedTokenException(lexer.Position, currentToken);
+        }
+
+        private SyntaxNode SeparateCommas()
+        {
+            var node = TakeComplex();
+            while (currentToken.TokenType == TokenType.Comma)
+            {
+                switch (currentToken.TokenType)
+                {
+                    case TokenType.Comma:
+                        Consume(TokenType.Comma);
+                        break;
+                }
+
+                var comma = lastToken;
+                node = new CommaNode(node, TakeComplex(), comma);
+            }
+            return node;
+        }
+
+        private SyntaxNode TakeComplex()
+        {
+            SyntaxNode node = TakePrimitives();
+
+            while (currentToken.TokenType == TokenType.Range || currentToken.TokenType == TokenType.Inc || currentToken.TokenType == TokenType.Hash)
+            {
+                var token = currentToken;
+                Consume(currentToken.TokenType);
+
+                switch (token.TokenType)
+                {
+                    case TokenType.Range:
+                        node = new RangeNode(node, TakePrimitives(), token);
+                        break;
+                    case TokenType.Inc:
+                        node = new IncrementByNode(node, TakePrimitives(), token);
+                        break;
+                    case TokenType.Hash:
+                        node = new HashNode(node, TakePrimitives(), token);
+                        break;
+                }
+            }
+
+            return node;
         }
 
         private LeafNode TakePrimitiveInteger()
@@ -152,55 +201,6 @@ namespace Cron.Parser
                     return ComposeMissingNodeOnCurrentPosition();
             }
             return ComposeMissingNodeOnCurrentPosition();
-        }
-
-        private SyntaxNode TakeComplex()
-        {
-            SyntaxNode node = TakePrimitives();
-
-            while (currentToken.TokenType == TokenType.Range || currentToken.TokenType == TokenType.Inc || currentToken.TokenType == TokenType.Hash)
-            {
-                var token = currentToken;
-                Consume(currentToken.TokenType);
-
-                switch (token.TokenType)
-                {
-                    case TokenType.Range:
-                        node = new RangeNode(node, TakePrimitives(), token);
-                        break;
-                    case TokenType.Inc:
-                        node = new IncrementByNode(node, TakePrimitives(), token);
-                        break;
-                    case TokenType.Hash:
-                        node = new HashNode(node, TakePrimitives(), token);
-                        break;
-                }
-            }
-
-            return node;
-        }
-
-        private SyntaxNode SeparateCommas()
-        {
-            var node = TakeComplex();
-            while (currentToken.TokenType == TokenType.Comma)
-            {
-                switch (currentToken.TokenType)
-                {
-                    case TokenType.Comma:
-                        Consume(TokenType.Comma);
-                        break;
-                }
-
-                var comma = lastToken;
-                node = new CommaNode(node, TakeComplex(), comma);
-            }
-            return node;
-        }
-
-        private SegmentNode ComposeComplexSegment(Segment segment)
-        {
-            return new SegmentNode(SeparateCommas(), segment, null);
         }
     }
 }

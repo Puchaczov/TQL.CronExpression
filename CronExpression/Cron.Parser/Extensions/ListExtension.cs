@@ -8,19 +8,13 @@ namespace Cron.Parser.Extensions
 {
     public static class ListExtension
     {
-        public static IList<int> Expand(int from, int to, int inc)
+
+        public static void AddRange(this IList<int> list, IEnumerable<int> values)
         {
-            var values = new List<int>();
-            var i = from;
-            for (int j = to - inc; i <= j; i += inc)
+            foreach (var item in values)
             {
-                values.Add(i);
+                list.Add(item);
             }
-            if (i <= to)
-            {
-                values.Add(i);
-            }
-            return values;
         }
 
         public static void Cut(this IList<int> list, int min, int max, int cutNotEveryNth)
@@ -48,13 +42,19 @@ namespace Cron.Parser.Extensions
         {
             return new List<int>();
         }
-
-        public static void AddRange(this IList<int> list, IEnumerable<int> values)
+        public static IList<int> Expand(int from, int to, int inc)
         {
-            foreach(var item in values)
+            var values = new List<int>();
+            var i = from;
+            for (int j = to - inc; i <= j; i += inc)
             {
-                list.Add(item);
+                values.Add(i);
             }
+            if (i <= to)
+            {
+                values.Add(i);
+            }
+            return values;
         }
     }
 }

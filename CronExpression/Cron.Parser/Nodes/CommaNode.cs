@@ -18,23 +18,6 @@ namespace Cron.Parser.Nodes
             this.right = right;
         }
 
-        public override void Accept(INodeVisitor visitor)
-        {
-            visitor.Visit(this);
-            left.Accept(visitor);
-            right.Accept(visitor);
-        }
-
-        public override IList<int> Evaluate(Segment segment)
-        {
-            var list = new List<int>();
-            foreach(var item in Desecendants)
-            {
-                list.AddRange(item.Evaluate(segment));
-            }
-            return list;
-        }
-
         public override SyntaxNode[] Desecendants
         {
             get
@@ -42,10 +25,10 @@ namespace Cron.Parser.Nodes
                 var commaItems = new List<SyntaxNode>();
                 var current = left;
                 commaItems.Add(right);
-                while(current != null)
+                while (current != null)
                 {
                     var commaCurrent = current as CommaNode;
-                    if(commaCurrent != null)
+                    if (commaCurrent != null)
                     {
                         current = commaCurrent.Left;
                         commaItems.Add(commaCurrent.Right);
@@ -86,6 +69,23 @@ namespace Cron.Parser.Nodes
             {
                 return right;
             }
+        }
+
+        public override void Accept(INodeVisitor visitor)
+        {
+            visitor.Visit(this);
+            left.Accept(visitor);
+            right.Accept(visitor);
+        }
+
+        public override IList<int> Evaluate(Segment segment)
+        {
+            var list = new List<int>();
+            foreach (var item in Desecendants)
+            {
+                list.AddRange(item.Evaluate(segment));
+            }
+            return list;
         }
 
         public override string ToString()

@@ -8,14 +8,6 @@ namespace Cron.Parser.Exceptions
     {
         private readonly int position;
 
-        public int Position
-        {
-            get
-            {
-                return position;
-            }
-        }
-
         public UnknownSegmentException(int position)
         {
             this.position = position;
@@ -30,6 +22,14 @@ namespace Cron.Parser.Exceptions
             get
             {
                 return $"Unknown segment while processing expression. Exception occured in position {Position}";
+            }
+        }
+
+        public int Position
+        {
+            get
+            {
+                return position;
             }
         }
     }

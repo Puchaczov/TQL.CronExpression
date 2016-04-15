@@ -6,8 +6,17 @@ namespace Cron.Visitors
 {
     public class CronTimelineVisitor : CronNodeVisitorBase, IEvaluable<ICronFireTimeEvaluator>
     {
-        private readonly DateTimeOffset referenceTime;
         private bool isVisited;
+        private readonly DateTimeOffset referenceTime;
+
+        public CronTimelineVisitor(DateTime referenceTime)
+        {
+            this.referenceTime = referenceTime;
+        }
+
+        public CronTimelineVisitor()
+            : this(DateTime.UtcNow)
+        { }
 
         public ICronFireTimeEvaluator Evaluator
         {
@@ -28,15 +37,6 @@ namespace Cron.Visitors
                     time);
             }
         }
-
-        public CronTimelineVisitor(DateTime referenceTime)
-        {
-            this.referenceTime = referenceTime;
-        }
-
-        public CronTimelineVisitor()
-            : this(DateTime.UtcNow)
-        { }
 
         public override void Visit(EndOfFileNode node)
         {

@@ -17,19 +17,19 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override bool IsLeaf
-        {
-            get
-            {
-                return false;
-            }
-        }
-
         public override TextSpan FullSpan
         {
             get
             {
                 return Descendant.FullSpan.Clone();
+            }
+        }
+
+        public override bool IsLeaf
+        {
+            get
+            {
+                return false;
             }
         }
     }

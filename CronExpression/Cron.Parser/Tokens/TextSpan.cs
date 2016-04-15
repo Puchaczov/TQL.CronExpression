@@ -14,20 +14,6 @@ namespace Cron.Parser.Tokens
     [DebuggerDisplay("Start: {Start}, Length: {Length}, End: {End}")]
     public struct TextSpan
     {
-        /// <summary>
-        /// Point somewhere in source code.
-        /// </summary>
-        public int Start { get; }
-
-        /// <summary>
-        /// Lenght of span text.
-        /// </summary>
-        public int Length { get; }
-
-        /// <summary>
-        /// Returns end of span string.
-        /// </summary>
-        public int End => Start + Length;
 
         public TextSpan(int start, int lenght)
         {
@@ -35,30 +21,44 @@ namespace Cron.Parser.Tokens
             this.Length = lenght;
         }
 
-        public override bool Equals(object obj)
-        {
-            if(obj == null)
-            {
-                return false;
-            }
-            if(obj is TextSpan)
-            {
-                var span = (TextSpan)obj;
-                return span.Start == this.Start && span.Length == this.Length;
-            }
-            return base.Equals(obj);
-        }
+        /// <summary>
+        /// Returns end of span string.
+        /// </summary>
+        public int End => Start + Length;
 
-        public static bool operator==(TextSpan left, TextSpan right)
+        /// <summary>
+        /// Lenght of span text.
+        /// </summary>
+        public int Length { get; }
+        /// <summary>
+        /// Point somewhere in source code.
+        /// </summary>
+        public int Start { get; }
+
+        public static bool operator !=(TextSpan left, TextSpan right) => !(left == right);
+
+        public static bool operator ==(TextSpan left, TextSpan right)
         {
-            if(object.Equals(left, null))
+            if (object.Equals(left, null))
             {
                 return object.Equals(right, null);
             }
             return left.Equals(right);
         }
 
-        public static bool operator !=(TextSpan left, TextSpan right) => !(left == right);
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is TextSpan)
+            {
+                var span = (TextSpan)obj;
+                return span.Start == this.Start && span.Length == this.Length;
+            }
+            return base.Equals(obj);
+        }
 
         public override int GetHashCode()
         {

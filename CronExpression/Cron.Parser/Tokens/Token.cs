@@ -9,8 +9,6 @@ namespace Cron.Parser.Tokens
 {
     public abstract class Token
     {
-        public TokenType TokenType { get; }
-        public TextSpan Span { get; }
 
         protected Token(string value, TokenType type, TextSpan span)
         {
@@ -18,6 +16,8 @@ namespace Cron.Parser.Tokens
             this.TokenType = type;
             this.Span = span;
         }
+        public TextSpan Span { get; }
+        public TokenType TokenType { get; }
 
         public string Value
         {

@@ -10,18 +10,22 @@ namespace Cron.Parser
 {
     public class Lexer
     {
-        private readonly string input;
-        private int pos;
-        private Token lastToken;
         private Token currentToken;
         private readonly Dictionary<char, char> endLines = new Dictionary<char, char>();
+        private readonly string input;
+        private Token lastToken;
+        private int pos;
 
-        public int Position
+        public Lexer(string input)
         {
-            get
+            if (input == null || input == string.Empty)
             {
-                return pos;
+                throw new ArgumentException(nameof(input));
             }
+            this.input = input.Trim();
+            this.pos = 0;
+            this.currentToken = new NoneToken(new TextSpan(0, 0));
+            this.endLines.Add('\r', '\n');
         }
 
         public Token Last
@@ -32,21 +36,26 @@ namespace Cron.Parser
             }
         }
 
-        public Lexer(string input)
+        public int Position
         {
-            if(input == null || input == string.Empty)
+            get
             {
-                throw new ArgumentException(nameof(input));
+                return pos;
             }
-            this.input = input.Trim();
-            this.pos = 0;
-            this.currentToken = new NoneToken(new TextSpan(0, 0));
-            this.endLines.Add('\r', '\n');
+        }
+
+        public static bool IsDigit(char letter)
+        {
+            if (letter >= '0' && letter <= '9')
+            {
+                return true;
+            }
+            return false;
         }
 
         public Token NextToken()
         {
-            if(pos > input.Count() - 1)
+            if (pos > input.Count() - 1)
             {
                 AssignTokenOfType(() => new EndOfFileToken(new TextSpan(input.Count(), 0)));
                 return currentToken;
@@ -54,7 +63,7 @@ namespace Cron.Parser
 
             var currentChar = input[pos];
 
-            if(pos + 1 < input.Count() && IsEndLineCharacter(currentChar, input[pos + 1]))
+            if (pos + 1 < input.Count() && IsEndLineCharacter(currentChar, input[pos + 1]))
             {
                 var token = new WhiteSpaceToken(new TextSpan(pos, 2));
                 pos += 2;
@@ -66,7 +75,7 @@ namespace Cron.Parser
                 return ConsumeInterger();
             }
 
-            if(IsLetter(currentChar))
+            if (IsLetter(currentChar))
             {
                 var tmpStartPos = Position;
                 var letters = ConsumeLetters();
@@ -91,7 +100,7 @@ namespace Cron.Parser
 
             var lastPos = pos;
             pos += 1;
-            switch(currentChar)
+            switch (currentChar)
             {
                 case '#':
                     return AssignTokenOfType(() => new HashToken(new TextSpan(lastPos, 1)));
@@ -112,9 +121,23 @@ namespace Cron.Parser
             throw new UnknownTokenException(pos, currentChar);
         }
 
+        private static bool IsLetter(char currentChar)
+        {
+            if (Regex.IsMatch(currentChar.ToString(), "[a-zA-Z]+"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static bool IsMissing(char currentChar)
+        {
+            return currentChar == '_';
+        }
+
         private Token AssignTokenOfType(Func<Token> instantiate)
         {
-            if(instantiate == null)
+            if (instantiate == null)
             {
                 throw new ArgumentNullException(nameof(instantiate));
             }
@@ -122,6 +145,18 @@ namespace Cron.Parser
             lastToken = currentToken;
             currentToken = instantiate();
             return currentToken;
+        }
+
+        private Token ConsumeInterger()
+        {
+            var startPos = pos;
+            var cnt = input.Count();
+            while (cnt > pos && IsDigit(input[pos]))
+            {
+                ++pos;
+            }
+
+            return AssignTokenOfType(() => new IntegerToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos)));
         }
 
         private NameToken ConsumeLetters()
@@ -138,44 +173,9 @@ namespace Cron.Parser
 
         private bool IsEndLineCharacter(char currentChar, char v)
         {
-            if(this.endLines.ContainsKey(currentChar))
+            if (this.endLines.ContainsKey(currentChar))
             {
                 return v == this.endLines[currentChar];
-            }
-            return false;
-        }
-
-        private static bool IsMissing(char currentChar)
-        {
-            return currentChar == '_';
-        }
-
-        private static bool IsLetter(char currentChar)
-        {
-            if(Regex.IsMatch(currentChar.ToString(), "[a-zA-Z]+"))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private Token ConsumeInterger()
-        {
-            var startPos = pos;
-            var cnt = input.Count();
-            while (cnt > pos && IsDigit(input[pos]))
-            {
-                ++pos;
-            }
-
-            return AssignTokenOfType(() => new IntegerToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos)));
-        }
-
-        public static bool IsDigit(char letter)
-        {
-            if(letter >= '0' && letter <= '9')
-            {
-                return true;
             }
             return false;
         }

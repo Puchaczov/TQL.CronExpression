@@ -11,73 +11,11 @@ namespace Cron.Visitors.Tests
     [TestClass]
     public class CronTimelineVisitorTests
     {
-        [TestMethod]
-        public void ValidateExpression_AllStars_ShouldNotContainErrors()
-        {
-            var visitor = CreateExpressionAndPerformVisitor("* * * * * * *");
-
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
-        }
 
         [TestMethod]
         public void CronExpresion3()
         {
             var visitor = CreateExpressionAndPerformVisitor("0 0 12 * * ?");
-
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
-        }
-
-        [TestMethod]
-        public void CronExpression4()
-        {
-            var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * *");
-
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
-        }
-
-        [TestMethod]
-        public void CronExpression5()
-        {
-            var visitor = CreateExpressionAndPerformVisitor("0 15 10 * * ?");
-
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
-        }
-
-        [TestMethod]
-        public void CronExpression6()
-        {
-            var visitor = CreateExpressionAndPerformVisitor("0 15 10 * * ? 2005");
-
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
-        }
-
-        [TestMethod]
-        public void CronExpression7()
-        {
-            var visitor = CreateExpressionAndPerformVisitor("0 0-5 14 * * *");
-
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
-        }
-
-        [TestMethod]
-        public void CronExpression8()
-        {
-            var visitor = CreateExpressionAndPerformVisitor("0 10,44 14 ? 3 WED");
-
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
-        }
-
-        [TestMethod]
-        public void CronExpression9()
-        {
-            var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * MON-FRI");
 
             Assert.AreNotEqual(null, visitor.ValidationErrors);
             Assert.AreEqual(0, visitor.ValidationErrors.Count());
@@ -159,6 +97,68 @@ namespace Cron.Visitors.Tests
         public void CronExpression18()
         {
             var visitor = CreateExpressionAndPerformVisitor("* 12 1-15,17,20-23 * * *");
+
+            Assert.AreNotEqual(null, visitor.ValidationErrors);
+            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+        }
+
+        [TestMethod]
+        public void CronExpression4()
+        {
+            var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * *");
+
+            Assert.AreNotEqual(null, visitor.ValidationErrors);
+            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+        }
+
+        [TestMethod]
+        public void CronExpression5()
+        {
+            var visitor = CreateExpressionAndPerformVisitor("0 15 10 * * ?");
+
+            Assert.AreNotEqual(null, visitor.ValidationErrors);
+            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+        }
+
+        [TestMethod]
+        public void CronExpression6()
+        {
+            var visitor = CreateExpressionAndPerformVisitor("0 15 10 * * ? 2005");
+
+            Assert.AreNotEqual(null, visitor.ValidationErrors);
+            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+        }
+
+        [TestMethod]
+        public void CronExpression7()
+        {
+            var visitor = CreateExpressionAndPerformVisitor("0 0-5 14 * * *");
+
+            Assert.AreNotEqual(null, visitor.ValidationErrors);
+            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+        }
+
+        [TestMethod]
+        public void CronExpression8()
+        {
+            var visitor = CreateExpressionAndPerformVisitor("0 10,44 14 ? 3 WED");
+
+            Assert.AreNotEqual(null, visitor.ValidationErrors);
+            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+        }
+
+        [TestMethod]
+        public void CronExpression9()
+        {
+            var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * MON-FRI");
+
+            Assert.AreNotEqual(null, visitor.ValidationErrors);
+            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+        }
+        [TestMethod]
+        public void ValidateExpression_AllStars_ShouldNotContainErrors()
+        {
+            var visitor = CreateExpressionAndPerformVisitor("* * * * * * *");
 
             Assert.AreNotEqual(null, visitor.ValidationErrors);
             Assert.AreEqual(0, visitor.ValidationErrors.Count());

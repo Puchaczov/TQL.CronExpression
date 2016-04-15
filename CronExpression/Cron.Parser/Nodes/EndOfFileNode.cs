@@ -18,6 +18,14 @@ namespace Cron.Parser.Nodes
             }
         }
 
+        public override TextSpan FullSpan
+        {
+            get
+            {
+                return Token.Span;
+            }
+        }
+
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
@@ -26,14 +34,6 @@ namespace Cron.Parser.Nodes
         public override string ToString()
         {
             return string.Empty;
-        }
-
-        public override TextSpan FullSpan
-        {
-            get
-            {
-                return Token.Span;
-            }
         }
     }
 }

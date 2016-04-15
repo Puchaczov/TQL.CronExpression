@@ -14,47 +14,6 @@ namespace Cron.Parser.Tests
     [TestClass]
     public class RangeCronRulesTests
     {
-        [TestMethod]
-        public void CheckRange_RangeInSeconds_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1-5 * * * * *");
-        }
-
-        [TestMethod]
-        public void CheckRange_RangeInMinutes_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* 1-5 * * * *");
-        }
-
-        [TestMethod]
-        public void CheckRange_RangeInHours_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * 1-5 * * *");
-        }
-
-        [TestMethod]
-        public void CheckRange_RangeInDaysOfMonth_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * 1-5 * *");
-        }
-
-        [TestMethod]
-        public void CheckRange_RangeInMonths_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * 1-5 * *");
-        }
-
-        [TestMethod]
-        public void CheckRange_RangeInDaysOfWeek_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * 1-5 *");
-        }
-
-        [TestMethod]
-        public void CheckRange_RangeInYears_ShouldPass()
-        {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * * 2000-2005");
-        }
 
         [TestMethod]
         public void CheckRange_AllRangesAreIncorrect_ShouldAggregateExceptions()
@@ -63,6 +22,14 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(false, visitor.IsValid);
             Assert.AreEqual(7, visitor.ValidationErrors.Count());
             Assert.AreEqual(typeof(RangeNodeException), visitor.ValidationErrors.First().GetType());
+        }
+
+        [TestMethod]
+        public void CheckRange_MonthRangesAreProper_ShouldNotHaveExceptions()
+        {
+            var visitor = "* * * * 1-3,JAN-MAR,MAY-12 * *".TakeVisitor();
+            Assert.AreEqual(true, visitor.IsValid);
+            Assert.AreEqual(0, visitor.ValidationErrors.Count());
         }
 
         [TestMethod]
@@ -78,11 +45,44 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void CheckRange_MonthRangesAreProper_ShouldNotHaveExceptions()
+        public void CheckRange_RangeInDaysOfMonth_ShouldPass()
         {
-            var visitor = "* * * * 1-3,JAN-MAR,MAY-12 * *".TakeVisitor();
-            Assert.AreEqual(true, visitor.IsValid);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * 1-5 * *");
+        }
+
+        [TestMethod]
+        public void CheckRange_RangeInDaysOfWeek_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * 1-5 *");
+        }
+
+        [TestMethod]
+        public void CheckRange_RangeInHours_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * 1-5 * * *");
+        }
+
+        [TestMethod]
+        public void CheckRange_RangeInMinutes_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* 1-5 * * * *");
+        }
+
+        [TestMethod]
+        public void CheckRange_RangeInMonths_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * 1-5 * *");
+        }
+        [TestMethod]
+        public void CheckRange_RangeInSeconds_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1-5 * * * * *");
+        }
+
+        [TestMethod]
+        public void CheckRange_RangeInYears_ShouldPass()
+        {
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * * 2000-2005");
         }
     }
 }

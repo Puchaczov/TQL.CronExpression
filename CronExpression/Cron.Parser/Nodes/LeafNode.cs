@@ -17,11 +17,11 @@ namespace Cron.Parser.Nodes
             this.token = token;
         }
 
-        public override Token Token
+        public override TextSpan FullSpan
         {
             get
             {
-                return token;
+                return Token.Span.Clone();
             }
         }
 
@@ -33,11 +33,11 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override TextSpan FullSpan
+        public override Token Token
         {
             get
             {
-                return Token.Span.Clone();
+                return token;
             }
         }
     }

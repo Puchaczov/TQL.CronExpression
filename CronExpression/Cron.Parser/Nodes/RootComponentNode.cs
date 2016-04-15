@@ -19,6 +19,40 @@ namespace Cron.Parser.Nodes
             this.cronComponents = cronComponents;
         }
 
+        public override SyntaxNode[] Desecendants
+        {
+            get
+            {
+                return cronComponents;
+            }
+        }
+
+        public override TextSpan FullSpan
+        {
+            get
+            {
+                var start = Desecendants.First().FullSpan.Start;
+                var stop = Desecendants.Last().FullSpan.End;
+                return new TextSpan(start, stop - start);
+            }
+        }
+
+        public override bool IsLeaf
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public override Token Token
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
@@ -31,40 +65,6 @@ namespace Cron.Parser.Nodes
         public override IList<int> Evaluate(Segment segment)
         {
             throw new NotImplementedException();
-        }
-
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return cronComponents;
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        public override bool IsLeaf
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public override TextSpan FullSpan
-        {
-            get
-            {
-                var start = Desecendants.First().FullSpan.Start;
-                var stop = Desecendants.Last().FullSpan.End;
-                return new TextSpan(start, stop - start);
-            }
         }
 
         public override string ToString()

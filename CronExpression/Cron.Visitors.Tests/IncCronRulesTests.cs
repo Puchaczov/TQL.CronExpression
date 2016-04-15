@@ -11,16 +11,17 @@ namespace Cron.Visitors.Tests
     [TestClass]
     public class IncCronRulesTests
     {
+
         [TestMethod]
-        public void CheckInc_IncInSeconds_ShouldPass()
+        public void CheckInc_IncInDayOfMonth_ShouldPass()
         {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1/5 * * * * * *");
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * 1/5 * * *");
         }
 
         [TestMethod]
-        public void CheckInc_IncInMinutes_ShouldPass()
+        public void CheckInc_IncInDayOfWeek_ShouldPass()
         {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* 1/5 * * * * *");
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * 1/5 *");
         }
 
         [TestMethod]
@@ -30,9 +31,9 @@ namespace Cron.Visitors.Tests
         }
 
         [TestMethod]
-        public void CheckInc_IncInDayOfMonth_ShouldPass()
+        public void CheckInc_IncInMinutes_ShouldPass()
         {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * 1/5 * * *");
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* 1/5 * * * * *");
         }
 
         [TestMethod]
@@ -40,11 +41,10 @@ namespace Cron.Visitors.Tests
         {
             TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * 1/5 * *");
         }
-
         [TestMethod]
-        public void CheckInc_IncInDayOfWeek_ShouldPass()
+        public void CheckInc_IncInSeconds_ShouldPass()
         {
-            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * * 1/5 *");
+            TestsHelper.CheckExpressionDidNotReturnsValidationErrors("1/5 * * * * * *");
         }
 
         [TestMethod]

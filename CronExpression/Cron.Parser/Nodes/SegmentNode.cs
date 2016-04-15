@@ -29,30 +29,11 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public Segment Segment
-        {
-            get
-            {
-                return segment;
-            }
-        }
-
-        public override void Accept(INodeVisitor visitor)
-        {
-            visitor.Visit(this);
-            node.Accept(visitor);
-        }
-
-        public override IList<int> Evaluate(Segment segment)
-        {
-            return node.Evaluate(segment);
-        }
-
         public override SyntaxNode[] Desecendants
         {
             get
             {
-                switch(node.Token.TokenType)
+                switch (node.Token.TokenType)
                 {
                     case TokenType.Comma:
                         return node.Desecendants;
@@ -61,14 +42,6 @@ namespace Cron.Parser.Nodes
                             node
                         };
                 }
-            }
-        }
-
-        public override Token Token
-        {
-            get
-            {
-                return token;
             }
         }
 
@@ -81,6 +54,33 @@ namespace Cron.Parser.Nodes
                 var stop = descs[descs.Length - 1].FullSpan;
                 return new TextSpan(start.Start, stop.End - start.Start);
             }
+        }
+
+        public Segment Segment
+        {
+            get
+            {
+                return segment;
+            }
+        }
+
+        public override Token Token
+        {
+            get
+            {
+                return token;
+            }
+        }
+
+        public override void Accept(INodeVisitor visitor)
+        {
+            visitor.Visit(this);
+            node.Accept(visitor);
+        }
+
+        public override IList<int> Evaluate(Segment segment)
+        {
+            return node.Evaluate(segment);
         }
 
         public override string ToString()

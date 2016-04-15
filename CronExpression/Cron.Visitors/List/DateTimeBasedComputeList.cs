@@ -8,8 +8,8 @@ namespace Cron.Parser.List
 {
     public abstract class DateTimeBasedComputeList : IVirtualList<int>
     {
-        protected readonly Ref<DateTimeOffset> referenceTime;
         protected readonly IList<int> list;
+        protected readonly Ref<DateTimeOffset> referenceTime;
 
         protected DateTimeBasedComputeList(Ref<DateTimeOffset> referenceTime, IList<int> list)
         {
@@ -64,18 +64,18 @@ namespace Cron.Parser.List
 
         public override int Element(int index)
         {
-            if(index != 0)
+            if (index != 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
             var refTime = referenceTime.Value;
             var daysInMonth = DateTime.DaysInMonth(refTime.Year, refTime.Month);
             var day = new DateTime(refTime.Year, refTime.Month, daysInMonth);
-            if(day.DayOfWeek == DayOfWeek.Saturday)
+            if (day.DayOfWeek == DayOfWeek.Saturday)
             {
                 return daysInMonth - 1;
             }
-            else if(day.DayOfWeek == DayOfWeek.Sunday)
+            else if (day.DayOfWeek == DayOfWeek.Sunday)
             {
                 return daysInMonth - 2;
             }
@@ -101,11 +101,11 @@ namespace Cron.Parser.List
         {
             var refTime = referenceTime.Value;
             var candidateTime = new DateTime(refTime.Year, refTime.Month, list[0]);
-            if(candidateTime.DayOfWeek != DayOfWeek.Saturday && candidateTime.DayOfWeek != DayOfWeek.Sunday)
+            if (candidateTime.DayOfWeek != DayOfWeek.Saturday && candidateTime.DayOfWeek != DayOfWeek.Sunday)
             {
                 return list[0];
             }
-            if(candidateTime.DayOfWeek == DayOfWeek.Saturday)
+            if (candidateTime.DayOfWeek == DayOfWeek.Saturday)
             {
                 var friday = candidateTime.AddDays(-1);
                 //still the same month
@@ -123,7 +123,7 @@ namespace Cron.Parser.List
         {
             get
             {
-                if(DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month) < list[0])
+                if (DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month) < list[0])
                 {
                     return 0;
                 }
@@ -197,17 +197,17 @@ namespace Cron.Parser.List
             : base(referenceTime, new List<int>())
         { }
 
-        public override int Element(int index)
-        {
-            return index + 1;
-        }
-
         public override int Count
         {
             get
             {
                 return DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month);
             }
+        }
+
+        public override int Element(int index)
+        {
+            return index + 1;
         }
     }
 
@@ -216,59 +216,13 @@ namespace Cron.Parser.List
     /// </summary>
     public class NthDayOfMonthList : IVirtualList<int>
     {
-        private readonly Ref<DateTimeOffset> referenceTime;
         private readonly DayOfWeek dayOfWeekToFind;
+        private readonly Ref<DateTimeOffset> referenceTime;
 
         public NthDayOfMonthList(Ref<DateTimeOffset> referenceTime, DayOfWeek dayOfWeekToFind)
         {
             this.referenceTime = referenceTime;
             this.dayOfWeekToFind = dayOfWeekToFind;
-        }
-
-        public virtual int Element(int index)
-        {
-            var foundedDate = GetFirstMatchingDateInMonth();
-            switch (index)
-            {
-                case 0:
-                    return foundedDate.Day;
-                case 1:
-                    return foundedDate.AddDays(7).Day;
-                case 2:
-                    return foundedDate.AddDays(14).Day;
-                case 3:
-                    return foundedDate.AddDays(21).Day;
-                case 4:
-                    return foundedDate.AddDays(28).Day;
-                default:
-                    throw new IndexOutOfRangeException(nameof(index));
-            }
-        }
-
-        private DateTimeOffset GetFirstMatchingDateInMonth()
-        {
-            var val = referenceTime.Value;
-            var refTime = new DateTimeOffset(val.Year, val.Month, 1, 0, 0, 0, new TimeSpan(val.Offset.Days, val.Offset.Hours, val.Offset.Minutes, val.Offset.Seconds));
-            while (refTime.DayOfWeek != dayOfWeekToFind)
-            {
-                refTime = refTime.AddDays(1);
-            }
-            return refTime;
-        }
-
-        public void Add(IVirtualList<int> list)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<int> GetEnumerator()
-        {
-            return new VirtualListEnumerator<int>(this);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public virtual int Count
@@ -298,6 +252,52 @@ namespace Cron.Parser.List
                 throw new NotImplementedException();
             }
         }
+
+        public void Add(IVirtualList<int> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int Element(int index)
+        {
+            var foundedDate = GetFirstMatchingDateInMonth();
+            switch (index)
+            {
+                case 0:
+                    return foundedDate.Day;
+                case 1:
+                    return foundedDate.AddDays(7).Day;
+                case 2:
+                    return foundedDate.AddDays(14).Day;
+                case 3:
+                    return foundedDate.AddDays(21).Day;
+                case 4:
+                    return foundedDate.AddDays(28).Day;
+                default:
+                    throw new IndexOutOfRangeException(nameof(index));
+            }
+        }
+
+        public IEnumerator<int> GetEnumerator()
+        {
+            return new VirtualListEnumerator<int>(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        private DateTimeOffset GetFirstMatchingDateInMonth()
+        {
+            var val = referenceTime.Value;
+            var refTime = new DateTimeOffset(val.Year, val.Month, 1, 0, 0, 0, new TimeSpan(val.Offset.Days, val.Offset.Hours, val.Offset.Minutes, val.Offset.Seconds));
+            while (refTime.DayOfWeek != dayOfWeekToFind)
+            {
+                refTime = refTime.AddDays(1);
+            }
+            return refTime;
+        }
     }
 
     public class NthDayOfMonthLimitedByNumberOfWeekList : NthDayOfMonthList
@@ -313,7 +313,7 @@ namespace Cron.Parser.List
         public override int Element(int index)
         {
             var tmpNumberOfWeek = numberOfWeek - 1;
-            if(tmpNumberOfWeek < 0 || tmpNumberOfWeek >= base.Count)
+            if (tmpNumberOfWeek < 0 || tmpNumberOfWeek >= base.Count)
             {
                 throw new IndexOutOfRangeException(nameof(tmpNumberOfWeek));
             }

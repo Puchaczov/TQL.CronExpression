@@ -15,7 +15,7 @@ namespace Cron.Parser.Helpers
             var pathIndex = 1;
             SyntaxNode current = tree;
             var splitedPath = path.Split('>');
-            for(;pathIndex < splitedPath.Count(); ++pathIndex)
+            for (; pathIndex < splitedPath.Count(); ++pathIndex)
             {
                 var descIndex = Convert.ToInt16(splitedPath[pathIndex]);
                 if (descIndex >= current.Desecendants.Count())
@@ -27,29 +27,18 @@ namespace Cron.Parser.Helpers
             return current;
         }
 
-        public static SegmentNode GetSegmentByCaret(this RootComponentNode tree, int caret)
-        {
-            foreach(var segment in tree.Desecendants)
-            {
-                if(caret >= segment.FullSpan.Start && caret <= segment.FullSpan.End)
-                {
-                    return (SegmentNode)segment;
-                }
-            }
-            return null;
-        }
-
         public static SyntaxNode FindBySpan(this RootComponentNode tree, TextSpan span)
         {
             var candidates = new List<SyntaxNode>();
-            TreeHelpers.Traverse(tree, (SyntaxNode node) => {
+            TreeHelpers.Traverse(tree, (SyntaxNode node) =>
+            {
                 if (span.IsInside(node.FullSpan))
                 {
                     candidates.Add(node);
                 }
             });
 
-            if(candidates.Count == 0)
+            if (candidates.Count == 0)
             {
                 return null;
             }
@@ -64,6 +53,18 @@ namespace Cron.Parser.Helpers
             return FindBySpan(tree, new TextSpan(caret, 1));
         }
 
+        public static SegmentNode GetSegmentByCaret(this RootComponentNode tree, int caret)
+        {
+            foreach (var segment in tree.Desecendants)
+            {
+                if (caret >= segment.FullSpan.Start && caret <= segment.FullSpan.End)
+                {
+                    return (SegmentNode)segment;
+                }
+            }
+            return null;
+        }
+
         public static void Traverse(this RootComponentNode tree, Action<SyntaxNode> fun)
         {
             Traverse((SyntaxNode)tree, fun);
@@ -71,12 +72,12 @@ namespace Cron.Parser.Helpers
 
         public static void Traverse(this SyntaxNode node, Action<SyntaxNode> fun)
         {
-            if(node == null)
+            if (node == null)
             {
                 throw new ArgumentNullException(nameof(node));
             }
 
-            if(fun == null)
+            if (fun == null)
             {
                 throw new ArgumentNullException(nameof(fun));
             }

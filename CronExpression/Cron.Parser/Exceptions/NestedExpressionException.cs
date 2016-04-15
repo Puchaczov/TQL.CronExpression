@@ -10,14 +10,6 @@ namespace Cron.Parser.Exceptions
         private readonly int position;
         private readonly Token token;
 
-        public int Position
-        {
-            get
-            {
-                return position;
-            }
-        }
-
         public NestedExpressionException()
         {
         }
@@ -45,6 +37,14 @@ namespace Cron.Parser.Exceptions
             get
             {
                 return $"There is to deep founded in position {position} when parsing token {token.Value}";
+            }
+        }
+
+        public int Position
+        {
+            get
+            {
+                return position;
             }
         }
     }

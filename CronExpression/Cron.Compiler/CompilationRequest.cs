@@ -8,11 +8,6 @@ namespace Cron.Compilation
 {
     public class CompilationRequest
     {
-        public class CompilationOptions
-        {
-            public bool ProduceYearIfMissing { get; set; }
-            public bool ProduceEndOfFileNode { get; set; }
-        }
 
         private readonly string input;
         private readonly CompilationOptions options;
@@ -37,6 +32,11 @@ namespace Cron.Compilation
             {
                 return this.options;
             }
+        }
+        public class CompilationOptions
+        {
+            public bool ProduceEndOfFileNode { get; set; }
+            public bool ProduceYearIfMissing { get; set; }
         }
     }
 }

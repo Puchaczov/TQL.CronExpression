@@ -7,7 +7,6 @@ namespace Cron.Visitors.Exceptions
     [Serializable]
     public class BaseCronValidationException : Exception
     {
-        public Token Token { get; set; }
 
         public BaseCronValidationException(Token token)
         {
@@ -17,5 +16,6 @@ namespace Cron.Visitors.Exceptions
         protected BaseCronValidationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+        public Token Token { get; set; }
     }
 }

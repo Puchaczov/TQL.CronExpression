@@ -11,10 +11,10 @@ namespace Cron.Parser.Extensions
     [ExcludeFromCodeCoverage]
     public static class CronWordHelper
     {
-        private static readonly Dictionary<string, Month> monthsStringToMonth;
         private static readonly Dictionary<string, DayOfWeek> dayOfWeekStringToDayOfWeek;
         private static readonly Dictionary<DayOfWeek, int> dayOfWeekToInt;
         private static readonly Dictionary<int, DayOfWeek> intToDayOfWeek;
+        private static readonly Dictionary<string, Month> monthsStringToMonth;
 
         static CronWordHelper()
         {
@@ -101,9 +101,9 @@ namespace Cron.Parser.Extensions
             intToDayOfWeek.Add(7, System.DayOfWeek.Saturday);
         }
 
-        public static Month Month(string month)
+        public static DayOfWeek AsDayOfWeek(this int dayOfWeek)
         {
-            return monthsStringToMonth[month.ToLowerInvariant()];
+            return intToDayOfWeek[dayOfWeek];
         }
 
         public static int AsInt(this Month month)
@@ -111,14 +111,9 @@ namespace Cron.Parser.Extensions
             return (int)month;
         }
 
-        public static DayOfWeek DayOfWeek(string dayOfWeek)
+        public static int AsInt(this DayOfWeek dayOfWeek)
         {
-            return dayOfWeekStringToDayOfWeek[dayOfWeek.ToLowerInvariant()];
-        }
-
-        public static bool ContainsMonth(string month)
-        {
-            return monthsStringToMonth.ContainsKey(month.ToLowerInvariant());
+            return dayOfWeekToInt[dayOfWeek];
         }
 
         public static bool ContainsDayOfWeek(string dayOfWeek)
@@ -126,14 +121,19 @@ namespace Cron.Parser.Extensions
             return dayOfWeekStringToDayOfWeek.ContainsKey(dayOfWeek.ToLowerInvariant());
         }
 
-        public static int AsInt(this DayOfWeek dayOfWeek)
+        public static bool ContainsMonth(string month)
         {
-            return dayOfWeekToInt[dayOfWeek];
+            return monthsStringToMonth.ContainsKey(month.ToLowerInvariant());
         }
 
-        public static DayOfWeek AsDayOfWeek(this int dayOfWeek)
+        public static DayOfWeek DayOfWeek(string dayOfWeek)
         {
-            return intToDayOfWeek[dayOfWeek];
+            return dayOfWeekStringToDayOfWeek[dayOfWeek.ToLowerInvariant()];
+        }
+
+        public static Month Month(string month)
+        {
+            return monthsStringToMonth[month.ToLowerInvariant()];
         }
     }
 }

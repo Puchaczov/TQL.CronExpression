@@ -10,14 +10,14 @@ namespace Cron.Parser.Exceptions
     [Serializable]
     public class UnexpectedSegmentException : Exception
     {
-        public Segment Segment
-        {
-            get;
-        }
 
         public UnexpectedSegmentException(Segment segment)
         {
             this.Segment = segment;
+        }
+        public Segment Segment
+        {
+            get;
         }
     }
 }

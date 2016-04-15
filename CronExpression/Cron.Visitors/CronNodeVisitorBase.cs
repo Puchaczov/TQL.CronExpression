@@ -11,9 +11,16 @@ namespace Cron.Visitors
 {
     public class CronNodeVisitorBase : CronRulesNodeVisitor
     {
-        private readonly Dictionary<Segment, RoundRobinRangeVaryingList<int>> values;
-        private Segment lastSegment;
         protected readonly Ref<DateTimeOffset> time;
+        private Segment lastSegment;
+        private readonly Dictionary<Segment, RoundRobinRangeVaryingList<int>> values;
+
+        public CronNodeVisitorBase()
+        {
+            values = new Dictionary<Segment, RoundRobinRangeVaryingList<int>>();
+            DateTimeOffset refTime = DateTime.Now;
+            time = new Ref<DateTimeOffset>(() => refTime, time => { refTime = time; });
+        }
 
         public Dictionary<Segment, RoundRobinRangeVaryingList<int>> Result
         {
@@ -29,13 +36,6 @@ namespace Cron.Visitors
             {
                 return Result[segment];
             }
-        }
-
-        public CronNodeVisitorBase()
-        {
-            values = new Dictionary<Segment, RoundRobinRangeVaryingList<int>>();
-            DateTimeOffset refTime = DateTime.Now;
-            time = new Ref<DateTimeOffset>(() => refTime, time => { refTime = time; });
         }
 
         public override void Visit(CommaNode node)
@@ -95,7 +95,7 @@ namespace Cron.Visitors
                     skipNumericEvaluation = true;
                     goto default;
                 default:
-                    if(!skipNumericEvaluation)
+                    if (!skipNumericEvaluation)
                     {
                         left = node.Left.Evaluate(lastSegment).First();
                         right = node.Right.Evaluate(lastSegment).First();
@@ -138,7 +138,7 @@ namespace Cron.Visitors
         public override void Visit(QuestionMarkNode node)
         {
             base.Visit(node);
-            switch(lastSegment)
+            switch (lastSegment)
             {
                 case Segment.DayOfWeek:
                     var list = new EveryDayOfWeekAllowedList(time);
@@ -156,7 +156,7 @@ namespace Cron.Visitors
         public override void Visit(LNode node)
         {
             base.Visit(node);
-            switch(lastSegment)
+            switch (lastSegment)
             {
                 case Segment.DayOfMonth:
                     values[lastSegment].Add(new MonthBasedComputedList(time, new int[] { 0 }));
@@ -172,7 +172,7 @@ namespace Cron.Visitors
         public override void Visit(WNode node)
         {
             base.Visit(node);
-            switch(lastSegment)
+            switch (lastSegment)
             {
                 case Segment.DayOfMonth:
                     values[lastSegment].Add(new NearWeekdayComputedList(time, 1));
@@ -198,7 +198,7 @@ namespace Cron.Visitors
         {
             base.Visit(node);
             var count = values[lastSegment].Count;
-            switch(lastSegment)
+            switch (lastSegment)
             {
                 case Segment.DayOfMonth:
                     values[lastSegment].Add(new MonthBasedComputedList(time, new int[] { int.Parse(node.Token.Value) }));
@@ -214,7 +214,7 @@ namespace Cron.Visitors
         public override void Visit(NumericPrecededWNode node)
         {
             base.Visit(node);
-            switch(lastSegment)
+            switch (lastSegment)
             {
                 case Segment.DayOfMonth:
                     values[lastSegment].Add(new NearWeekdayComputedList(time, int.Parse(node.Token.Value)));
@@ -225,7 +225,7 @@ namespace Cron.Visitors
         public override void Visit(LWNode node)
         {
             base.Visit(node);
-            switch(lastSegment)
+            switch (lastSegment)
             {
                 case Segment.DayOfMonth:
                     values[lastSegment].Add(new LastWeekdayOfMonthComputedList(time));

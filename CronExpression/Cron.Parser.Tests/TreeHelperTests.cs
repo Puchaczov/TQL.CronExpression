@@ -8,6 +8,14 @@ namespace Cron.Parser.Tests
     [TestClass]
     public class TreeHelperTests
     {
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void TreeHelper_FindByPath_IncorrectPath_ShouldFail()
+        {
+            var ast = "* * *".Parse();
+            ast.FindByPath("0>10");
+        }
         [TestMethod]
         public void TreeHelper_FindByPath_ShouldPass()
         {
@@ -30,34 +38,6 @@ namespace Cron.Parser.Tests
             Assert.AreEqual("2", ast.FindByPath("0>4>1").ToString());
             Assert.AreEqual(typeof(IncrementByNode), ast.FindByPath("0>4>2").GetType()); //1-19/2
             Assert.AreEqual(typeof(HashNode), ast.FindByPath("0>4>3").GetType()); //5#1
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
-        public void TreeHelper_FindByPath_IncorrectPath_ShouldFail()
-        {
-            var ast = "* * *".Parse();
-            ast.FindByPath("0>10");
-        }
-
-        [TestMethod]
-        public void TreeHelper_TraverseCheckSimpleCase_ShouldPass()
-        {
-            var ast = "* * * * * * *".Parse();
-            const int countToVisit = 16;
-            var count = 0;
-            ast.Traverse(f => count += 1);
-            Assert.AreEqual(countToVisit, count);
-        }
-
-        [TestMethod]
-        public void TreeHelper_TraverseCheckAllNodesVisited_ShouldPass()
-        {
-            var ast = "1-2/3 4 5#6 1/2 1-6,2,1-19/2,5#1 L W,LW".Parse();
-            const int countToVisit = 36;
-            var count = 0;
-            ast.Traverse(f => count += 1);
-            Assert.AreEqual(countToVisit, count);
         }
 
         [TestMethod]
@@ -84,6 +64,26 @@ namespace Cron.Parser.Tests
             Assert.AreEqual("5-6#4", node.ToString());
             node = ast.FindBySpan(8);
             Assert.AreEqual("4", node.ToString());
+        }
+
+        [TestMethod]
+        public void TreeHelper_TraverseCheckAllNodesVisited_ShouldPass()
+        {
+            var ast = "1-2/3 4 5#6 1/2 1-6,2,1-19/2,5#1 L W,LW".Parse();
+            const int countToVisit = 36;
+            var count = 0;
+            ast.Traverse(f => count += 1);
+            Assert.AreEqual(countToVisit, count);
+        }
+
+        [TestMethod]
+        public void TreeHelper_TraverseCheckSimpleCase_ShouldPass()
+        {
+            var ast = "* * * * * * *".Parse();
+            const int countToVisit = 16;
+            var count = 0;
+            ast.Traverse(f => count += 1);
+            Assert.AreEqual(countToVisit, count);
         }
     }
 }

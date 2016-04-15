@@ -17,14 +17,14 @@ namespace Cron.Parser.Nodes
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            return "W";
-        }
-
         public override IList<int> Evaluate(Segment segment)
         {
             return ListExtension.Empty();
+        }
+
+        public override string ToString()
+        {
+            return "W";
         }
     }
 }

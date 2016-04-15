@@ -6,9 +6,9 @@ namespace Cron.Parser.List
 {
     internal class VirtuallyJoinedList : IVirtualList<int>
     {
+        private readonly Dictionary<int, int> correspondingKeys;
         private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
         private readonly RoundRobinRangeVaryingList<int> dayOfWeeks;
-        private readonly Dictionary<int, int> correspondingKeys;
         private int index;
 
         public VirtuallyJoinedList(RoundRobinRangeVaryingList<int> dayOfMonths, RoundRobinRangeVaryingList<int> dayOfWeeks)
@@ -19,32 +19,19 @@ namespace Cron.Parser.List
             index = 0;
         }
 
-        public void Reset()
-        {
-            index = 0;
-        }
-
-        public void RebuildCorrespondingKeys()
-        {
-            var index = 0;
-            correspondingKeys.Clear();
-            for(int i = 0; i < dayOfMonths.Count; ++i)
-            {
-                for(int j = 0; j < dayOfWeeks.Count; ++j)
-                {
-                    if(dayOfMonths[i] == dayOfWeeks[j])
-                    {
-                        correspondingKeys.Add(index++, i);
-                    }
-                }
-            }
-        }
-
         public int Count
         {
             get
             {
                 return correspondingKeys.Count;
+            }
+        }
+
+        public int Current
+        {
+            get
+            {
+                return Element(index);
             }
         }
 
@@ -61,6 +48,11 @@ namespace Cron.Parser.List
             }
         }
 
+        public void Add(IVirtualList<int> list)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Element(int index)
         {
             return dayOfMonths[correspondingKeys[index]];
@@ -73,7 +65,7 @@ namespace Cron.Parser.List
 
         public void Next()
         {
-            if(index + 1 >= Count)
+            if (index + 1 >= Count)
             {
                 dayOfMonths.Overflow();
                 RebuildCorrespondingKeys();
@@ -83,12 +75,36 @@ namespace Cron.Parser.List
             index += 1;
         }
 
-        public int Current
+        public void Overflow()
         {
-            get
+            dayOfMonths.Overflow();
+            RebuildCorrespondingKeys();
+        }
+
+        public void RebuildCorrespondingKeys()
+        {
+            var index = 0;
+            correspondingKeys.Clear();
+            for (int i = 0; i < dayOfMonths.Count; ++i)
             {
-                return Element(index);
+                for (int j = 0; j < dayOfWeeks.Count; ++j)
+                {
+                    if (dayOfMonths[i] == dayOfWeeks[j])
+                    {
+                        correspondingKeys.Add(index++, i);
+                    }
+                }
             }
+        }
+
+        public void Reset()
+        {
+            index = 0;
+        }
+
+        public void SetRange(int minRange, int maxRange)
+        {
+            dayOfMonths.SetRange(minRange, maxRange);
         }
 
         public bool WillOverflow()
@@ -96,25 +112,9 @@ namespace Cron.Parser.List
             return index + 1 >= Count;
         }
 
-        public void Add(IVirtualList<int> list)
-        {
-            throw new NotImplementedException();
-        }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public void Overflow()
-        {
-            dayOfMonths.Overflow();
-            RebuildCorrespondingKeys();
-        }
-
-        public void SetRange(int minRange, int maxRange)
-        {
-            dayOfMonths.SetRange(minRange, maxRange);
         }
     }
 }
