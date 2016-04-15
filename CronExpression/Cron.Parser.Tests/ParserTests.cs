@@ -369,9 +369,6 @@ namespace Cron.Parser.Tests
             return ast;
         }
 
-        private static RootComponentNode CheckSyntaxTree(string expression, bool produceMissingYearSegment = true)
-        {
-            return CheckSyntaxTree(expression, expression, produceMissingYearSegment);
-        }
+        private static RootComponentNode CheckSyntaxTree(string expression, bool produceMissingYearSegment = true) => CheckSyntaxTree(expression, expression, produceMissingYearSegment);
     }
 }

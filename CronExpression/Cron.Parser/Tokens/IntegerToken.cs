@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base(number, Enums.TokenType.Integer, span)
         { }
 
-        public override Token Clone()
-        {
-            return new IntegerToken(base.Value, Span.Clone());
-        }
+        public override Token Clone() => new IntegerToken(base.Value, Span.Clone());
     }
 }

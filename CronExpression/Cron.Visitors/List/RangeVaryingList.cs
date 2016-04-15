@@ -7,13 +7,7 @@ namespace Cron.Parser.List
         private int maxRange;
         private int minRange;
 
-        public override int Count
-        {
-            get
-            {
-                return (maxRange - minRange) + 1;
-            }
-        }
+        public override int Count => (maxRange - minRange) + 1;
 
         public override void Add(IVirtualList<T> list)
         {

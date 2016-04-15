@@ -21,13 +21,7 @@ namespace Cron.Parser.Nodes
             this.token = token;
         }
 
-        public override SyntaxNode Descendant
-        {
-            get
-            {
-                return node;
-            }
-        }
+        public override SyntaxNode Descendant => node;
 
         public override SyntaxNode[] Desecendants
         {
@@ -56,21 +50,9 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public Segment Segment
-        {
-            get
-            {
-                return segment;
-            }
-        }
+        public Segment Segment => segment;
 
-        public override Token Token
-        {
-            get
-            {
-                return token;
-            }
-        }
+        public override Token Token => token;
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -78,14 +60,8 @@ namespace Cron.Parser.Nodes
             node.Accept(visitor);
         }
 
-        public override IList<int> Evaluate(Segment segment)
-        {
-            return node.Evaluate(segment);
-        }
+        public override IList<int> Evaluate(Segment segment) => node.Evaluate(segment);
 
-        public override string ToString()
-        {
-            return node.ToString();
-        }
+        public override string ToString() => node.ToString();
     }
 }

@@ -9,28 +9,10 @@ namespace Cron.Parser.Nodes
 {
     public abstract class UnaryExpressionNode : SyntaxNode
     {
-        public virtual SyntaxNode Descendant
-        {
-            get
-            {
-                return Desecendants[0];
-            }
-        }
+        public virtual SyntaxNode Descendant => Desecendants[0];
 
-        public override TextSpan FullSpan
-        {
-            get
-            {
-                return Descendant.FullSpan.Clone();
-            }
-        }
+        public override TextSpan FullSpan => Descendant.FullSpan.Clone();
 
-        public override bool IsLeaf
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool IsLeaf => false;
     }
 }

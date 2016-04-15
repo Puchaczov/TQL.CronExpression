@@ -82,13 +82,7 @@ namespace Cron.Visitors.Evaluators
             };
         }
 
-        public bool IsExceededTimeBoundary
-        {
-            get
-            {
-                return this.expressionExceedTimeBoundary;
-            }
-        }
+        public bool IsExceededTimeBoundary => this.expressionExceedTimeBoundary;
 
         public DateTimeOffset OffsetReferenceTime
         {

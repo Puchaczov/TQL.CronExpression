@@ -18,21 +18,9 @@ namespace Cron.Parser.Nodes
             this.segment = segment;
         }
 
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return new SyntaxNode[0];
-            }
-        }
+        public override SyntaxNode[] Desecendants => new SyntaxNode[0];
 
-        public Segment Segment
-        {
-            get
-            {
-                return segment;
-            }
-        }
+        public Segment Segment => segment;
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -62,9 +50,6 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override string ToString()
-        {
-            return Token.Value;
-        }
+        public override string ToString() => Token.Value;
     }
 }

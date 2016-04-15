@@ -17,28 +17,10 @@ namespace Cron.Parser.Nodes
             this.token = token;
         }
 
-        public override TextSpan FullSpan
-        {
-            get
-            {
-                return Token.Span.Clone();
-            }
-        }
+        public override TextSpan FullSpan => Token.Span.Clone();
 
-        public override bool IsLeaf
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool IsLeaf => true;
 
-        public override Token Token
-        {
-            get
-            {
-                return token;
-            }
-        }
+        public override Token Token => token;
     }
 }

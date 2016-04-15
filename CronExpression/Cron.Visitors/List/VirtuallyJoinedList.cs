@@ -19,21 +19,9 @@ namespace Cron.Parser.List
             index = 0;
         }
 
-        public int Count
-        {
-            get
-            {
-                return correspondingKeys.Count;
-            }
-        }
+        public int Count => correspondingKeys.Count;
 
-        public int Current
-        {
-            get
-            {
-                return Element(index);
-            }
-        }
+        public int Current => Element(index);
 
         public int this[int index]
         {
@@ -53,15 +41,9 @@ namespace Cron.Parser.List
             throw new NotImplementedException();
         }
 
-        public int Element(int index)
-        {
-            return dayOfMonths[correspondingKeys[index]];
-        }
+        public int Element(int index) => dayOfMonths[correspondingKeys[index]];
 
-        public IEnumerator<int> GetEnumerator()
-        {
-            return new VirtualListEnumerator<int>(this);
-        }
+        public IEnumerator<int> GetEnumerator() => new VirtualListEnumerator<int>(this);
 
         public void Next()
         {
@@ -107,14 +89,8 @@ namespace Cron.Parser.List
             dayOfMonths.SetRange(minRange, maxRange);
         }
 
-        public bool WillOverflow()
-        {
-            return index + 1 >= Count;
-        }
+        public bool WillOverflow() => index + 1 >= Count;
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

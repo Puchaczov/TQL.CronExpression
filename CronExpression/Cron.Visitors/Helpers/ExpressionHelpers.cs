@@ -11,11 +11,8 @@ namespace Cron.Visitors.Helpers
 {
     public static class ExpressionHelpers
     {
-        public static ICronFireTimeEvaluator TakeEvaluator(this string expression)
-        {
-            return expression.TakeEvaluator<CronTimelineVisitor, ICronFireTimeEvaluator>(
-                new CronTimelineVisitor());
-        }
+        public static ICronFireTimeEvaluator TakeEvaluator(this string expression) => expression.TakeEvaluator<CronTimelineVisitor, ICronFireTimeEvaluator>(
+    new CronTimelineVisitor());
 
         public static F TakeEvaluator<T, F>(this string expression, T visitor)
             where T : INodeVisitor, IEvaluable<F>

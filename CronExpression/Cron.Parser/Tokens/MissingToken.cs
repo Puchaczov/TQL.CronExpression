@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base("_", Enums.TokenType.Missing, span)
         { }
 
-        public override Token Clone()
-        {
-            return new MissingToken(Span.Clone());
-        }
+        public override Token Clone() => new MissingToken(Span.Clone());
     }
 }

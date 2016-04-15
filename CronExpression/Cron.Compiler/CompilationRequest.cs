@@ -18,21 +18,9 @@ namespace Cron.Compilation
             this.options = options;
         }
 
-        public string Input
-        {
-            get
-            {
-                return this.input;
-            }
-        }
+        public string Input => this.input;
 
-        public CompilationOptions Options
-        {
-            get
-            {
-                return this.options;
-            }
-        }
+        public CompilationOptions Options => this.options;
         public class CompilationOptions
         {
             public bool ProduceEndOfFileNode { get; set; }

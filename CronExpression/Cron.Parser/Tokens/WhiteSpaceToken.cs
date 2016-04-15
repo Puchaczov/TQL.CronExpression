@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base(" ", Enums.TokenType.WhiteSpace, span)
         { }
 
-        public override Token Clone()
-        {
-            return new WhiteSpaceToken(Span.Clone());
-        }
+        public override Token Clone() => new WhiteSpaceToken(Span.Clone());
     }
 }

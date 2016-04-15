@@ -28,21 +28,9 @@ namespace Cron.Parser
             this.endLines.Add('\r', '\n');
         }
 
-        public Token Last
-        {
-            get
-            {
-                return lastToken.Clone();
-            }
-        }
+        public Token Last => lastToken.Clone();
 
-        public int Position
-        {
-            get
-            {
-                return pos;
-            }
-        }
+        public int Position => pos;
 
         public static bool IsDigit(char letter)
         {
@@ -130,10 +118,7 @@ namespace Cron.Parser
             return false;
         }
 
-        private static bool IsMissing(char currentChar)
-        {
-            return currentChar == '_';
-        }
+        private static bool IsMissing(char currentChar) => currentChar == '_';
 
         private Token AssignTokenOfType(Func<Token> instantiate)
         {

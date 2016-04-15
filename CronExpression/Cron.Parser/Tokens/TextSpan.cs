@@ -60,10 +60,7 @@ namespace Cron.Parser.Tokens
             return base.Equals(obj);
         }
 
-        public override int GetHashCode()
-        {
-            return Start.GetHashCode() ^ Length.GetHashCode();
-        }
+        public override int GetHashCode() => Start.GetHashCode() ^ Length.GetHashCode();
     }
 
 
@@ -72,9 +69,6 @@ namespace Cron.Parser.Tokens
     /// </summary>
     public static class TextSpanHelper
     {
-        public static TextSpan Clone(this TextSpan textSpan)
-        {
-            return new TextSpan(textSpan.Start, textSpan.Length);
-        }
+        public static TextSpan Clone(this TextSpan textSpan) => new TextSpan(textSpan.Start, textSpan.Length);
     }
 }

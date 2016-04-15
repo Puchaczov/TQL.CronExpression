@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base("*", Enums.TokenType.Star, span)
         { }
 
-        public override Token Clone()
-        {
-            return new StarToken(Span.Clone());
-        }
+        public override Token Clone() => new StarToken(Span.Clone());
     }
 }

@@ -101,39 +101,18 @@ namespace Cron.Parser.Extensions
             intToDayOfWeek.Add(7, System.DayOfWeek.Saturday);
         }
 
-        public static DayOfWeek AsDayOfWeek(this int dayOfWeek)
-        {
-            return intToDayOfWeek[dayOfWeek];
-        }
+        public static DayOfWeek AsDayOfWeek(this int dayOfWeek) => intToDayOfWeek[dayOfWeek];
 
-        public static int AsInt(this Month month)
-        {
-            return (int)month;
-        }
+        public static int AsInt(this Month month) => (int)month;
 
-        public static int AsInt(this DayOfWeek dayOfWeek)
-        {
-            return dayOfWeekToInt[dayOfWeek];
-        }
+        public static int AsInt(this DayOfWeek dayOfWeek) => dayOfWeekToInt[dayOfWeek];
 
-        public static bool ContainsDayOfWeek(string dayOfWeek)
-        {
-            return dayOfWeekStringToDayOfWeek.ContainsKey(dayOfWeek.ToLowerInvariant());
-        }
+        public static bool ContainsDayOfWeek(string dayOfWeek) => dayOfWeekStringToDayOfWeek.ContainsKey(dayOfWeek.ToLowerInvariant());
 
-        public static bool ContainsMonth(string month)
-        {
-            return monthsStringToMonth.ContainsKey(month.ToLowerInvariant());
-        }
+        public static bool ContainsMonth(string month) => monthsStringToMonth.ContainsKey(month.ToLowerInvariant());
 
-        public static DayOfWeek DayOfWeek(string dayOfWeek)
-        {
-            return dayOfWeekStringToDayOfWeek[dayOfWeek.ToLowerInvariant()];
-        }
+        public static DayOfWeek DayOfWeek(string dayOfWeek) => dayOfWeekStringToDayOfWeek[dayOfWeek.ToLowerInvariant()];
 
-        public static Month Month(string month)
-        {
-            return monthsStringToMonth[month.ToLowerInvariant()];
-        }
+        public static Month Month(string month) => monthsStringToMonth[month.ToLowerInvariant()];
     }
 }

@@ -26,22 +26,10 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override bool IsLeaf
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool IsLeaf => true;
         public abstract SyntaxNode Left { get; }
         public abstract SyntaxNode Right { get; }
 
-        public override Token Token
-        {
-            get
-            {
-                return token;
-            }
-        }
+        public override Token Token => token;
     }
 }

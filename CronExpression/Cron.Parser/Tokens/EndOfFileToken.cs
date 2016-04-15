@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             :base(string.Empty, Enums.TokenType.Eof, span)
         { }
 
-        public override Token Clone()
-        {
-            return new EndOfFileToken(Span.Clone());
-        }
+        public override Token Clone() => new EndOfFileToken(Span.Clone());
     }
 }

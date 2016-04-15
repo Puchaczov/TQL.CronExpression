@@ -12,17 +12,8 @@ namespace Cron.Parser.Tokens
             : base(word, Enums.TokenType.Name, span)
         { }
 
-        public int Length
-        {
-            get
-            {
-                return base.Value.Count();
-            }
-        }
+        public int Length => base.Value.Count();
 
-        public override Token Clone()
-        {
-            return new NameToken(base.Value, Span.Clone());
-        }
+        public override Token Clone() => new NameToken(base.Value, Span.Clone());
     }
 }

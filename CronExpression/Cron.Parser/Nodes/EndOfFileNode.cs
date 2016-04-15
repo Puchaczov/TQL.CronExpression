@@ -10,30 +10,15 @@ namespace Cron.Parser.Nodes
             : base(null, 0, token)
         { }
 
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return new SyntaxNode[0];
-            }
-        }
+        public override SyntaxNode[] Desecendants => new SyntaxNode[0];
 
-        public override TextSpan FullSpan
-        {
-            get
-            {
-                return Token.Span;
-            }
-        }
+        public override TextSpan FullSpan => Token.Span;
 
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            return string.Empty;
-        }
+        public override string ToString() => string.Empty;
     }
 }

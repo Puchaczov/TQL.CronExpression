@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base(",", Enums.TokenType.Comma, span)
         { }
 
-        public override Token Clone()
-        {
-            return new CommaToken(this.Span.Clone());
-        }
+        public override Token Clone() => new CommaToken(this.Span.Clone());
     }
 }

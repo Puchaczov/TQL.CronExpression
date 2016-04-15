@@ -18,21 +18,9 @@ namespace Cron.Parser.List
             this.index = -1;
         }
 
-        public T Current
-        {
-            get
-            {
-                return list.Element(index);
-            }
-        }
+        public T Current => list.Element(index);
 
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
+        object IEnumerator.Current => Current;
 
         public void Dispose()
         {

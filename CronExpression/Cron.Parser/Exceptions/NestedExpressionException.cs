@@ -32,20 +32,8 @@ namespace Cron.Parser.Exceptions
         {
         }
 
-        public override string Message
-        {
-            get
-            {
-                return $"There is to deep founded in position {position} when parsing token {token.Value}";
-            }
-        }
+        public override string Message => $"There is to deep founded in position {position} when parsing token {token.Value}";
 
-        public int Position
-        {
-            get
-            {
-                return position;
-            }
-        }
+        public int Position => position;
     }
 }

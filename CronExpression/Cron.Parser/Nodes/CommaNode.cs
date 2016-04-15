@@ -55,21 +55,9 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override SyntaxNode Left
-        {
-            get
-            {
-                return left;
-            }
-        }
+        public override SyntaxNode Left => left;
 
-        public override SyntaxNode Right
-        {
-            get
-            {
-                return right;
-            }
-        }
+        public override SyntaxNode Right => right;
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -88,9 +76,6 @@ namespace Cron.Parser.Nodes
             return list;
         }
 
-        public override string ToString()
-        {
-            return left.ToString() + Token.Value + right.ToString();
-        }
+        public override string ToString() => left.ToString() + Token.Value + right.ToString();
     }
 }

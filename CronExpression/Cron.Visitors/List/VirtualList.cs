@@ -63,14 +63,8 @@ namespace Cron.Parser.List
             throw new IndexOutOfRangeException(nameof(index));
         }
 
-        public virtual IEnumerator<T> GetEnumerator()
-        {
-            return new VirtualListEnumerator<T>(this);
-        }
+        public virtual IEnumerator<T> GetEnumerator() => new VirtualListEnumerator<T>(this);
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new VirtualListEnumerator<T>(this);
-        }
+        IEnumerator IEnumerable.GetEnumerator() => new VirtualListEnumerator<T>(this);
     }
 }

@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base("-", Enums.TokenType.Range, span)
         { }
 
-        public override Token Clone()
-        {
-            return new RangeToken(Span.Clone());
-        }
+        public override Token Clone() => new RangeToken(Span.Clone());
     }
 }

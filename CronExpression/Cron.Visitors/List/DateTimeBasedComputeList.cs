@@ -17,13 +17,7 @@ namespace Cron.Parser.List
             this.list = list;
         }
 
-        public virtual int Count
-        {
-            get
-            {
-                return list.Count;
-            }
-        }
+        public virtual int Count => list.Count;
 
         public int this[int index]
         {
@@ -45,15 +39,9 @@ namespace Cron.Parser.List
 
         public abstract int Element(int index);
 
-        public IEnumerator<int> GetEnumerator()
-        {
-            return new VirtualListEnumerator<int>(this);
-        }
+        public IEnumerator<int> GetEnumerator() => new VirtualListEnumerator<int>(this);
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     public class LastWeekdayOfMonthComputedList : DateTimeBasedComputeList
@@ -82,13 +70,7 @@ namespace Cron.Parser.List
             return daysInMonth;
         }
 
-        public override int Count
-        {
-            get
-            {
-                return 1;
-            }
-        }
+        public override int Count => 1;
     }
 
     public class NearWeekdayComputedList : DateTimeBasedComputeList
@@ -197,18 +179,9 @@ namespace Cron.Parser.List
             : base(referenceTime, new List<int>())
         { }
 
-        public override int Count
-        {
-            get
-            {
-                return DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month);
-            }
-        }
+        public override int Count => DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month);
 
-        public override int Element(int index)
-        {
-            return index + 1;
-        }
+        public override int Element(int index) => index + 1;
     }
 
     /// <summary>
@@ -278,15 +251,9 @@ namespace Cron.Parser.List
             }
         }
 
-        public IEnumerator<int> GetEnumerator()
-        {
-            return new VirtualListEnumerator<int>(this);
-        }
+        public IEnumerator<int> GetEnumerator() => new VirtualListEnumerator<int>(this);
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private DateTimeOffset GetFirstMatchingDateInMonth()
         {
@@ -320,12 +287,6 @@ namespace Cron.Parser.List
             return base.Element(tmpNumberOfWeek);
         }
 
-        public override int Count
-        {
-            get
-            {
-                return 1;
-            }
-        }
+        public override int Count => 1;
     }
 }

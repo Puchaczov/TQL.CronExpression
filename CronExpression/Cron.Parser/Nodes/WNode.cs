@@ -17,14 +17,8 @@ namespace Cron.Parser.Nodes
             visitor.Visit(this);
         }
 
-        public override IList<int> Evaluate(Segment segment)
-        {
-            return ListExtension.Empty();
-        }
+        public override IList<int> Evaluate(Segment segment) => ListExtension.Empty();
 
-        public override string ToString()
-        {
-            return "W";
-        }
+        public override string ToString() => "W";
     }
 }

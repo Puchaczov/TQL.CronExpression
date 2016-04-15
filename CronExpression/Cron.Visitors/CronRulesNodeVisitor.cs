@@ -23,21 +23,9 @@ namespace Cron.Visitors
             segmentsCount = 0;
         }
 
-        public virtual bool IsValid
-        {
-            get
-            {
-                return errors.Count == 0;
-            }
-        }
+        public virtual bool IsValid => errors.Count == 0;
 
-        public virtual IEnumerable<Exception> ValidationErrors
-        {
-            get
-            {
-                return errors;
-            }
-        }
+        public virtual IEnumerable<Exception> ValidationErrors => errors;
 
         public virtual void Visit(SegmentNode node)
         {

@@ -22,21 +22,9 @@ namespace Cron.Visitors
             time = new Ref<DateTimeOffset>(() => refTime, time => { refTime = time; });
         }
 
-        public Dictionary<Segment, RoundRobinRangeVaryingList<int>> Result
-        {
-            get
-            {
-                return values;
-            }
-        }
+        public Dictionary<Segment, RoundRobinRangeVaryingList<int>> Result => values;
 
-        public RoundRobinRangeVaryingList<int> this[Segment segment]
-        {
-            get
-            {
-                return Result[segment];
-            }
-        }
+        public RoundRobinRangeVaryingList<int> this[Segment segment] => Result[segment];
 
         public override void Visit(CommaNode node)
         {

@@ -17,13 +17,7 @@ namespace Cron.Parser.Nodes
             : base(token)
         { }
 
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return new SyntaxNode[0];
-            }
-        }
+        public override SyntaxNode[] Desecendants => new SyntaxNode[0];
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -53,9 +47,6 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override string ToString()
-        {
-            return Token.Value;
-        }
+        public override string ToString() => Token.Value;
     }
 }

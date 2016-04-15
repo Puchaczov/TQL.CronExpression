@@ -33,21 +33,9 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override bool IsLeaf
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool IsLeaf => false;
 
-        public override Token Token
-        {
-            get
-            {
-                return null;
-            }
-        }
+        public override Token Token => null;
 
         public override void Accept(INodeVisitor visitor)
         {

@@ -50,10 +50,7 @@ namespace Cron.Parser.Helpers
             return candidates.FirstOrDefault();
         }
 
-        public static SyntaxNode FindBySpan(this RootComponentNode tree, int caret)
-        {
-            return FindBySpan(tree, new TextSpan(caret, 1));
-        }
+        public static SyntaxNode FindBySpan(this RootComponentNode tree, int caret) => FindBySpan(tree, new TextSpan(caret, 1));
 
         public static SegmentNode GetSegmentByCaret(this RootComponentNode tree, int caret)
         {

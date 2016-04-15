@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base(string.Empty, Enums.TokenType.None, span)
         { }
 
-        public override Token Clone()
-        {
-            return new NoneToken(Span.Clone());
-        }
+        public override Token Clone() => new NoneToken(Span.Clone());
     }
 }

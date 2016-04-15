@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base("/", Enums.TokenType.Inc, span)
         { }
 
-        public override Token Clone()
-        {
-            return new IncrementByToken(Span.Clone());
-        }
+        public override Token Clone() => new IncrementByToken(Span.Clone());
     }
 }

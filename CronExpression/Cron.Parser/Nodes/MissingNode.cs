@@ -15,13 +15,7 @@ namespace Cron.Parser.Nodes
             : base(token)
         { }
 
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return new SyntaxNode[0];
-            }
-        }
+        public override SyntaxNode[] Desecendants => new SyntaxNode[0];
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -33,9 +27,6 @@ namespace Cron.Parser.Nodes
             throw new Exception("Cannot evaluate missing node");
         }
 
-        public override string ToString()
-        {
-            return this.Token.Value;
-        }
+        public override string ToString() => this.Token.Value;
     }
 }

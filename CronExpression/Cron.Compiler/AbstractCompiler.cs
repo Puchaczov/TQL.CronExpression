@@ -9,10 +9,7 @@ namespace Cron
 {
     public abstract class AbstractCompiler
     {
-        public virtual T Compile<T>(CompilationRequest request, Func<RootComponentNode, T> fun)
-        {
-            return Compile<T>(request, new ConvertionByFunc<RootComponentNode, T>(fun));
-        }
+        public virtual T Compile<T>(CompilationRequest request, Func<RootComponentNode, T> fun) => Compile<T>(request, new ConvertionByFunc<RootComponentNode, T>(fun));
 
         public virtual T Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, T> converter)
         {
@@ -27,14 +24,8 @@ namespace Cron
             return converter.Convert(parser.ComposeRootComponents());
         }
 
-        public IEvaluable<T> Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, IEvaluable<T>> converter)
-        {
-            return Compile(request, (ast) => converter.Convert(ast));
-        }
+        public IEvaluable<T> Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, IEvaluable<T>> converter) => Compile(request, (ast) => converter.Convert(ast));
 
-        protected virtual bool IsRequestValid(CompilationRequest request)
-        {
-            return request.Input != null && request.Options != null;
-        }
+        protected virtual bool IsRequestValid(CompilationRequest request) => request.Input != null && request.Options != null;
     }
 }

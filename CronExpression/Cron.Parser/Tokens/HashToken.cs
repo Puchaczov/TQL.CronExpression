@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base("#", Enums.TokenType.Hash, span)
         { }
 
-        public override Token Clone()
-        {
-            return new HashToken(Span.Clone());
-        }
+        public override Token Clone() => new HashToken(Span.Clone());
     }
 }

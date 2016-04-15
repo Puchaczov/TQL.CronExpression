@@ -14,21 +14,9 @@ namespace Cron.Parser.List
             this.roundRobinRangeVaryingList = roundRobinRangeVaryingList;
         }
 
-        public T Current
-        {
-            get
-            {
-                return roundRobinRangeVaryingList.Element(index);
-            }
-        }
+        public T Current => roundRobinRangeVaryingList.Element(index);
 
-        object IEnumerator.Current
-        {
-            get
-            {
-                return roundRobinRangeVaryingList.Element(index);
-            }
-        }
+        object IEnumerator.Current => roundRobinRangeVaryingList.Element(index);
 
         public void Dispose()
         { }

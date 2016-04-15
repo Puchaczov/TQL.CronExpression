@@ -20,27 +20,15 @@ namespace Cron.Parser.Nodes
             this.token = token;
         }
 
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return new SyntaxNode[0];
-            }
-        }
+        public override SyntaxNode[] Desecendants => new SyntaxNode[0];
 
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override IList<int> Evaluate(Segment segment)
-        {
-            return ListExtension.Empty();
-        }
+        public override IList<int> Evaluate(Segment segment) => ListExtension.Empty();
 
-        public override string ToString()
-        {
-            return Token.Value;
-        }
+        public override string ToString() => Token.Value;
     }
 }

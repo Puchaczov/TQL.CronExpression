@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base("L", Enums.TokenType.L, span)
         { }
 
-        public override Token Clone()
-        {
-            return new LToken(Span.Clone());
-        }
+        public override Token Clone() => new LToken(Span.Clone());
     }
 }

@@ -18,9 +18,6 @@ namespace Cron.Parser.List
             throw new NotImplementedException();
         }
 
-        public T Element(int index)
-        {
-            return this[index];
-        }
+        public T Element(int index) => this[index];
     }
 }

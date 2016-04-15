@@ -17,23 +17,11 @@ namespace Cron.Parser.List
         { }
         public event OverflowedEventHandler Overflowed;
 
-        public virtual T Current
-        {
-            get
-            {
-                return Element();
-            }
-        }
+        public virtual T Current => Element();
 
-        public T Element()
-        {
-            return base.Element(index);
-        }
+        public T Element() => base.Element(index);
 
-        public override IEnumerator<T> GetEnumerator()
-        {
-            return new RoundRobinRangeVaryingListEnumerator<T>(this);
-        }
+        public override IEnumerator<T> GetEnumerator() => new RoundRobinRangeVaryingListEnumerator<T>(this);
 
         public virtual void Next()
         {
@@ -57,9 +45,6 @@ namespace Cron.Parser.List
             this.index = 0;
         }
 
-        public virtual bool WillOverflow()
-        {
-            return index + 1 >= Count;
-        }
+        public virtual bool WillOverflow() => index + 1 >= Count;
     }
 }

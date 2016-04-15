@@ -22,46 +22,22 @@ namespace Cron.Parser.Nodes
             this.right = right;
         }
 
-        public override SyntaxNode[] Desecendants
-        {
-            get
-            {
-                return new SyntaxNode[] {
+        public override SyntaxNode[] Desecendants => new SyntaxNode[] {
                     left,
                     right
                 };
-            }
-        }
 
-        public override SyntaxNode Left
-        {
-            get
-            {
-                return left;
-            }
-        }
+        public override SyntaxNode Left => left;
 
-        public override SyntaxNode Right
-        {
-            get
-            {
-                return right;
-            }
-        }
+        public override SyntaxNode Right => right;
 
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public override IList<int> Evaluate(Segment segment)
-        {
-            return ListExtension.Empty();
-        }
+        public override IList<int> Evaluate(Segment segment) => ListExtension.Empty();
 
-        public override string ToString()
-        {
-            return Left.ToString() + Token.Value + Right.ToString();
-        }
+        public override string ToString() => Left.ToString() + Token.Value + Right.ToString();
     }
 }

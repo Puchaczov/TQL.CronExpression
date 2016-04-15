@@ -10,10 +10,7 @@ namespace Cron.Utils.Filters
     {
         private IFilter<T> root;
 
-        public T Execute(T input)
-        {
-            return root.Execute(input);
-        }
+        public T Execute(T input) => root.Execute(input);
 
         public IFilterChain<T> Register(IFilter<T> filter)
         {

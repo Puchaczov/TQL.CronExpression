@@ -12,9 +12,6 @@ namespace Cron.Parser.Tokens
             : base("?", Enums.TokenType.QuestionMark, span)
         { }
 
-        public override Token Clone()
-        {
-            return new QuestionMarkToken(Span.Clone());
-        }
+        public override Token Clone() => new QuestionMarkToken(Span.Clone());
     }
 }

@@ -17,20 +17,8 @@ namespace Cron.Parser.Exceptions
         {
         }
 
-        public override string Message
-        {
-            get
-            {
-                return $"Unknown segment while processing expression. Exception occured in position {Position}";
-            }
-        }
+        public override string Message => $"Unknown segment while processing expression. Exception occured in position {Position}";
 
-        public int Position
-        {
-            get
-            {
-                return position;
-            }
-        }
+        public int Position => position;
     }
 }

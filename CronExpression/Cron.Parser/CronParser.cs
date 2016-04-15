@@ -52,15 +52,9 @@ namespace Cron.Parser
             return new RootComponentNode(rootComponents.ToArray());
         }
 
-        private SegmentNode ComposeComplexSegment(Segment segment)
-        {
-            return new SegmentNode(SeparateCommas(), segment, null);
-        }
+        private SegmentNode ComposeComplexSegment(Segment segment) => new SegmentNode(SeparateCommas(), segment, null);
 
-        private LeafNode ComposeMissingNodeOnCurrentPosition()
-        {
-            return new MissingNode(new MissingToken(new TextSpan(lexer.Position, 0)));
-        }
+        private LeafNode ComposeMissingNodeOnCurrentPosition() => new MissingNode(new MissingToken(new TextSpan(lexer.Position, 0)));
 
         private SegmentNode ComposeSegmentComponent(Segment segment)
         {
@@ -94,10 +88,7 @@ namespace Cron.Parser
             return ComposeComplexSegment(segment);
         }
 
-        private SegmentNode ComposeStarYearSegmentComponent()
-        {
-            return new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(lexer.Position, 0))), Segment.Year, null);
-        }
+        private SegmentNode ComposeStarYearSegmentComponent() => new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(lexer.Position, 0))), Segment.Year, null);
 
         private void Consume(TokenType type)
         {
