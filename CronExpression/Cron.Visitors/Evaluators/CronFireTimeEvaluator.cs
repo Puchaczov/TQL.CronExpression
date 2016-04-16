@@ -104,6 +104,7 @@ namespace Cron.Visitors.Evaluators
 
         public bool IsSatisfiedBy(DateTime time)
         {
+            var timeWithoutMillis = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second);
             ReferenceTime = time.AddSeconds(-1);
             DateTime? score = null;
             Reset();
@@ -111,8 +112,8 @@ namespace Cron.Visitors.Evaluators
             {
                 score = NextFire();
             }
-            while (score.HasValue && this.referenceTime.Value < time);
-            return score.HasValue && this.referenceTime.Value == time;
+            while (score.HasValue && referenceTime.Value < timeWithoutMillis);
+            return score.HasValue && referenceTime.Value == timeWithoutMillis;
         }
 
         public void LimitMonthRange()

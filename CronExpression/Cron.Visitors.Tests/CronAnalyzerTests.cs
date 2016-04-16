@@ -47,6 +47,15 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
+        public void TestWillBeSatisfiedWhenMillisecondsDateTime_ShouldPass()
+        {
+            var analyzer = "* * 12 ? * *".TakeEvaluator();
+            var oneSecondLater = new DateTime(2012, 1, 1, 12, 0, 1).AddMilliseconds(15);
+            analyzer.ReferenceTime = new DateTime(2012, 1, 1, 12, 0, 0);
+            Assert.IsTrue(analyzer.IsSatisfiedBy(oneSecondLater));
+        }
+
+        [TestMethod]
         public void TestTheLast6thDayOfMonth_ShouldPass()
         {
             var analyzer = "0 0 0 5L * ?".TakeEvaluator();
