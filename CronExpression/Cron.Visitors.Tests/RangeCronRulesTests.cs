@@ -14,6 +14,67 @@ namespace Cron.Parser.Tests
     [TestClass]
     public class RangeCronRulesTests
     {
+        [TestMethod]
+        public void CheckRange_RangesSwaped_ShouldReportError()
+        {
+            var visitor = "5-1 * * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.SwappedValue, visitor.SyntaxErrors.First().Kind);
+
+            visitor = "1-4-1 * * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+
+            visitor = "1-200-1 * * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+        }
+
+        [TestMethod]
+        public void CheckRange_RangesExceed_ShouldReportError()
+        {
+            var visitor = "150-200 * * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(2, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.ValueOutOfRange, visitor.SyntaxErrors.First().Kind);
+            Assert.AreEqual(SyntaxErrorKind.ValueOutOfRange, visitor.SyntaxErrors.ElementAt(1).Kind);
+        }
+
+        [TestMethod]
+        public void CheckRange_LeftValueExceed_ShouldReportError()
+        {
+            var visitor = "150-12 * * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.ValueOutOfRange, visitor.SyntaxErrors.First().Kind);
+        }
+
+        [TestMethod]
+        public void CheckRange_UnsupportedRangeValue_ShouldReportError()
+        {
+            var visitor = "*-5 * * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+
+            visitor = "*-* * * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(2, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+            Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+        }
+
+        [TestMethod]
+        public void CheckRange_UnsupportedComplexNodes_ShouldReportError()
+        {
+            var visitor = "1#5-5 * * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+        }
 
         [TestMethod]
         public void CheckRange_AllRangesAreIncorrect_ShouldAggregateExceptions()

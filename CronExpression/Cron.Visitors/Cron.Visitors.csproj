@@ -76,6 +76,12 @@
     <Compile Include="List\VirtualList.cs" />
     <Compile Include="List\VirtualListEnumerator.cs" />
     <Compile Include="List\VirtuallyJoinedList.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SyntaxError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\RangeNodeException.cs" />
   </ItemGroup>
@@ -84,6 +90,12 @@
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
       <Name>Cron.Parser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
