@@ -117,17 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CannotBeUsedInThisContext" xml:space="preserve">
+    <value>This value cannot be used in this context. Value '{0}' {1}</value>
+  </data>
+  <data name="DoNotMixTypes" xml:space="preserve">
+    <value>cannot be mixed with any other types.</value>
+  </data>
+  <data name="MissingValue" xml:space="preserve">
+    <value>Expression contains missing value. Missing nodes are placed in segment {0}.</value>
+  </data>
   <data name="MonthIsOutOfRange" xml:space="preserve">
-    <value>Month is out range. Month can contains value from 1-12 and JAN-DEC</value>
+    <value>Month is out range. Month can contains value from 1-12 and JAN-DEC.</value>
   </data>
   <data name="NodeCountMismatched" xml:space="preserve">
-    <value>Item can contains only {0} descendants. Has {1}</value>
+    <value>Item can contains only {0} descendants. Has {1}.</value>
   </data>
   <data name="OutOfRange" xml:space="preserve">
     <value>Value {0} cannot be used in this segment {1}. Value must be ranged from {2} - {3}.</value>
   </data>
   <data name="OutOfRangeMin" xml:space="preserve">
-    <value>Value {0} cannot be used in this segment {1}. Min value is {2}</value>
+    <value>Value {0} cannot be used in this segment {1}. Min value is {2}.</value>
   </data>
   <data name="RangeDescendantsCount" xml:space="preserve">
     <value>There is too much descendants for range(hyphen) item.</value>
@@ -137,8 +146,5 @@
   </data>
   <data name="UnsupportedFieldValue" xml:space="preserve">
     <value>Unsupported field value {0} of type {1}. This field can contains only values of types {2}.</value>
-  </data>
-  <data name="UnsupportedValue" xml:space="preserve">
-    <value>Node contains unsupported value. Value {0} is mistyped or placed in bad segment.</value>
   </data>
 </root>

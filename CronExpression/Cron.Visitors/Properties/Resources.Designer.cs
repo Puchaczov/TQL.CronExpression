@@ -61,7 +61,34 @@ namespace Cron.Visitors.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Month is out range. Month can contains value from 1-12 and JAN-DEC.
+        ///   Looks up a localized string similar to This value cannot be used in this context. Value &apos;{0}&apos; {1}.
+        /// </summary>
+        internal static string CannotBeUsedInThisContext {
+            get {
+                return ResourceManager.GetString("CannotBeUsedInThisContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cannot be mixed with any other types..
+        /// </summary>
+        internal static string DoNotMixTypes {
+            get {
+                return ResourceManager.GetString("DoNotMixTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression contains missing value. Missing nodes are placed in segment {0}..
+        /// </summary>
+        internal static string MissingValue {
+            get {
+                return ResourceManager.GetString("MissingValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Month is out range. Month can contains value from 1-12 and JAN-DEC..
         /// </summary>
         internal static string MonthIsOutOfRange {
             get {
@@ -70,7 +97,7 @@ namespace Cron.Visitors.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Item can contains only {0} descendants. Has {1}.
+        ///   Looks up a localized string similar to Item can contains only {0} descendants. Has {1}..
         /// </summary>
         internal static string NodeCountMismatched {
             get {
@@ -88,7 +115,7 @@ namespace Cron.Visitors.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value {0} cannot be used in this segment {1}. Min value is {2}.
+        ///   Looks up a localized string similar to Value {0} cannot be used in this segment {1}. Min value is {2}..
         /// </summary>
         internal static string OutOfRangeMin {
             get {
@@ -120,15 +147,6 @@ namespace Cron.Visitors.Properties {
         internal static string UnsupportedFieldValue {
             get {
                 return ResourceManager.GetString("UnsupportedFieldValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Node contains unsupported value. Value {0} is mistyped or placed in bad segment..
-        /// </summary>
-        internal static string UnsupportedValue {
-            get {
-                return ResourceManager.GetString("UnsupportedValue", resourceCulture);
             }
         }
     }

@@ -17,26 +17,123 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void CheckRange_RangesSwaped_ShouldReportError()
         {
-            var visitor = "5-1 * * * * * *".TakeVisitor();
-            Assert.IsFalse(visitor.IsValid);
-            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
-            Assert.AreEqual(SyntaxErrorKind.SwappedValue, visitor.SyntaxErrors.First().Kind);
+            CheckRange_ShouldReportError("5-1 * * * * * *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("1-4-1 * * * * * *", 1, SyntaxErrorKind.UnsupportedValue);
+            CheckRange_ShouldReportError("1-200-1 * * * * * *", 1, SyntaxErrorKind.UnsupportedValue);
 
-            visitor = "1-4-1 * * * * * *".TakeVisitor();
-            Assert.IsFalse(visitor.IsValid);
-            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
-            Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+            CheckRange_ShouldReportError("* 5-1 * * * * *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* 1-4-1 * * * * *", 1, SyntaxErrorKind.UnsupportedValue);
+            CheckRange_ShouldReportError("* 1-200-1 * * * * *", 1, SyntaxErrorKind.UnsupportedValue);
 
-            visitor = "1-200-1 * * * * * *".TakeVisitor();
-            Assert.IsFalse(visitor.IsValid);
-            Assert.AreEqual(1, visitor.SyntaxErrors.Count());
-            Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+            CheckRange_ShouldReportError("* * 5-1 * * * *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* * 1-4-1 * * * *", 1, SyntaxErrorKind.UnsupportedValue);
+            CheckRange_ShouldReportError("* * 1-200-1 * * * *", 1, SyntaxErrorKind.UnsupportedValue);
+
+            CheckRange_ShouldReportError("* * * 5-1 * * *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* * * 1-4-1 * * *", 1, SyntaxErrorKind.UnsupportedValue);
+            CheckRange_ShouldReportError("* * * 1-200-1 * * *", 1, SyntaxErrorKind.UnsupportedValue);
+
+            CheckRange_ShouldReportError("* * * * MAR-JAN * *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* * * * 5-1 * *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* * * * 1-4-1 * *", 1, SyntaxErrorKind.UnsupportedValue);
+            CheckRange_ShouldReportError("* * * * 1-200-1 * *", 1, SyntaxErrorKind.UnsupportedValue);
+
+            CheckRange_ShouldReportError("* * * * * FRI-MON *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* * * * * 5-1 *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* * * * * 1-4-1 *", 1, SyntaxErrorKind.UnsupportedValue);
+            CheckRange_ShouldReportError("* * * * * 1-200-1 *", 1, SyntaxErrorKind.UnsupportedValue);
+
+            CheckRange_ShouldReportError("* * * * * * 2010-2000", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* * * * * * 2000-2010-2000", 1, SyntaxErrorKind.UnsupportedValue);
+            CheckRange_ShouldReportError("* * * * * * 2000-2010-2000", 1, SyntaxErrorKind.UnsupportedValue);
         }
 
         [TestMethod]
         public void CheckRange_RangesExceed_ShouldReportError()
         {
-            var visitor = "150-200 * * * * * *".TakeVisitor();
+            CheckRange_CheckForRangesExceed_ShouldReportError("150-200 * * * * * *");
+            CheckRange_CheckForRangesExceed_ShouldReportError("* 150-200 * * * * *");
+            CheckRange_CheckForRangesExceed_ShouldReportError("* * 150-200 * * * *");
+            CheckRange_CheckForRangesExceed_ShouldReportError("* * * 150-200 * * *");
+            CheckRange_CheckForRangesExceed_ShouldReportError("* * * * 150-200 * *");
+            CheckRange_CheckForRangesExceed_ShouldReportError("* * * * * 150-200 *");
+            CheckRange_CheckForRangesExceed_ShouldReportError("* * * * * * 150-200");
+        }
+
+        [TestMethod]
+        public void CheckRange_RangesWithMissingNodes_ShouldReportError()
+        {
+            CheckErrors("- * * * * * *", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("1- * * * * * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("-1 * * * * * *", false, 1, SyntaxErrorKind.MissingValue);
+
+            CheckErrors("* - * * * * *", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("* 1- * * * * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* -1 * * * * *", false, 1, SyntaxErrorKind.MissingValue);
+
+            CheckErrors("* * - * * * *", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * 1- * * * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * -1 * * * *", false, 1, SyntaxErrorKind.MissingValue);
+
+            CheckErrors("* * * - * * *", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * 1- * * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * -1 * * *", false, 1, SyntaxErrorKind.MissingValue);
+
+            CheckErrors("* * * * - * *", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * 1- * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * -1 * *", false, 1, SyntaxErrorKind.MissingValue);
+
+            CheckErrors("* * * * * - *", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * * 1- *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * * -1 *", false, 1, SyntaxErrorKind.MissingValue);
+
+            CheckErrors("* * * * * * -", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * * * 2000-", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * * * -2000", false, 1, SyntaxErrorKind.MissingValue);
+        }
+
+        [TestMethod]
+        public void CheckWord_ShouldPass()
+        {
+            CheckErrors("JAN * * * * * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* JAN * * * * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* * JAN * * * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* * * JAN * * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* * * * BLE * *", false, 1, SyntaxErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * * BLE *", false, 1, SyntaxErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * * * JAN", false, 1, SyntaxErrorKind.UnsupportedValue);
+        }
+
+        [TestMethod]
+        public void CheckQuestMark_ShouldPass()
+        {
+            CheckErrors("? * * * * * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* ? * * * * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* * ? * * * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* * * ? * * *", true, 0);
+            CheckErrors("* * * * ? * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* * * * * ? *", true, 0);
+            CheckErrors("* * * * * * ?", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* * * * ?,1 * *", false, 1, SyntaxErrorKind.UnsupportedValue);
+            CheckErrors("* * * * * ?,1 *", false, 1, SyntaxErrorKind.UnsupportedValue);
+        }
+
+        public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors, params SyntaxErrorKind[] types)
+        {
+            var visitor = expression.TakeVisitor();
+            Assert.AreEqual(shouldBeValid, visitor.IsValid);
+            Assert.AreEqual(expectedCountOfErrors, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(expectedCountOfErrors, types.Count());
+            var errors = visitor.SyntaxErrors;
+            foreach (var type in types)
+            {
+                errors = errors.Where(f => f != errors.Single(p => p.Kind == type));
+            }
+        }
+
+        public static void CheckRange_CheckForRangesExceed_ShouldReportError(string expression)
+        {
+            var visitor = expression.TakeVisitor();
             Assert.IsFalse(visitor.IsValid);
             Assert.AreEqual(2, visitor.SyntaxErrors.Count());
             Assert.AreEqual(SyntaxErrorKind.ValueOutOfRange, visitor.SyntaxErrors.First().Kind);
@@ -44,7 +141,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void CheckRange_LeftValueExceed_ShouldReportError()
+        public void CheckRange_SecondsLeftValueExceed_ShouldReportError()
         {
             var visitor = "150-12 * * * * * *".TakeVisitor();
             Assert.IsFalse(visitor.IsValid);
@@ -53,7 +150,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void CheckRange_UnsupportedRangeValue_ShouldReportError()
+        public void CheckRange_SecondsUnsupportedRangeValue_ShouldReportError()
         {
             var visitor = "*-5 * * * * * *".TakeVisitor();
             Assert.IsFalse(visitor.IsValid);
@@ -68,12 +165,47 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void CheckRange_UnsupportedComplexNodes_ShouldReportError()
+        public void CheckRange_SecondsUnsupportedComplexNodes_ShouldReportError()
         {
             var visitor = "1#5-5 * * * * * *".TakeVisitor();
             Assert.IsFalse(visitor.IsValid);
             Assert.AreEqual(1, visitor.SyntaxErrors.Count());
             Assert.AreEqual(SyntaxErrorKind.UnsupportedValue, visitor.SyntaxErrors.First().Kind);
+        }
+
+        [TestMethod]
+        public void CheckRange_MinutesRangesSwaped_ShouldReportError()
+        {
+            CheckRange_ShouldReportError("* 5-1 * * * * *", 1, SyntaxErrorKind.SwappedValue);
+            CheckRange_ShouldReportError("* 1-4-1 * * * * *", 1, SyntaxErrorKind.UnsupportedValue);
+            CheckRange_ShouldReportError("* 1-200-1 * * * * *", 1, SyntaxErrorKind.UnsupportedValue);
+        }
+
+        [TestMethod]
+        public void CheckRange_MinutesRangesExceed_ShouldReportError()
+        {
+            var visitor = "* 150-200 * * * * *".TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(2, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.ValueOutOfRange, visitor.SyntaxErrors.First().Kind);
+            Assert.AreEqual(SyntaxErrorKind.ValueOutOfRange, visitor.SyntaxErrors.ElementAt(1).Kind);
+        }
+
+        private static void CheckRange_ShouldReportError(string expression, int expectedCount, SyntaxErrorKind expectedError)
+        {
+            var visitor = expression.TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(expectedCount, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(expectedError, visitor.SyntaxErrors.First().Kind);
+        }
+
+        private static void CheckRange_RangesExceed_ShouldReportError(string expression)
+        {
+            var visitor = expression.TakeVisitor();
+            Assert.IsFalse(visitor.IsValid);
+            Assert.AreEqual(2, visitor.SyntaxErrors.Count());
+            Assert.AreEqual(SyntaxErrorKind.ValueOutOfRange, visitor.SyntaxErrors.First().Kind);
+            Assert.AreEqual(SyntaxErrorKind.ValueOutOfRange, visitor.SyntaxErrors.ElementAt(1).Kind);
         }
 
         [TestMethod]

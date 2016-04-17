@@ -14,6 +14,7 @@ namespace Cron.Visitors
         ValueOutOfRange,
         UnsupportedValue,
         SwappedValue,
+        MissingValue,
     }
 
     public class SyntaxError
@@ -23,13 +24,7 @@ namespace Cron.Visitors
         private readonly TextSpan[] spans;
         private readonly SyntaxErrorKind kind;
 
-        public SyntaxErrorKind Kind
-        {
-            get
-            {
-                return kind;
-            }
-        }
+        public SyntaxErrorKind Kind => kind;
 
         public SyntaxError(TextSpan[] spans, Segment segment, string message, SyntaxErrorKind kind)
         {
