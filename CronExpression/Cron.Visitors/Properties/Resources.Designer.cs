@@ -70,11 +70,11 @@ namespace Cron.Visitors.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to cannot be mixed with any other types..
+        ///   Looks up a localized string similar to cannot be mixed with any other values..
         /// </summary>
-        internal static string DoNotMixTypes {
+        internal static string DoNotMixValues {
             get {
-                return ResourceManager.GetString("DoNotMixTypes", resourceCulture);
+                return ResourceManager.GetString("DoNotMixValues", resourceCulture);
             }
         }
         

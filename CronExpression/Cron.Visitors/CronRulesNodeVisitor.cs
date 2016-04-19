@@ -13,8 +13,8 @@ namespace Cron.Visitors
 {
     public class CronRulesNodeVisitor : INodeVisitor
     {
-        private readonly List<Exception> errors;
-        private readonly List<SyntaxError> syntaxErrors;
+        private readonly List<Exception> criticalErrors;
+        private readonly List<Error> errors;
         private SyntaxNode parent;
         private Segment segment;
         private SegmentNode currentSegment;
@@ -22,16 +22,16 @@ namespace Cron.Visitors
 
         public CronRulesNodeVisitor()
         {
-            errors = new List<Exception>();
-            syntaxErrors = new List<SyntaxError>();
+            criticalErrors = new List<Exception>();
+            errors = new List<Error>();
             segmentsCount = 0;
         }
 
-        public virtual bool IsValid => errors.Count == 0 && syntaxErrors.Count == 0;
+        public virtual bool IsValid => criticalErrors.Count == 0 && errors.Count == 0;
 
-        public virtual IEnumerable<Exception> ValidationErrors => errors;
+        public virtual IEnumerable<Exception> ValidationErrors => criticalErrors;
 
-        public virtual IEnumerable<SyntaxError> SyntaxErrors => syntaxErrors;
+        public virtual IEnumerable<Error> SyntaxErrors => errors;
 
         public object TreeHelper { get; private set; }
 
@@ -94,7 +94,7 @@ namespace Cron.Visitors
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(new RangeNodeException(exc));
+                criticalErrors.Add(new RangeNodeException(exc));
             }
         }
 
@@ -188,7 +188,7 @@ namespace Cron.Visitors
             }
             if(compareAction?.Invoke(items[0].Token.Value, items[1].Token.Value) ?? default(bool))
             {
-                syntaxErrors.Add(new SyntaxError(items.Select(f => f.FullSpan).ToArray(), segment, string.Format(Properties.Resources.RangeValueSwapped, items[0].Token.Value, items[1].Token.Value), SyntaxErrorKind.SwappedValue));
+                errors.Add(new SyntaxError(items.Select(f => f.FullSpan).ToArray(), segment, string.Format(Properties.Resources.RangeValueSwapped, items[0].Token.Value, items[1].Token.Value), SyntaxErrorKind.SwappedValue));
             }
         }
 
@@ -199,27 +199,27 @@ namespace Cron.Visitors
                 switch (segment)
                 {
                     case Segment.Seconds:
-                        syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                        errors.Add(new SyntaxError(node.FullSpan, segment,
                             string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
                             string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range)), SyntaxErrorKind.UnsupportedValue));
                         break;
                     case Segment.Hours:
-                        syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                        errors.Add(new SyntaxError(node.FullSpan, segment,
                             string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
                             string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range)), SyntaxErrorKind.UnsupportedValue));
                         break;
                     case Segment.Minutes:
-                        syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                        errors.Add(new SyntaxError(node.FullSpan, segment,
                             string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
                             string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range)), SyntaxErrorKind.UnsupportedValue));
                         break;
                     case Segment.DayOfMonth:
-                        syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                        errors.Add(new SyntaxError(node.FullSpan, segment,
                             string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
                             string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range, TokenType.QuestionMark, TokenType.L, TokenType.W)), SyntaxErrorKind.UnsupportedValue));
                         break;
                     case Segment.Year:
-                        syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                        errors.Add(new SyntaxError(node.FullSpan, segment,
                             string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
                             string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range)), SyntaxErrorKind.UnsupportedValue));
                         break;
@@ -236,7 +236,7 @@ namespace Cron.Visitors
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -251,7 +251,7 @@ namespace Cron.Visitors
                     case Segment.Hours:
                     case Segment.Month:
                     case Segment.Year:
-                        syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                        errors.Add(new SyntaxError(node.FullSpan, segment,
                             string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
                             string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range)), SyntaxErrorKind.UnsupportedValue));
                         break;
@@ -260,14 +260,14 @@ namespace Cron.Visitors
                         var siblings = TreeHelpers.Siblings(currentSegment, node);
                         if(siblings.Count() > 0)
                         {
-                            syntaxErrors.Add(new SyntaxError(node.FullSpan, segment, string.Format(Properties.Resources.CannotBeUsedInThisContext, node.Token.Value, Properties.Resources.DoNotMixTypes), SyntaxErrorKind.UnsupportedValue));
+                            errors.Add(new SyntaxError(node.FullSpan, segment, string.Format(Properties.Resources.CannotBeUsedInThisContext, node.Token.Value, Properties.Resources.DoNotMixValues), SyntaxErrorKind.UnsupportedValue));
                         }
                         return;
                 }
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -278,16 +278,18 @@ namespace Cron.Visitors
                 switch (segment)
                 {
                     case Segment.DayOfMonth:
-                        break;
                     case Segment.DayOfWeek:
                         break;
                     default:
-                        throw new UnexpectedLNodeAtSegment(node.Token, segment);
+                        errors.Add(new SyntaxError(node.FullSpan, segment,
+                            string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
+                            string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range)), SyntaxErrorKind.UnsupportedValue));
+                        break;
                 }
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -304,12 +306,15 @@ namespace Cron.Visitors
                         ReportIfDayOfWeekIsOutOfRange(node);
                         break;
                     default:
-                        throw new UnexpectedPrecededLNodeAtSegmentException();
+                        errors.Add(new SyntaxError(node.FullSpan, segment,
+                            string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
+                            string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range)), SyntaxErrorKind.UnsupportedValue));
+                        break;
                 }
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -317,18 +322,27 @@ namespace Cron.Visitors
         {
             try
             {
+                var supportedTypes = string.Empty;
                 switch (segment)
                 {
                     case Segment.DayOfMonth:
                         ReportIfWNodeAmongOtherValues(node);
                         ReportIfDayOfWeekIsOutOfRange(node);
                         return;
+                    case Segment.DayOfWeek:
+                        supportedTypes = string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range, TokenType.L, TokenType.Hash, TokenType.QuestionMark);
+                        break;
+                    default:
+                        supportedTypes = string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range);
+                        break;
                 }
-                throw new UnexpectedPrecededWNodeAtSegmentException(node.Token, segment);
+                errors.Add(new SyntaxError(node.FullSpan, segment,
+                    string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
+                    supportedTypes), SyntaxErrorKind.UnsupportedValue));
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -336,18 +350,26 @@ namespace Cron.Visitors
         {
             try
             {
+                var supportedTypes = string.Empty;
                 switch (segment)
                 {
                     case Segment.DayOfWeek:
                         ReportIfHashNodeOutOfRange(node);
+                        return;
+                    case Segment.DayOfMonth:
+                        supportedTypes = string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range, TokenType.L, TokenType.W, TokenType.QuestionMark);
                         break;
                     default:
-                        throw new UnexpectedHashNodeAtSegment(node.Token, segment);
+                        supportedTypes = string.Join(",", TokenType.Integer, TokenType.Star, TokenType.Comma, TokenType.Range);
+                        break;
                 }
+                errors.Add(new SyntaxError(node.FullSpan, segment,
+                    string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType,
+                    supportedTypes), SyntaxErrorKind.UnsupportedValue));
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -361,7 +383,7 @@ namespace Cron.Visitors
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -380,7 +402,7 @@ namespace Cron.Visitors
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -399,7 +421,7 @@ namespace Cron.Visitors
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -436,7 +458,7 @@ namespace Cron.Visitors
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -499,7 +521,7 @@ namespace Cron.Visitors
             }
             catch (BaseCronValidationException exc)
             {
-                errors.Add(exc);
+                criticalErrors.Add(exc);
             }
         }
 
@@ -514,7 +536,7 @@ namespace Cron.Visitors
 
         public void Visit(MissingNode node)
         {
-            syntaxErrors.Add(new SyntaxError(node.FullSpan, segment, 
+            errors.Add(new SyntaxError(node.FullSpan, segment, 
                 string.Format(Properties.Resources.MissingValue, segment), SyntaxErrorKind.MissingValue));
         }
 
@@ -522,7 +544,7 @@ namespace Cron.Visitors
         {
             if(!supportedTypes.Contains(node.Token.TokenType))
             {
-                syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                errors.Add(new SyntaxError(node.FullSpan, segment,
                     string.Format(Properties.Resources.UnsupportedFieldValue, node.ToString(), node.Token.TokenType, string.Join(",", supportedTypes)), SyntaxErrorKind.UnsupportedValue));
                 return true;
             }
@@ -536,7 +558,7 @@ namespace Cron.Visitors
                 ReportIfOutOfRange(1, 31, node, "dayInMonth");
                 return;
             }
-            syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+            errors.Add(new SyntaxError(node.FullSpan, segment,
                 string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "0", "31"), SyntaxErrorKind.ValueOutOfRange));
         }
 
@@ -544,7 +566,7 @@ namespace Cron.Visitors
         {
             if (!CronWordHelper.ContainsDayOfWeek(node.Token.Value))
             {
-                syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                errors.Add(new SyntaxError(node.FullSpan, segment,
                     string.Format(Properties.Resources.OutOfRange, node.Token.Value, node.Token.TokenType, "1/MON", "7/SUN"), SyntaxErrorKind.ValueOutOfRange));
             }
         }
@@ -553,14 +575,14 @@ namespace Cron.Visitors
         {
             if (!CronWordHelper.ContainsDayOfWeek(node.Left.Token.Value))
             {
-                syntaxErrors.Add(new SyntaxError(node.Left.FullSpan, segment,
+                errors.Add(new SyntaxError(node.Left.FullSpan, segment,
                     string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "0", "31"), SyntaxErrorKind.ValueOutOfRange));
             }
             var weekOfMonth = int.Parse(node.Right.Token.Value);
-            if (weekOfMonth < 0 || weekOfMonth > 4)
+            if (weekOfMonth < 1 || weekOfMonth > 4)
             {
-                syntaxErrors.Add(new SyntaxError(node.Right.FullSpan, segment,
-                    string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "0", "31"), SyntaxErrorKind.ValueOutOfRange));
+                errors.Add(new SyntaxError(node.Right.FullSpan, segment,
+                    string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "1", "4"), SyntaxErrorKind.ValueOutOfRange));
             }
         }
 
@@ -571,7 +593,7 @@ namespace Cron.Visitors
                 ReportIfOutOfRange(0, 23, node, "hour");
                 return;
             }
-            syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+            errors.Add(new SyntaxError(node.FullSpan, segment,
                 string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "0", "23"), SyntaxErrorKind.ValueOutOfRange));
         }
 
@@ -587,7 +609,7 @@ namespace Cron.Visitors
                 ReportIfOutOfRange(0, 59, node, "minute");
                 return;
             }
-            syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+            errors.Add(new SyntaxError(node.FullSpan, segment,
                 string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "0", "59"), SyntaxErrorKind.ValueOutOfRange));
         }
 
@@ -595,7 +617,7 @@ namespace Cron.Visitors
         {
             if (!CronWordHelper.ContainsMonth(node.Token.Value))
             {
-                syntaxErrors.Add(new SyntaxError(node.FullSpan, segment, string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "1/JAN", "12/DEC"), SyntaxErrorKind.ValueOutOfRange));
+                errors.Add(new SyntaxError(node.FullSpan, segment, string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "1/JAN", "12/DEC"), SyntaxErrorKind.ValueOutOfRange));
             }
         }
 
@@ -603,7 +625,7 @@ namespace Cron.Visitors
         {
             if (items.Count() != 2)
             {
-                syntaxErrors.Add(new SyntaxError(items.Select(f => f.FullSpan).ToArray(), segment,
+                errors.Add(new SyntaxError(items.Select(f => f.FullSpan).ToArray(), segment,
                     string.Format(Properties.Resources.NodeCountMismatched, 2, items.Count()), SyntaxErrorKind.CountMismatched));
             }
         }
@@ -613,7 +635,7 @@ namespace Cron.Visitors
             var value = int.Parse(node.Token.Value);
             if (value < minValue)
             {
-                syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                errors.Add(new SyntaxError(node.FullSpan, segment,
                     string.Format(Properties.Resources.OutOfRangeMin, value, segment, minValue), SyntaxErrorKind.ValueOutOfRange));
             }
         }
@@ -623,7 +645,7 @@ namespace Cron.Visitors
             var value = int.Parse(node.Token.Value);
             if (value < minValue || value > maxValue)
             {
-                syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+                errors.Add(new SyntaxError(node.FullSpan, segment,
                     string.Format(Properties.Resources.OutOfRange, value, segment, minValue, maxValue), SyntaxErrorKind.ValueOutOfRange));
             }
         }
@@ -635,7 +657,7 @@ namespace Cron.Visitors
                 ReportIfOutOfRange(0, 59, node, "second");
                 return;
             }
-            syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+            errors.Add(new SyntaxError(node.FullSpan, segment,
                 string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "0", "59"), SyntaxErrorKind.ValueOutOfRange));
         }
 
@@ -646,7 +668,7 @@ namespace Cron.Visitors
                 ReportIfOutOfRange(1970, 3000, node, "year");
                 return;
             }
-            syntaxErrors.Add(new SyntaxError(node.FullSpan, segment,
+            errors.Add(new SyntaxError(node.FullSpan, segment,
                 string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, 1970, 3000), SyntaxErrorKind.ValueOutOfRange));
         }
 
@@ -659,7 +681,7 @@ namespace Cron.Visitors
         {
             if (parent.Desecendants.Count() != 1)
             {
-                syntaxErrors.Add(new SyntaxError(parent.Desecendants.Select(f => f.FullSpan).ToArray(), segment,
+                errors.Add(new SyntaxError(parent.Desecendants.Select(f => f.FullSpan).ToArray(), segment,
                     string.Format(Properties.Resources.NodeCountMismatched, 1, parent.Desecendants.Count()), SyntaxErrorKind.CountMismatched));
             }
         }

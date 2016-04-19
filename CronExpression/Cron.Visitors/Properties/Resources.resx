@@ -120,8 +120,8 @@
   <data name="CannotBeUsedInThisContext" xml:space="preserve">
     <value>This value cannot be used in this context. Value '{0}' {1}</value>
   </data>
-  <data name="DoNotMixTypes" xml:space="preserve">
-    <value>cannot be mixed with any other types.</value>
+  <data name="DoNotMixValues" xml:space="preserve">
+    <value>cannot be mixed with any other values.</value>
   </data>
   <data name="MissingValue" xml:space="preserve">
     <value>Expression contains missing value. Missing nodes are placed in segment {0}.</value>
