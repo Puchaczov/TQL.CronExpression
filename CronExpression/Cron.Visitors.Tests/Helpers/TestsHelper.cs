@@ -13,9 +13,10 @@ namespace Cron.Visitors.Tests.Helpers
             Assert.AreEqual(true, visitor.IsValid);
             Assert.AreEqual(0, visitor.ValidationErrors.Count());
         }
-        public static CronRulesNodeVisitor TakeVisitor(this string expression)
+
+        public static CronRulesNodeVisitor TakeVisitor(this string expression, bool produceMissingYearComponent = true, bool produceEndOfFileNodeComponent = true, bool produceMissingSecondComponent = false)
         {
-            var nodes = expression.Parse();
+            var nodes = expression.Parse(produceMissingYearComponent, produceEndOfFileNodeComponent, produceMissingSecondComponent);
             var visitor = new CronRulesNodeVisitor();
             nodes.Accept(visitor);
             return visitor;

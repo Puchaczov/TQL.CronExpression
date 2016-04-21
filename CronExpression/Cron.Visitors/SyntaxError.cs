@@ -10,16 +10,15 @@ namespace Cron.Visitors
 {
     public enum SyntaxErrorKind
     {
-        CountMismatched,
-        ValueOutOfRange,
-        UnsupportedValue,
-        SwappedValue,
-        MissingValue,
+        MissingValue
     }
 
     public enum SemanticErrorKind
     {
-
+        SwappedValue,
+        UnsupportedValue,
+        ValueOutOfRange,
+        CountMismatched,
     }
 
     public enum MessageLevel
@@ -74,7 +73,14 @@ namespace Cron.Visitors
         {
             this.kind = kind;
         }
+        
+        public SemanticError(TextSpan[] spans, Segment segment, string message, SemanticErrorKind kind)
+            : base(spans, segment, message)
+        {
+            this.kind = kind;
+        }
 
         public override MessageLevel Level => MessageLevel.Error;
+        public SemanticErrorKind Kind => kind;
     }
 }

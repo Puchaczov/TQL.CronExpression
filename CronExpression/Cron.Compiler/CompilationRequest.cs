@@ -6,6 +6,12 @@
         private readonly string input;
         private readonly CompilationOptions options;
 
+        public CompilationRequest(string input, CronMode mode)
+            : this(input, ChoseOptionBasedOnMode(mode))
+        {
+            this.input = input;
+        }
+
         public CompilationRequest(string input, CompilationOptions options)
         {
             this.input = input;
@@ -19,6 +25,38 @@
         {
             public bool ProduceEndOfFileNode { get; set; }
             public bool ProduceYearIfMissing { get; set; }
+            public bool ProduceSecondsIfMissing { get; set; }
+        }
+
+        public enum CronMode
+        {
+            StandardExpression,
+            ModernExpression
+        }
+
+        private static CompilationOptions ChoseOptionBasedOnMode(CronMode mode)
+        {
+            CompilationOptions option = null;
+            switch (mode)
+            {
+                case CronMode.StandardExpression:
+                    option = new CompilationOptions
+                    {
+                        ProduceSecondsIfMissing = true,
+                        ProduceYearIfMissing = true,
+                        ProduceEndOfFileNode = true
+                    };
+                    break;
+                default:
+                    option = new CompilationOptions
+                    {
+                        ProduceSecondsIfMissing = false,
+                        ProduceYearIfMissing = false,
+                        ProduceEndOfFileNode = true
+                    };
+                    break;
+            }
+            return option;
         }
     }
 }

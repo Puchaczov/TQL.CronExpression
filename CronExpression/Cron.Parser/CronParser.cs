@@ -15,11 +15,13 @@ namespace Cron.Parser
         private readonly bool produceEndOfFileNode = true;
 
         private readonly bool produceMissingYearSegment = true;
+        private readonly bool produceMissingSecondSegment;
 
-        public CronParser(Lexer lexer, bool produceMissingYearSegment, bool produceEndOfFileNode)
+        public CronParser(Lexer lexer, bool produceMissingYearSegment, bool produceEndOfFileNode, bool produceMissingSecondSegment)
             : this(lexer)
         {
             this.produceMissingYearSegment = produceMissingYearSegment;
+            this.produceMissingSecondSegment = produceMissingSecondSegment;
             this.produceEndOfFileNode = produceEndOfFileNode;
         }
 
@@ -30,10 +32,21 @@ namespace Cron.Parser
             currentToken = lexer.NextToken();
         }
 
+        public bool WithYearComponentWhenMissing => produceMissingYearSegment;
+
+        public bool WithSecondsComponentWhenMissing => produceMissingSecondSegment;
+
         public RootComponentNode ComposeRootComponents()
         {
             var rootComponents = new List<SegmentNode>();
-            for (int i = 0; currentToken.TokenType != TokenType.Eof; ++i)
+            var i = 0;
+
+            if (produceMissingSecondSegment)
+            {
+                rootComponents.Add(ComposeValueBasedSecondsSegmentComponent());
+                i += 1;
+            }
+            for (; currentToken.TokenType != TokenType.Eof; ++i)
             {
                 while (currentToken.TokenType == TokenType.WhiteSpace || currentToken.TokenType == TokenType.NewLine)
                 {
@@ -89,6 +102,8 @@ namespace Cron.Parser
         }
 
         private SegmentNode ComposeStarYearSegmentComponent() => new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(lexer.Position, 0))), Segment.Year, null);
+
+        private SegmentNode ComposeValueBasedSecondsSegmentComponent() => new SegmentNode(new NumberNode(new IntegerToken("0", new TextSpan(lexer.Position, 1))), Segment.Seconds, null);
 
         private void Consume(TokenType type)
         {

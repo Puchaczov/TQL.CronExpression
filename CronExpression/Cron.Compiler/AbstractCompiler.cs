@@ -20,7 +20,7 @@ namespace Cron
             var preprocessor = new Preprocessor();
             var input = preprocessor.Execute(request.Input);
             var lexer = new Lexer(input);
-            var parser = new CronParser(lexer, request.Options.ProduceYearIfMissing, request.Options.ProduceEndOfFileNode);
+            var parser = new CronParser(lexer, request.Options.ProduceYearIfMissing, request.Options.ProduceEndOfFileNode, request.Options.ProduceSecondsIfMissing);
             return converter.Convert(parser.ComposeRootComponents());
         }
 

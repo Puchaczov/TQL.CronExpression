@@ -142,7 +142,16 @@ namespace Cron.Visitors.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unsupported field value {0} of type {1}. This field can contains only values of types {2}..
+        ///   Looks up a localized string similar to Unexpected end of file occured..
+        /// </summary>
+        internal static string UnexpectedEndOfFile {
+            get {
+                return ResourceManager.GetString("UnexpectedEndOfFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported field value &apos;{0}&apos; of type {1}. This field can contains only values of types {2}..
         /// </summary>
         internal static string UnsupportedFieldValue {
             get {

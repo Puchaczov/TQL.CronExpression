@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CronAnalyzerTests.cs" />
     <Compile Include="CronTimelineVisitorTests.cs" />
+    <Compile Include="Helpers\ArrayHelper.cs" />
     <Compile Include="Helpers\TestsHelper.cs" />
     <Compile Include="IncCronRulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

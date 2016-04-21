@@ -144,7 +144,10 @@
   <data name="RangeValueSwapped" xml:space="preserve">
     <value>Range values are swapped. Left {0} should be right, {1} should be left.</value>
   </data>
+  <data name="UnexpectedEndOfFile" xml:space="preserve">
+    <value>Unexpected end of file occured.</value>
+  </data>
   <data name="UnsupportedFieldValue" xml:space="preserve">
-    <value>Unsupported field value {0} of type {1}. This field can contains only values of types {2}.</value>
+    <value>Unsupported field value '{0}' of type {1}. This field can contains only values of types {2}.</value>
   </data>
 </root>
