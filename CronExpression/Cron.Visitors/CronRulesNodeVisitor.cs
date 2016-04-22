@@ -659,29 +659,57 @@ namespace Cron.Visitors
         }
 
         public virtual void Visit(CommaNode node)
-        { }
+        {
+            if(node.Left.IsLeaf && node.Left.Token.TokenType == TokenType.Missing)
+            {
+                ReportMissingValue(node.Left);
+            }
+            if(node.Right.IsLeaf && node.Right.Token.TokenType == TokenType.Missing)
+            {
+                ReportMissingValue(node.Right);
+            }
+        }
 
         public void Visit(MissingNode node)
         {
-            AddSyntaxError(node.FullSpan, string.Format(Properties.Resources.MissingValue, segment), SyntaxErrorKind.MissingValue);
         }
+
+        private static bool IsComplexNode(SyntaxNode node) => node.Token.TokenType == TokenType.Hash || node.Token.TokenType == TokenType.Range;
 
         private void AddSyntaxError(TextSpan fullSpan, string v, SyntaxErrorKind missingValue)
         {
             errors.Add(new SyntaxError(fullSpan, segment, v, missingValue));
         }
 
+        private void ReportMissingValue(SyntaxNode node)
+        {
+            AddSyntaxError(node.FullSpan, string.Format(Properties.Resources.MissingValue, segment), SyntaxErrorKind.MissingValue);
+        }
+
         private bool ReportIfFieldValueOfUnsupportedType(SyntaxNode node, params TokenType[] supportedTypes)
         {
             if(!supportedTypes.Contains(node.Token.TokenType))
             {
-                AddSemanticError(
-                    node.FullSpan,
-                    string.Format(Properties.Resources.UnsupportedFieldValue, node.ToString(), node.Token.TokenType, string.Join(",", supportedTypes)),
-                    SemanticErrorKind.UnsupportedValue);
+                ReportUnsupportedType(node);
                 return true;
             }
             return false;
+        }
+
+        private void ReportUnsupportedType(SyntaxNode node, params TokenType[] supportedTypes)
+        {
+            AddSemanticError(
+                node.FullSpan,
+                string.Format(Properties.Resources.UnsupportedFieldValue, node.ToString(), node.Token.TokenType, string.Join(",", supportedTypes)),
+                SemanticErrorKind.UnsupportedValue);
+        }
+
+        private void ReportValueOutOfRange(SyntaxNode node, string minValue, string maxValue)
+        {
+            AddSemanticError(
+                node.FullSpan,
+                string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, minValue, maxValue),
+                SemanticErrorKind.ValueOutOfRange);
         }
 
         private void ReportIfDayOfMonthIsOutOfRange(SyntaxNode node)
@@ -710,20 +738,47 @@ namespace Cron.Visitors
 
         private void ReportIfHashNodeOutOfRange(HashNode node)
         {
+            var isComplex = false;
+
+            if (IsComplexNode(node.Left))
+            {
+                ReportUnsupportedType(node.Left, TokenType.Integer);
+                isComplex = true;
+            }
+
+            if(IsComplexNode(node.Right))
+            {
+                ReportUnsupportedType(node.Right, TokenType.Integer);
+                isComplex = true;
+            }
+
+            if(isComplex)
+            {
+                return;
+            }
+
             if (!CronWordHelper.ContainsDayOfWeek(node.Left.Token.Value))
             {
-                AddSemanticError(
-                    node.FullSpan,
-                    string.Format(Properties.Resources.OutOfRange, node.Left.Token.Value, segment, "0", "31"),
-                    SemanticErrorKind.ValueOutOfRange);
+                if(node.Left.Token.TokenType != TokenType.Integer)
+                {
+                    ReportUnsupportedType(node.Left, TokenType.Integer);
+                }
+                else
+                {
+                    ReportValueOutOfRange(node.Left, "1", "31");
+                }
             }
-            var weekOfMonth = int.Parse(node.Right.Token.Value);
-            if (weekOfMonth < 1 || weekOfMonth > 4)
+            if(node.Right.Token.TokenType == TokenType.Integer)
             {
-                AddSemanticError(
-                    node.FullSpan,
-                    string.Format(Properties.Resources.OutOfRange, node.Left.Token.Value, segment, "1", "4"),
-                    SemanticErrorKind.ValueOutOfRange);
+                var weekOfMonth = int.Parse(node.Right.Token.Value);
+                if (weekOfMonth < 1 || weekOfMonth > 4)
+                {
+                    ReportValueOutOfRange(node.Right, "1", "4");
+                }
+            }
+            else
+            {
+                ReportUnsupportedType(node.Right, TokenType.Integer);
             }
         }
 

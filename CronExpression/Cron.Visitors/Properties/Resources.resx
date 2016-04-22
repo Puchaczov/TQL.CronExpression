@@ -133,10 +133,10 @@
     <value>Item can contains only {0} descendants. Has {1}.</value>
   </data>
   <data name="OutOfRange" xml:space="preserve">
-    <value>Value {0} cannot be used in this segment {1}. Value must be ranged from {2} - {3}.</value>
+    <value>Value {0} cannot be used in segment {1}. Value must be ranged from {2} - {3}.</value>
   </data>
   <data name="OutOfRangeMin" xml:space="preserve">
-    <value>Value {0} cannot be used in this segment {1}. Min value is {2}.</value>
+    <value>Value {0} cannot be used in segment {1}. Min value is {2}.</value>
   </data>
   <data name="RangeDescendantsCount" xml:space="preserve">
     <value>There is too much descendants for range(hyphen) item.</value>

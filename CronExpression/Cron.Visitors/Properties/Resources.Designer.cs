@@ -106,7 +106,7 @@ namespace Cron.Visitors.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value {0} cannot be used in this segment {1}. Value must be ranged from {2} - {3}..
+        ///   Looks up a localized string similar to Value {0} cannot be used in segment {1}. Value must be ranged from {2} - {3}..
         /// </summary>
         internal static string OutOfRange {
             get {
@@ -115,7 +115,7 @@ namespace Cron.Visitors.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value {0} cannot be used in this segment {1}. Min value is {2}..
+        ///   Looks up a localized string similar to Value {0} cannot be used in segment {1}. Min value is {2}..
         /// </summary>
         internal static string OutOfRangeMin {
             get {

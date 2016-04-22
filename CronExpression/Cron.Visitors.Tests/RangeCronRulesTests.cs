@@ -176,6 +176,7 @@ namespace Cron.Parser.Tests
             CheckErrors("* * * 1#5 * * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * * 1#5 * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * * * * 1#5", false, 1, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("* * * * * 0#5 *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
         }
 
         [TestMethod]
@@ -289,6 +290,32 @@ namespace Cron.Parser.Tests
             CheckErrors("* * * * 1-2/4 * *", true, 0, ArrayHelper.Empty<SemanticErrorKind>());
             CheckErrors("* * * * * 1-2/4 *", true, 0, ArrayHelper.Empty<SemanticErrorKind>());
             CheckErrors("* * * * * * 2000-2010/4", true, 0, ArrayHelper.Empty<SemanticErrorKind>());
+        }
+
+        [TestMethod]
+        public void CheckStarNode_ShouldReportError()
+        {
+            CheckErrors("*,1 1 1 1 1 1 2000", false, 1, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("1 1,* 1 1 1 1 2000", false, 1, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("1 1 2-3,* 1 1 1 2000", false, 1, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("1 1 1 *,1#4 1 1 2000", false, 2, SemanticErrorKind.UnsupportedValue, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("1 1 1 1 *, 1 2000", false, 2, SemanticErrorKind.UnsupportedValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("1 1 1 1 1 *#5 2000", false, 2, SemanticErrorKind.UnsupportedValue, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("1 1 1 1 1 *#* 2000", false, 2, SemanticErrorKind.UnsupportedValue, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("1 1 1 1 1 *## 2000", false, 1, SemanticErrorKind.UnsupportedValue);
+        }
+
+        [TestMethod]
+        public void CheckCommaNode_ShouldReportError()
+        {
+            CheckErrors("1, * * * * * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* 1, * * * * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * ,1 * * * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * 1,1, * * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * ,1,1 * *", false, 1, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * ,1,2000,1 * *", false, 2, SyntaxErrorKind.MissingValue, SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * * ,1,2, *", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
+            CheckErrors("* * * * * * ,", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
         }
 
         public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors, params SyntaxErrorKind[] types)
