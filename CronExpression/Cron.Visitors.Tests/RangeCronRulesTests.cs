@@ -191,8 +191,8 @@ namespace Cron.Parser.Tests
             CheckErrors("* * *", false, 1, SyntaxErrorKind.MissingValue);
             CheckErrors("* * * * *", false, 1, SyntaxErrorKind.MissingValue);
 
-            //check won't throw exception when short expression without seconds and years passed. 
-            //Should pass becouse parser will prepend and append missing seconds, year values. Used for old way 
+            //check won't throw exception when short expression without seconds and years passed.
+            //Should pass becouse parser will prepend and append missing seconds, year values. Used for old way
             //provided expressions when such segments doesn't exists.
             CheckErrors<SemanticError, SemanticErrorKind>(() => {
                 var nodes = "* * * * *".Parse(true, true, true);
@@ -273,8 +273,8 @@ namespace Cron.Parser.Tests
             CheckErrors("* * * 1-2/32 * * *", false, 1, SemanticErrorKind.ValueOutOfRange);
             CheckErrors("* * * * 1-2/15 * *", false, 1, SemanticErrorKind.ValueOutOfRange);
             CheckErrors("* * * * * 1-2/8 *", false, 1, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("* * * * * * 2-1/3001", false, 3, 
-                SemanticErrorKind.ValueOutOfRange, 
+            CheckErrors("* * * * * * 2-1/3001", false, 3,
+                SemanticErrorKind.ValueOutOfRange,
                 SemanticErrorKind.ValueOutOfRange,
                 SemanticErrorKind.SwappedValue);
             CheckErrors("* * * * * * 2000-2010/0", false, 1, SemanticErrorKind.ValueOutOfRange);
@@ -321,10 +321,10 @@ namespace Cron.Parser.Tests
         public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors, params SyntaxErrorKind[] types)
         {
             CheckErrors<SyntaxError, SyntaxErrorKind>(
-                () => expression.TakeVisitor(), 
+                () => expression.TakeVisitor(),
                 (error, expectedKind) => error.Kind == expectedKind,
-                shouldBeValid, 
-                expectedCountOfErrors, 
+                shouldBeValid,
+                expectedCountOfErrors,
                 types);
         }
 
@@ -436,15 +436,6 @@ namespace Cron.Parser.Tests
             Assert.IsFalse(visitor.IsValid);
             Assert.AreEqual(expectedCount, visitor.SyntaxErrors.OfType<SemanticError>().Count());
             Assert.AreEqual(expectedError, visitor.SyntaxErrors.OfType<SemanticError>().First().Kind);
-        }
-
-        private static void CheckRange_RangesExceed_ShouldReportError(string expression)
-        {
-            var visitor = expression.TakeVisitor();
-            Assert.IsFalse(visitor.IsValid);
-            Assert.AreEqual(2, visitor.SyntaxErrors.Count());
-            Assert.AreEqual(SemanticErrorKind.ValueOutOfRange, visitor.SyntaxErrors.OfType<SemanticError>().First().Kind);
-            Assert.AreEqual(SemanticErrorKind.ValueOutOfRange, visitor.SyntaxErrors.OfType<SemanticError>().ElementAt(1).Kind);
         }
 
         [TestMethod]

@@ -132,7 +132,7 @@ namespace Cron.Parser.Helpers
             {
                 var parent = nodesOnSameLevel[firstItem];
                 var child = parent.Desecendants;
-                
+
                 for (int i = 0; i < child.Count(); ++i)
                 {
                     result = action(child[i], parent);
@@ -156,8 +156,8 @@ namespace Cron.Parser.Helpers
 
     public struct NodeTraverseResult
     {
-        public bool BreakNow { get; private set; }
-        public bool GoDepper { get; private set; }
+        public bool BreakNow { get; }
+        public bool GoDepper { get; }
 
         public NodeTraverseResult(bool goDeeper, bool breakNow)
         {

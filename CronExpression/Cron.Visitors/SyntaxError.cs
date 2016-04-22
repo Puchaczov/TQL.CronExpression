@@ -73,7 +73,7 @@ namespace Cron.Visitors
         {
             this.kind = kind;
         }
-        
+
         public SemanticError(TextSpan[] spans, Segment segment, string message, SemanticErrorKind kind)
             : base(spans, segment, message)
         {

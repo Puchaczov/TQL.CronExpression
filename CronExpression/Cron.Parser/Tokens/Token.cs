@@ -22,7 +22,6 @@ namespace Cron.Parser.Tokens
         public string Value
         {
             get;
-            private set;
         }
 
         public abstract Token Clone();

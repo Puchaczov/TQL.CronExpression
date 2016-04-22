@@ -19,7 +19,7 @@ namespace Cron.Visitors.Exceptions
         }
 
         public override string Message => $"Unexpected token {Token.Value} occured at position {Position}";
-        public int Position { get; private set; }
-        public Token Token { get; private set; }
+        public int Position { get; }
+        public Token Token { get; }
     }
 }
