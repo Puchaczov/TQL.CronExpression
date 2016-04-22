@@ -32,7 +32,7 @@ namespace Cron.Visitors
 
         public virtual bool IsValid => criticalErrors.Count == 0 && errors.Count == 0;
 
-        public virtual IEnumerable<Error> SyntaxErrors => errors;
+        public virtual IEnumerable<Error> Errors => errors;
 
         public object TreeHelper { get; }
 
@@ -226,7 +226,7 @@ namespace Cron.Visitors
                 {
                     case Segment.DayOfMonth:
                         ReportIfWNodeAmongOtherValues(node);
-                        ReportIfDayOfWeekIsOutOfRange(node);
+                        ReportIfDayOfMonthIsOutOfRange(node);
                         return;
                 }
                 AddSemanticError(
@@ -284,7 +284,6 @@ namespace Cron.Visitors
                 switch (segment)
                 {
                     case Segment.DayOfMonth:
-                        ReportIfWNodeAmongOtherValues(node);
                         var siblings = currentSegment.Siblings(node);
                         if (siblings.Count() != 0)
                         {
@@ -591,7 +590,7 @@ namespace Cron.Visitors
             var items = node.Desecendants;
             if (items[0].Token.TokenType == TokenType.Missing)
             {
-                items[0].Accept(this);
+                ReportMissingValue(items[0]);
                 hasUnsupportedLeftValue = true;
             }
             else
@@ -600,7 +599,7 @@ namespace Cron.Visitors
             }
             if (items[1].Token.TokenType == TokenType.Missing)
             {
-                items[1].Accept(this);
+                ReportMissingValue(items[0]);
                 hasUnsupportedRightValue = true;
             }
             else

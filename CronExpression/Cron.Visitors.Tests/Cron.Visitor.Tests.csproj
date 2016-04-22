@@ -56,12 +56,8 @@
     <Compile Include="CronTimelineVisitorTests.cs" />
     <Compile Include="Helpers\ArrayHelper.cs" />
     <Compile Include="Helpers\TestsHelper.cs" />
-    <Compile Include="IncCronRulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RangeCronRulesTests.cs" />
-    <Compile Include="RangeUnwindCronRulesTests.cs" />
-    <Compile Include="SimpleCronRulesTests.cs" />
-    <Compile Include="SpecialOptionsCronRulesTests.cs" />
+    <Compile Include="CronRulesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
