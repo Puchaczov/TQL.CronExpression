@@ -414,6 +414,14 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(new DateTime(2017, 1, 1, 15, 25, 13), time);
         }
 
+        [TestMethod]
+        public void TestWillRunEveryMonday()
+        {
+            var analyzer = "0 0 8 * * 1 *".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2014, 11, 30); //sunday
+            Assert.AreEqual(new DateTime(2014, 12, 1, 8, 0, 0), analyzer.NextFire());
+        }
+
         private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTime, int> assertCallback)
         {
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(from, to, 1, analyzer, assertCallback);
