@@ -11,7 +11,7 @@ namespace Cron.Visitors.Tests.Helpers
         {
             var visitor = expression.TakeVisitor();
             Assert.AreEqual(true, visitor.IsValid);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         public static CronRulesNodeVisitor TakeVisitor(this string expression, bool produceMissingYearComponent = true, bool produceEndOfFileNodeComponent = true, bool produceMissingSecondComponent = false)

@@ -81,7 +81,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SyntaxError.cs" />
+    <Compile Include="CompilationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\RangeNodeException.cs" />
   </ItemGroup>

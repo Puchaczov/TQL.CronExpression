@@ -83,4 +83,17 @@ namespace Cron.Visitors
         public override MessageLevel Level => MessageLevel.Error;
         public SemanticErrorKind Kind => kind;
     }
+
+    public class FatalVisitError : CompilationMessage
+    {
+        private readonly Exception exc;
+
+        public FatalVisitError(Exception exc)
+            : base(null, Segment.Unknown, string.Empty)
+        {
+            this.exc = exc;
+        }
+
+        public override MessageLevel Level => MessageLevel.Error;
+    }
 }

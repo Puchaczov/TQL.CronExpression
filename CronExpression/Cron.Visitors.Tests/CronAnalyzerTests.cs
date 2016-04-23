@@ -9,7 +9,6 @@ namespace Cron.Parser.Tests
     [TestClass]
     public class CronAnalyzerTests
     {
-
         [TestMethod]
         public void TestFullOverflowedDate_ShouldPass()
         {

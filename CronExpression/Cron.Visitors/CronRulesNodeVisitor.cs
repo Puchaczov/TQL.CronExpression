@@ -36,9 +36,7 @@ namespace Cron.Visitors
 
         public object TreeHelper { get; }
 
-        public virtual IEnumerable<Exception> ValidationErrors => criticalErrors;
-
-        protected IReadOnlyList<CompilationMessage> e => errors;
+        protected IReadOnlyList<CompilationMessage> e => errors.Concat(criticalErrors.Select(f => new FatalVisitError(f))).ToArray();
 
         public virtual void Visit(SegmentNode node)
         {

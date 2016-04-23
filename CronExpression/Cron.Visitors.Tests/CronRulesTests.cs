@@ -455,7 +455,7 @@ namespace Cron.Parser.Tests
         {
             var visitor = "* * * * 1-3,JAN-MAR,MAY-12 * *".TakeVisitor();
             Assert.AreEqual(true, visitor.IsValid);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]

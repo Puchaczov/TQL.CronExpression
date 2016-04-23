@@ -17,8 +17,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 0 12 * * ?");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -26,8 +26,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 15 * ?");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -35,8 +35,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 L * ?");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -44,8 +44,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * 6L");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -53,8 +53,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * 6L 2002-2005");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -62,8 +62,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * 6#3");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -71,8 +71,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 0 12 1/5 * *");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -80,8 +80,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0/5 14,18,3-39,52 * ? JAN,MAR,SEP MON-FRI 2002-2016");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -89,8 +89,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("* 12 10-16/2 * * *");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -98,8 +98,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("* 12 1-15,17,20-23 * * *");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -107,8 +107,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * *");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -116,8 +116,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 * * ?");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -125,8 +125,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 * * ? 2005");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -134,8 +134,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 0-5 14 * * *");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -143,8 +143,8 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 10,44 14 ? 3 WED");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]
@@ -152,16 +152,16 @@ namespace Cron.Visitors.Tests
         {
             var visitor = CreateExpressionAndPerformVisitor("0 15 10 ? * MON-FRI");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
         [TestMethod]
         public void ValidateExpression_AllStars_ShouldNotContainErrors()
         {
             var visitor = CreateExpressionAndPerformVisitor("* * * * * * *");
 
-            Assert.AreNotEqual(null, visitor.ValidationErrors);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreNotEqual(null, visitor.Errors);
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         private static CronRulesNodeVisitor CreateExpressionAndPerformVisitor(string expression)
