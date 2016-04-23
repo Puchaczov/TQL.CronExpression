@@ -376,7 +376,7 @@ namespace Cron.Parser.Tests
                 types);
         }
 
-        public static void CheckErrors<TErrorKind>(Func<CronRulesNodeVisitor> createFunc, Func<Error, TErrorKind, bool> compareFunc, bool shouldBeValid, int expectedCountOfErrors, params TErrorKind[] types)
+        public static void CheckErrors<TErrorKind>(Func<CronRulesNodeVisitor> createFunc, Func<CompilationMessage, TErrorKind, bool> compareFunc, bool shouldBeValid, int expectedCountOfErrors, params TErrorKind[] types)
         {
             Assert.IsNotNull(compareFunc);
             Assert.IsNotNull(createFunc);

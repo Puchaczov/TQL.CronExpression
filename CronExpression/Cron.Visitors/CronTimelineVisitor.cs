@@ -26,6 +26,10 @@ namespace Cron.Visitors
                 {
                     throw new Exception("Nodes must be visited first");
                 }
+                if(e.Count > 0)
+                {
+                    throw new Exception("Cannot evaluate malformed expression");
+                }
                 return new CronFireTimeEvaluator(
                     this[Cron.Parser.Enums.Segment.Year],
                     this[Cron.Parser.Enums.Segment.Month],

@@ -1,4 +1,5 @@
 ﻿using Cron.Compilation;
+using Cron.Compiler;
 using Cron.Parser;
 using Cron.Parser.Nodes;
 using Cron.Utils;
@@ -9,22 +10,33 @@ namespace Cron
 {
     public abstract class AbstractCompiler
     {
-        public virtual T Compile<T>(CompilationRequest request, Func<RootComponentNode, T> fun) => Compile<T>(request, new ConvertionByFunc<RootComponentNode, T>(fun));
+        protected virtual CompilationResponse<T> Compile<T>(
+            CompilationRequest request,
+            Func<RootComponentNode, CompilationResponse<T>> fun)
+            => Compile<T>(request, new ConvertionByFunc<RootComponentNode, CompilationResponse<T>>(fun));
 
-        public virtual T Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, T> converter)
+        protected virtual CompilationResponse<T> Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, CompilationResponse<T>> converter)
         {
-            if (!IsRequestValid(request))
+            try
             {
-                throw new ArgumentException();
+                if (!IsRequestValid(request))
+                {
+                    throw new ArgumentException();
+                }
+                var preprocessor = new Preprocessor();
+                var input = preprocessor.Execute(request.Input);
+                var lexer = new Lexer(input);
+                var parser = new CronParser(lexer, request.Options.ProduceYearIfMissing, request.Options.ProduceEndOfFileNode, request.Options.ProduceSecondsIfMissing);
+                var ast = parser.ComposeRootComponents();
+                return converter.Convert(ast);
             }
-            var preprocessor = new Preprocessor();
-            var input = preprocessor.Execute(request.Input);
-            var lexer = new Lexer(input);
-            var parser = new CronParser(lexer, request.Options.ProduceYearIfMissing, request.Options.ProduceEndOfFileNode, request.Options.ProduceSecondsIfMissing);
-            return converter.Convert(parser.ComposeRootComponents());
+            catch(Exception exc)
+            {
+                return new CompilationResponse<T>(new FatalError(exc));
+            }
         }
 
-        public IEvaluable<T> Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, IEvaluable<T>> converter) => Compile(request, (ast) => converter.Convert(ast));
+        protected CompilationResponse<IEvaluable<T>> Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, CompilationResponse<IEvaluable<T>>> converter) => Compile(request, (ast) => converter.Convert(ast));
 
         protected virtual bool IsRequestValid(CompilationRequest request) => request.Input != null && request.Options != null;
     }

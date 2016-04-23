@@ -28,7 +28,7 @@ namespace Cron.Visitors
         Error
     }
 
-    public abstract class Error
+    public abstract class CompilationMessage
     {
         protected readonly Segment segment;
         protected readonly string message;
@@ -36,7 +36,7 @@ namespace Cron.Visitors
 
         public abstract MessageLevel Level { get; }
 
-        protected Error(TextSpan[] spans, Segment segment, string message)
+        protected CompilationMessage(TextSpan[] spans, Segment segment, string message)
         {
             this.segment = segment;
             this.message = message;
@@ -44,7 +44,7 @@ namespace Cron.Visitors
         }
     }
 
-    public class SyntaxError : Error
+    public class SyntaxError : CompilationMessage
     {
         private readonly SyntaxErrorKind kind;
 
@@ -64,7 +64,7 @@ namespace Cron.Visitors
         public override string ToString() => message;
     }
 
-    public class SemanticError : Error
+    public class SemanticError : CompilationMessage
     {
         private readonly SemanticErrorKind kind;
 

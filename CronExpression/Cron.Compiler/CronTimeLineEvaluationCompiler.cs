@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cron.Compiler
 {
-    public class StandardCompiler : AbstractCompiler
+    public class CronTimeLineEvaluationCompiler : AbstractCompiler
     {
-        public ICronFireTimeEvaluator Compile(CompilationRequest request)
+        public CompilationResponse<ICronFireTimeEvaluator> Compile(CompilationRequest request)
         {
             if(!request.Options.ProduceEndOfFileNode)
             {
@@ -22,11 +22,11 @@ namespace Cron.Compiler
             return base.Compile(request, Convert);
         }
 
-        private static ICronFireTimeEvaluator Convert(RootComponentNode input)
+        private static CompilationResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast)
         {
             var visitor = new CronTimelineVisitor();
-            input.Accept(visitor);
-            return visitor.Evaluator;
+            ast.Accept(visitor);
+            return new CompilationResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? visitor.Evaluator : null, visitor.Errors.ToArray());
         }
     }
 }

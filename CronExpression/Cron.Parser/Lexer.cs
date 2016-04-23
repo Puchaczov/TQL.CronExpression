@@ -51,7 +51,7 @@ namespace Cron.Parser
 
             var currentChar = input[pos];
 
-            if (pos + 1 < input.Count() && IsEndLineCharacter(currentChar, input[pos + 1]))
+            if (IsEndLine(currentChar))
             {
                 var token = new WhiteSpaceToken(new TextSpan(pos, 2));
                 pos += 2;
@@ -156,11 +156,20 @@ namespace Cron.Parser
             return AssignTokenOfType(() => new NameToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos))) as NameToken;
         }
 
-        private bool IsEndLineCharacter(char currentChar, char v)
+        private bool IsEndLine(char currentChar)
+        {
+            if (pos + 1 < input.Count() && IsEndLineCharacter(currentChar, input[pos + 1]))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsEndLineCharacter(char currentChar, char nextChar)
         {
             if (this.endLines.ContainsKey(currentChar))
             {
-                return v == this.endLines[currentChar];
+                return nextChar == this.endLines[currentChar];
             }
             return false;
         }

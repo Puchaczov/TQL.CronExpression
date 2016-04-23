@@ -42,8 +42,11 @@
   <ItemGroup>
     <Compile Include="CompilationRequest.cs" />
     <Compile Include="AbstractCompiler.cs" />
+    <Compile Include="CompilationResponse.cs" />
+    <Compile Include="CronRulesCheckCompiler.cs" />
+    <Compile Include="Exceptions\FatalError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StandardCompiler.cs" />
+    <Compile Include="CronTimeLineEvaluationCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">

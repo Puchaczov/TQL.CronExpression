@@ -30,8 +30,8 @@
 
         public enum CronMode
         {
-            StandardExpression,
-            ModernExpression
+            StandardDefinition,
+            ModernDefinition
         }
 
         private static CompilationOptions ChoseOptionBasedOnMode(CronMode mode)
@@ -39,7 +39,7 @@
             CompilationOptions option = null;
             switch (mode)
             {
-                case CronMode.StandardExpression:
+                case CronMode.StandardDefinition:
                     option = new CompilationOptions
                     {
                         ProduceSecondsIfMissing = true,

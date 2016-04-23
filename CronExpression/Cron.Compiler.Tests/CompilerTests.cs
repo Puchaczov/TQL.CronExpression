@@ -11,7 +11,7 @@ namespace Cron.Compiler.Tests
         [TestMethod]
         public void Compiler_CheckProduceAst_ShouldPass()
         {
-            var compiler = new StandardCompiler();
+            var compiler = new CronTimeLineEvaluationCompiler();
             var options = new CompilationRequest.CompilationOptions {
                 ProduceEndOfFileNode = true,
                 ProduceYearIfMissing = true
@@ -20,6 +20,24 @@ namespace Cron.Compiler.Tests
             var request = new CompilationRequest("* * * * * * *", options);
 
             Assert.IsNotNull(compiler.Compile(request));
+        }
+
+        [TestMethod]
+        public void Compiler_CheckProducedEvaluator_ShouldPass()
+        {
+            CheckExpressionType("* * * * *", CompilationRequest.CronMode.StandardDefinition);
+            CheckExpressionType("* * * * * * *", CompilationRequest.CronMode.ModernDefinition);
+        }
+
+        private static void CheckExpressionType(string input, CompilationRequest.CronMode mode)
+        {
+            var compiler = new CronTimeLineEvaluationCompiler();
+            var request = new CompilationRequest(input, mode);
+            var response = compiler.Compile(request);
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Messages);
+            Assert.AreEqual(0, response.Messages.Count);
+            Assert.IsNotNull(response.Output);
         }
     }
 }
