@@ -2,8 +2,8 @@
 # CronExpression
 
 <h2 class="western" lang="en-US">What is CronExpression</h2>
-<p lang="en-US">CronExpression is a .NET library provided CRON
-expression analysis tool and evaluation environment. By this library
+<p lang="en-US">CronExpression is a .NET library provids CRON
+expression analysis tools and evaluation environment. By this library
 you can for example process your expression in a way that allows you
 to judge provided expression correctness. You can use it as
 evaluation engine when you build scheduler. Software should be useful
