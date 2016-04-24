@@ -1,4 +1,5 @@
 ﻿using Cron.Compilation;
+using Cron.Compiler.Exceptions;
 using Cron.Parser.Nodes;
 using Cron.Utils;
 using Cron.Visitors;
@@ -13,6 +14,10 @@ namespace Cron.Compiler
 {
     public class CronTimeLineEvaluationCompiler : AbstractCompiler
     {
+        public CronTimeLineEvaluationCompiler(bool throwOnError = false)
+            : base(throwOnError)
+        { }
+
         public CompilationResponse<ICronFireTimeEvaluator> Compile(CompilationRequest request)
         {
             if(!request.Options.ProduceEndOfFileNode)
@@ -26,6 +31,10 @@ namespace Cron.Compiler
         {
             var visitor = new CronTimelineVisitor();
             ast.Accept(visitor);
+            if (visitor.Errors.Any(f => f.Level == MessageLevel.Error))
+            {
+                throw new IncorrectCronExpressionException(visitor.Errors.ToArray());
+            }
             return new CompilationResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? visitor.Evaluator : null, visitor.Errors.ToArray());
         }
     }

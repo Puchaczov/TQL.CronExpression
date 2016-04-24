@@ -27,6 +27,7 @@ namespace Cron.Compiler
         public CompilationResponse(CompilationMessage message)
         {
             Messages = new List<CompilationMessage> { message };
+            Output = default(T);
         }
 
         public CompilationResponse(IReadOnlyCollection<CompilationMessage> messages)

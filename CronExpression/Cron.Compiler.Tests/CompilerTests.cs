@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cron.Compilation;
+using Cron.Compiler.Exceptions;
 
 namespace Cron.Compiler.Tests
 {
@@ -27,6 +28,22 @@ namespace Cron.Compiler.Tests
         {
             CheckExpressionType("* * * * *", CompilationRequest.CronMode.StandardDefinition);
             CheckExpressionType("* * * * * * *", CompilationRequest.CronMode.ModernDefinition);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectCronExpressionException))]
+        public void Compiler_ModernDefinition_ShouldThrowAggregatedException()
+        {
+            new CronTimeLineEvaluationCompiler(true)
+                .Compile(new CompilationRequest("* *", CompilationRequest.CronMode.ModernDefinition));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectCronExpressionException))]
+        public void Compiler_StandardDefinition_ShouldThrowAggregatedException()
+        {
+            new CronTimeLineEvaluationCompiler(true)
+                .Compile(new CompilationRequest("* *", CompilationRequest.CronMode.StandardDefinition));
         }
 
         private static void CheckExpressionType(string input, CompilationRequest.CronMode mode)

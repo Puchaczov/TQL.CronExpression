@@ -1,5 +1,6 @@
 ﻿using Cron.Compilation;
 using Cron.Compiler;
+using Cron.Compiler.Exceptions;
 using Cron.Parser;
 using Cron.Parser.Nodes;
 using Cron.Utils;
@@ -10,6 +11,13 @@ namespace Cron
 {
     public abstract class AbstractCompiler
     {
+        private readonly bool throwOnError;
+
+        protected AbstractCompiler(bool throwOnError)
+        {
+            this.throwOnError = throwOnError;
+        }
+
         protected virtual CompilationResponse<T> Compile<T>(
             CompilationRequest request,
             Func<RootComponentNode, CompilationResponse<T>> fun)
@@ -30,8 +38,12 @@ namespace Cron
                 var ast = parser.ComposeRootComponents();
                 return converter.Convert(ast);
             }
-            catch(Exception exc)
+            catch(IncorrectCronExpressionException exc)
             {
+                if(throwOnError)
+                {
+                    throw;
+                }
                 return new CompilationResponse<T>(new FatalError(exc));
             }
         }
