@@ -1,8 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/Puchaczov/CronExpression.png?label=ready&title=Ready)](https://waffle.io/Puchaczov/CronExpression)
 # CronExpression
-
 <h2 class="western" lang="en-US">What is CronExpression</h2>
-<p lang="en-US">CronExpression is a .NET library provids CRON
+<p lang="en-US">CronExpression is a .NET library provides CRON
 expression analysis tools and evaluation environment. By this library
 you can for example process your expression in a way that allows you
 to judge provided expression correctness. You can use it as
