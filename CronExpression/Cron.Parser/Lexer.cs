@@ -43,9 +43,9 @@ namespace Cron.Parser
 
         public Token NextToken()
         {
-            if (pos > input.Count() - 1)
+            if (pos > input.Length - 1)
             {
-                AssignTokenOfType(() => new EndOfFileToken(new TextSpan(input.Count(), 0)));
+                AssignTokenOfType(() => new EndOfFileToken(new TextSpan(input.Length, 0)));
                 return currentToken;
             }
 
@@ -135,7 +135,7 @@ namespace Cron.Parser
         private Token ConsumeInterger()
         {
             var startPos = pos;
-            var cnt = input.Count();
+            var cnt = input.Length;
             while (cnt > pos && IsDigit(input[pos]))
             {
                 ++pos;
@@ -147,7 +147,7 @@ namespace Cron.Parser
         private NameToken ConsumeLetters()
         {
             var startPos = pos;
-            var cnt = input.Count();
+            var cnt = input.Length;
             while (cnt > pos && IsLetter(input[pos]))
             {
                 ++pos;
@@ -158,7 +158,7 @@ namespace Cron.Parser
 
         private bool IsEndLine(char currentChar)
         {
-            if (pos + 1 < input.Count() && IsEndLineCharacter(currentChar, input[pos + 1]))
+            if (pos + 1 < input.Length && IsEndLineCharacter(currentChar, input[pos + 1]))
             {
                 return true;
             }

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Preprocessor.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Compiler.Tests", "Cron.Compiler.Tests\Cron.Compiler.Tests.csproj", "{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.TimeLineEvaluator", "Cron.TimeLineEvaluator\Cron.TimeLineEvaluator.csproj", "{F20E2414-19DD-4204-AA76-654520285E42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F20E2414-19DD-4204-AA76-654520285E42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20E2414-19DD-4204-AA76-654520285E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20E2414-19DD-4204-AA76-654520285E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20E2414-19DD-4204-AA76-654520285E42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

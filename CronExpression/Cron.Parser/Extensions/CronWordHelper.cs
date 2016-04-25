@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.Extensions
 {
-    [ExcludeFromCodeCoverage]
     public static class CronWordHelper
     {
         private static readonly Dictionary<string, DayOfWeek> dayOfWeekStringToDayOfWeek;

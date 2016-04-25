@@ -4,18 +4,12 @@ using System.Runtime.Serialization;
 
 namespace Cron.Parser.Exceptions
 {
-    [Serializable]
     public class UnexpectedTokenException : Exception
     {
-
         public UnexpectedTokenException(int pos, Token token)
         {
             this.Position = pos;
             this.Token = token;
-        }
-
-        protected UnexpectedTokenException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
 
         public override string Message => $"Unexpected token {Token.Value} occured at position {Position}";

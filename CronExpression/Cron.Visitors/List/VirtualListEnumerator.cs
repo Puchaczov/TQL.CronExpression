@@ -10,9 +10,9 @@ namespace Cron.Parser.List
     public class VirtualListEnumerator<T> : IEnumerator<T>
     {
         private int index;
-        private readonly IVirtualList<T> list;
+        private readonly IComputableElementsEnumerable<T> list;
 
-        public VirtualListEnumerator(IVirtualList<T> list)
+        public VirtualListEnumerator(IComputableElementsEnumerable<T> list)
         {
             this.list = list;
             this.index = -1;
@@ -25,11 +25,6 @@ namespace Cron.Parser.List
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public virtual void Dispose(bool withManaged)
-        {
         }
 
         public bool MoveNext()
@@ -46,5 +41,21 @@ namespace Cron.Parser.List
         {
             index = -1;
         }
+
+        #region IDisposable Support
+        private bool disposedValue;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+
+                }
+                disposedValue = true;
+            }
+        }
+        #endregion
     }
 }

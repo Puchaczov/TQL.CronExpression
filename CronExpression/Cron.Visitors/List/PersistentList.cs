@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.List
 {
-    public class PersistentList<T> : List<T>, IVirtualList<T>
+    public class PersistentList<T> : List<T>, IComputableElementsEnumerable<T>
     {
         public PersistentList(IEnumerable<T> enumerable)
         {
             this.AddRange(enumerable);
         }
 
-        public void Add(IVirtualList<T> list)
+        public void Add(IComputableElementsEnumerable<T> list)
         {
             throw new NotImplementedException();
         }

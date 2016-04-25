@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Cron.Parser.List
 {
-    internal class VirtuallyJoinedList : IVirtualList<int>
+    internal class VirtuallyJoinedList : IComputableElementsEnumerable<int>
     {
         private readonly Dictionary<int, int> correspondingKeys;
         private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
@@ -36,7 +36,7 @@ namespace Cron.Parser.List
             }
         }
 
-        public void Add(IVirtualList<int> list)
+        public void Add(IComputableElementsEnumerable<int> list)
         {
             throw new NotImplementedException();
         }

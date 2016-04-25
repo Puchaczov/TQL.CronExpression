@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace Cron.Parser.List
 {
-    public class VirtualList<T> : IVirtualList<T>, IEnumerable<T>
+    public class VirtualList<T> : IComputableElementsEnumerable<T>, IEnumerable<T>
     {
-        protected readonly IList<IVirtualList<T>> sources;
+        protected readonly IList<IComputableElementsEnumerable<T>> sources;
 
         public VirtualList()
         {
-            this.sources = new List<IVirtualList<T>>();
+            this.sources = new List<IComputableElementsEnumerable<T>>();
         }
 
         public virtual int Count
@@ -41,7 +41,7 @@ namespace Cron.Parser.List
             }
         }
 
-        public virtual void Add(IVirtualList<T> list)
+        public virtual void Add(IComputableElementsEnumerable<T> list)
         {
             sources.Add(list);
         }

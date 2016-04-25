@@ -1,38 +1,18 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using Cron.Visitors.Exceptions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Cron.Visitors.Exceptions
 {
-    [Serializable]
     public class RangeNodeException : Exception
     {
         private readonly BaseCronValidationException exc;
 
-        public RangeNodeException()
-        {
-        }
-
-        public RangeNodeException(string message) : base(message)
-        {
-        }
-
         public RangeNodeException(BaseCronValidationException exc)
-            : base(exc.Message, exc)
         {
             this.exc = exc;
         }
-
-        public RangeNodeException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected RangeNodeException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
-        public override string Message => exc.Message;
-
-        public override string StackTrace => exc.StackTrace;
     }
 }

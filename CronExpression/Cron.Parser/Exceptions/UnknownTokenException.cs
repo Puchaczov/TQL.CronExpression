@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Cron.Parser.Exceptions
 {
-    [Serializable]
     public class UnknownTokenException : Exception
     {
         private readonly char currentChar;
@@ -13,10 +12,6 @@ namespace Cron.Parser.Exceptions
         {
             this.pos = pos;
             this.currentChar = currentChar;
-        }
-
-        protected UnknownTokenException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

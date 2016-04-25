@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace Cron.Parser.List
 {
-    public abstract class DateTimeBasedComputeList : IVirtualList<int>
+    public abstract class DateTimeBasedComputeList : IComputableElementsEnumerable<int>
     {
         protected readonly IList<int> list;
         protected readonly Ref<DateTimeOffset> referenceTime;
@@ -32,7 +32,7 @@ namespace Cron.Parser.List
             }
         }
 
-        public void Add(IVirtualList<int> list)
+        public void Add(IComputableElementsEnumerable<int> list)
         {
             throw new NotImplementedException();
         }
@@ -187,7 +187,7 @@ namespace Cron.Parser.List
     /// <summary>
     /// Fully virtual list.
     /// </summary>
-    public class NthDayOfMonthList : IVirtualList<int>
+    public class NthDayOfMonthList : IComputableElementsEnumerable<int>
     {
         private readonly DayOfWeek dayOfWeekToFind;
         private readonly Ref<DateTimeOffset> referenceTime;
@@ -226,7 +226,7 @@ namespace Cron.Parser.List
             }
         }
 
-        public void Add(IVirtualList<int> list)
+        public void Add(IComputableElementsEnumerable<int> list)
         {
             throw new NotImplementedException();
         }

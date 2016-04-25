@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cron.Parser.List
 {
-    public interface IVirtualList<T> : IEnumerable<T>
+    public interface IComputableElementsEnumerable<T> : IEnumerable<T>
     {
         T this[int index] { get; set; }
         int Count { get; }
         T Element(int index);
-        void Add(IVirtualList<T> list);
+        void Add(IComputableElementsEnumerable<T> list);
     }
 }

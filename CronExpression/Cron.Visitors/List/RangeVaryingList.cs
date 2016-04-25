@@ -9,7 +9,7 @@ namespace Cron.Parser.List
 
         public override int Count => (maxRange - minRange) + 1;
 
-        public override void Add(IVirtualList<T> list)
+        public override void Add(IComputableElementsEnumerable<T> list)
         {
             base.Add(list);
         }
