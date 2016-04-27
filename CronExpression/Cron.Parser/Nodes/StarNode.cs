@@ -3,7 +3,6 @@ using Cron.Parser.Exceptions;
 using Cron.Parser.Extensions;
 using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
-using System;
 using System.Collections.Generic;
 
 namespace Cron.Parser.Nodes

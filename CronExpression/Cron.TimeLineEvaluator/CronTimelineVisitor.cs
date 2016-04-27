@@ -1,7 +1,6 @@
 ﻿using System;
 using Cron.Parser.Nodes;
 using Cron.Extensions.TimelineEvaluator.Evaluators;
-using Cron.Visitors;
 
 namespace Cron.Extensions.TimelineEvaluator
 {

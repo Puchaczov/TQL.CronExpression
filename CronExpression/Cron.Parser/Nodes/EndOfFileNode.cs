@@ -1,6 +1,5 @@
 ﻿using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
-using System;
 
 namespace Cron.Parser.Nodes
 {

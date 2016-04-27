@@ -1,6 +1,5 @@
 ﻿using Cron.Parser.Tokens;
 using System;
-using System.Runtime.Serialization;
 
 namespace Cron.Parser.Exceptions
 {
