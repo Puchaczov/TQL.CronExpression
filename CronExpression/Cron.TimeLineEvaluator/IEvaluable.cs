@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cron.Visitors
+namespace Cron.Extensions.TimelineEvaluator
 {
     public interface IEvaluable<T>
     {

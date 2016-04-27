@@ -1,13 +1,14 @@
-﻿using Cron.Parser.Enums;
+﻿using Cron.Extensions.TimelineEvaluator.List;
+using Cron.Parser.Enums;
 using Cron.Parser.Extensions;
-using Cron.Parser.List;
 using Cron.Parser.Nodes;
 using Cron.Parser.Utils;
+using Cron.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Cron.Visitors
+namespace Cron.Extensions.TimelineEvaluator
 {
     public class CronNodeVisitorBase : CronRulesNodeVisitor
     {

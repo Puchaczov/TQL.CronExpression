@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Cron.Parser.List
+namespace Cron.Extensions.TimelineEvaluator.List
 {
     public class VirtualList<T> : IComputableElementsEnumerable<T>, IEnumerable<T>
     {

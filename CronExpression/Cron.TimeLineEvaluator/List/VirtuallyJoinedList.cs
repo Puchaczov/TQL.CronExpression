@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Cron.Parser.List
+namespace Cron.Extensions.TimelineEvaluator.List
 {
     internal class VirtuallyJoinedList : IComputableElementsEnumerable<int>
     {

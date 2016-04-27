@@ -1,14 +1,11 @@
 ﻿using Cron.Compilation;
 using Cron.Compiler.Exceptions;
+using Cron.Extensions.TimelineEvaluator;
+using Cron.Extensions.TimelineEvaluator.Evaluators;
 using Cron.Parser.Nodes;
-using Cron.Utils;
 using Cron.Visitors;
-using Cron.Visitors.Evaluators;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cron.Compiler
 {

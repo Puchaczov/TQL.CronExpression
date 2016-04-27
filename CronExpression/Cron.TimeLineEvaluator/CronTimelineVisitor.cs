@@ -1,8 +1,9 @@
 ﻿using System;
 using Cron.Parser.Nodes;
-using Cron.Visitors.Evaluators;
+using Cron.Extensions.TimelineEvaluator.Evaluators;
+using Cron.Visitors;
 
-namespace Cron.Visitors
+namespace Cron.Extensions.TimelineEvaluator
 {
     public class CronTimelineVisitor : CronNodeVisitorBase, IEvaluable<ICronFireTimeEvaluator>
     {

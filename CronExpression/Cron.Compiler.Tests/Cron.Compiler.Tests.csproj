@@ -66,6 +66,10 @@
       <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
       <Name>Cron.Preprocessor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cron.TimeLineEvaluator\Cron.Extensions.TimelineEvaluator.csproj">
+      <Project>{f20e2414-19dd-4204-aa76-654520285e42}</Project>
+      <Name>Cron.Extensions.TimelineEvaluator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cron.Utils\Cron.Utils.csproj">
       <Project>{216114f1-afb4-4005-b47e-535d6e133353}</Project>
       <Name>Cron.Utils</Name>

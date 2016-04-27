@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cron.Parser.List
+namespace Cron.Extensions.TimelineEvaluator.List
 {
     public class VirtualListEnumerator<T> : IEnumerator<T>
     {

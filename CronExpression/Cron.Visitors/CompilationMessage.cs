@@ -30,11 +30,9 @@ namespace Cron.Visitors
 
     public abstract class CompilationMessage
     {
-        protected readonly Segment segment;
         protected readonly string message;
+        protected readonly Segment segment;
         protected readonly TextSpan[] spans;
-
-        public abstract MessageLevel Level { get; }
 
         protected CompilationMessage(TextSpan[] spans, Segment segment, string message)
         {
@@ -42,6 +40,8 @@ namespace Cron.Visitors
             this.message = message;
             this.spans = spans;
         }
+
+        public abstract MessageLevel Level { get; }
     }
 
     public class SyntaxError : CompilationMessage

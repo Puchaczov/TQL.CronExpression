@@ -41,24 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CronNodeVisitorBase.cs" />
     <Compile Include="CronRulesNodeVisitor.cs" />
-    <Compile Include="CronTimelineVisitor.cs" />
-    <Compile Include="Evaluators\CronFireTimeEvaluator.cs" />
-    <Compile Include="Evaluators\ICronFireTimeEvaluator.cs" />
     <Compile Include="Exceptions\BaseCronValidationException.cs" />
     <Compile Include="Exceptions\RangeNodeException.cs" />
-    <Compile Include="Helpers\ExpressionHelpers.cs" />
-    <Compile Include="IEvaluable.cs" />
-    <Compile Include="List\DateTimeBasedComputeList.cs" />
-    <Compile Include="List\IVirtualList.cs" />
-    <Compile Include="List\PersistentList.cs" />
-    <Compile Include="List\RangeVaryingList.cs" />
-    <Compile Include="List\RoundRobinRangeVaryingList.cs" />
-    <Compile Include="List\RoundRobinRangeVaryingListEnumerator.cs" />
-    <Compile Include="List\VirtualList.cs" />
-    <Compile Include="List\VirtualListEnumerator.cs" />
-    <Compile Include="List\VirtuallyJoinedList.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

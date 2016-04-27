@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace Cron.Parser.List
+namespace Cron.Extensions.TimelineEvaluator.List
 {
     public abstract class DateTimeBasedComputeList : IComputableElementsEnumerable<int>
     {

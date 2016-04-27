@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cron.Visitors.Evaluators
+namespace Cron.Extensions.TimelineEvaluator.Evaluators
 {
     public interface ICronFireTimeEvaluator
     {

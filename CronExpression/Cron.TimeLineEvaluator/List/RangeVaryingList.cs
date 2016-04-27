@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cron.Parser.List
+namespace Cron.Extensions.TimelineEvaluator.List
 {
     public class RangeVaryingList<T> : VirtualList<T>
     {

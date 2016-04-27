@@ -1,13 +1,8 @@
-﻿using Cron.Parser.Extensions;
-using Cron.Parser.List;
+﻿using Cron.Extensions.TimelineEvaluator.List;
 using Cron.Parser.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Cron.Visitors.Evaluators
+namespace Cron.Extensions.TimelineEvaluator.Evaluators
 {
     class CronFireTimeEvaluator : ICronFireTimeEvaluator
     {

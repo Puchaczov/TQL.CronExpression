@@ -1,8 +1,7 @@
-﻿using Cron.Visitors;
-using Cron.Visitors.Evaluators;
-using Cron.Visitors.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Cron.Extensions.TimelineEvaluator.Helpers;
+using Cron.Extensions.TimelineEvaluator.Evaluators;
 
 namespace Cron.Parser.Tests
 {
