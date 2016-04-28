@@ -68,9 +68,9 @@ namespace Cron.Extensions.TimelineEvaluator.List
         {
             var index = 0;
             correspondingKeys.Clear();
-            for (int i = 0; i < dayOfMonths.Count; ++i)
+            for (int i = 0, k = dayOfMonths.Count; i < k; ++i)
             {
-                for (int j = 0; j < dayOfWeeks.Count; ++j)
+                for (int j = 0, f = dayOfWeeks.Count; j < f; ++j)
                 {
                     if (dayOfMonths[i] == dayOfWeeks[j])
                     {

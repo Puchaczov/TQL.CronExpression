@@ -47,19 +47,20 @@ namespace Cron.Extensions.TimelineEvaluator.List
 
         public virtual T Element(int index)
         {
-            var i = -1;
-            foreach (var l in sources)
+            var i = 0;
+            var f = -1;
+            var nidx = index;
+            for(var j = sources.Count; i < j && nidx >= 0; ++i, ++f)
             {
-                foreach (var k in l)
-                {
-                    i += 1;
-                    if (i == index)
-                    {
-                        return k;
-                    }
-                }
+                nidx -= sources[i].Count;
             }
-            throw new IndexOutOfRangeException(nameof(index));
+            nidx += 1;
+            if(nidx > 0)
+            {
+                throw new IndexOutOfRangeException(nameof(index));
+            }
+            var cnt = sources[f].Count;
+            return sources[f][cnt - 1 + nidx];
         }
 
         public virtual IEnumerator<T> GetEnumerator() => new ComputableElementsEnumerator<T>(this);

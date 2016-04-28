@@ -54,6 +54,36 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
+        public void TestIsSatisfiedBy_ShouldPass()
+        {
+            var analyzer = "0 15 10 * * ? 2005".TakeEvaluator();
+
+            var cal = new DateTime(2005, 6, 1, 10, 15, 0).ToUniversalTime();
+            analyzer.ReferenceTime = cal;
+
+            cal = cal.AddYears(1);
+            Assert.IsFalse(analyzer.IsSatisfiedBy(cal));
+
+            cal = new DateTime(2005, 6, 1, 10, 16, 0).ToUniversalTime();
+            Assert.IsFalse(analyzer.IsSatisfiedBy(cal));
+
+            cal = new DateTime(2005, 6, 1, 10, 14, 0).ToUniversalTime();
+            Assert.IsFalse(analyzer.IsSatisfiedBy(cal));
+
+        }
+
+        [TestMethod]
+        public void TestIsSatysfiedByWeekends_ShouldPass()
+        {
+            var analyzer = "0 15 10 ? * MON-FRI".TakeEvaluator();
+
+            var cal = new DateTime(2007, 6, 9, 10, 15, 0).ToUniversalTime();
+            analyzer.ReferenceTime = cal;
+            Assert.IsFalse(analyzer.IsSatisfiedBy(cal));
+            Assert.IsFalse(analyzer.IsSatisfiedBy(cal.AddDays(1)));
+        }
+
+        [TestMethod]
         public void TestTheLast6thDayOfMonth_ShouldPass()
         {
             var analyzer = "0 0 0 5L * ?".TakeEvaluator();
@@ -418,6 +448,17 @@ namespace Cron.Parser.Tests
             var analyzer = "0 0 8 * * 1 *".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2014, 11, 30); //sunday
             Assert.AreEqual(new DateTime(2014, 12, 1, 8, 0, 0), analyzer.NextFire());
+        }
+
+        [TestMethod]
+        public void TestWillReturnNullWhenTimeExpired_ShouldReturnNull()
+        {
+            var analyzer = "* * * * * * 2010".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTime(2011, 1, 1);
+
+            Assert.IsFalse(analyzer.NextFire().HasValue);
+            Assert.IsFalse(analyzer.NextFire().HasValue);
+            Assert.IsFalse(analyzer.NextFire().HasValue);
         }
 
         private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTime, int> assertCallback)

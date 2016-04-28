@@ -39,7 +39,7 @@ namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
         {
             get
             {
-                throw new NotSupportedException();
+                return Element(index);
             }
 
             set

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Visitors", "Cron.Visitors\Cron.Visitors.csproj", "{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Extensions.TimelineEvaluator", "Cron.TimeLineEvaluator\Cron.Extensions.TimelineEvaluator.csproj", "{F20E2414-19DD-4204-AA76-654520285E42}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Extensions.TimelineEvaluator.Tests", "Cron.Extensions.TimelineEvaluator.Tests\Cron.Extensions.TimelineEvaluator.Tests.csproj", "{537C895F-EFA3-45E3-8721-D6621C880046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Performance.Tests", "Cron.Performance.Tests\Cron.Performance.Tests.csproj", "{F9498DB7-0826-4D17-BF7E-8332D326F33A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{537C895F-EFA3-45E3-8721-D6621C880046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{537C895F-EFA3-45E3-8721-D6621C880046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{537C895F-EFA3-45E3-8721-D6621C880046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9498DB7-0826-4D17-BF7E-8332D326F33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9498DB7-0826-4D17-BF7E-8332D326F33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9498DB7-0826-4D17-BF7E-8332D326F33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9498DB7-0826-4D17-BF7E-8332D326F33A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

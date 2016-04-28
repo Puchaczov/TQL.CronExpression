@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Cron.Converter.Tests
 {
     [TestClass]
-    public class EvaluatorTests
+    public class ConverterTests
     {
 
         [TestMethod]
