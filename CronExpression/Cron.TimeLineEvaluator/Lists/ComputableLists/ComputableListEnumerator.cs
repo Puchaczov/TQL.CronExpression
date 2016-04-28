@@ -1,27 +1,25 @@
-﻿using System.Collections;
+﻿using Cron.Extensions.TimelineEvaluator.List;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
-namespace Cron.Extensions.TimelineEvaluator.List
+namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
 {
-    public class VirtualListEnumerator<T> : IEnumerator<T>
+    public class ComputableElementsEnumerator<T> : IEnumerator<T>
     {
+        private bool disposedValue;
         private int index;
-        private readonly IComputableElementsEnumerable<T> list;
+        private readonly IComputableElementsList<T> list;
 
-        public VirtualListEnumerator(IComputableElementsEnumerable<T> list)
+        public ComputableElementsEnumerator(IComputableElementsList<T> list)
         {
             this.list = list;
-            this.index = -1;
+            index = -1;
         }
 
         public T Current => list.Element(index);
 
         object IEnumerator.Current => Current;
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
 
         public bool MoveNext()
         {
@@ -38,18 +36,18 @@ namespace Cron.Extensions.TimelineEvaluator.List
             index = -1;
         }
 
-        #region IDisposable Support
-        private bool disposedValue;
+        #region IDisposable
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (disposing)
             {
-                if (disposing)
-                {
 
-                }
-                disposedValue = true;
             }
         }
         #endregion

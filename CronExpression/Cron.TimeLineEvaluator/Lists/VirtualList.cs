@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Cron.Extensions.TimelineEvaluator.Lists.ComputableLists;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Cron.Extensions.TimelineEvaluator.List
 {
-    public class VirtualList<T> : IComputableElementsEnumerable<T>, IEnumerable<T>
+    public class VirtualList<T> : IComputableElementsList<T>, IEnumerable<T>
     {
-        protected readonly IList<IComputableElementsEnumerable<T>> sources;
+        protected readonly IList<IComputableElementsList<T>> sources;
 
         public VirtualList()
         {
-            this.sources = new List<IComputableElementsEnumerable<T>>();
+            this.sources = new List<IComputableElementsList<T>>();
         }
 
         public virtual int Count
@@ -39,7 +40,7 @@ namespace Cron.Extensions.TimelineEvaluator.List
             }
         }
 
-        public virtual void Add(IComputableElementsEnumerable<T> list)
+        public virtual void Add(IComputableElementsList<T> list)
         {
             sources.Add(list);
         }
@@ -61,8 +62,8 @@ namespace Cron.Extensions.TimelineEvaluator.List
             throw new IndexOutOfRangeException(nameof(index));
         }
 
-        public virtual IEnumerator<T> GetEnumerator() => new VirtualListEnumerator<T>(this);
+        public virtual IEnumerator<T> GetEnumerator() => new ComputableElementsEnumerator<T>(this);
 
-        IEnumerator IEnumerable.GetEnumerator() => new VirtualListEnumerator<T>(this);
+        IEnumerator IEnumerable.GetEnumerator() => new ComputableElementsEnumerator<T>(this);
     }
 }

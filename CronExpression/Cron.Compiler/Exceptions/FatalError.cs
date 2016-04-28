@@ -3,7 +3,7 @@ using System;
 
 namespace Cron
 {
-    public class FatalError : CompilationMessage
+    public class FatalError : VisitationMessage
     {
         private readonly Exception exc;
 

@@ -8,18 +8,18 @@ namespace Cron.Compiler.Exceptions
 {
     public class IncorrectCronExpressionException : Exception
     {
-        private readonly IEnumerable<CompilationMessage> messages = new CompilationMessage[0];
+        private readonly IEnumerable<VisitationMessage> messages = new VisitationMessage[0];
 
-        public IncorrectCronExpressionException(CompilationMessage message, params CompilationMessage[] messages)
-            : this(messages.Concat(new CompilationMessage[] { message }).ToArray())
+        public IncorrectCronExpressionException(VisitationMessage message, params VisitationMessage[] messages)
+            : this(messages.Concat(new VisitationMessage[] { message }).ToArray())
         { }
 
-        public IncorrectCronExpressionException(params CompilationMessage[] messages)
+        public IncorrectCronExpressionException(params VisitationMessage[] messages)
         {
             this.messages = messages;
         }
 
-        public CompilationMessage[] Messages => messages.ToArray();
+        public VisitationMessage[] Messages => messages.ToArray();
 
         public override string ToString()
         {

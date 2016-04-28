@@ -1,4 +1,5 @@
 ﻿using Cron.Extensions.TimelineEvaluator.List;
+using Cron.Extensions.TimelineEvaluator.Lists.ComputableLists;
 using Cron.Parser.Enums;
 using Cron.Parser.Extensions;
 using Cron.Parser.Nodes;
@@ -38,7 +39,7 @@ namespace Cron.Extensions.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfWeek:
-                    var list = new EveryDayOfWeekAllowedList(time);
+                    var list = new EverydayOfWeekComputeList(time);
                     values[lastSegment].Add(list);
                     values[lastSegment].SetRange(0, list.Count - 1);
                     break;
@@ -75,7 +76,7 @@ namespace Cron.Extensions.TimelineEvaluator
                     right = CronWordHelper.DayOfWeek(node.Right.Token.Value).AsInt();
                     foreach (var dayOfWeek in ListExtension.Expand(left, right, 1))
                     {
-                        values[lastSegment].Add(new NthDayOfMonthList(time, dayOfWeek.AsDayOfWeek()));
+                        values[lastSegment].Add(new NthDayOfMonthComputeList(time, dayOfWeek.AsDayOfWeek()));
                     }
                     break;
                 case Segment.Month:
@@ -106,7 +107,7 @@ namespace Cron.Extensions.TimelineEvaluator
             {
                 case Segment.DayOfWeek:
                     values[lastSegment].Add(
-                        new NthDayOfMonthList(time, CronWordHelper.DayOfWeek(node.Token.Value))
+                        new NthDayOfMonthComputeList(time, CronWordHelper.DayOfWeek(node.Token.Value))
                     );
                     break;
                 case Segment.Month:
@@ -130,7 +131,7 @@ namespace Cron.Extensions.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfWeek:
-                    var list = new EveryDayOfWeekAllowedList(time);
+                    var list = new EverydayOfWeekComputeList(time);
                     values[lastSegment].Add(list);
                     values[lastSegment].SetRange(0, list.Count - 1);
                     break;
@@ -148,11 +149,11 @@ namespace Cron.Extensions.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new MonthBasedComputedList(time, new int[] { 0 }));
+                    values[lastSegment].Add(new MonthBasedComputeList(time, new int[] { 0 }));
                     values[lastSegment].SetRange(0, values[lastSegment].Count);
                     break;
                 case Segment.DayOfWeek:
-                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputedList(time, new int[] { int.Parse(node.Token.Value) }));
+                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputeList(time, new int[] { int.Parse(node.Token.Value) }));
                     values[lastSegment].SetRange(0, values[lastSegment].Count);
                     break;
             }
@@ -164,7 +165,7 @@ namespace Cron.Extensions.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new NearWeekdayComputedList(time, 1));
+                    values[lastSegment].Add(new NearWeekdayComputeList(time, 1));
                     break;
             }
         }
@@ -174,7 +175,7 @@ namespace Cron.Extensions.TimelineEvaluator
             base.Visit(node);
             var dayOfWeek = CronWordHelper.DayOfWeek(node.Left.Token.Value);
             var nthOfMonth = int.Parse(node.Right.Token.Value);
-            values[lastSegment].Add(new NthDayOfMonthLimitedByNumberOfWeekList(time, dayOfWeek, nthOfMonth));
+            values[lastSegment].Add(new NthDayOfMonthLimitedByNumberOfWeekComputeList(time, dayOfWeek, nthOfMonth));
             values[lastSegment].SetRange(0, values[lastSegment].Count);
         }
 
@@ -190,11 +191,11 @@ namespace Cron.Extensions.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new MonthBasedComputedList(time, new int[] { int.Parse(node.Token.Value) }));
+                    values[lastSegment].Add(new MonthBasedComputeList(time, new int[] { int.Parse(node.Token.Value) }));
                     values[lastSegment].SetRange(0, count);
                     break;
                 case Segment.DayOfWeek:
-                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputedList(time, new int[] { int.Parse(node.Token.Value) }));
+                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputeList(time, new int[] { int.Parse(node.Token.Value) }));
                     values[lastSegment].SetRange(0, count);
                     break;
             }
@@ -206,7 +207,7 @@ namespace Cron.Extensions.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new NearWeekdayComputedList(time, int.Parse(node.Token.Value)));
+                    values[lastSegment].Add(new NearWeekdayComputeList(time, int.Parse(node.Token.Value)));
                     break;
             }
         }
@@ -217,7 +218,7 @@ namespace Cron.Extensions.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new LastWeekdayOfMonthComputedList(time));
+                    values[lastSegment].Add(new LastWeekdayOfMonthComputeList(time));
                     break;
             }
         }

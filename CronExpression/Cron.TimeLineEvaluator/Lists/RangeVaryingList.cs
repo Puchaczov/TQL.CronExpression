@@ -9,7 +9,7 @@ namespace Cron.Extensions.TimelineEvaluator.List
 
         public override int Count => (maxRange - minRange) + 1;
 
-        public override void Add(IComputableElementsEnumerable<T> list)
+        public override void Add(IComputableElementsList<T> list)
         {
             base.Add(list);
         }

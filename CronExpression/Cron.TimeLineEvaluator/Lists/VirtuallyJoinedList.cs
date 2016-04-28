@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Cron.Extensions.TimelineEvaluator.Lists.ComputableLists;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Cron.Extensions.TimelineEvaluator.List
 {
-    internal class VirtuallyJoinedList : IComputableElementsEnumerable<int>
+    internal class VirtuallyJoinedList : IComputableElementsList<int>
     {
         private readonly Dictionary<int, int> correspondingKeys;
         private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
@@ -36,14 +37,14 @@ namespace Cron.Extensions.TimelineEvaluator.List
             }
         }
 
-        public void Add(IComputableElementsEnumerable<int> list)
+        public void Add(IComputableElementsList<int> list)
         {
             throw new NotImplementedException();
         }
 
         public int Element(int index) => dayOfMonths[correspondingKeys[index]];
 
-        public IEnumerator<int> GetEnumerator() => new VirtualListEnumerator<int>(this);
+        public IEnumerator<int> GetEnumerator() => new ComputableElementsEnumerator<int>(this);
 
         public void Next()
         {

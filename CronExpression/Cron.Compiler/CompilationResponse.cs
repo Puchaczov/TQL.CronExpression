@@ -6,27 +6,27 @@ namespace Cron.Compiler
     public class CompilationResponse<T>
     {
         public T Output { get; }
-        public IReadOnlyCollection<CompilationMessage> Messages { get; }
+        public IReadOnlyCollection<VisitationMessage> Messages { get; }
 
         public CompilationResponse(T output)
-            : this(new CompilationMessage[0])
+            : this(new VisitationMessage[0])
         {
             Output = output;
         }
 
-        public CompilationResponse(T output, params CompilationMessage[] messages)
+        public CompilationResponse(T output, params VisitationMessage[] messages)
             : this(messages)
         {
             Output = output;
         }
 
-        public CompilationResponse(CompilationMessage message)
+        public CompilationResponse(VisitationMessage message)
         {
-            Messages = new List<CompilationMessage> { message };
+            Messages = new List<VisitationMessage> { message };
             Output = default(T);
         }
 
-        public CompilationResponse(IReadOnlyCollection<CompilationMessage> messages)
+        public CompilationResponse(IReadOnlyCollection<VisitationMessage> messages)
         {
             Messages = messages;
         }

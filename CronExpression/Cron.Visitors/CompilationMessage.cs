@@ -24,13 +24,13 @@ namespace Cron.Visitors
         Error
     }
 
-    public abstract class CompilationMessage
+    public abstract class VisitationMessage
     {
         protected readonly string message;
         protected readonly Segment segment;
         protected readonly TextSpan[] spans;
 
-        protected CompilationMessage(TextSpan[] spans, Segment segment, string message)
+        protected VisitationMessage(TextSpan[] spans, Segment segment, string message)
         {
             this.segment = segment;
             this.message = message;
@@ -40,7 +40,7 @@ namespace Cron.Visitors
         public abstract MessageLevel Level { get; }
     }
 
-    public class SyntaxError : CompilationMessage
+    public class SyntaxError : VisitationMessage
     {
         private readonly SyntaxErrorKind kind;
 
@@ -60,7 +60,7 @@ namespace Cron.Visitors
         public override string ToString() => message;
     }
 
-    public class SemanticError : CompilationMessage
+    public class SemanticError : VisitationMessage
     {
         private readonly SemanticErrorKind kind;
 
@@ -80,7 +80,7 @@ namespace Cron.Visitors
         public SemanticErrorKind Kind => kind;
     }
 
-    public class FatalVisitError : CompilationMessage
+    public class FatalVisitError : VisitationMessage
     {
         private readonly Exception exc;
 
