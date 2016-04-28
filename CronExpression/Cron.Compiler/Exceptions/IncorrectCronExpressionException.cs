@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Cron.Compiler.Exceptions
+namespace Cron.Exceptions
 {
     public class IncorrectCronExpressionException : Exception
     {

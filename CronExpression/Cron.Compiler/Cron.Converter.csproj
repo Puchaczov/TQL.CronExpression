@@ -7,8 +7,8 @@
     <ProjectGuid>{F2615061-9615-4855-ADDC-D3BD8E6528CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cron.Compiler</RootNamespace>
-    <AssemblyName>Cron.Compiler</AssemblyName>
+    <RootNamespace>Cron.Converter</RootNamespace>
+    <AssemblyName>Cron.Converter</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
@@ -41,14 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompilationRequest.cs" />
-    <Compile Include="AbstractCompiler.cs" />
-    <Compile Include="CompilationResponse.cs" />
-    <Compile Include="CronRulesCheckCompiler.cs" />
+    <Compile Include="ConvertionRequest.cs" />
+    <Compile Include="AbstractConverter.cs" />
+    <Compile Include="ConvertionResponse.cs" />
+    <Compile Include="CronValidator.cs" />
     <Compile Include="Exceptions\IncorrectCronExpressionException.cs" />
     <Compile Include="Exceptions\FatalError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CronTimeLineEvaluationCompiler.cs" />
+    <Compile Include="CronTimeline.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">

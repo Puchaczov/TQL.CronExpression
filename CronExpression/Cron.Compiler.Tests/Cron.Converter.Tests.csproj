@@ -6,8 +6,8 @@
     <ProjectGuid>{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cron.Compiler.Tests</RootNamespace>
-    <AssemblyName>Cron.Compiler.Tests</AssemblyName>
+    <RootNamespace>Cron.Converter.Tests</RootNamespace>
+    <AssemblyName>Cron.Converter.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,13 +50,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CompilerTests.cs" />
+    <Compile Include="EvaluatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Compiler\Cron.Compiler.csproj">
+    <ProjectReference Include="..\Cron.Compiler\Cron.Converter.csproj">
       <Project>{f2615061-9615-4855-addc-d3bd8e6528cf}</Project>
-      <Name>Cron.Compiler</Name>
+      <Name>Cron.Converter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>

@@ -1,6 +1,4 @@
-﻿using Cron.Compilation;
-using Cron.Compiler;
-using Cron.Compiler.Exceptions;
+﻿using Cron.Exceptions;
 using Cron.Extensions.TimelineEvaluator;
 using Cron.Parser;
 using Cron.Parser.Nodes;
@@ -9,21 +7,21 @@ using System;
 
 namespace Cron
 {
-    public abstract class AbstractCompiler
+    public abstract class AbstractConverter
     {
         private readonly bool throwOnError;
 
-        protected AbstractCompiler(bool throwOnError)
+        protected AbstractConverter(bool throwOnError)
         {
             this.throwOnError = throwOnError;
         }
 
-        protected virtual CompilationResponse<T> Compile<T>(
-            CompilationRequest request,
-            Func<RootComponentNode, CompilationResponse<T>> fun)
-            => Compile<T>(request, new ConvertionByFunc<RootComponentNode, CompilationResponse<T>>(fun));
+        protected virtual ConvertionResponse<T> Convert<T>(
+            ConvertionRequest request,
+            Func<RootComponentNode, ConvertionResponse<T>> fun)
+            => Convert<T>(request, new ConvertionByFunc<RootComponentNode, ConvertionResponse<T>>(fun));
 
-        protected virtual CompilationResponse<T> Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, CompilationResponse<T>> converter)
+        protected virtual ConvertionResponse<T> Convert<T>(ConvertionRequest request, IConvertible<RootComponentNode, ConvertionResponse<T>> converter)
         {
             try
             {
@@ -44,12 +42,12 @@ namespace Cron
                 {
                     throw;
                 }
-                return new CompilationResponse<T>(new FatalError(exc));
+                return new ConvertionResponse<T>(new FatalError(exc));
             }
         }
 
-        protected CompilationResponse<IEvaluable<T>> Compile<T>(CompilationRequest request, IConvertible<RootComponentNode, CompilationResponse<IEvaluable<T>>> converter) => Compile(request, (ast) => converter.Convert(ast));
+        protected ConvertionResponse<IEvaluable<T>> Convert<T>(ConvertionRequest request, IConvertible<RootComponentNode, ConvertionResponse<IEvaluable<T>>> converter) => Convert(request, (ast) => converter.Convert(ast));
 
-        protected virtual bool IsRequestValid(CompilationRequest request) => request.Input != null && request.Options != null;
+        protected virtual bool IsRequestValid(ConvertionRequest request) => request.Input != null && request.Options != null;
     }
 }

@@ -1,5 +1,4 @@
-﻿using Cron.Compilation;
-using Cron.Compiler.Exceptions;
+﻿using Cron.Exceptions;
 using Cron.Extensions.TimelineEvaluator;
 using Cron.Extensions.TimelineEvaluator.Evaluators;
 using Cron.Parser.Nodes;
@@ -7,24 +6,24 @@ using Cron.Visitors;
 using System;
 using System.Linq;
 
-namespace Cron.Compiler
+namespace Cron
 {
-    public class CronTimeLineEvaluationCompiler : AbstractCompiler
+    public class CronTimeline : CronValidator
     {
-        public CronTimeLineEvaluationCompiler(bool throwOnError = false)
+        public CronTimeline(bool throwOnError = false)
             : base(throwOnError)
         { }
 
-        public CompilationResponse<ICronFireTimeEvaluator> Compile(CompilationRequest request)
+        public ConvertionResponse<ICronFireTimeEvaluator> GetEvaluator(ConvertionRequest request)
         {
             if(!request.Options.ProduceEndOfFileNode)
             {
                 throw new ArgumentException("Produce end of file node option must be turned on to evaluate expression");
             }
-            return base.Compile(request, Convert);
+            return base.Convert(request, Convert);
         }
 
-        private static CompilationResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast)
+        private static ConvertionResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast)
         {
             var visitor = new CronTimelineVisitor();
             ast.Accept(visitor);
@@ -32,7 +31,7 @@ namespace Cron.Compiler
             {
                 throw new IncorrectCronExpressionException(visitor.Errors.ToArray());
             }
-            return new CompilationResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? visitor.Evaluator : null, visitor.Errors.ToArray());
+            return new ConvertionResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? visitor.Evaluator : null, visitor.Errors.ToArray());
         }
     }
 }

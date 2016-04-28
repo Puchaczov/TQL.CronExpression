@@ -1,7 +1,7 @@
 ﻿using Cron.Visitors;
 using System;
 
-namespace Cron
+namespace Cron.Exceptions
 {
     public class FatalError : VisitationMessage
     {
