@@ -1,10 +1,8 @@
 ﻿using Cron.Visitors;
-using Cron.Visitors.Exceptions;
 using Cron.Visitors.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using Cron.Parser.Nodes;
 using Cron.Parser.Helpers;
 
 namespace Cron.Parser.Tests
@@ -376,7 +374,7 @@ namespace Cron.Parser.Tests
                 types);
         }
 
-        public static void CheckErrors<TErrorKind>(Func<CronRulesNodeVisitor> createFunc, Func<Error, TErrorKind, bool> compareFunc, bool shouldBeValid, int expectedCountOfErrors, params TErrorKind[] types)
+        public static void CheckErrors<TErrorKind>(Func<CronRulesNodeVisitor> createFunc, Func<VisitationMessage, TErrorKind, bool> compareFunc, bool shouldBeValid, int expectedCountOfErrors, params TErrorKind[] types)
         {
             Assert.IsNotNull(compareFunc);
             Assert.IsNotNull(createFunc);
@@ -455,7 +453,7 @@ namespace Cron.Parser.Tests
         {
             var visitor = "* * * * 1-3,JAN-MAR,MAY-12 * *".TakeVisitor();
             Assert.AreEqual(true, visitor.IsValid);
-            Assert.AreEqual(0, visitor.ValidationErrors.Count());
+            Assert.AreEqual(0, visitor.Errors.Count());
         }
 
         [TestMethod]

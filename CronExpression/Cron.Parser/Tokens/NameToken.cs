@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cron.Parser.Tokens
+﻿namespace Cron.Parser.Tokens
 {
     public class NameToken : Token
     {
@@ -12,7 +6,7 @@ namespace Cron.Parser.Tokens
             : base(word, Enums.TokenType.Name, span)
         { }
 
-        public int Length => base.Value.Count();
+        public int Length => base.Value.Length;
 
         public override Token Clone() => new NameToken(base.Value, Span.Clone());
     }

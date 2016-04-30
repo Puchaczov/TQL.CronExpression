@@ -1,10 +1,5 @@
 ﻿using Cron.Parser.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cron.Parser.Tests
 {
@@ -12,7 +7,7 @@ namespace Cron.Parser.Tests
     public class TextSpanTests
     {
         [TestMethod]
-        public void CheckEquality_DifferentTextSpans_ShouldPass()
+        public void CheckEquality_DifferentTextSpans_ShouldBeEqual()
         {
             var first = new TextSpan(1, 2);
             var second = new TextSpan(2, 5);
@@ -21,7 +16,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void CheckEquality_SameTextSpans_ShouldPass()
+        public void CheckEquality_SameTextSpans_ShouldBeEqual()
         {
             var first = new TextSpan(1, 2);
             var second = new TextSpan(1, 2);

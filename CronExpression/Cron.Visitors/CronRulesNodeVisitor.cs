@@ -16,7 +16,7 @@ namespace Cron.Visitors
     {
         private readonly List<Exception> criticalErrors;
         private SegmentNode currentSegment;
-        private readonly List<Error> errors;
+        private readonly List<VisitationMessage> errors;
         private SyntaxNode parent;
         private readonly bool reportWhenExpressionTooShort;
         private Segment segment;
@@ -25,18 +25,18 @@ namespace Cron.Visitors
         public CronRulesNodeVisitor(bool reportWhenExpressionTooShort = true)
         {
             criticalErrors = new List<Exception>();
-            errors = new List<Error>();
+            errors = new List<VisitationMessage>();
             segmentsCount = 0;
             this.reportWhenExpressionTooShort = reportWhenExpressionTooShort;
         }
 
-        public virtual bool IsValid => criticalErrors.Count == 0 && errors.Count == 0;
+        public virtual IEnumerable<VisitationMessage> Errors => errors;
 
-        public virtual IEnumerable<Error> Errors => errors;
+        public virtual bool IsValid => criticalErrors.Count == 0 && errors.Count == 0;
 
         public object TreeHelper { get; }
 
-        public virtual IEnumerable<Exception> ValidationErrors => criticalErrors;
+        protected IReadOnlyList<VisitationMessage> e => errors.Concat(criticalErrors.Select(f => new FatalVisitError(f))).ToArray();
 
         public virtual void Visit(SegmentNode node)
         {

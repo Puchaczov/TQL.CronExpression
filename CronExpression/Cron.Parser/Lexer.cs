@@ -1,9 +1,7 @@
-﻿using Cron.Parser.Enums;
-using Cron.Parser.Exceptions;
+﻿using Cron.Parser.Exceptions;
 using Cron.Parser.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Cron.Parser
@@ -43,15 +41,15 @@ namespace Cron.Parser
 
         public Token NextToken()
         {
-            if (pos > input.Count() - 1)
+            if (pos > input.Length - 1)
             {
-                AssignTokenOfType(() => new EndOfFileToken(new TextSpan(input.Count(), 0)));
+                AssignTokenOfType(() => new EndOfFileToken(new TextSpan(input.Length, 0)));
                 return currentToken;
             }
 
             var currentChar = input[pos];
 
-            if (pos + 1 < input.Count() && IsEndLineCharacter(currentChar, input[pos + 1]))
+            if (IsEndLine(currentChar))
             {
                 var token = new WhiteSpaceToken(new TextSpan(pos, 2));
                 pos += 2;
@@ -135,7 +133,7 @@ namespace Cron.Parser
         private Token ConsumeInterger()
         {
             var startPos = pos;
-            var cnt = input.Count();
+            var cnt = input.Length;
             while (cnt > pos && IsDigit(input[pos]))
             {
                 ++pos;
@@ -147,7 +145,7 @@ namespace Cron.Parser
         private NameToken ConsumeLetters()
         {
             var startPos = pos;
-            var cnt = input.Count();
+            var cnt = input.Length;
             while (cnt > pos && IsLetter(input[pos]))
             {
                 ++pos;
@@ -156,11 +154,20 @@ namespace Cron.Parser
             return AssignTokenOfType(() => new NameToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos))) as NameToken;
         }
 
-        private bool IsEndLineCharacter(char currentChar, char v)
+        private bool IsEndLine(char currentChar)
+        {
+            if (pos + 1 < input.Length && IsEndLineCharacter(currentChar, input[pos + 1]))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsEndLineCharacter(char currentChar, char nextChar)
         {
             if (this.endLines.ContainsKey(currentChar))
             {
-                return v == this.endLines[currentChar];
+                return nextChar == this.endLines[currentChar];
             }
             return false;
         }

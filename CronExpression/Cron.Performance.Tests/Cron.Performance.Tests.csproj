@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9498DB7-0826-4D17-BF7E-8332D326F33A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cron.Performance.Tests</RootNamespace>
+    <AssemblyName>Cron.Performance.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cron.Compiler\Cron.Converter.csproj">
+      <Project>{f2615061-9615-4855-addc-d3bd8e6528cf}</Project>
+      <Name>Cron.Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
+      <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
+      <Name>Cron.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.Preprocessor\Cron.Preprocessor.csproj">
+      <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
+      <Name>Cron.Preprocessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.TimeLineEvaluator\Cron.Extensions.TimelineEvaluator.csproj">
+      <Project>{f20e2414-19dd-4204-aa76-654520285e42}</Project>
+      <Name>Cron.Extensions.TimelineEvaluator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.Utils\Cron.Utils.csproj">
+      <Project>{216114f1-afb4-4005-b47e-535d6e133353}</Project>
+      <Name>Cron.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.Visitors\Cron.Visitors.csproj">
+      <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
+      <Name>Cron.Visitors</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

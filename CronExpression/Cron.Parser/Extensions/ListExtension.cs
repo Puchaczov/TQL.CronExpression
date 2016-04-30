@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cron.Parser.Extensions
 {
@@ -33,9 +30,8 @@ namespace Cron.Parser.Extensions
             return list;
         }
 
-        public static List<int> Empty(this IList<int> list) => new List<int>();
-
         public static List<int> Empty() => new List<int>();
+
         public static IList<int> Expand(int from, int to, int inc)
         {
             var values = new List<int>();

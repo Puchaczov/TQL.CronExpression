@@ -1,5 +1,4 @@
-﻿using Cron.Parser.Enums;
-using Cron.Parser.Nodes;
+﻿using Cron.Parser.Nodes;
 
 namespace Cron.Parser.Visitors
 {

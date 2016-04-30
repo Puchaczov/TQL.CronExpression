@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cron.Visitors.Tests.Helpers
+﻿namespace Cron.Visitors.Tests.Helpers
 {
     public class ArrayHelper
     {
