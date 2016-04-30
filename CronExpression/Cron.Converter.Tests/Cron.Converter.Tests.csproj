@@ -54,7 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Compiler\Cron.Converter.csproj">
+    <ProjectReference Include="..\Cron.Converter\Cron.Converter.csproj">
       <Project>{f2615061-9615-4855-addc-d3bd8e6528cf}</Project>
       <Name>Cron.Converter</Name>
     </ProjectReference>
