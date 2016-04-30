@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Cron.Compiler")]
+[assembly: AssemblyTitle("Cron.Converter")]
 [assembly: AssemblyDescription("https://github.com/Puchaczov/CronExpression")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Cron.Compiler")]
+[assembly: AssemblyCompany("Jakub Puchała")]
+[assembly: AssemblyProduct("Cron.Converter")]
 [assembly: AssemblyCopyright("Jakub Puchała ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
