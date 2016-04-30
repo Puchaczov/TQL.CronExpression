@@ -124,7 +124,6 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
         {
             referenceTime.Value = referenceTime.Value.AddSeconds(1);
             LimitMonthRange();
-            filteredDayOfMonths.RebuildCorrespondingKeys();
             while (true)
             {
                 var referenceTime = this.referenceTime.Value;
@@ -139,22 +138,29 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                 }
 
                 var sameOrFurtherYear = years.Current >= referenceTime.Year;
+                var isChangedMonth = false;
                 while (!months.WillOverflow() && months.Current < referenceTime.Month && sameOrFurtherYear)
                 {
                     months.Next();
+                    isChangedMonth = true;
                 }
                 if (!sameOrFurtherYear && IsDatePartBefore(years.Current, months.Current))
                 {
                     months.Overflow();
+                    isChangedMonth = true;
                     continue;
                 }
                 if (months.Current > referenceTime.Month)
                 {
                     referenceTime = new DateTimeOffset(referenceTime.Year, months.Current, 1, 0, 0, 0, referenceTime.Offset);
+                    isChangedMonth = true;
                     this.referenceTime.Value = referenceTime;
                 }
 
-                LimitMonthRange();
+                if(isChangedMonth)
+                {
+                    LimitMonthRange();
+                }
 
                 var sameOrFurtherMonth = months.Current >= referenceTime.Month;
                 var days = filteredDayOfMonths;

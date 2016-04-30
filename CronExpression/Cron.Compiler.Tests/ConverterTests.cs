@@ -8,7 +8,7 @@ namespace Cron.Converter.Tests
     {
 
         [TestMethod]
-        public void Compiler_CheckProduceAst_ShouldPass()
+        public void Evaluator_CheckProduceAst_ShouldPass()
         {
             var compiler = new CronTimeline();
             var options = new ConvertionRequest.ConvertionOptions {
@@ -22,7 +22,7 @@ namespace Cron.Converter.Tests
         }
 
         [TestMethod]
-        public void Compiler_CheckProducedEvaluator_ShouldPass()
+        public void Evaluator_CheckProducedEvaluator_ShouldPass()
         {
             CheckExpressionType("* * * * *", ConvertionRequest.CronMode.StandardDefinition);
             CheckExpressionType("* * * * * * *", ConvertionRequest.CronMode.ModernDefinition);
@@ -30,7 +30,7 @@ namespace Cron.Converter.Tests
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectCronExpressionException))]
-        public void Compiler_ModernDefinition_ShouldThrowAggregatedException()
+        public void Evaluator_ModernDefinition_ShouldThrowAggregatedException()
         {
             new CronTimeline(true)
                 .GetEvaluator(new ConvertionRequest("* *", ConvertionRequest.CronMode.ModernDefinition));
@@ -38,7 +38,7 @@ namespace Cron.Converter.Tests
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectCronExpressionException))]
-        public void Compiler_StandardDefinition_ShouldThrowAggregatedException()
+        public void Evaluator_StandardDefinition_ShouldThrowAggregatedException()
         {
             new CronTimeline(true)
                 .GetEvaluator(new ConvertionRequest("* *", ConvertionRequest.CronMode.StandardDefinition));

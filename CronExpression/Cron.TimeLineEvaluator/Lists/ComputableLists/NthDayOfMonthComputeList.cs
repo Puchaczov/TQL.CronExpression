@@ -25,13 +25,25 @@ namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
             get
             {
                 var foundedDate = GetFirstMatchingDateInMonth();
-                var month = foundedDate.Month;
-                var count = 1;
-                while ((foundedDate = foundedDate.AddDays(7)).Month == month)
+                var daysInMonth = DateTime.DaysInMonth(foundedDate.Year, foundedDate.Month);
+                var day = foundedDate.Day;
+                if(day + 28 <= daysInMonth)
                 {
-                    count += 1;
+                    return 5;
                 }
-                return count;
+                else if(day + 21 <= daysInMonth)
+                {
+                    return 4;
+                }
+                else if(day + 14 <= daysInMonth)
+                {
+                    return 3;
+                }
+                else if(day + 7 <= daysInMonth)
+                {
+                    return 2;
+                }
+                return 1;
             }
         }
 
@@ -61,13 +73,13 @@ namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
                 case 0:
                     return foundedDate.Day;
                 case 1:
-                    return foundedDate.AddDays(7).Day;
+                    return foundedDate.Day + 7;
                 case 2:
-                    return foundedDate.AddDays(14).Day;
+                    return foundedDate.Day + 14;
                 case 3:
-                    return foundedDate.AddDays(21).Day;
+                    return foundedDate.Day + 21;
                 case 4:
-                    return foundedDate.AddDays(28).Day;
+                    return foundedDate.Day + 28;
                 default:
                     throw new IndexOutOfRangeException(nameof(index));
             }
@@ -81,9 +93,14 @@ namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
         {
             var val = referenceTime.Value;
             var refTime = new DateTimeOffset(val.Year, val.Month, 1, 0, 0, 0, new TimeSpan(val.Offset.Days, val.Offset.Hours, val.Offset.Minutes, val.Offset.Seconds));
-            while (refTime.DayOfWeek != dayOfWeekToFind)
+            var diff = refTime.DayOfWeek - dayOfWeekToFind;
+            if(diff > 0)
             {
-                refTime = refTime.AddDays(1);
+                return refTime.AddDays((int)((DayOfWeek.Saturday - refTime.DayOfWeek) + 1 + dayOfWeekToFind));
+            }
+            else if(diff < 0)
+            {
+                return refTime.AddDays(diff * -1);
             }
             return refTime;
         }

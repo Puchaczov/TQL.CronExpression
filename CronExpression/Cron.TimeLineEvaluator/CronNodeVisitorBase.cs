@@ -52,7 +52,7 @@ namespace Cron.Extensions.TimelineEvaluator
             lastSegment = node.Segment;
             values.Add(lastSegment, new RoundRobinRangeVaryingList<int>());
             var evaluated = node.Evaluate(node.Segment);
-            var persistent = new PersistentList<int>(evaluated.Distinct().OrderBy(f => f).ToList());
+            var persistent = new PersistentList<int>(evaluated.OrderBy(f => f).Distinct());
             values[lastSegment].Add(persistent);
             values[lastSegment].SetRange(0, persistent.Count - 1);
         }

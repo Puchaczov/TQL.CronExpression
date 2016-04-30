@@ -14,12 +14,8 @@ namespace Cron.Performance.Tests
             var watch = Stopwatch.StartNew();
 
             var timeline = new Cron.CronTimeline(true);
-            var response = timeline.GetEvaluator(new ConvertionRequest(string.Format("0 0 * 1 * * {0}", DateTime.Now.Year), ConvertionRequest.CronMode.ModernDefinition));
+            var response = timeline.GetEvaluator(new ConvertionRequest("* * * * * * *", ConvertionRequest.CronMode.ModernDefinition));
             var evaluator = response.Output;
-            while (evaluator.NextFire().HasValue)
-            {
-
-            }
             watch.Stop();
         }
     }

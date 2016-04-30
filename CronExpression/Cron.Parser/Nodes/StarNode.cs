@@ -39,7 +39,7 @@ namespace Cron.Parser.Nodes
                 case Segment.DayOfWeek:
                     return ListExtension.Empty();
                 case Segment.DayOfMonth:
-                    return ListExtension.Expand(1, 32, 1);
+                    return ListExtension.Expand(1, 31, 1);
                 case Segment.Month:
                     return ListExtension.Expand(1, 12, 1);
                 case Segment.Year:
