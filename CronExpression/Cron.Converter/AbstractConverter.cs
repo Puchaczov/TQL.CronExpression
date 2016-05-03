@@ -9,7 +9,7 @@ namespace Cron
 {
     public abstract class AbstractConverter
     {
-        private readonly bool throwOnError;
+        protected readonly bool throwOnError;
 
         protected AbstractConverter(bool throwOnError)
         {

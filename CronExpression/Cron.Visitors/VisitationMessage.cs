@@ -1,6 +1,7 @@
 ﻿using Cron.Parser.Enums;
 using Cron.Parser.Tokens;
 using System;
+using System.Collections.Generic;
 
 namespace Cron.Visitors
 {
@@ -24,6 +25,16 @@ namespace Cron.Visitors
         Error
     }
 
+    public enum Codes : uint
+    {
+        C01,
+        C02,
+        C03,
+        C04,
+        C05,
+        C06
+    }
+
     public abstract class VisitationMessage
     {
         protected readonly string message;
@@ -37,12 +48,26 @@ namespace Cron.Visitors
             this.spans = spans;
         }
 
+        public string Message => message;
+        public Segment Segment => segment;
+
         public abstract MessageLevel Level { get; }
+        public abstract Codes Code { get; }
+        public IReadOnlyCollection<TextSpan> Spans => spans;
+        public abstract override string ToString();
     }
 
     public class SyntaxError : VisitationMessage
     {
         private readonly SyntaxErrorKind kind;
+
+        private static readonly Dictionary<SyntaxErrorKind, Codes> codes;
+
+        static SyntaxError()
+        {
+            codes = new Dictionary<SyntaxErrorKind, Codes>();
+            codes.Add(SyntaxErrorKind.MissingValue, Codes.C02);
+        }
 
         public SyntaxError(TextSpan[] spans, Segment segment, string message, SyntaxErrorKind kind)
             : base(spans, segment, message)
@@ -56,6 +81,7 @@ namespace Cron.Visitors
 
         public override MessageLevel Level => MessageLevel.Error;
         public SyntaxErrorKind Kind => kind;
+        public override Codes Code => codes[kind];
 
         public override string ToString() => message;
     }
@@ -63,6 +89,16 @@ namespace Cron.Visitors
     public class SemanticError : VisitationMessage
     {
         private readonly SemanticErrorKind kind;
+        private static readonly Dictionary<SemanticErrorKind, Codes> codes;
+
+        static SemanticError()
+        {
+            codes = new Dictionary<SemanticErrorKind, Codes>();
+            codes.Add(SemanticErrorKind.CountMismatched, Codes.C03);
+            codes.Add(SemanticErrorKind.SwappedValue, Codes.C04);
+            codes.Add(SemanticErrorKind.UnsupportedValue, Codes.C05);
+            codes.Add(SemanticErrorKind.ValueOutOfRange, Codes.C06);
+        }
 
         public SemanticError(TextSpan span, Segment segment, string message, SemanticErrorKind kind)
             : base(new TextSpan[] { span }, segment, message)
@@ -78,6 +114,8 @@ namespace Cron.Visitors
 
         public override MessageLevel Level => MessageLevel.Error;
         public SemanticErrorKind Kind => kind;
+        public override Codes Code => codes[kind];
+        public override string ToString() => this.message;
     }
 
     public class FatalVisitError : VisitationMessage
@@ -90,6 +128,9 @@ namespace Cron.Visitors
             this.exc = exc;
         }
 
+        public override Codes Code => Codes.C01;
         public override MessageLevel Level => MessageLevel.Error;
+
+        public override string ToString() => this.message;
     }
 }

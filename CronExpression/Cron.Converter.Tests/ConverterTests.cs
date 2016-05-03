@@ -44,6 +44,18 @@ namespace Cron.Converter.Tests
                 .GetEvaluator(new ConvertionRequest("* *", ConvertionRequest.CronMode.StandardDefinition));
         }
 
+        [TestMethod]
+        public void Evaluator_ModernDefinition_Issue01_ShouldReturnTwoErrorMessages()
+        {
+            var evaluator = new CronTimeline(false)
+                .GetEvaluator(new ConvertionRequest("0 0 0 29 2 * 2015-201", ConvertionRequest.CronMode.ModernDefinition));
+
+            Assert.IsNotNull(evaluator);
+            Assert.IsNotNull(evaluator.Messages);
+            Assert.IsNull(evaluator.Output);
+            Assert.AreEqual(2, evaluator.Messages.Count);
+        }
+
         private static void CheckExpressionType(string input, ConvertionRequest.CronMode mode)
         {
             var compiler = new CronTimeline();

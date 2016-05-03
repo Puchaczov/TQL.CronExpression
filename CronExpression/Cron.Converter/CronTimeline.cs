@@ -23,11 +23,11 @@ namespace Cron
             return base.Convert(request, Convert);
         }
 
-        private static ConvertionResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast)
+        private ConvertionResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast)
         {
             var visitor = new CronTimelineVisitor();
             ast.Accept(visitor);
-            if (visitor.Errors.Any(f => f.Level == MessageLevel.Error))
+            if (throwOnError && visitor.Errors.Any(f => f.Level == MessageLevel.Error))
             {
                 throw new IncorrectCronExpressionException(visitor.Errors.ToArray());
             }

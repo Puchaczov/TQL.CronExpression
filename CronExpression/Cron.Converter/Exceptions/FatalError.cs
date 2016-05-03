@@ -13,6 +13,8 @@ namespace Cron.Exceptions
             this.exc = exc;
         }
 
+        public override Codes Code => Codes.C01;
+
         public override MessageLevel Level => MessageLevel.Error;
 
         public override string ToString() => exc.Message;
