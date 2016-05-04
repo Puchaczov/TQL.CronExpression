@@ -238,3 +238,5 @@ _Pvt_Extensions
 
 /CronExpression/Build/.autobuild
 /CronExpression/Build/tools
+/CronExpression/Cron.Converter/nuget.exe
+/CronExpression/Cron.Converter/Cron.Converter.nuspec
