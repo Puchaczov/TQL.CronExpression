@@ -7,7 +7,7 @@ using System;
 
 namespace Cron
 {
-    public abstract class AbstractConverter
+    public abstract class AbstractConverter<TOutput>
     {
         protected readonly bool throwOnError;
 
@@ -15,6 +15,8 @@ namespace Cron
         {
             this.throwOnError = throwOnError;
         }
+
+        public abstract ConvertionResponse<TOutput> Convert(ConvertionRequest request);
 
         protected virtual ConvertionResponse<T> Convert<T>(
             ConvertionRequest request,

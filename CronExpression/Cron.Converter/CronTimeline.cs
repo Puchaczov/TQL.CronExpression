@@ -8,20 +8,11 @@ using System.Linq;
 
 namespace Cron
 {
-    public class CronTimeline : CronValidator
+    public class CronTimeline : AbstractConverter<ICronFireTimeEvaluator>
     {
         public CronTimeline(bool throwOnError = false)
             : base(throwOnError)
         { }
-
-        public ConvertionResponse<ICronFireTimeEvaluator> GetEvaluator(ConvertionRequest request)
-        {
-            if(!request.Options.ProduceEndOfFileNode)
-            {
-                throw new ArgumentException("Produce end of file node option must be turned on to evaluate expression");
-            }
-            return base.Convert(request, Convert);
-        }
 
         private ConvertionResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast)
         {
@@ -32,6 +23,15 @@ namespace Cron
                 throw new IncorrectCronExpressionException(visitor.Errors.ToArray());
             }
             return new ConvertionResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? visitor.Evaluator : null, visitor.Errors.ToArray());
+        }
+
+        public override ConvertionResponse<ICronFireTimeEvaluator> Convert(ConvertionRequest request)
+        {
+            if (!request.Options.ProduceEndOfFileNode)
+            {
+                throw new ArgumentException("Produce end of file node option must be turned on to evaluate expression");
+            }
+            return base.Convert(request, Convert);
         }
     }
 }

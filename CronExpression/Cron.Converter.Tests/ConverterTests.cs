@@ -18,7 +18,7 @@ namespace Cron.Converter.Tests
 
             var request = new ConvertionRequest("* * * * * * *", options);
 
-            Assert.IsNotNull(compiler.GetEvaluator(request));
+            Assert.IsNotNull(compiler.Convert(request));
         }
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace Cron.Converter.Tests
         public void Evaluator_ModernDefinition_ShouldThrowAggregatedException()
         {
             new CronTimeline(true)
-                .GetEvaluator(new ConvertionRequest("* *", ConvertionRequest.CronMode.ModernDefinition));
+                .Convert(new ConvertionRequest("* *", ConvertionRequest.CronMode.ModernDefinition));
         }
 
         [TestMethod]
@@ -41,14 +41,14 @@ namespace Cron.Converter.Tests
         public void Evaluator_StandardDefinition_ShouldThrowAggregatedException()
         {
             new CronTimeline(true)
-                .GetEvaluator(new ConvertionRequest("* *", ConvertionRequest.CronMode.StandardDefinition));
+                .Convert(new ConvertionRequest("* *", ConvertionRequest.CronMode.StandardDefinition));
         }
 
         [TestMethod]
         public void Evaluator_ModernDefinition_Issue01_ShouldReturnTwoErrorMessages()
         {
             var evaluator = new CronTimeline(false)
-                .GetEvaluator(new ConvertionRequest("0 0 0 29 2 * 2015-201", ConvertionRequest.CronMode.ModernDefinition));
+                .Convert(new ConvertionRequest("0 0 0 29 2 * 2015-201", ConvertionRequest.CronMode.ModernDefinition));
 
             Assert.IsNotNull(evaluator);
             Assert.IsNotNull(evaluator.Messages);
@@ -60,7 +60,7 @@ namespace Cron.Converter.Tests
         {
             var compiler = new CronTimeline();
             var request = new ConvertionRequest(input, mode);
-            var response = compiler.GetEvaluator(request);
+            var response = compiler.Convert(request);
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Messages);
             Assert.AreEqual(0, response.Messages.Count);
