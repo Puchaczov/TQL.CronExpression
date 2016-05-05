@@ -1,5 +1,7 @@
 ﻿using Cron.Exceptions;
+using Cron.Visitors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Cron.Converter.Tests
 {
@@ -54,6 +56,18 @@ namespace Cron.Converter.Tests
             Assert.IsNotNull(evaluator.Messages);
             Assert.IsNull(evaluator.Output);
             Assert.AreEqual(2, evaluator.Messages.Count);
+        }
+        
+        [TestMethod]
+        public void Evaluator_IncorrectExpressionProvidedWithMissingNode_ShouldContainCriticalErrorMessage()
+        {
+            var evaluator = new CronTimeline(false)
+                .Convert(new ConvertionRequest("0 0 0 29 2, * 2015-201", ConvertionRequest.CronMode.ModernDefinition));
+            Assert.IsNotNull(evaluator);
+            Assert.IsNotNull(evaluator.Messages);
+            Assert.IsNull(evaluator.Output);
+            Assert.AreEqual(4, evaluator.Messages.Count);
+            Assert.IsTrue(evaluator.Messages.OfType<FatalVisitError>().Any());
         }
 
         private static void CheckExpressionType(string input, ConvertionRequest.CronMode mode)

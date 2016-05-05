@@ -1,6 +1,7 @@
 ﻿using Cron.Extensions.TimelineEvaluator.List;
 using Cron.Extensions.TimelineEvaluator.Lists.ComputableLists;
 using Cron.Parser.Enums;
+using Cron.Parser.Exceptions;
 using Cron.Parser.Extensions;
 using Cron.Parser.Nodes;
 using Cron.Parser.Utils;
@@ -48,13 +49,20 @@ namespace Cron.Extensions.TimelineEvaluator
 
         public override void Visit(SegmentNode node)
         {
-            base.Visit(node);
-            lastSegment = node.Segment;
-            values.Add(lastSegment, new RoundRobinRangeVaryingList<int>());
-            var evaluated = node.Evaluate(node.Segment);
-            var persistent = new PersistentList<int>(evaluated.OrderBy(f => f).Distinct());
-            values[lastSegment].Add(persistent);
-            values[lastSegment].SetRange(0, persistent.Count - 1);
+            try
+            {
+                base.Visit(node);
+                lastSegment = node.Segment;
+                values.Add(lastSegment, new RoundRobinRangeVaryingList<int>());
+                var evaluated = node.Evaluate(node.Segment);
+                var persistent = new PersistentList<int>(evaluated.OrderBy(f => f).Distinct());
+                values[lastSegment].Add(persistent);
+                values[lastSegment].SetRange(0, persistent.Count - 1);
+            }
+            catch(EvaluationException ex)
+            {
+                criticalErrors.Add(ex);
+            }
         }
 
         public override void Visit(RootComponentNode node)

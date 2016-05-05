@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Cron.Parser.Enums;
 using Cron.Parser.Visitors;
+using Cron.Parser.Exceptions;
 
 namespace Cron.Parser.Nodes
 {
@@ -21,7 +22,7 @@ namespace Cron.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment)
         {
-            throw new Exception("Cannot evaluate missing node");
+            throw new EvaluationException(segment, "Cannot evaluate missing node.");
         }
 
         public override string ToString() => this.Token.Value;

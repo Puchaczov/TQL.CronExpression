@@ -14,7 +14,7 @@ namespace Cron.Visitors
 {
     public class CronRulesNodeVisitor : INodeVisitor
     {
-        private readonly List<Exception> criticalErrors;
+        protected readonly List<Exception> criticalErrors;
         private SegmentNode currentSegment;
         private readonly List<VisitationMessage> errors;
         private SyntaxNode parent;
@@ -30,7 +30,7 @@ namespace Cron.Visitors
             this.reportWhenExpressionTooShort = reportWhenExpressionTooShort;
         }
 
-        public virtual IEnumerable<VisitationMessage> Errors => errors;
+        public virtual IEnumerable<VisitationMessage> Errors => e;
 
         public virtual bool IsValid => criticalErrors.Count == 0 && errors.Count == 0;
 

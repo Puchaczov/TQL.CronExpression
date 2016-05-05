@@ -123,7 +123,7 @@ namespace Cron.Visitors
         private readonly Exception exc;
 
         public FatalVisitError(Exception exc)
-            : base(null, Segment.Unknown, string.Empty)
+            : base(null, Segment.Unknown, exc.Message)
         {
             this.exc = exc;
         }
