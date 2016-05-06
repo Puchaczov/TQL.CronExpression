@@ -70,6 +70,17 @@ namespace Cron.Converter.Tests
             Assert.IsTrue(evaluator.Messages.OfType<FatalVisitError>().Any());
         }
 
+        [TestMethod]
+        public void Validator_IncorrectExpressionProvidedWithMissingNode_ShouldContainErrorMessages()
+        {
+            var validator = new CronValidator(false)
+                .Convert(new ConvertionRequest("0 0 0 29 2, * 2015-201", ConvertionRequest.CronMode.ModernDefinition));
+            Assert.IsNotNull(validator);
+            Assert.IsNotNull(validator.Messages);
+            Assert.AreEqual(false, validator.Output);
+            Assert.AreEqual(3, validator.Messages.Count);
+        }
+
         private static void CheckExpressionType(string input, ConvertionRequest.CronMode mode)
         {
             var compiler = new CronTimeline();

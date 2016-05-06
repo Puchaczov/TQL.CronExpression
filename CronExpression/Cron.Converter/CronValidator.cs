@@ -13,11 +13,11 @@ namespace Cron
             : base(throwOnError)
         { }
 
-        private static ConvertionResponse<bool> Convert(RootComponentNode ast)
+        private ConvertionResponse<bool> Convert(RootComponentNode ast)
         {
             var visitor = new CronRulesNodeVisitor(true);
             ast.Accept(visitor);
-            if (visitor.Errors.Any(f => f.Level == MessageLevel.Error))
+            if (throwOnError && visitor.Errors.Any(f => f.Level == MessageLevel.Error))
             {
                 throw new IncorrectCronExpressionException(visitor.Errors.ToArray());
             }
