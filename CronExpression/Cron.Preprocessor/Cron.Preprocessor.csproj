@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="LowerCase.cs" />
+    <Compile Include="ReplaceChar.cs" />
     <Compile Include="ReplaceNonStandardDefinitions.cs" />
     <Compile Include="Preprocessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

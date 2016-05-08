@@ -106,8 +106,15 @@ namespace Cron.Converter.Tests
         [TestMethod]
         public void Evaluator_CheckEvaluatedValues_ShouldPass()
         {
-            var response = new CronTimeline()
+            new CronTimeline()
                 .Convert(new CreateEvaluatorRequest("0 30 14 ? * 7L *", ConvertionRequest.CronMode.ModernDefinition, DateTimeOffset.Now, TimeZoneInfo.Local));
+        }
+
+        [TestMethod]
+        public void Validator_CheckCanHandleUnbreakableSpace_ShouldPass()
+        {
+            new CronValidator()
+                .Convert(new CreateEvaluatorRequest("0 0 2/4 8-14 * 2#5 *", ConvertionRequest.CronMode.ModernDefinition, DateTimeOffset.Now, TimeZoneInfo.Local));
         }
 
         private static void CheckExpressionType(string input, ConvertionRequest.CronMode mode)
