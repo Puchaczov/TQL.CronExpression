@@ -360,7 +360,7 @@ namespace Cron.Parser.Tests
             var analyzer = "* * 1 * * ?".TakeEvaluator();
             DateTimeOffset cal = new DateTime(2005, 7, 31, 22, 59, 57).ToUniversalTime();
             DateTimeOffset nextExpectedFireTime = new DateTime(2005, 8, 1, 1, 0, 0).ToUniversalTime();
-            analyzer.OffsetReferenceTime = cal;
+            analyzer.ReferenceTime = cal;
             var value = analyzer.NextFire();
             Assert.AreEqual(nextExpectedFireTime, value.Value.ToUniversalTime());
         }
@@ -461,12 +461,12 @@ namespace Cron.Parser.Tests
             Assert.IsFalse(analyzer.NextFire().HasValue);
         }
 
-        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTime, int> assertCallback)
+        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
         {
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(from, to, 1, analyzer, assertCallback);
         }
 
-        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, int inc, ICronFireTimeEvaluator analyzer, Action<DateTime, int> assertCallback)
+        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, int inc, ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
         {
             if (assertCallback == null)
             {

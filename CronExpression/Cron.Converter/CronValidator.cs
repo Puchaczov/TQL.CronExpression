@@ -4,14 +4,17 @@ using Cron.Visitors;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using Cron.Converter;
 
 namespace Cron
 {
-    public class CronValidator : AbstractConverter<bool>
+    public class CronValidator : AbstractConverter<bool>, IConverter<ConvertionRequest, ConvertionResponse<bool>>
     {
         public CronValidator(bool throwOnError = false)
             : base(throwOnError)
         { }
+
+        public ConvertionResponse<bool> Convert(ConvertionRequest request) => base.Convert(request, Convert);
 
         private ConvertionResponse<bool> Convert(RootComponentNode ast)
         {
@@ -23,7 +26,5 @@ namespace Cron
             }
             return new ConvertionResponse<bool>(visitor.IsValid, visitor.Errors.ToArray());
         }
-
-        public override ConvertionResponse<bool> Convert(ConvertionRequest request) => base.Convert(request, Convert);
     }
 }

@@ -4,10 +4,9 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
 {
     public interface ICronFireTimeEvaluator
     {
-        DateTime ReferenceTime { set; }
-        DateTimeOffset OffsetReferenceTime { set; }
-        DateTime? NextFire();
-        DateTime? PreviousFire();
-        bool IsSatisfiedBy(DateTime time);
+        DateTimeOffset ReferenceTime { set; }
+        DateTimeOffset? NextFire();
+        DateTimeOffset? PreviousFire();
+        bool IsSatisfiedBy(DateTimeOffset time);
     }
 }

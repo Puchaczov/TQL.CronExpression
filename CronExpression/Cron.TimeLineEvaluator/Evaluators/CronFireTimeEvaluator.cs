@@ -79,7 +79,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
 
         public bool IsExceededTimeBoundary => this.expressionExceedTimeBoundary;
 
-        public DateTimeOffset OffsetReferenceTime
+        public DateTimeOffset ReferenceTime
         {
             set
             {
@@ -88,20 +88,11 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
             }
         }
 
-        public DateTime ReferenceTime
+        public bool IsSatisfiedBy(DateTimeOffset time)
         {
-            set
-            {
-                Reset();
-                referenceTime.Value = value;
-            }
-        }
-
-        public bool IsSatisfiedBy(DateTime time)
-        {
-            var timeWithoutMillis = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second);
+            var timeWithoutMillis = new DateTimeOffset(time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second, time.Offset);
             ReferenceTime = time.AddSeconds(-1);
-            DateTime? score = null;
+            DateTimeOffset? score = null;
             Reset();
             do
             {
@@ -120,7 +111,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
         }
 
 
-        public DateTime? NextFire()
+        public DateTimeOffset? NextFire()
         {
             referenceTime.Value = referenceTime.Value.AddSeconds(1);
             LimitMonthRange();
@@ -252,7 +243,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
             return null;
         }
 
-        public DateTime? PreviousFire()
+        public DateTimeOffset? PreviousFire()
         {
             throw new NotImplementedException();
         }

@@ -14,7 +14,7 @@ namespace Cron.Performance.Tests
             var watch = Stopwatch.StartNew();
 
             var timeline = new Cron.CronTimeline(true);
-            var response = timeline.Convert(new ConvertionRequest("* * * * * * *", ConvertionRequest.CronMode.ModernDefinition));
+            var response = timeline.Convert(new Cron.Converter.CreateEvaluatorRequest("* * * * * * *", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
             var evaluator = response.Output;
             watch.Stop();
         }

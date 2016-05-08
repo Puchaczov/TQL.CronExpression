@@ -1,4 +1,5 @@
-﻿using Cron.Exceptions;
+﻿using Cron.Converter;
+using Cron.Exceptions;
 using Cron.Extensions.TimelineEvaluator;
 using Cron.Extensions.TimelineEvaluator.Evaluators;
 using Cron.Parser.Nodes;
@@ -8,13 +9,13 @@ using System.Linq;
 
 namespace Cron
 {
-    public class CronTimeline : AbstractConverter<ICronFireTimeEvaluator>
+    public class CronTimeline : AbstractConverter<ICronFireTimeEvaluator>, IConverter<CreateEvaluatorRequest, ConvertionResponse<ICronFireTimeEvaluator>>
     {
         public CronTimeline(bool throwOnError = false)
             : base(throwOnError)
         { }
 
-        private ConvertionResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast)
+        private ConvertionResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast, CreateEvaluatorRequest request)
         {
             var visitor = new CronTimelineVisitor();
             ast.Accept(visitor);
@@ -22,16 +23,23 @@ namespace Cron
             {
                 throw new IncorrectCronExpressionException(visitor.Errors.ToArray());
             }
-            return new ConvertionResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? visitor.Evaluator : null, visitor.Errors.ToArray());
+            var evaluator = visitor.Evaluator;
+            if(evaluator != null)
+            {
+                evaluator.ReferenceTime = request.ReferenceTime;
+                evaluator = new TimeZoneCronFireTimeEvaluatorDecorator(request.TargetTimeZoneInfo, evaluator);
+                return new ConvertionResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? evaluator : null, visitor.Errors.ToArray());
+            }
+            return new ConvertionResponse<ICronFireTimeEvaluator>(null, visitor.Errors.ToArray());
         }
 
-        public override ConvertionResponse<ICronFireTimeEvaluator> Convert(ConvertionRequest request)
+        public ConvertionResponse<ICronFireTimeEvaluator> Convert(CreateEvaluatorRequest request)
         {
             if (!request.Options.ProduceEndOfFileNode)
             {
                 throw new ArgumentException("Produce end of file node option must be turned on to evaluate expression");
             }
-            return base.Convert(request, Convert);
+            return base.Convert(request, (ast) => this.Convert(ast, request));
         }
     }
 }

@@ -36,11 +36,14 @@
     <Compile Include="ConvertionRequest.cs" />
     <Compile Include="AbstractConverter.cs" />
     <Compile Include="ConvertionResponse.cs" />
+    <Compile Include="CreateEvaluatorRequest.cs" />
     <Compile Include="CronValidator.cs" />
     <Compile Include="Exceptions\IncorrectCronExpressionException.cs" />
     <Compile Include="Exceptions\FatalError.cs" />
+    <Compile Include="IConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CronTimeline.cs" />
+    <Compile Include="TimeZoneCronFireTimeEvaluatorDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">

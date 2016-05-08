@@ -6,7 +6,7 @@ namespace Cron.Parser.Exceptions
     public class EvaluationException : Exception
     {
         private readonly Segment segment;
-        private string message;
+        private readonly string message;
 
         public EvaluationException(Segment segment, string message)
         {

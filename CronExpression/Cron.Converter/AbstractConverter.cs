@@ -16,14 +16,12 @@ namespace Cron
             this.throwOnError = throwOnError;
         }
 
-        public abstract ConvertionResponse<TOutput> Convert(ConvertionRequest request);
+        protected virtual ConvertionResponse<T> Convert<T, TRequest>(
+            TRequest request,
+            Func<RootComponentNode, ConvertionResponse<T>> fun) where TRequest : ConvertionRequest
+            => Convert(request, new ConvertionByFunc<RootComponentNode, ConvertionResponse<T>>(fun));
 
-        protected virtual ConvertionResponse<T> Convert<T>(
-            ConvertionRequest request,
-            Func<RootComponentNode, ConvertionResponse<T>> fun)
-            => Convert<T>(request, new ConvertionByFunc<RootComponentNode, ConvertionResponse<T>>(fun));
-
-        protected virtual ConvertionResponse<T> Convert<T>(ConvertionRequest request, IConvertible<RootComponentNode, ConvertionResponse<T>> converter)
+        protected virtual ConvertionResponse<T> Convert<T, TRequest>(TRequest request, IConvertible<RootComponentNode, ConvertionResponse<T>> converter) where TRequest : ConvertionRequest
         {
             try
             {

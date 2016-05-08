@@ -24,11 +24,11 @@ namespace Cron.Extensions.TimelineEvaluator
             {
                 if (!isVisited)
                 {
-                    throw new Exception("Nodes must be visited first");
+                    return null;
                 }
                 if(e.Count > 0)
                 {
-                    throw new Exception("Cannot evaluate malformed expression");
+                    return null;
                 }
                 return new CronFireTimeEvaluator(
                     this[Cron.Parser.Enums.Segment.Year],

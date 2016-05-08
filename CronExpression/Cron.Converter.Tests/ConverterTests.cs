@@ -1,6 +1,7 @@
 ﻿using Cron.Exceptions;
 using Cron.Visitors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace Cron.Converter.Tests
@@ -18,7 +19,7 @@ namespace Cron.Converter.Tests
                 ProduceYearIfMissing = true
             };
 
-            var request = new ConvertionRequest("* * * * * * *", options);
+            var request = new CreateEvaluatorRequest("* * * * * * *", options, DateTime.Now, TimeZoneInfo.Local);
 
             Assert.IsNotNull(compiler.Convert(request));
         }
@@ -35,7 +36,7 @@ namespace Cron.Converter.Tests
         public void Evaluator_ModernDefinition_ShouldThrowAggregatedException()
         {
             new CronTimeline(true)
-                .Convert(new ConvertionRequest("* *", ConvertionRequest.CronMode.ModernDefinition));
+                .Convert(new CreateEvaluatorRequest("* *", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
         }
 
         [TestMethod]
@@ -43,31 +44,31 @@ namespace Cron.Converter.Tests
         public void Evaluator_StandardDefinition_ShouldThrowAggregatedException()
         {
             new CronTimeline(true)
-                .Convert(new ConvertionRequest("* *", ConvertionRequest.CronMode.StandardDefinition));
+                .Convert(new CreateEvaluatorRequest("* *", ConvertionRequest.CronMode.StandardDefinition, DateTime.Now, TimeZoneInfo.Local));
         }
 
         [TestMethod]
         public void Evaluator_ModernDefinition_Issue01_ShouldReturnTwoErrorMessages()
         {
-            var evaluator = new CronTimeline(false)
-                .Convert(new ConvertionRequest("0 0 0 29 2 * 2015-201", ConvertionRequest.CronMode.ModernDefinition));
+            var response = new CronTimeline(false)
+                .Convert(new CreateEvaluatorRequest("0 0 0 29 2 * 2015-201", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
 
-            Assert.IsNotNull(evaluator);
-            Assert.IsNotNull(evaluator.Messages);
-            Assert.IsNull(evaluator.Output);
-            Assert.AreEqual(2, evaluator.Messages.Count);
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Messages);
+            Assert.IsNull(response.Output);
+            Assert.AreEqual(2, response.Messages.Count);
         }
-        
+
         [TestMethod]
         public void Evaluator_IncorrectExpressionProvidedWithMissingNode_ShouldContainCriticalErrorMessage()
         {
-            var evaluator = new CronTimeline(false)
-                .Convert(new ConvertionRequest("0 0 0 29 2, * 2015-201", ConvertionRequest.CronMode.ModernDefinition));
-            Assert.IsNotNull(evaluator);
-            Assert.IsNotNull(evaluator.Messages);
-            Assert.IsNull(evaluator.Output);
-            Assert.AreEqual(4, evaluator.Messages.Count);
-            Assert.IsTrue(evaluator.Messages.OfType<FatalVisitError>().Any());
+            var response = new CronTimeline(false)
+                .Convert(new CreateEvaluatorRequest("0 0 0 29 2, * 2015-201", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Messages);
+            Assert.IsNull(response.Output);
+            Assert.AreEqual(4, response.Messages.Count);
+            Assert.IsTrue(response.Messages.OfType<FatalVisitError>().Any());
         }
 
         [TestMethod]
@@ -81,10 +82,31 @@ namespace Cron.Converter.Tests
             Assert.AreEqual(3, validator.Messages.Count);
         }
 
+        [TestMethod]
+        public void Evaluator_CheckEvaluatedValuesTakeIntoTargetTimeZone_ShouldPass()
+        {
+            var timeZoneReferenceTime = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time"); //+1
+            var destinationZoneReferenceTime = TimeZoneInfo.FindSystemTimeZoneById("Mid-Atlantic Standard Time"); //-2
+            var referenceTime = new DateTimeOffset(2015, 1, 1, 15, 0, 0, timeZoneReferenceTime.BaseUtcOffset);
+
+            var response = new CronTimeline(false)
+                .Convert(new CreateEvaluatorRequest("0 0 * * * * *", ConvertionRequest.CronMode.ModernDefinition, referenceTime, destinationZoneReferenceTime));
+
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Messages);
+            Assert.AreEqual(0, response.Messages.Count);
+
+            var evaluator = response.Output;
+
+            Assert.IsNotNull(evaluator);
+            Assert.AreEqual(new DateTimeOffset(2015, 1, 1, 13, 0, 0, new TimeSpan(-2, 0, 0)), evaluator.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2015, 1, 1, 14, 0, 0, new TimeSpan(-2, 0, 0)), evaluator.NextFire());
+        }
+
         private static void CheckExpressionType(string input, ConvertionRequest.CronMode mode)
         {
             var compiler = new CronTimeline();
-            var request = new ConvertionRequest(input, mode);
+            var request = new CreateEvaluatorRequest(input, mode, DateTime.Now, TimeZoneInfo.Local);
             var response = compiler.Convert(request);
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Messages);
