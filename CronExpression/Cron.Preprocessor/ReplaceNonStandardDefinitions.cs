@@ -8,16 +8,16 @@ namespace Cron.Filters
         {
             switch(input)
             {
-                case "@yearly":
-                case "@annually":
+                case "@YEARLY":
+                case "@ANNUALLY":
                     return "0 0 0 1 1 * *";
-                case "@monthly":
+                case "@MONTHLY":
                     return "0 0 0 1 * * *";
-                case "@weekly":
+                case "@WEEKLY":
                     return "0 0 0 * * 0 *";
-                case "@daily":
+                case "@DAILY":
                     return "0 0 0 * * * *";
-                case "@hourly":
+                case "@HOURLY":
                     return "0 0 * * * * *";
             }
             return input;

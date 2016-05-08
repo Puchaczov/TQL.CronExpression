@@ -9,7 +9,7 @@ namespace Cron
         {
             base
                 .Register(new Trim())
-                .Register(new LowerCase())
+                .Register(new UpperCase())
                 .Register(new ReplaceNonStandardDefinitions());
         }
     }

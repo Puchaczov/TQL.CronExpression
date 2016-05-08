@@ -39,6 +39,7 @@
     <Compile Include="Preprocessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trim.cs" />
+    <Compile Include="UpperCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cron.Utils\Cron.Utils.csproj">

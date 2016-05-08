@@ -7,10 +7,10 @@ namespace Cron.Tests
     {
 
         [TestMethod]
-        public void Preprocessor_LowercaseInput_ShouldPass()
+        public void Preprocessor_UppercaseInput_ShouldPass()
         {
             var preprocessor = new Preprocessor();
-            Assert.AreEqual("abc ccde", preprocessor.Execute("aBc CCde"));
+            Assert.AreEqual("ABC CCDE", preprocessor.Execute("aBc CCde"));
         }
 
         [TestMethod]

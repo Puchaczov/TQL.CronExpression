@@ -103,6 +103,13 @@ namespace Cron.Converter.Tests
             Assert.AreEqual(new DateTimeOffset(2015, 1, 1, 14, 0, 0, new TimeSpan(-2, 0, 0)), evaluator.NextFire());
         }
 
+        [TestMethod]
+        public void Evaluator_CheckEvaluatedValues_ShouldPass()
+        {
+            var response = new CronTimeline()
+                .Convert(new CreateEvaluatorRequest("0 30 14 ? * 7L *", ConvertionRequest.CronMode.ModernDefinition, DateTimeOffset.Now, TimeZoneInfo.Local));
+        }
+
         private static void CheckExpressionType(string input, ConvertionRequest.CronMode mode)
         {
             var compiler = new CronTimeline();
