@@ -14,7 +14,8 @@ namespace Cron.Converter.Tests
         public void Evaluator_CheckProduceAst_ShouldPass()
         {
             var compiler = new CronTimeline();
-            var options = new ConvertionRequest.ConvertionOptions {
+            var options = new ConvertionRequest.ConvertionOptions
+            {
                 ProduceEndOfFileNode = true,
                 ProduceYearIfMissing = true
             };
@@ -115,6 +116,18 @@ namespace Cron.Converter.Tests
         {
             new CronValidator()
                 .Convert(new CreateEvaluatorRequest("0 0 2/4 8-14 * 2#5 *", ConvertionRequest.CronMode.ModernDefinition, DateTimeOffset.Now, TimeZoneInfo.Local));
+        }
+
+        [TestMethod]
+        public void Validator_CheckWillProduceUninstantiableDateTime_ShouldFail()
+        {
+            var timeline = new CronTimeline()
+                .Convert(new CreateEvaluatorRequest("0 0 0 L 2 * 2015-2150", ConvertionRequest.CronMode.ModernDefinition, DateTimeOffset.Now, TimeZoneInfo.Local));
+
+            for (int i = 0; i < 5; ++i)
+            {
+                timeline.Output.NextFire();
+            }
         }
 
         private static void CheckExpressionType(string input, ConvertionRequest.CronMode mode)

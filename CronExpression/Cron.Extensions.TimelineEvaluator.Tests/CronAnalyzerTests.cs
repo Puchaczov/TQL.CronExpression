@@ -461,6 +461,19 @@ namespace Cron.Parser.Tests
             Assert.IsFalse(analyzer.NextFire().HasValue);
         }
 
+        [TestMethod]
+        public void TestWillFireEveryLastDayOfFebruary_ShouldPass()
+        {
+            var referenceTime = new DateTime(2015, 1, 1);
+            var analyzer = "0 0 0 L 2 * 2015-2150".TakeEvaluator();
+
+            analyzer.ReferenceTime = referenceTime;
+
+            Assert.AreEqual(new DateTime(2015, 2, 28), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2016, 2, 29), analyzer.NextFire());
+            Assert.AreEqual(new DateTime(2017, 2, 28), analyzer.NextFire());
+        }
+
         private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
         {
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(from, to, 1, analyzer, assertCallback);

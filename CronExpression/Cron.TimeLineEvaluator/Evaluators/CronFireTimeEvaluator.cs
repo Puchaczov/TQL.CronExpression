@@ -75,6 +75,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                 var refTime = referenceTime.Value;
                 referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, refTime.Day, refTime.Hour, minutes.Current, 0, refTime.Offset);
             };
+            this.Reset();
         }
 
         public bool IsExceededTimeBoundary => this.expressionExceedTimeBoundary;
@@ -135,7 +136,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                     months.Next();
                     isChangedMonth = true;
                 }
-                if (!sameOrFurtherYear && IsDatePartBefore(years.Current, months.Current))
+                if (IsDatePartBefore(years.Current, months.Current))
                 {
                     months.Overflow();
                     isChangedMonth = true;
@@ -175,7 +176,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                 {
                     hours.Next();
                 }
-                if (!sameOrFurtherDayOfMonth && IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current))
+                if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current))
                 {
                     hours.Overflow();
                     continue;
@@ -191,7 +192,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                 {
                     minutes.Next();
                 }
-                if (!sameOrFurtherHour && IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current))
+                if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current))
                 {
                     minutes.Overflow();
                     continue;
@@ -207,7 +208,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                 {
                     seconds.Next();
                 }
-                if (!sameOrFurtherMinute && IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
+                if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
                 {
                     seconds.Overflow();
                     continue;
@@ -219,7 +220,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                 }
 
                 var sameOrFurtherSecond = seconds.Current >= referenceTime.Second;
-                if (!sameOrFurtherSecond && IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
+                if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
                 {
                     seconds.Overflow();
                     continue;
