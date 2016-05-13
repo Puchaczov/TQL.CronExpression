@@ -19,6 +19,8 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
         private readonly RoundRobinRangeVaryingList<int> seconds;
         private readonly RoundRobinRangeVaryingList<int> years;
 
+        private DateTimeOffset oldReferenceTime;
+
         public CronFireTimeEvaluator(
             RoundRobinRangeVaryingList<int> years,
             RoundRobinRangeVaryingList<int> months,
@@ -218,8 +220,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                     referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, seconds.Current, referenceTime.Offset);
                     this.referenceTime.Value = referenceTime;
                 }
-
-                var sameOrFurtherSecond = seconds.Current >= referenceTime.Second;
+                
                 if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
                 {
                     seconds.Overflow();
@@ -235,9 +236,20 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
                     seconds.Current,
                     referenceTime.Offset
                 );
+
                 this.referenceTime.Value = referenceTime;
 
-                return referenceTime.DateTime;
+                //There is possibility to generate two times the same date for example 29,L which in
+                //leap year, in february. When it happens, just evaluate next date
+                if (referenceTime == oldReferenceTime)
+                {
+                    this.referenceTime.Value = referenceTime.AddSeconds(1);
+                    continue;
+                }
+
+                oldReferenceTime = referenceTime;
+
+                return referenceTime;
             }
 
             //Time boundary had beed exceed.
@@ -299,6 +311,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
             this.hours.Reset();
             this.minutes.Reset();
             this.seconds.Reset();
+            this.oldReferenceTime = new DateTimeOffset();
             this.filteredDayOfMonths.Reset();
         }
     }

@@ -161,7 +161,7 @@ namespace Cron.Extensions.TimelineEvaluator
                     values[lastSegment].SetRange(0, values[lastSegment].Count);
                     break;
                 case Segment.DayOfWeek:
-                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputeList(time, new int[] { int.Parse(node.Token.Value) }));
+                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputeList(time, new int[] { 0 }));
                     values[lastSegment].SetRange(0, values[lastSegment].Count);
                     break;
             }

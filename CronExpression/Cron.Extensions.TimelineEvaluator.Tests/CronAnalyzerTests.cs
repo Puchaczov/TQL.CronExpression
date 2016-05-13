@@ -104,13 +104,15 @@ namespace Cron.Parser.Tests
         [TestMethod]
         public void TestWillFireAt5thDayOfEveryMonth_ShouldPass()
         {
-            var referenceTime = new DateTime(2016, 1, 5, 0, 0, 0);
+            var referenceTime = new DateTimeOffset(2016, 1, 5, 0, 0, 0, TimeSpan.Zero);
             var analyzer = "0 0 0 5 * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 12, analyzer, (datetime, monthsToAdd) =>
             {
-                Assert.AreEqual(referenceTime.AddMonths(monthsToAdd), datetime);
+                var val1 = (DateTimeOffset)referenceTime.AddMonths(monthsToAdd);
+                var val2 = datetime;
+                Assert.AreEqual(val1, val2);
             });
         }
 
@@ -261,10 +263,10 @@ namespace Cron.Parser.Tests
         public void TestWillFireInTheLastWeekdayOfMonth_ShouldPass()
         {
             var analyzer = "0 0 0 LW * * *".TakeEvaluator();
-            analyzer.ReferenceTime = new DateTime(2016, 1, 1);
-            Assert.AreEqual(new DateTime(2016, 1, 29), analyzer.NextFire());
-            Assert.AreEqual(new DateTime(2016, 2, 29), analyzer.NextFire());
-            Assert.AreEqual(new DateTime(2016, 3, 31), analyzer.NextFire());
+            analyzer.ReferenceTime = new DateTimeOffset(2016, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 29, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 2, 29, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 3, 31, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
         }
 
         [TestMethod]
@@ -282,29 +284,29 @@ namespace Cron.Parser.Tests
         public void TestWillFireNearWeekday_LastDayInMonth_ShouldPass()
         {
             var analyzer = "0 0 0 31W * * *".TakeEvaluator();
-            analyzer.ReferenceTime = new DateTime(2016, 1, 1);
-            Assert.AreEqual(new DateTime(2016, 1, 29), analyzer.NextFire());
-            Assert.AreEqual(new DateTime(2016, 3, 31), analyzer.NextFire());
+            analyzer.ReferenceTime = new DateTimeOffset(2016, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 29, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 3, 31, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
         }
 
         [TestMethod]
         public void TestWillFireNearWeekday_NumericPrecedeed_ShouldPass()
         {
             var analyzer = "0 0 0 1W * * *".TakeEvaluator();
-            analyzer.ReferenceTime = new DateTime(2016, 2, 29);
-            Assert.AreEqual(new DateTime(2016, 3, 1), analyzer.NextFire());
-            Assert.AreEqual(new DateTime(2016, 4, 1), analyzer.NextFire());
-            Assert.AreEqual(new DateTime(2016, 5, 2), analyzer.NextFire());
+            analyzer.ReferenceTime = new DateTimeOffset(2016, 2, 29, 0, 0, 0, TimeSpan.Zero);
+            Assert.AreEqual(new DateTimeOffset(2016, 3, 1, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 4, 1, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 5, 2, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
         }
 
         [TestMethod]
         public void TestWillFireNearWeekday_ShouldPass()
         {
             var analyzer = "0 0 0 W * * *".TakeEvaluator();
-            analyzer.ReferenceTime = new DateTime(2016, 2, 29);
-            Assert.AreEqual(new DateTime(2016, 3, 1), analyzer.NextFire());
-            Assert.AreEqual(new DateTime(2016, 4, 1), analyzer.NextFire());
-            Assert.AreEqual(new DateTime(2016, 5, 2), analyzer.NextFire());
+            analyzer.ReferenceTime = new DateTimeOffset(2016, 2, 29, 0, 0, 0, TimeSpan.Zero);
+            Assert.AreEqual(new DateTimeOffset(2016, 3, 1, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 4, 1, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 5, 2, 0, 0, 0, TimeSpan.Zero), analyzer.NextFire());
         }
 
         [TestMethod]
@@ -358,11 +360,11 @@ namespace Cron.Parser.Tests
         public void TestWillRunAt2ndHourAtNightEveryDay_ShouldPass()
         {
             var analyzer = "* * 1 * * ?".TakeEvaluator();
-            DateTimeOffset cal = new DateTime(2005, 7, 31, 22, 59, 57).ToUniversalTime();
-            DateTimeOffset nextExpectedFireTime = new DateTime(2005, 8, 1, 1, 0, 0).ToUniversalTime();
+            DateTimeOffset cal = new DateTimeOffset(2005, 7, 31, 22, 59, 57, TimeSpan.Zero);
+            DateTimeOffset nextExpectedFireTime = new DateTimeOffset(2005, 8, 1, 1, 0, 0, TimeSpan.Zero);
             analyzer.ReferenceTime = cal;
             var value = analyzer.NextFire();
-            Assert.AreEqual(nextExpectedFireTime, value.Value.ToUniversalTime());
+            Assert.AreEqual(nextExpectedFireTime, value);
         }
 
         [TestMethod]
@@ -472,6 +474,88 @@ namespace Cron.Parser.Tests
             Assert.AreEqual(new DateTime(2015, 2, 28), analyzer.NextFire());
             Assert.AreEqual(new DateTime(2016, 2, 29), analyzer.NextFire());
             Assert.AreEqual(new DateTime(2017, 2, 28), analyzer.NextFire());
+        }
+
+        [TestCategory("Not implemented features")]
+        [Ignore()]
+        [TestMethod]
+        public void TestLastDayOffset()
+        {
+            var analyzer = "0 15 10 L-2 * ? 2010".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTimeOffset(2010, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            Assert.IsTrue(analyzer.IsSatisfiedBy(new DateTimeOffset(2010, 10, 29, 10, 15, 0, TimeSpan.Zero)));
+
+            Assert.IsFalse(analyzer.IsSatisfiedBy(new DateTimeOffset(2010, 10, 28, 10, 15, 0, TimeSpan.Zero)));
+
+            analyzer = "0 15 10 L-5W * ? 2010".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTimeOffset(2010, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            Assert.IsTrue(analyzer.IsSatisfiedBy(new DateTimeOffset(2010, 10, 26, 10, 15, 0, TimeSpan.Zero)));
+        }
+
+        [TestMethod]
+        public void TestMinuteShift_ShouldPass()
+        {
+            var analyzer = "0/22 * * * * ? *".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTimeOffset(2015, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            Assert.AreEqual(new DateTimeOffset(2015, 1, 1, 0, 0, 22, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2015, 1, 1, 0, 0, 44, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2015, 1, 1, 0, 1, 0, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2015, 1, 1, 0, 1, 22, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2015, 1, 1, 0, 1, 44, 0, TimeSpan.Zero), analyzer.NextFire());
+        }
+
+        [TestMethod]
+        public void TestNthWeekDay_ShouldPass()
+        {
+            var analyzer = "0 30 10-13 ? * FRI#3 *".TakeEvaluator();
+            DateTimeOffset start = new DateTimeOffset(2016, 5, 13, 0, 0, 0, TimeSpan.Zero);
+
+            analyzer.ReferenceTime = start;
+
+            Assert.AreEqual(new DateTimeOffset(2016, 5, 20, 10, 30, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 5, 20, 11, 30, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 5, 20, 12, 30, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 5, 20, 13, 30, 0, TimeSpan.Zero), analyzer.NextFire());
+
+            Assert.AreEqual(new DateTimeOffset(2016, 6, 17, 10, 30, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 6, 17, 11, 30, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 6, 17, 12, 30, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 6, 17, 13, 30, 0, TimeSpan.Zero), analyzer.NextFire());
+        }
+
+        [TestMethod]
+        public void TestWithLMixedInMonthDays_ShouldPass()
+        {
+            var analyzer = "0 43 9 1,5,29,L,L * ? *".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTimeOffset(2016, 1, 1, 0, 0, 0, TimeSpan.Zero);
+
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 1, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 5, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 29, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 31, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+
+            Assert.AreEqual(new DateTimeOffset(2016, 2, 1, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 2, 5, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 2, 29, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+
+            //Check double L doesn't generate few times same date.
+            Assert.AreNotEqual(new DateTimeOffset(2016, 2, 29, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreNotEqual(new DateTimeOffset(2016, 2, 29, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+        }
+
+        [TestMethod]
+        public void TestWithLMixedInDayOfWeek_ShouldPass()
+        {
+            var analyzer = "0 43 9 ? * SAT,SUN,L".TakeEvaluator();
+            analyzer.ReferenceTime = new DateTimeOffset(2016, 1, 1, 0, 0, 0, TimeSpan.Zero);
+
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 2, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 3, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 9, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+            Assert.AreEqual(new DateTimeOffset(2016, 1, 10, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
+
+            //Check L doesn't generate few times same date.
+            Assert.AreNotEqual(new DateTimeOffset(2016, 1, 10, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
         }
 
         private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
