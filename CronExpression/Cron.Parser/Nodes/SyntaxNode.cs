@@ -7,7 +7,6 @@ namespace Cron.Parser.Nodes
 {
     public abstract class SyntaxNode : IVisitedNode
     {
-
         /// <summary>
         /// Get child items of node.
         /// </summary>

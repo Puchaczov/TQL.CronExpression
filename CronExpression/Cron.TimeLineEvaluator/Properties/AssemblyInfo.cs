@@ -4,11 +4,11 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Cron.TimeLineEvaluator")]
+[assembly: AssemblyTitle("CronExpression.Extensions.TimeLineEvaluator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Cron.TimeLineEvaluator")]
+[assembly: AssemblyProduct("CronExpression.Extensions.TimeLineEvaluator")]
 [assembly: AssemblyCopyright("Jakub Puchała ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

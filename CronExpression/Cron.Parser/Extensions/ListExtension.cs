@@ -5,7 +5,6 @@ namespace Cron.Parser.Extensions
 {
     public static class ListExtension
     {
-
         public static void AddRange(this IList<int> list, IEnumerable<int> values)
         {
             foreach (var item in values)

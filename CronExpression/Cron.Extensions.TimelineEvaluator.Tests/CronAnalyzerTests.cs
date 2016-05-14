@@ -445,7 +445,7 @@ namespace Cron.Parser.Tests
         }
 
         [TestMethod]
-        public void TestWillRunEveryMonday()
+        public void TestWillRunEveryMonday_ShouldPass()
         {
             var analyzer = "0 0 8 * * 1 *".TakeEvaluator();
             analyzer.ReferenceTime = new DateTime(2014, 11, 30); //sunday

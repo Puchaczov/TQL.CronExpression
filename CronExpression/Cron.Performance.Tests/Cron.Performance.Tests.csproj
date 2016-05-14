@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cron.Performance.Tests</RootNamespace>
-    <AssemblyName>Cron.Performance.Tests</AssemblyName>
+    <AssemblyName>CronExpression.Performance.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
