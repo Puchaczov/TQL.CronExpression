@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cron.Converter;
+using System;
 using System.Diagnostics;
 
 namespace Cron.Performance.Tests
@@ -9,7 +10,7 @@ namespace Cron.Performance.Tests
         {
             var watch = Stopwatch.StartNew();
 
-            var timeline = new Cron.CronTimeline(true);
+            var timeline = new CronTimeline(true);
             var response = timeline.Convert(new Cron.Converter.CreateEvaluatorRequest("* * * * * * *", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
             var evaluator = response.Output;
             watch.Stop();
