@@ -46,6 +46,10 @@
     <Compile Include="TimeZoneCronFireTimeEvaluatorDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cron.Interfaces\Cron.Interfaces.csproj">
+      <Project>{61f64fdf-e01e-4425-b2ea-44ee3d144812}</Project>
+      <Name>Cron.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
       <Name>Cron.Parser</Name>

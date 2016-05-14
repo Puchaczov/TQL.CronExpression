@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Cron.Interfaces;
+using System;
 
 namespace Cron.Extensions.TimelineEvaluator.Evaluators
 {
-    public interface ICronFireTimeEvaluator
+    public interface ICronFireTimeEvaluator : IFireTimeEvaluator
     {
         DateTimeOffset ReferenceTime { set; }
-        DateTimeOffset? NextFire();
         DateTimeOffset? PreviousFire();
         bool IsSatisfiedBy(DateTimeOffset time);
     }
