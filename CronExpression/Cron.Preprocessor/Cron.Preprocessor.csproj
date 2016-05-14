@@ -43,9 +43,9 @@
     <Compile Include="UpperCase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Utils\Cron.Utils.csproj">
-      <Project>{216114f1-afb4-4005-b47e-535d6e133353}</Project>
-      <Name>Cron.Utils</Name>
+    <ProjectReference Include="..\Cron.Common\Cron.Common.csproj">
+      <Project>{cfaed496-76e0-4f27-9d16-b28fcc2637be}</Project>
+      <Name>Cron.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

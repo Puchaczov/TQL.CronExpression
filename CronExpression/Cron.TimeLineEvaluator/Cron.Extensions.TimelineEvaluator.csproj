@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Cron.Common\Cron.Common.csproj">
+      <Project>{cfaed496-76e0-4f27-9d16-b28fcc2637be}</Project>
+      <Name>Cron.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cron.Interfaces\Cron.Interfaces.csproj">
       <Project>{61f64fdf-e01e-4425-b2ea-44ee3d144812}</Project>
       <Name>Cron.Interfaces</Name>
@@ -46,10 +50,6 @@
     <ProjectReference Include="..\Cron.Preprocessor\Cron.Preprocessor.csproj">
       <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
       <Name>Cron.Preprocessor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Utils\Cron.Utils.csproj">
-      <Project>{216114f1-afb4-4005-b47e-535d6e133353}</Project>
-      <Name>Cron.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cron.Visitors\Cron.Visitors.csproj">
       <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>

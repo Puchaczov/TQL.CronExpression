@@ -46,6 +46,10 @@
     <Compile Include="TimeZoneCronFireTimeEvaluatorDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cron.Common\Cron.Common.csproj">
+      <Project>{cfaed496-76e0-4f27-9d16-b28fcc2637be}</Project>
+      <Name>Cron.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cron.Interfaces\Cron.Interfaces.csproj">
       <Project>{61f64fdf-e01e-4425-b2ea-44ee3d144812}</Project>
       <Name>Cron.Interfaces</Name>
@@ -61,10 +65,6 @@
     <ProjectReference Include="..\Cron.TimeLineEvaluator\Cron.Extensions.TimelineEvaluator.csproj">
       <Project>{f20e2414-19dd-4204-aa76-654520285e42}</Project>
       <Name>Cron.Extensions.TimelineEvaluator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Utils\Cron.Utils.csproj">
-      <Project>{216114f1-afb4-4005-b47e-535d6e133353}</Project>
-      <Name>Cron.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cron.Visitors\Cron.Visitors.csproj">
       <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>

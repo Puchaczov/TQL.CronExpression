@@ -9,13 +9,13 @@ namespace Cron.Extensions.TimelineEvaluator
         private bool isVisited;
         private readonly DateTimeOffset referenceTime;
 
-        public CronTimelineVisitor(DateTime referenceTime)
+        public CronTimelineVisitor(DateTimeOffset referenceTime)
         {
             this.referenceTime = referenceTime;
         }
 
         public CronTimelineVisitor()
-            : this(DateTime.UtcNow)
+            : this(DateTimeOffset.UtcNow)
         { }
 
         public ICronFireTimeEvaluator Evaluator

@@ -1,4 +1,4 @@
-﻿using Cron.Utils.Filters;
+﻿using Cron.Common.Pipeline;
 
 namespace Cron
 {

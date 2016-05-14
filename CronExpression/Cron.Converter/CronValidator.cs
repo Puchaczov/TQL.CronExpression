@@ -1,9 +1,7 @@
 ﻿using Cron.Exceptions;
 using Cron.Parser.Nodes;
 using Cron.Visitors;
-using System.Collections.Generic;
 using System.Linq;
-using System;
 using Cron.Converter;
 
 namespace Cron

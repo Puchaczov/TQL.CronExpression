@@ -54,13 +54,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cron.Common\Cron.Common.csproj">
+      <Project>{cfaed496-76e0-4f27-9d16-b28fcc2637be}</Project>
+      <Name>Cron.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cron.Preprocessor\Cron.Preprocessor.csproj">
       <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
       <Name>Cron.Preprocessor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Utils\Cron.Utils.csproj">
-      <Project>{216114f1-afb4-4005-b47e-535d6e133353}</Project>
-      <Name>Cron.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
