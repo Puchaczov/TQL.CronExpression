@@ -63,7 +63,7 @@
   <ItemGroup>
     <Compile Include="CronNodeVisitorBase.cs" />
     <Compile Include="CronTimelineVisitor.cs" />
-    <Compile Include="Evaluators\CronFireTimeEvaluator.cs" />
+    <Compile Include="Evaluators\CronForwardFireTimeEvaluator.cs" />
     <Compile Include="Evaluators\ICronFireTimeEvaluator.cs" />
     <Compile Include="Helpers\ExpressionHelpers.cs" />
     <Compile Include="IEvaluable.cs" />

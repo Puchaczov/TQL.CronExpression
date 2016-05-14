@@ -3,12 +3,12 @@ using Cron.Extensions.TimelineEvaluator.Evaluators;
 
 namespace Cron.Converter
 {
-    class TimeZoneCronFireTimeEvaluatorDecorator : ICronFireTimeEvaluator
+    class TimeZoneCronForwardFireTimeEvaluatorDecorator : ICronFireTimeEvaluator
     {
         private readonly TimeZoneInfo destinationZoneInfo;
         private readonly ICronFireTimeEvaluator evaluator;
 
-        public TimeZoneCronFireTimeEvaluatorDecorator(TimeZoneInfo destinationZoneInfo, ICronFireTimeEvaluator evaluator)
+        public TimeZoneCronForwardFireTimeEvaluatorDecorator(TimeZoneInfo destinationZoneInfo, ICronFireTimeEvaluator evaluator)
         {
             this.destinationZoneInfo = destinationZoneInfo;
             this.evaluator = evaluator;
@@ -32,7 +32,5 @@ namespace Cron.Converter
                 return TimeZoneInfo.ConvertTime(generatedTime.Value, destinationZoneInfo);
             return generatedTime;
         }
-
-        public DateTimeOffset? PreviousFire() => evaluator.PreviousFire();
     }
 }

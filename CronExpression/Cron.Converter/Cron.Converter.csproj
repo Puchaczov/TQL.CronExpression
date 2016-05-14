@@ -43,7 +43,7 @@
     <Compile Include="IConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CronTimeline.cs" />
-    <Compile Include="TimeZoneCronFireTimeEvaluatorDecorator.cs" />
+    <Compile Include="TimeZoneCronForwardFireTimeEvaluatorDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cron.Common\Cron.Common.csproj">

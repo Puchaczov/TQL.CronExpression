@@ -4,7 +4,7 @@ using System;
 
 namespace Cron.Extensions.TimelineEvaluator.Evaluators
 {
-    class CronFireTimeEvaluator : ICronFireTimeEvaluator
+    class CronForwardFireTimeEvaluator : ICronFireTimeEvaluator
     {
         private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
         private readonly RoundRobinRangeVaryingList<int> dayOfWeeks;
@@ -21,7 +21,7 @@ namespace Cron.Extensions.TimelineEvaluator.Evaluators
 
         private DateTimeOffset oldReferenceTime;
 
-        public CronFireTimeEvaluator(
+        public CronForwardFireTimeEvaluator(
             RoundRobinRangeVaryingList<int> years,
             RoundRobinRangeVaryingList<int> months,
             RoundRobinRangeVaryingList<int> dayOfMonths,

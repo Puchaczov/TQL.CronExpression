@@ -27,7 +27,7 @@ namespace Cron
             if(evaluator != null)
             {
                 evaluator.ReferenceTime = request.ReferenceTime;
-                evaluator = new TimeZoneCronFireTimeEvaluatorDecorator(request.TargetTimeZoneInfo, evaluator);
+                evaluator = new TimeZoneCronForwardFireTimeEvaluatorDecorator(request.TargetTimeZoneInfo, evaluator);
                 return new ConvertionResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? evaluator : null, visitor.Errors.ToArray());
             }
             return new ConvertionResponse<ICronFireTimeEvaluator>(null, visitor.Errors.ToArray());

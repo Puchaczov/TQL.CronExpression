@@ -30,7 +30,7 @@ namespace Cron.Extensions.TimelineEvaluator
                 {
                     return null;
                 }
-                return new CronFireTimeEvaluator(
+                return new CronForwardFireTimeEvaluator(
                     this[Cron.Parser.Enums.Segment.Year],
                     this[Cron.Parser.Enums.Segment.Month],
                     this[Cron.Parser.Enums.Segment.DayOfMonth],
