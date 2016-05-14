@@ -1,4 +1,5 @@
-﻿using Cron.Parser.Tokens;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 
 namespace Cron.Parser.Nodes
@@ -9,7 +10,7 @@ namespace Cron.Parser.Nodes
             : base(null, 0, token)
         { }
 
-        public override SyntaxNode[] Desecendants => new SyntaxNode[0];
+        public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
 
         public override TextSpan FullSpan => Token.Span;
 

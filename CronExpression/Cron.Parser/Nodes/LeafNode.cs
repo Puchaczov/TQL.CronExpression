@@ -1,8 +1,9 @@
-﻿using Cron.Parser.Tokens;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Tokens;
 
 namespace Cron.Parser.Nodes
 {
-    public abstract class LeafNode : SyntaxNode
+    public abstract class LeafNode : CronSyntaxNode
     {
         private readonly Token token;
 

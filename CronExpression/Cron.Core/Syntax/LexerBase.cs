@@ -4,17 +4,17 @@ using System.Collections.Generic;
 
 namespace Cron.Core.Syntax
 {
-    public abstract class LexerBase<TTokenType>: ILexer<TTokenType> where TTokenType: struct, IComparable, IFormattable
+    public abstract class LexerBase<TToken>: ILexer<TToken>
     {
-        protected GenericToken<TTokenType> currentToken;
-        protected GenericToken<TTokenType> lastToken;
+        protected TToken currentToken;
+        protected TToken lastToken;
 
         protected readonly Dictionary<char, char> endLines = new Dictionary<char, char>();
 
         protected readonly string input;
         protected int pos;
 
-        protected LexerBase(string input, GenericToken<TTokenType> defaultToken)
+        protected LexerBase(string input, TToken defaultToken)
         {
             if (input == null || input == string.Empty)
             {
@@ -27,9 +27,9 @@ namespace Cron.Core.Syntax
             endLines.Add('\r', '\n');
         }
 
-        public abstract GenericToken<TTokenType> NextToken();
+        public abstract TToken NextToken();
 
-        protected GenericToken<TTokenType> AssignTokenOfType(Func<GenericToken<TTokenType>> instantiate)
+        protected TToken AssignTokenOfType(Func<TToken> instantiate)
         {
             if (instantiate == null)
             {

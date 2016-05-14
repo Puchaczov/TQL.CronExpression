@@ -1,4 +1,5 @@
-﻿using Cron.Parser.Enums;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
 using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System.Collections.Generic;
@@ -9,20 +10,20 @@ namespace Cron.Parser.Nodes
     [DebuggerDisplay("{GetType().Name,nq}: {ToString(),nq}")]
     public class SegmentNode : UnaryExpressionNode
     {
-        private readonly SyntaxNode node;
+        private readonly CronSyntaxNode node;
         private readonly Segment segment;
         private readonly Token token;
 
-        public SegmentNode(SyntaxNode segmentTree, Segment segment, Token token)
+        public SegmentNode(CronSyntaxNode segmentTree, Segment segment, Token token)
         {
             this.node = segmentTree;
             this.segment = segment;
             this.token = token;
         }
 
-        public override SyntaxNode Descendant => node;
+        public override CronSyntaxNode Descendant => node;
 
-        public override SyntaxNode[] Desecendants
+        public override CronSyntaxNode[] Desecendants
         {
             get
             {
@@ -31,7 +32,7 @@ namespace Cron.Parser.Nodes
                     case TokenType.Comma:
                         return node.Desecendants;
                     default:
-                        return new SyntaxNode[] {
+                        return new CronSyntaxNode[] {
                             node
                         };
                 }

@@ -1,10 +1,11 @@
-﻿using Cron.Parser.Tokens;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Tokens;
 
 namespace Cron.Parser.Nodes
 {
-    public abstract class UnaryExpressionNode : SyntaxNode
+    public abstract class UnaryExpressionNode : CronSyntaxNode
     {
-        public virtual SyntaxNode Descendant => Desecendants[0];
+        public virtual CronSyntaxNode Descendant => Desecendants[0];
 
         public override TextSpan FullSpan => Descendant.FullSpan.Clone();
 

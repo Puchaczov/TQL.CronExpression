@@ -1,4 +1,7 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class IntegerToken : Token
     {
@@ -6,6 +9,6 @@
             : base(number, Enums.TokenType.Integer, span)
         { }
 
-        public override Token Clone() => new IntegerToken(base.Value, Span.Clone());
+        public override GenericToken<TokenType> Clone() => new IntegerToken(base.Value, Span.Clone());
     }
 }

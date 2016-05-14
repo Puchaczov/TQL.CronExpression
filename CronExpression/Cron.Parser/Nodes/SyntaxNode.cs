@@ -1,36 +1,22 @@
-﻿using Cron.Parser.Enums;
+﻿using Cron.Core.Syntax;
+using Cron.Parser.Enums;
 using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System.Collections.Generic;
 
 namespace Cron.Parser.Nodes
 {
-    public abstract class SyntaxNode : IVisitedNode
+    public abstract class CronSyntaxNode : SyntaxNodeBase<INodeVisitor, TokenType>
     {
         /// <summary>
         /// Get child items of node.
         /// </summary>
-        public abstract SyntaxNode[] Desecendants { get; }
-
-        /// <summary>
-        /// Get span for whole expression independently, how complex it is.
-        /// </summary>
-        public abstract TextSpan FullSpan { get; }
-
-        /// <summary>
-        /// Determine whetever node is leaf or not.
-        /// </summary>
-        public abstract bool IsLeaf { get; }
+        public abstract CronSyntaxNode[] Desecendants { get; }
 
         /// <summary>
         /// Token assigned to node. Can be operator, numeric, etc.
         /// </summary>
         public abstract Token Token { get; }
-        /// <summary>
-        /// Visitor entry point.
-        /// </summary>
-        /// <param name="visitor"></param>
-        public abstract void Accept(INodeVisitor visitor);
 
         /// <summary>
         /// Helps expand simplest cron cases for evaluation purposes.

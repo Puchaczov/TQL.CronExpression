@@ -39,9 +39,8 @@
     <Compile Include="Syntax\SyntaxNodeBase.cs" />
     <Compile Include="Syntax\ILexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tokens\EndOfFileToken.cs" />
     <Compile Include="Tokens\TextSpan.cs" />
-    <Compile Include="Tokens\Token.cs" />
+    <Compile Include="Tokens\GenericToken.cs" />
     <Compile Include="Tokens\TokenTypeBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

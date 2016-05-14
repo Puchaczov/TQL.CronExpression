@@ -8,24 +8,24 @@ namespace Cron.Parser.Nodes
 {
     public class RangeNode : BinaryExpressionNode
     {
-        private readonly SyntaxNode left;
-        private readonly SyntaxNode right;
+        private readonly CronSyntaxNode left;
+        private readonly CronSyntaxNode right;
 
-        public RangeNode(SyntaxNode left, SyntaxNode right, Token token)
+        public RangeNode(CronSyntaxNode left, CronSyntaxNode right, Token token)
             : base(token)
         {
             this.left = left;
             this.right = right;
         }
 
-        public override SyntaxNode[] Desecendants => new SyntaxNode[] {
+        public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[] {
                     left,
                     right
                 };
 
-        public override SyntaxNode Left => left;
+        public override CronSyntaxNode Left => left;
 
-        public override SyntaxNode Right => right;
+        public override CronSyntaxNode Right => right;
 
         public override void Accept(INodeVisitor visitor)
         {

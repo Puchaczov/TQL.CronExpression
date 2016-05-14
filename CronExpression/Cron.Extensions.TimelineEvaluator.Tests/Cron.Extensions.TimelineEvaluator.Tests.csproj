@@ -59,6 +59,10 @@
       <Project>{cfaed496-76e0-4f27-9d16-b28fcc2637be}</Project>
       <Name>Cron.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cron.Core\Cron.Core.csproj">
+      <Project>{e05c1df2-ed14-4bef-b1fb-a4fccbf0312e}</Project>
+      <Name>Cron.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cron.Interfaces\Cron.Interfaces.csproj">
       <Project>{61f64fdf-e01e-4425-b2ea-44ee3d144812}</Project>
       <Name>Cron.Interfaces</Name>

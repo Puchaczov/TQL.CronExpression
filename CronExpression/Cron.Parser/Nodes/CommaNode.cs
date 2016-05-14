@@ -1,4 +1,5 @@
-﻿using Cron.Parser.Enums;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
 using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System.Collections.Generic;
@@ -8,21 +9,21 @@ namespace Cron.Parser.Nodes
 {
     public class CommaNode : BinaryExpressionNode
     {
-        private readonly SyntaxNode left;
-        private readonly SyntaxNode right;
+        private readonly CronSyntaxNode left;
+        private readonly CronSyntaxNode right;
 
-        public CommaNode(SyntaxNode left, SyntaxNode right, Token token)
+        public CommaNode(CronSyntaxNode left, CronSyntaxNode right, Token token)
             : base(token)
         {
             this.left = left;
             this.right = right;
         }
 
-        public override SyntaxNode[] Desecendants
+        public override CronSyntaxNode[] Desecendants
         {
             get
             {
-                var commaItems = new List<SyntaxNode>();
+                var commaItems = new List<CronSyntaxNode>();
                 var current = left;
                 commaItems.Add(right);
                 while (current != null)
@@ -55,9 +56,9 @@ namespace Cron.Parser.Nodes
             }
         }
 
-        public override SyntaxNode Left => left;
+        public override CronSyntaxNode Left => left;
 
-        public override SyntaxNode Right => right;
+        public override CronSyntaxNode Right => right;
 
         public override void Accept(INodeVisitor visitor)
         {

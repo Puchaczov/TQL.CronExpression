@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cron.Parser.Helpers;
 using Cron.Parser.Nodes;
 using System.Linq;
+using Cron.Core.Tokens;
 
 namespace Cron.Parser.Tests
 {
@@ -45,7 +46,7 @@ namespace Cron.Parser.Tests
         public void TreeHelper_GetSpanByCaret_ShouldPass()
         {
             var ast = "1-2,5-6#4".Parse(false);
-            var node = ast.FindBySpan(new Tokens.TextSpan(0, 3));
+            var node = ast.FindBySpan(new TextSpan(0, 3));
             Assert.AreEqual("1-2", node.ToString()); //should select whole segment
             node = ast.FindBySpan(0);
             Assert.AreEqual("1", node.ToString());

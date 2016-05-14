@@ -3,8 +3,8 @@ using System;
 
 namespace Cron.Core.Syntax
 {
-    public interface ILexer<TTokenType> where TTokenType: struct, IComparable, IFormattable
+    public interface ILexer<TToken>
     {
-        GenericToken<TTokenType> NextToken();
+        TToken NextToken();
     }
 }

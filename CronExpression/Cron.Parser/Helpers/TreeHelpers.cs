@@ -1,4 +1,5 @@
-﻿using Cron.Parser.Enums;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
 using Cron.Parser.Nodes;
 using Cron.Parser.Tokens;
 using System;
@@ -9,10 +10,10 @@ namespace Cron.Parser.Helpers
 {
     public static class TreeHelpers
     {
-        public static SyntaxNode FindByPath(this RootComponentNode tree, string path)
+        public static CronSyntaxNode FindByPath(this RootComponentNode tree, string path)
         {
             var pathIndex = 1;
-            SyntaxNode current = tree;
+            CronSyntaxNode current = tree;
             var splitedPath = path.Split('>');
             for (; pathIndex < splitedPath.Count(); ++pathIndex)
             {
@@ -26,10 +27,10 @@ namespace Cron.Parser.Helpers
             return current;
         }
 
-        public static SyntaxNode FindBySpan(this RootComponentNode tree, TextSpan span)
+        public static CronSyntaxNode FindBySpan(this RootComponentNode tree, TextSpan span)
         {
-            var candidates = new List<SyntaxNode>();
-            TreeHelpers.Traverse(tree, (SyntaxNode node, SyntaxNode parent) =>
+            var candidates = new List<CronSyntaxNode>();
+            TreeHelpers.Traverse(tree, (CronSyntaxNode node, CronSyntaxNode parent) =>
             {
                 if (span.IsInside(node.FullSpan))
                 {
@@ -48,7 +49,7 @@ namespace Cron.Parser.Helpers
             return candidates.FirstOrDefault();
         }
 
-        public static SyntaxNode FindBySpan(this RootComponentNode tree, int caret) => FindBySpan(tree, new TextSpan(caret, 1));
+        public static CronSyntaxNode FindBySpan(this RootComponentNode tree, int caret) => FindBySpan(tree, new TextSpan(caret, 1));
 
         public static SegmentNode GetSegmentByCaret(this RootComponentNode tree, int caret)
         {
@@ -62,7 +63,7 @@ namespace Cron.Parser.Helpers
             return null;
         }
 
-        public static void Traverse(this RootComponentNode tree, Action<SyntaxNode> fun)
+        public static void Traverse(this RootComponentNode tree, Action<CronSyntaxNode> fun)
         {
             Traverse(tree, (obj, parent) => {
                 fun?.Invoke(obj);
@@ -70,16 +71,16 @@ namespace Cron.Parser.Helpers
             });
         }
 
-        public static void Traverse(this RootComponentNode tree, Func<SyntaxNode, SyntaxNode, NodeTraverseResult> fun)
+        public static void Traverse(this RootComponentNode tree, Func<CronSyntaxNode, CronSyntaxNode, NodeTraverseResult> fun)
         {
-            Traverse((SyntaxNode)tree, fun);
+            Traverse((CronSyntaxNode)tree, fun);
         }
 
-        public static SyntaxNode[] Siblings(this SyntaxNode startNode, SyntaxNode oneOfSiblings)
+        public static CronSyntaxNode[] Siblings(this CronSyntaxNode startNode, CronSyntaxNode oneOfSiblings)
         {
-            SyntaxNode[] siblings = null;
+            CronSyntaxNode[] siblings = null;
 
-            Traverse(startNode, (SyntaxNode node, SyntaxNode parent) => {
+            Traverse(startNode, (CronSyntaxNode node, CronSyntaxNode parent) => {
                 if(ReferenceEquals(node, oneOfSiblings))
                 {
                     siblings = parent?.Desecendants.Where(f => !ReferenceEquals(f, oneOfSiblings)).ToArray();
@@ -104,7 +105,7 @@ namespace Cron.Parser.Helpers
             return null;
         }
 
-        public static void Traverse(this SyntaxNode node, Func<SyntaxNode, SyntaxNode, NodeTraverseResult> action)
+        public static void Traverse(this CronSyntaxNode node, Func<CronSyntaxNode, CronSyntaxNode, NodeTraverseResult> action)
         {
             if (node == null)
             {
@@ -116,7 +117,7 @@ namespace Cron.Parser.Helpers
                 throw new ArgumentNullException(nameof(action));
             }
 
-            var nodesOnSameLevel = new List<SyntaxNode>();
+            var nodesOnSameLevel = new List<CronSyntaxNode>();
             nodesOnSameLevel.Add(node);
 
             var result = action(node, null);

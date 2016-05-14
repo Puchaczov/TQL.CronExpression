@@ -1,4 +1,5 @@
-﻿using Cron.Parser.Exceptions;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Exceptions;
 using Cron.Parser.Helpers;
 using Cron.Parser.Nodes;
 using Cron.Parser.Tokens;

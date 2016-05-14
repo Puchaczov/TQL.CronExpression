@@ -1,4 +1,5 @@
-﻿using Cron.Parser.Tokens;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cron.Parser.Tests

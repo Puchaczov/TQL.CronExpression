@@ -1,4 +1,7 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class QuestionMarkToken : Token
     {
@@ -6,6 +9,6 @@
             : base("?", Enums.TokenType.QuestionMark, span)
         { }
 
-        public override Token Clone() => new QuestionMarkToken(Span.Clone());
+        public override GenericToken<TokenType> Clone() => new QuestionMarkToken(Span.Clone());
     }
 }

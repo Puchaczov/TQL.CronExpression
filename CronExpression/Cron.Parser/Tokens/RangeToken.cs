@@ -1,4 +1,7 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class RangeToken : Token
     {
@@ -6,6 +9,6 @@
             : base("-", Enums.TokenType.Range, span)
         { }
 
-        public override Token Clone() => new RangeToken(Span.Clone());
+        public override GenericToken<TokenType> Clone() => new RangeToken(Span.Clone());
     }
 }

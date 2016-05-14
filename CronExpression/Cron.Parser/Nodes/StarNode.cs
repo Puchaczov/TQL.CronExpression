@@ -17,7 +17,7 @@ namespace Cron.Parser.Nodes
             this.segment = segment;
         }
 
-        public override SyntaxNode[] Desecendants => new SyntaxNode[0];
+        public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
 
         public Segment Segment => segment;
 

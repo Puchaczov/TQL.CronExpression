@@ -1,4 +1,7 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class CommaToken : Token
     {
@@ -6,6 +9,6 @@
             : base(",", Enums.TokenType.Comma, span)
         { }
 
-        public override Token Clone() => new CommaToken(this.Span.Clone());
+        public override GenericToken<TokenType> Clone() => new CommaToken(this.Span.Clone());
     }
 }

@@ -51,9 +51,10 @@
     <Compile Include="Nodes\NumericPrecededLNode.cs" />
     <Compile Include="Nodes\NumericPrecededWNode.cs" />
     <Compile Include="Nodes\UnaryExpressionNode.cs" />
+    <Compile Include="Tokens\EndOfFileToken.cs" />
     <Compile Include="Tokens\LWToken.cs" />
     <Compile Include="Tokens\MissingToken.cs" />
-    <Compile Include="Tokens\TextSpan.cs" />
+    <Compile Include="Tokens\Token.cs" />
     <Compile Include="Utils\Ref.cs" />
     <Compile Include="Nodes\CommaNode.cs" />
     <Compile Include="Nodes\EndOfFileNode.cs" />
@@ -70,7 +71,6 @@
     <Compile Include="Nodes\IVisitedOperator.cs" />
     <Compile Include="Nodes\WNode.cs" />
     <Compile Include="Tokens\CommaToken.cs" />
-    <Compile Include="Tokens\EndOfFileToken.cs" />
     <Compile Include="Tokens\HashToken.cs" />
     <Compile Include="Tokens\IncrementByToken.cs" />
     <Compile Include="Tokens\LToken.cs" />
@@ -91,9 +91,13 @@
     <Compile Include="Nodes\WordNode.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tokens\Token.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Cron.Core\Cron.Core.csproj">
+      <Project>{E05C1DF2-ED14-4BEF-B1FB-A4FCCBF0312E}</Project>
+      <Name>Cron.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

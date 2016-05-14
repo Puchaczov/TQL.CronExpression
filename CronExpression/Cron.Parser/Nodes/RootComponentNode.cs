@@ -1,4 +1,5 @@
-﻿using Cron.Parser.Enums;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
 using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Cron.Parser.Nodes
 {
-    public class RootComponentNode : SyntaxNode
+    public class RootComponentNode : CronSyntaxNode
     {
         private readonly SegmentNode[] cronComponents;
 
@@ -17,7 +18,7 @@ namespace Cron.Parser.Nodes
             this.cronComponents = cronComponents;
         }
 
-        public override SyntaxNode[] Desecendants => cronComponents;
+        public override CronSyntaxNode[] Desecendants => cronComponents;
 
         public SegmentNode[] Segments => cronComponents;
 

@@ -1,4 +1,7 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class HashToken : Token
     {
@@ -6,6 +9,6 @@
             : base("#", Enums.TokenType.Hash, span)
         { }
 
-        public override Token Clone() => new HashToken(Span.Clone());
+        public override GenericToken<TokenType> Clone() => new HashToken(Span.Clone());
     }
 }

@@ -9,6 +9,7 @@ using Cron.Visitors.Exceptions;
 using System.Linq;
 using Cron.Parser.Helpers;
 using Cron.Parser.Tokens;
+using Cron.Core.Tokens;
 
 namespace Cron.Visitors
 {
@@ -17,7 +18,7 @@ namespace Cron.Visitors
         protected readonly List<Exception> criticalErrors;
         private SegmentNode currentSegment;
         private readonly List<VisitationMessage> errors;
-        private SyntaxNode parent;
+        private CronSyntaxNode parent;
         private readonly bool reportWhenExpressionTooShort;
         private Segment segment;
         private short segmentsCount;
@@ -566,7 +567,7 @@ namespace Cron.Visitors
             }
         }
 
-        private static bool IsComplexNode(SyntaxNode node) => node.Token.TokenType == TokenType.Hash || node.Token.TokenType == TokenType.Range;
+        private static bool IsComplexNode(CronSyntaxNode node) => node.Token.TokenType == TokenType.Hash || node.Token.TokenType == TokenType.Range;
 
         private void AddSemanticError(TextSpan span, string message, SemanticErrorKind kind)
         {
@@ -583,7 +584,7 @@ namespace Cron.Visitors
             errors.Add(new SyntaxError(fullSpan, segment, v, missingValue));
         }
 
-        private void CheckRangeNode(RangeNode node, Action<SyntaxNode[], RangeNode> action, Action<SyntaxNode> actionCheckOutOfRange, params TokenType[] types)
+        private void CheckRangeNode(RangeNode node, Action<CronSyntaxNode[], RangeNode> action, Action<CronSyntaxNode> actionCheckOutOfRange, params TokenType[] types)
         {
             var hasUnsupportedLeftValue = false;
             var hasUnsupportedRightValue = false;
@@ -620,7 +621,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfDayOfMonthIsOutOfRange(SyntaxNode node)
+        private void ReportIfDayOfMonthIsOutOfRange(CronSyntaxNode node)
         {
             if (node.Token.TokenType == TokenType.Integer)
             {
@@ -633,7 +634,7 @@ namespace Cron.Visitors
                 SemanticErrorKind.ValueOutOfRange);
         }
 
-        private void ReportIfDayOfWeekIsOutOfRange(SyntaxNode node)
+        private void ReportIfDayOfWeekIsOutOfRange(CronSyntaxNode node)
         {
             if (!CronWordHelper.ContainsDayOfWeek(node.Token.Value))
             {
@@ -644,7 +645,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfDayOfWeekRangesSwaped(SyntaxNode[] items, RangeNode node)
+        private void ReportIfDayOfWeekRangesSwaped(CronSyntaxNode[] items, RangeNode node)
         {
             ReportIfRangesSwaped<int>(items, (a, b) =>
             {
@@ -661,7 +662,7 @@ namespace Cron.Visitors
             });
         }
 
-        private bool ReportIfFieldValueOfUnsupportedType(SyntaxNode node, params TokenType[] supportedTypes)
+        private bool ReportIfFieldValueOfUnsupportedType(CronSyntaxNode node, params TokenType[] supportedTypes)
         {
             if (!supportedTypes.Contains(node.Token.TokenType))
             {
@@ -717,7 +718,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfHourIsOutOfRange(SyntaxNode node)
+        private void ReportIfHourIsOutOfRange(CronSyntaxNode node)
         {
             if (node.Token.TokenType == TokenType.Integer)
             {
@@ -726,17 +727,17 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfLessThanZero(SyntaxNode node, string argName)
+        private void ReportIfLessThanZero(CronSyntaxNode node, string argName)
         {
             ReportIfOutOfRange(0, node, argName);
         }
 
-        private void ReportIfLWNodeAmongOtherValues(SyntaxNode node)
+        private void ReportIfLWNodeAmongOtherValues(CronSyntaxNode node)
         {
             ReportIfMoreThanOneDescendants(node);
         }
 
-        private void ReportIfMinuteIsOutOfRange(SyntaxNode node)
+        private void ReportIfMinuteIsOutOfRange(CronSyntaxNode node)
         {
             if (node.Token.TokenType == TokenType.Integer)
             {
@@ -745,7 +746,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfMonthIsOutOfRange(SyntaxNode node)
+        private void ReportIfMonthIsOutOfRange(CronSyntaxNode node)
         {
             if (!CronWordHelper.ContainsMonth(node.Token.Value))
             {
@@ -756,7 +757,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfMonthRangesSwaped(SyntaxNode[] items, RangeNode node)
+        private void ReportIfMonthRangesSwaped(CronSyntaxNode[] items, RangeNode node)
         {
             ReportIfRangesSwaped<int>(items, (a, b) =>
             {
@@ -773,7 +774,7 @@ namespace Cron.Visitors
             });
         }
 
-        private void ReportIfMoreThanOneDescendants(SyntaxNode node)
+        private void ReportIfMoreThanOneDescendants(CronSyntaxNode node)
         {
             if (parent.Desecendants.Count() != 1)
             {
@@ -784,7 +785,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfNodesCountMismatched(SyntaxNode[] items, SyntaxNode parent)
+        private void ReportIfNodesCountMismatched(CronSyntaxNode[] items, CronSyntaxNode parent)
         {
             if (items.Count() != 2)
             {
@@ -794,7 +795,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfNumericRangesSwaped(SyntaxNode[] items, RangeNode node)
+        private void ReportIfNumericRangesSwaped(CronSyntaxNode[] items, RangeNode node)
         {
             ReportIfRangesSwaped<int>(items, (a, b) =>
             {
@@ -808,7 +809,7 @@ namespace Cron.Visitors
             });
         }
 
-        private void ReportIfOutOfRange(int minValue, SyntaxNode node, string argName)
+        private void ReportIfOutOfRange(int minValue, CronSyntaxNode node, string argName)
         {
             var value = int.Parse(node.Token.Value);
             if (value < minValue)
@@ -819,7 +820,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfOutOfRange(int minValue, int maxValue, SyntaxNode node, string argName)
+        private void ReportIfOutOfRange(int minValue, int maxValue, CronSyntaxNode node, string argName)
         {
             var value = int.Parse(node.Token.Value);
             if (value < minValue || value > maxValue)
@@ -831,7 +832,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfRangesSwaped<T>(SyntaxNode[] items, Func<string, string, bool> compareAction)
+        private void ReportIfRangesSwaped<T>(CronSyntaxNode[] items, Func<string, string, bool> compareAction)
         {
             if (items[0].Token.TokenType != TokenType.Integer && items[0].Token.TokenType != TokenType.Name)
             {
@@ -846,7 +847,7 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfSecondIsOutOfRange(SyntaxNode node)
+        private void ReportIfSecondIsOutOfRange(CronSyntaxNode node)
         {
             if (node.Token.TokenType == TokenType.Integer)
             {
@@ -855,12 +856,12 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportIfWNodeAmongOtherValues(SyntaxNode node)
+        private void ReportIfWNodeAmongOtherValues(CronSyntaxNode node)
         {
             ReportIfMoreThanOneDescendants(node);
         }
 
-        private void ReportIfYearIsOutOfRange(SyntaxNode node)
+        private void ReportIfYearIsOutOfRange(CronSyntaxNode node)
         {
             if (node.Token.TokenType == TokenType.Integer)
             {
@@ -869,12 +870,12 @@ namespace Cron.Visitors
             }
         }
 
-        private void ReportMissingValue(SyntaxNode node)
+        private void ReportMissingValue(CronSyntaxNode node)
         {
             AddSyntaxError(node.FullSpan, string.Format(Properties.Resources.MissingValue, segment), SyntaxErrorKind.MissingValue);
         }
 
-        private void ReportUnsupportedType(SyntaxNode node, params TokenType[] supportedTypes)
+        private void ReportUnsupportedType(CronSyntaxNode node, params TokenType[] supportedTypes)
         {
             AddSemanticError(
                 node.FullSpan,
@@ -882,7 +883,7 @@ namespace Cron.Visitors
                 SemanticErrorKind.UnsupportedValue);
         }
 
-        private void ReportValueOutOfRange(SyntaxNode node, string minValue, string maxValue)
+        private void ReportValueOutOfRange(CronSyntaxNode node, string minValue, string maxValue)
         {
             AddSemanticError(
                 node.FullSpan,

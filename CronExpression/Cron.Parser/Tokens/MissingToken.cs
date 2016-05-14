@@ -1,4 +1,7 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class MissingToken : Token
     {
@@ -6,6 +9,6 @@
             : base("_", Enums.TokenType.Missing, span)
         { }
 
-        public override Token Clone() => new MissingToken(Span.Clone());
+        public override GenericToken<TokenType> Clone() => new MissingToken(Span.Clone());
     }
 }

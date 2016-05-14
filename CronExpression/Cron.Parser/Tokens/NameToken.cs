@@ -1,4 +1,7 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class NameToken : Token
     {
@@ -8,6 +11,6 @@
 
         public int Length => base.Value.Length;
 
-        public override Token Clone() => new NameToken(base.Value, Span.Clone());
+        public override GenericToken<TokenType> Clone() => new NameToken(base.Value, Span.Clone());
     }
 }

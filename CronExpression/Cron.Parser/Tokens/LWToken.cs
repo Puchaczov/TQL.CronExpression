@@ -1,4 +1,7 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class LWToken : Token
     {
@@ -6,6 +9,6 @@
             : base("LW", Enums.TokenType.LW, span)
         { }
 
-        public override Token Clone() => new LWToken(Span.Clone());
+        public override GenericToken<TokenType> Clone() => new LWToken(Span.Clone());
     }
 }

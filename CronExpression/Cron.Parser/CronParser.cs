@@ -1,4 +1,5 @@
-﻿using Cron.Parser.Enums;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
 using Cron.Parser.Exceptions;
 using Cron.Parser.Nodes;
 using Cron.Parser.Tokens;
@@ -116,7 +117,7 @@ namespace Cron.Parser
             throw new UnexpectedTokenException(lexer.Position, currentToken);
         }
 
-        private SyntaxNode SeparateCommas()
+        private CronSyntaxNode SeparateCommas()
         {
             var node = TakeComplex();
             while (currentToken.TokenType == TokenType.Comma)
@@ -134,9 +135,9 @@ namespace Cron.Parser
             return node;
         }
 
-        private SyntaxNode TakeComplex()
+        private CronSyntaxNode TakeComplex()
         {
-            SyntaxNode node = TakePrimitives();
+            CronSyntaxNode node = TakePrimitives();
 
             while (currentToken.TokenType == TokenType.Range || currentToken.TokenType == TokenType.Inc || currentToken.TokenType == TokenType.Hash)
             {

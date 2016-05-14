@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Parser.Tests", "Cron.P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Parser", "Cron.Parser\Cron.Parser.csproj", "{B8735922-C602-44EE-9DF5-45679E2A1436}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Visitor.Tests", "Cron.Visitors.Tests\Cron.Visitor.Tests.csproj", "{F515377A-5038-4BBF-8ACC-55FB005C06B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Visitors.Tests", "Cron.Visitors.Tests\Cron.Visitors.Tests.csproj", "{F515377A-5038-4BBF-8ACC-55FB005C06B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron.Preprocessor", "Cron.Preprocessor\Cron.Preprocessor.csproj", "{0E5073F4-2FAE-4A2F-9B53-650B5E644C0C}"
 EndProject

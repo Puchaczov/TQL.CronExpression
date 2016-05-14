@@ -1,32 +1,21 @@
-﻿using Cron.Parser.Exceptions;
+﻿using Cron.Core.Syntax;
+using Cron.Parser.Enums;
+using Cron.Parser.Exceptions;
 using Cron.Parser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Cron.Core.Tokens;
 
 namespace Cron.Parser
 {
-    public class Lexer
+    public class Lexer : LexerBase<Token>
     {
-        private Token currentToken;
-        private readonly Dictionary<char, char> endLines = new Dictionary<char, char>();
-        private readonly string input;
-        private Token lastToken;
-        private int pos;
-
         public Lexer(string input)
-        {
-            if (input == null || input == string.Empty)
-            {
-                throw new ArgumentException(nameof(input));
-            }
-            this.input = input.Trim();
-            this.pos = 0;
-            this.currentToken = new NoneToken(new TextSpan(0, 0));
-            this.endLines.Add('\r', '\n');
-        }
+            : base(input, new NoneToken(new TextSpan(0, 0)))
+        { }
 
-        public Token Last => lastToken.Clone();
+        public Token Last => (Token)lastToken.Clone();
 
         public int Position => pos;
 
@@ -39,7 +28,7 @@ namespace Cron.Parser
             return false;
         }
 
-        public Token NextToken()
+        public override Token NextToken()
         {
             if (pos > input.Length - 1)
             {
@@ -117,18 +106,6 @@ namespace Cron.Parser
         }
 
         private static bool IsMissing(char currentChar) => currentChar == '_';
-
-        private Token AssignTokenOfType(Func<Token> instantiate)
-        {
-            if (instantiate == null)
-            {
-                throw new ArgumentNullException(nameof(instantiate));
-            }
-
-            lastToken = currentToken;
-            currentToken = instantiate();
-            return currentToken;
-        }
 
         private Token ConsumeInterger()
         {

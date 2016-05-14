@@ -1,11 +1,18 @@
-﻿namespace Cron.Parser.Tokens
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+
+namespace Cron.Parser.Tokens
 {
     public class EndOfFileToken : Token
     {
-        public EndOfFileToken(TextSpan span)
-            :base(string.Empty, Enums.TokenType.Eof, span)
+        protected EndOfFileToken(string value, TokenType type, TextSpan span) 
+            : base(value, type, span)
         { }
 
-        public override Token Clone() => new EndOfFileToken(Span.Clone());
+        public EndOfFileToken(TextSpan span)
+            : base(string.Empty, TokenType.Eof, span)
+        { }
+
+        public override GenericToken<TokenType> Clone() => new EndOfFileToken(Value, TokenType.Eof, Span);
     }
 }

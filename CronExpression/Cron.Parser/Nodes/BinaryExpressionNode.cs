@@ -1,8 +1,10 @@
-﻿using Cron.Parser.Tokens;
+﻿using Cron.Core.Tokens;
+using Cron.Parser.Enums;
+using Cron.Parser.Tokens;
 
 namespace Cron.Parser.Nodes
 {
-    public abstract class BinaryExpressionNode : SyntaxNode
+    public abstract class BinaryExpressionNode : CronSyntaxNode
     {
         private readonly Token token;
 
@@ -22,8 +24,8 @@ namespace Cron.Parser.Nodes
         }
 
         public override bool IsLeaf => true;
-        public abstract SyntaxNode Left { get; }
-        public abstract SyntaxNode Right { get; }
+        public abstract CronSyntaxNode Left { get; }
+        public abstract CronSyntaxNode Right { get; }
 
         public override Token Token => token;
     }
