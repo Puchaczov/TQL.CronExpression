@@ -1,7 +1,7 @@
 ﻿using Cron.Visitors;
 using System.Collections.Generic;
 
-namespace Cron
+namespace Cron.Converter
 {
     public class ConvertionResponse<T>
     {

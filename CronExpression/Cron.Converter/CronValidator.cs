@@ -4,7 +4,7 @@ using Cron.Visitors;
 using System.Linq;
 using Cron.Converter;
 
-namespace Cron
+namespace Cron.Converter
 {
     public class CronValidator : AbstractConverter<bool>, IConverter<ConvertionRequest, ConvertionResponse<bool>>
     {

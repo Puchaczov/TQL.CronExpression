@@ -7,7 +7,7 @@ using Cron.Visitors;
 using System;
 using System.Linq;
 
-namespace Cron
+namespace Cron.Converter
 {
     public class CronTimeline : AbstractConverter<ICronFireTimeEvaluator>, IConverter<CreateEvaluatorRequest, ConvertionResponse<ICronFireTimeEvaluator>>
     {

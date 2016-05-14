@@ -7,7 +7,6 @@ namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
 {
     public class ComputableElementsEnumerator<T> : IEnumerator<T>
     {
-        private bool disposedValue;
         private int index;
         private readonly IComputableElementsList<T> list;
 
@@ -44,12 +43,7 @@ namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
         }
 
         protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-
-            }
-        }
+        { }
         #endregion
     }
 }

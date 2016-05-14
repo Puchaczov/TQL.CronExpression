@@ -1,4 +1,4 @@
-﻿namespace Cron
+﻿namespace Cron.Converter
 {
     public class ConvertionRequest
     {

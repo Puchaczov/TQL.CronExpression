@@ -5,7 +5,7 @@ using Cron.Parser;
 using Cron.Parser.Nodes;
 using System;
 
-namespace Cron
+namespace Cron.Converter
 {
     public abstract class AbstractConverter<TOutput>
     {

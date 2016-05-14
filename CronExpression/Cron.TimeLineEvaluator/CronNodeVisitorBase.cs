@@ -21,7 +21,7 @@ namespace Cron.Extensions.TimelineEvaluator
         public CronNodeVisitorBase()
         {
             values = new Dictionary<Segment, RoundRobinRangeVaryingList<int>>();
-            DateTimeOffset refTime = DateTime.Now;
+            DateTimeOffset refTime = DateTimeOffset.UtcNow;
             time = new Ref<DateTimeOffset>(() => refTime, time => { refTime = time; });
         }
 
