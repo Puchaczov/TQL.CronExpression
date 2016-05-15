@@ -2,8 +2,6 @@
 # CronExpression
 <h2 class="western" lang="en-US">What is CronExpression</h2>
 <p lang="en-US">CronExpression is .NET CRON expression validator and fire time evaluator. It pretend to support the broadest spectrum of available syntax. It’s even powerful enough to point why you’re expression is wrong!</p>
-<h2 class="western" lang="en-US">What is my purpose</h2>
-<p lang="en-US">Provide library that will expose complete environment to work with CRON expressions</p>
 <h2 class="western" lang="en-US">Latest release</h2>
 <p lang="en-US">There is already 1.0 version which contains all established features</p>
 <ul>
