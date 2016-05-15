@@ -1,37 +1,23 @@
 [![Stories in Ready](https://badge.waffle.io/Puchaczov/CronExpression.png?label=ready&title=Ready)](https://waffle.io/Puchaczov/CronExpression)
 # CronExpression
 <h2 class="western" lang="en-US">What is CronExpression</h2>
-<p lang="en-US">CronExpression is a .NET library provides CRON
-expression analysis tools and evaluation environment. By this library
-you can for example process your expression in a way that allows you
-to judge provided expression correctness. You can use it as
-evaluation engine when you build scheduler. Software should be useful
-for everybody who needs to provide own translation from one
-expression to other expression. For example, you could write an
-extension that convert expression to human readable sentence.</p>
-<h2 class="western" lang="en-US">Goals</h2>
-<p lang="en-US">Provide tool that allows you to work with any kind of
-expression, no matter how complex would it be.</p>
+<p lang="en-US">CronExpression is .NET CRON expression validator and fire time evaluator. It pretend to support the broadest spectrum of available syntax. It’s even powerful enough to point why you’re expression is wrong!</p>
+<h2 class="western" lang="en-US">What is my purpose</h2>
+<p lang="en-US">Provide library that will expose complete environment to work with CRON expressions</p>
 <h2 class="western" lang="en-US">Latest release</h2>
-<p lang="en-US">There is no stable release yet. Currently the most
-stable version is 0.9 which is “just before release”
-version. There won’t be new features before 1.0 release. It’s
-time to focus to make it the most reliable although already <b>there
-is no known issues.</b> Things left to make stable release are:</p>
+<p lang="en-US">There is already 1.0 version which contains all established features</p>
 <ul>
 	<li>
-<p><span lang="en-US">Refactorizations.</span></p>
+<p><span lang="en-US">Support mixable complex types such as L, LW, W, #, -(Hyphen), /(range), *(star) in defined by CRON rules segment</span></p>
 	</li><li>
-<p><span lang="en-US">Check performance of generating new
-	dates in evaluator.</span></p>
+<p><span lang="en-US">Support expression in two modes: Modern(with second and year segment), Old(without second and year segment)</span></p>
 	</li><li>
-<p><span lang="en-US">Create Nuget packages</span></p>
+<p><span lang="en-US">Complex expression analysis and return error sentence when part of expression is wrong (like compilers do)</span></p>
 	</li><li>
-<p><span lang="en-US">More tests for evaluator</span></p>
+<p><span lang="en-US">Support for some of nonstandard defintions</span></p>
 </li></ul>
-<h2 class="western" lang="en-US">What is supported</h2>
-<p lang="en-US">Currently, this library has support for standard
-defined expression and some of nonstandard definitions.</p>
+<h2 class="western" lang="en-US">Features</h2>
+<p lang="en-US">Typing expression is allowed in two formats, standard and nonstandard.</p>
 <p lang="en-US">Supported nonstandard definitions are:</p>
 <ul>
 	<li>
@@ -211,70 +197,13 @@ defined expression and some of nonstandard definitions.</p>
 	</tbody>
 </table>
 <p>&nbsp;</p>
-<h2 class="western" lang="en-US">How it’s build</h2>
-<p lang="en-US">The way how this library had been written make that
-you can distinguish four main phases (they are properly ordered)</p>
-<ol>
-	<li>
-<p><span lang="en-US">Preprocessing – The very first
-	phase that allows your expression to be unwinded to form that can be
-	handle by parser.</span></p>
-	</li><li>
-<p><span lang="en-US">Lexical analysis – Perform
-	analysis by which you will receive stream of tokens – these
-	are properly recognized basic elements of expression. Your
-	expression consists of this basics. For example, when you type
-	MON-WED, you will receive three tokens – [Name, Range, Name]</span></p>
-	</li><li>
-<p><span lang="en-US">Parsing – Process by which stream
-	of tokens is converted to tree.</span></p>
-	</li><li>
-<p><span lang="en-US">Semantic analysis – Process where
-	</span><span lang="en-US">the decision is made</span><span lang="en-US">
-	if each part of expression applied to defined rules. This is place
-	where your expression can be expanded in evaluation purposes.</span></p>
-</li></ol>
-<p style="margin-left: 0.08cm" lang="en-US">This knowledge will be
-interesting for you in case when you will build your own evaluator or
-analysis tool based on this library (<b>for more, check
-documentation)</b>.</p>
-<h2 class="western" lang="en-US">Errors</h2>
-<p lang="en-US">This library behave a bit like compiler. When
-malformed expression were being written, you will be informed about
-that by produced errors. It took much efforts to produce meaningful
-errors in case of error. If you think, that some messages aren’t
-meaningful enough or there are rules that isn’t applied when
-rules are checked – use <b>issues </b>to inform us or
-<b>contribute </b>to project. In general, I have hope to inform and
-help you reform your expression (<b>for more, check documentation)</b></p>
-<h2 class="western" lang="en-US">Tests</h2>
-<p lang="en-US">In general, each part described in section <b>how
-it’s build </b>contains own tests. I try makes efforts to make
-this software reliable. If you notice bugs, please report it in
-<b>issues </b>section. I appreciate if you will contribute too.</p>
-<h2 class="western" lang="en-US">Branches</h2>
-<p lang="en-US">There is two branches you can write your fixes. I
-will describe it for a moment.</p>
-<ul>
-	<li>
-<p><span lang="en-US">Main – branch for bug fixes in
-	currently released version.</span></p>
-	</li><li>
-<p><span lang="en-US">Development – Branch for fixes and
-	new features. </span>
-	</p>
-</li></ul>
 <h2 class="western" lang="en-US">API &amp; Documentation</h2>
-<p lang="en-US">I took much effort to make this software easy to use.
-Generally, to successfully use this library, you won’t need to
-learn a lot, just read my short introduction in appropriate section
-of documentation (<b>go here</b>). If you would like to bring
-something new to library, read <b>documents</b> here.</p>
+<p lang="en-US">To successfully use this library, you won’t need to learn a lot, just read short introduction in appropriate section of documentation (<b>go here</b>). If you would like to bring something new to library, read documents <b>here</b>.</p>
 <h2 class="western" lang="en-US">Contribute</h2>
 <p lang="en-US">If you like this library, please contribute and
-appreciate our efforts. You can do it by creating fixes, creating new
-features, reporting issues or starring us. Feel free to report ideas,
-at least there is good place to consider implementation of it.</p>
+appreciate my efforts. You can do it by creating fixes, new
+features, reporting issues or starring library. Feel free to report ideas,
+It's good place to consider implementation of it.</p>
 <h2 class="western" lang="en-US">License</h2>
-<p lang="en-US">This library is based on <b>MIT </b>license, please
-read <b>LICENSE </b>when you would like to know more.</p>
+<p lang="en-US">This library is based on <b>MIT</b> license, please
+read <b>LICENSE</b> file when you would like to know more.</p>
