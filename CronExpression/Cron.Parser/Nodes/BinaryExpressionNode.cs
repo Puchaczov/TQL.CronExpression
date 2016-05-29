@@ -1,6 +1,5 @@
-﻿using Cron.Core.Tokens;
-using Cron.Parser.Enums;
-using Cron.Parser.Tokens;
+﻿using Cron.Parser.Tokens;
+using TQL.Core.Tokens;
 
 namespace Cron.Parser.Nodes
 {

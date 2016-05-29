@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cron.Parser.Helpers;
 using Cron.Parser.Nodes;
 using System.Linq;
-using Cron.Core.Tokens;
+using TQL.Core.Tokens;
 
 namespace Cron.Parser.Tests
 {

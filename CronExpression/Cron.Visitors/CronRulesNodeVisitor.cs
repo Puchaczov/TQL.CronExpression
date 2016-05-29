@@ -8,8 +8,7 @@ using Cron.Parser.Visitors;
 using Cron.Visitors.Exceptions;
 using System.Linq;
 using Cron.Parser.Helpers;
-using Cron.Parser.Tokens;
-using Cron.Core.Tokens;
+using TQL.Core.Tokens;
 
 namespace Cron.Visitors
 {

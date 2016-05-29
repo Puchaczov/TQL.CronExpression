@@ -46,18 +46,6 @@
     <Compile Include="TimeZoneCronForwardFireTimeEvaluatorDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Common\Cron.Common.csproj">
-      <Project>{cfaed496-76e0-4f27-9d16-b28fcc2637be}</Project>
-      <Name>Cron.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Core\Cron.Core.csproj">
-      <Project>{e05c1df2-ed14-4bef-b1fb-a4fccbf0312e}</Project>
-      <Name>Cron.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Interfaces\Cron.Interfaces.csproj">
-      <Project>{61f64fdf-e01e-4425-b2ea-44ee3d144812}</Project>
-      <Name>Cron.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
       <Name>Cron.Parser</Name>
@@ -74,6 +62,23 @@
       <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
       <Name>Cron.Visitors</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TQL.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Common.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TQL.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Core.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TQL.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Interfaces.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,8 +1,8 @@
-﻿using Cron.Core.Syntax;
-using Cron.Parser.Enums;
+﻿using Cron.Parser.Enums;
 using Cron.Parser.Tokens;
 using Cron.Parser.Visitors;
 using System.Collections.Generic;
+using TQL.Core.Syntax;
 
 namespace Cron.Parser.Nodes
 {

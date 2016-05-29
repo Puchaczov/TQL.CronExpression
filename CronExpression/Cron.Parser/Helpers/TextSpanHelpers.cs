@@ -1,4 +1,4 @@
-﻿using Cron.Core.Tokens;
+﻿using TQL.Core.Tokens;
 
 namespace Cron.Parser.Helpers
 {

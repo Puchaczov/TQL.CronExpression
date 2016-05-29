@@ -1,11 +1,10 @@
-﻿using Cron.Core.Tokens;
-using Cron.Parser.Exceptions;
+﻿using Cron.Parser.Exceptions;
 using Cron.Parser.Helpers;
 using Cron.Parser.Nodes;
-using Cron.Parser.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using TQL.Core.Tokens;
 
 namespace Cron.Parser.Tests
 {

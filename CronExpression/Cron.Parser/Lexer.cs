@@ -1,11 +1,9 @@
-﻿using Cron.Core.Syntax;
-using Cron.Parser.Enums;
-using Cron.Parser.Exceptions;
+﻿using Cron.Parser.Exceptions;
 using Cron.Parser.Tokens;
-using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Cron.Core.Tokens;
+using TQL.Core.Syntax;
+using TQL.Core.Tokens;
+using System;
 
 namespace Cron.Parser
 {
@@ -16,17 +14,6 @@ namespace Cron.Parser
         { }
 
         public Token Last => (Token)lastToken.Clone();
-
-        public int Position => pos;
-
-        public static bool IsDigit(char letter)
-        {
-            if (letter >= '0' && letter <= '9')
-            {
-                return true;
-            }
-            return false;
-        }
 
         public override Token NextToken()
         {
@@ -96,15 +83,6 @@ namespace Cron.Parser
             throw new UnknownTokenException(pos, currentChar);
         }
 
-        private static bool IsLetter(char currentChar)
-        {
-            if (Regex.IsMatch(currentChar.ToString(), "[a-zA-Z]+"))
-            {
-                return true;
-            }
-            return false;
-        }
-
         private static bool IsMissing(char currentChar) => currentChar == '_';
 
         private Token ConsumeInterger()
@@ -131,22 +109,14 @@ namespace Cron.Parser
             return AssignTokenOfType(() => new NameToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos))) as NameToken;
         }
 
-        private bool IsEndLine(char currentChar)
+        public override Token LastToken()
         {
-            if (pos + 1 < input.Length && IsEndLineCharacter(currentChar, input[pos + 1]))
-            {
-                return true;
-            }
-            return false;
+            throw new NotImplementedException();
         }
 
-        private bool IsEndLineCharacter(char currentChar, char nextChar)
+        public override Token CurrentToken()
         {
-            if (this.endLines.ContainsKey(currentChar))
-            {
-                return nextChar == this.endLines[currentChar];
-            }
-            return false;
+            throw new NotImplementedException();
         }
     }
 }

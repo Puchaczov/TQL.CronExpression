@@ -1,9 +1,9 @@
-﻿using Cron.Core.Tokens;
-using Cron.Parser.Enums;
+﻿using Cron.Parser.Enums;
 using Cron.Parser.Exceptions;
 using Cron.Parser.Nodes;
 using Cron.Parser.Tokens;
 using System.Collections.Generic;
+using TQL.Core.Tokens;
 
 namespace Cron.Parser
 {
