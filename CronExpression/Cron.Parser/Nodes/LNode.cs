@@ -1,10 +1,10 @@
-﻿using Cron.Parser.Tokens;
-using System.Collections.Generic;
-using Cron.Parser.Visitors;
-using Cron.Parser.Extensions;
-using Cron.Parser.Enums;
+﻿using System.Collections.Generic;
+using TQL.CronExpression.Parser.Enums;
+using TQL.CronExpression.Parser.Extensions;
+using TQL.CronExpression.Parser.Tokens;
+using TQL.CronExpression.Parser.Visitors;
 
-namespace Cron.Parser.Nodes
+namespace TQL.CronExpression.Parser.Nodes
 {
     public class LNode : NumberNode
     {

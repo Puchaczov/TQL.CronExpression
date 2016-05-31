@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{537C895F-EFA3-45E3-8721-D6621C880046}</ProjectGuid>
+    <ProjectGuid>{8A4E2440-5844-4870-ABD1-C30BD1784AE3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cron.Extensions.TimelineEvaluator.Tests</RootNamespace>
-    <AssemblyName>CronExpression.Extensions.TimelineEvaluator.Tests</AssemblyName>
+    <RootNamespace>TQL.CronExpression.Preprocessor.Tests</RootNamespace>
+    <AssemblyName>TQL.CronExpression.Preprocessor.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -62,26 +62,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CronAnalyzerTests.cs" />
-    <Compile Include="CronTimelineVisitorTests.cs" />
+    <Compile Include="PreprocessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
-      <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
-      <Name>Cron.Parser</Name>
+    <ProjectReference Include="..\Cron.Preprocessor\TQL.CronExpression.Preprocessor.csproj">
+      <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
+      <Name>TQL.CronExpression.Preprocessor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cron.TimeLineEvaluator\Cron.Extensions.TimelineEvaluator.csproj">
-      <Project>{f20e2414-19dd-4204-aa76-654520285e42}</Project>
-      <Name>Cron.Extensions.TimelineEvaluator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Visitors\Cron.Visitors.csproj">
-      <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
-      <Name>Cron.Visitors</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

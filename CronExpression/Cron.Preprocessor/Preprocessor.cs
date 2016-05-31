@@ -1,7 +1,7 @@
-﻿using Cron.Filters;
-using TQL.Common.Pipeline;
+﻿using TQL.Common.Pipeline;
+using TQL.CronExpression.Filters;
 
-namespace Cron
+namespace TQL.CronExpression
 {
     public class Preprocessor : Pipeline<string>
     {

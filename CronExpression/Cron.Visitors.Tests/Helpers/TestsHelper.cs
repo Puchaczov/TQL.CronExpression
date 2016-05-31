@@ -1,8 +1,8 @@
-﻿using Cron.Parser.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using TQL.CronExpression.Parser.Helpers;
 
-namespace Cron.Visitors.Tests.Helpers
+namespace TQL.CronExpression.Visitors.Tests.Helpers
 {
     internal static class TestsHelper
     {

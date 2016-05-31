@@ -1,7 +1,7 @@
-﻿using Cron.Parser.Tokens;
-using System;
+﻿using System;
+using TQL.CronExpression.Parser.Tokens;
 
-namespace Cron.Visitors.Exceptions
+namespace TQL.CronExpression.Visitors.Exceptions
 {
     public class BaseCronValidationException : Exception
     {

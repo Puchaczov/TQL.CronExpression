@@ -1,9 +1,9 @@
-﻿using Cron.Extensions.TimelineEvaluator.Lists.ComputableLists;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TQL.CronExpression.Extensions.TimelineEvaluator.Lists.ComputableLists;
 
-namespace Cron.Extensions.TimelineEvaluator.List
+namespace TQL.CronExpression.Extensions.TimelineEvaluator.List
 {
     public class VirtualList<T> : IComputableElementsList<T>, IEnumerable<T>
     {

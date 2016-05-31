@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TQL.Core.Tokens;
 
-namespace Cron.Parser.Tests
+namespace TQL.CronExpression.Parser.Tests
 {
     [TestClass]
     public class TextSpanTests

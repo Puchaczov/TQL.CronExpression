@@ -1,6 +1,6 @@
 ﻿using TQL.Common.Pipeline;
 
-namespace Cron.Filters
+namespace TQL.CronExpression.Filters
 {
     public class ReplaceNonStandardDefinitions : FilterBase<string>
     {

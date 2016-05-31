@@ -1,4 +1,4 @@
-﻿namespace Cron.Extensions.TimelineEvaluator
+﻿namespace TQL.CronExpression.Extensions.TimelineEvaluator
 {
     public interface IEvaluable<T>
     {

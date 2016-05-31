@@ -1,8 +1,8 @@
-﻿using Cron.Parser.Tokens;
-using Cron.Parser.Visitors;
-using TQL.Core.Tokens;
+﻿using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Tokens;
+using TQL.CronExpression.Parser.Visitors;
 
-namespace Cron.Parser.Nodes
+namespace TQL.CronExpression.Parser.Nodes
 {
     public class EndOfFileNode : SegmentNode
     {

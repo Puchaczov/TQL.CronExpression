@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cron.Parser.Utils
+namespace TQL.CronExpression.Parser.Utils
 {
     public class Ref<T>
     {

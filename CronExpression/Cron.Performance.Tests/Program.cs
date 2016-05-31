@@ -1,8 +1,8 @@
-﻿using Cron.Converter;
-using System;
+﻿using System;
 using System.Diagnostics;
+using TQL.CronExpression.Converter;
 
-namespace Cron.Performance.Tests
+namespace TQL.CronExpression.Performance.Tests
 {
     class Program
     {
@@ -11,7 +11,7 @@ namespace Cron.Performance.Tests
             var watch = Stopwatch.StartNew();
 
             var timeline = new CronTimeline(true);
-            var response = timeline.Convert(new Cron.Converter.CreateEvaluatorRequest("* * * * * * *", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
+            var response = timeline.Convert(new CreateEvaluatorRequest("* * * * * * *", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
             var evaluator = response.Output;
             watch.Stop();
         }

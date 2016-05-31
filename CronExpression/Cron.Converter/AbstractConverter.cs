@@ -1,11 +1,11 @@
-﻿using Cron.Exceptions;
-using Cron.Extensions.TimelineEvaluator;
-using Cron.Parser;
-using Cron.Parser.Nodes;
-using System;
+﻿using System;
 using TQL.Common.Converters;
+using TQL.Common.Evaluators;
+using TQL.CronExpression.Exceptions;
+using TQL.CronExpression.Parser;
+using TQL.CronExpression.Parser.Nodes;
 
-namespace Cron.Converter
+namespace TQL.CronExpression.Converter
 {
     public abstract class AbstractConverter<TOutput>
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Cron.Parser.Tests
+namespace TQL.CronExpression.Parser.Tests
 {
     [TestClass]
     public class LexerTests

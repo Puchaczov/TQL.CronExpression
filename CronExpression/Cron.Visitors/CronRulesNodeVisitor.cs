@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cron.Parser.Nodes;
-using Cron.Parser.Enums;
-using Cron.Parser.Exceptions;
-using Cron.Parser.Extensions;
-using Cron.Parser.Visitors;
-using Cron.Visitors.Exceptions;
 using System.Linq;
-using Cron.Parser.Helpers;
 using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Enums;
+using TQL.CronExpression.Parser.Exceptions;
+using TQL.CronExpression.Parser.Extensions;
+using TQL.CronExpression.Parser.Helpers;
+using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.Parser.Visitors;
+using TQL.CronExpression.Visitors.Exceptions;
 
-namespace Cron.Visitors
+namespace TQL.CronExpression.Visitors
 {
     public class CronRulesNodeVisitor : INodeVisitor
     {

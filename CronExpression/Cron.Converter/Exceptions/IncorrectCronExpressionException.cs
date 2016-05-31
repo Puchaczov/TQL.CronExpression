@@ -1,10 +1,10 @@
-﻿using Cron.Visitors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TQL.CronExpression.Visitors;
 
-namespace Cron.Exceptions
+namespace TQL.CronExpression.Exceptions
 {
     public class IncorrectCronExpressionException : Exception
     {

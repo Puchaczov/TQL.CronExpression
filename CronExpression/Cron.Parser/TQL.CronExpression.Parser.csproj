@@ -8,8 +8,8 @@
     <ProjectGuid>{B8735922-C602-44EE-9DF5-45679E2A1436}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cron.Parser</RootNamespace>
-    <AssemblyName>CronExpression.Parser</AssemblyName>
+    <RootNamespace>TQL.CronExpression.Parser</RootNamespace>
+    <AssemblyName>TQL.CronExpression.Parser</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>

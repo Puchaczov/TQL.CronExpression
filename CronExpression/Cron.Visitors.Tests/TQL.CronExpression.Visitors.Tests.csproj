@@ -6,8 +6,8 @@
     <ProjectGuid>{F515377A-5038-4BBF-8ACC-55FB005C06B3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cron.Visitors.Tests</RootNamespace>
-    <AssemblyName>CronExpression.Visitors.Tests</AssemblyName>
+    <RootNamespace>TQL.CronExpression.Visitors.Tests</RootNamespace>
+    <AssemblyName>TQL.CronExpression.Visitors.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -70,13 +70,13 @@
     <Compile Include="CronRulesTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
+    <ProjectReference Include="..\Cron.Parser\TQL.CronExpression.Parser.csproj">
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
-      <Name>Cron.Parser</Name>
+      <Name>TQL.CronExpression.Parser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cron.Visitors\Cron.Visitors.csproj">
+    <ProjectReference Include="..\Cron.Visitors\TQL.CronExpression.Visitors.csproj">
       <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
-      <Name>Cron.Visitors</Name>
+      <Name>TQL.CronExpression.Visitors</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

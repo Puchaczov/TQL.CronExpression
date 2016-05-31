@@ -1,8 +1,8 @@
 ﻿using System;
-using Cron.Parser.Nodes;
-using Cron.Extensions.TimelineEvaluator.Evaluators;
+using TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators;
+using TQL.CronExpression.Parser.Nodes;
 
-namespace Cron.Extensions.TimelineEvaluator
+namespace TQL.CronExpression.Extensions.TimelineEvaluator
 {
     public class CronTimelineVisitor : CronNodeVisitorBase, IEvaluable<ICronFireTimeEvaluator>
     {
@@ -31,13 +31,13 @@ namespace Cron.Extensions.TimelineEvaluator
                     return null;
                 }
                 return new CronForwardFireTimeEvaluator(
-                    this[Cron.Parser.Enums.Segment.Year],
-                    this[Cron.Parser.Enums.Segment.Month],
-                    this[Cron.Parser.Enums.Segment.DayOfMonth],
-                    this[Cron.Parser.Enums.Segment.DayOfWeek],
-                    this[Cron.Parser.Enums.Segment.Hours],
-                    this[Cron.Parser.Enums.Segment.Minutes],
-                    this[Cron.Parser.Enums.Segment.Seconds],
+                    this[Parser.Enums.Segment.Year],
+                    this[Parser.Enums.Segment.Month],
+                    this[Parser.Enums.Segment.DayOfMonth],
+                    this[Parser.Enums.Segment.DayOfWeek],
+                    this[Parser.Enums.Segment.Hours],
+                    this[Parser.Enums.Segment.Minutes],
+                    this[Parser.Enums.Segment.Seconds],
                     time);
             }
         }

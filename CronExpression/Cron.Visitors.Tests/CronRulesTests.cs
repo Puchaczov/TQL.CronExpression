@@ -1,11 +1,11 @@
-﻿using Cron.Visitors;
-using Cron.Visitors.Tests.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using Cron.Parser.Helpers;
+using TQL.CronExpression.Visitors;
+using TQL.CronExpression.Visitors.Tests.Helpers;
+using TQL.CronExpression.Parser.Helpers;
 
-namespace Cron.Parser.Tests
+namespace TQL.CronExpression.Parser.Tests
 {
     [TestClass]
     public class CronRulesTests

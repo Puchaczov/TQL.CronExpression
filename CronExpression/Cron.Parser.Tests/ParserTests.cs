@@ -1,12 +1,12 @@
-﻿using Cron.Parser.Exceptions;
-using Cron.Parser.Helpers;
-using Cron.Parser.Nodes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Exceptions;
+using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.Parser.Helpers;
 
-namespace Cron.Parser.Tests
+namespace TQL.CronExpression.Parser.Tests
 {
     [TestClass]
     public class ParserTests

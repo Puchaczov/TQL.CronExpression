@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8A4E2440-5844-4870-ABD1-C30BD1784AE3}</ProjectGuid>
+    <ProjectGuid>{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cron.Preprocessor.Tests</RootNamespace>
-    <AssemblyName>CronExpression.Preprocessor.Tests</AssemblyName>
+    <RootNamespace>TQL.CronExpression.Converter.Tests</RootNamespace>
+    <AssemblyName>TQL.CronExpression.Converter.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -62,13 +62,29 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PreprocessorTests.cs" />
+    <Compile Include="ConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Preprocessor\Cron.Preprocessor.csproj">
+    <ProjectReference Include="..\Cron.Converter\TQL.CronExpression.Converter.csproj">
+      <Project>{f2615061-9615-4855-addc-d3bd8e6528cf}</Project>
+      <Name>TQL.CronExpression.Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.Parser\TQL.CronExpression.Parser.csproj">
+      <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
+      <Name>TQL.CronExpression.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.Preprocessor\TQL.CronExpression.Preprocessor.csproj">
       <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
-      <Name>Cron.Preprocessor</Name>
+      <Name>TQL.CronExpression.Preprocessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.TimeLineEvaluator\TQL.CronExpression.Extensions.TimelineEvaluator.csproj">
+      <Project>{f20e2414-19dd-4204-aa76-654520285e42}</Project>
+      <Name>TQL.CronExpression.Extensions.TimelineEvaluator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cron.Visitors\TQL.CronExpression.Visitors.csproj">
+      <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
+      <Name>TQL.CronExpression.Visitors</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

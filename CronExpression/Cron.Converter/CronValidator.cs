@@ -1,9 +1,9 @@
-﻿using Cron.Exceptions;
-using Cron.Parser.Nodes;
-using Cron.Visitors;
-using System.Linq;
+﻿using System.Linq;
+using TQL.CronExpression.Exceptions;
+using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.Visitors;
 
-namespace Cron.Converter
+namespace TQL.CronExpression.Converter
 {
     public class CronValidator : AbstractConverter<bool>, IConverter<ConvertionRequest, ConvertionResponse<bool>>
     {

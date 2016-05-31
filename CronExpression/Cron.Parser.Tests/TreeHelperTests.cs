@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Cron.Parser.Helpers;
-using Cron.Parser.Nodes;
 using System.Linq;
 using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.Parser.Helpers;
 
-namespace Cron.Parser.Tests
+namespace TQL.CronExpression.Parser.Tests
 {
     [TestClass]
     public class TreeHelperTests

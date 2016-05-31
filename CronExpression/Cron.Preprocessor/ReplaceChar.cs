@@ -1,6 +1,6 @@
 ﻿using TQL.Common.Pipeline;
 
-namespace Cron
+namespace TQL.CronExpression
 {
     public class ReplaceChar : FilterBase<string>
     {

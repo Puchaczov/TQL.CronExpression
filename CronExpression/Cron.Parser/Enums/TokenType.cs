@@ -1,4 +1,4 @@
-﻿namespace Cron.Parser.Enums
+﻿namespace TQL.CronExpression.Parser.Enums
 {
     public enum TokenType
     {

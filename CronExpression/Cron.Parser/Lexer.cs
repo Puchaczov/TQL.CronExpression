@@ -1,11 +1,10 @@
-﻿using Cron.Parser.Exceptions;
-using Cron.Parser.Tokens;
-using System.Text.RegularExpressions;
-using TQL.Core.Syntax;
+﻿using TQL.Core.Syntax;
 using TQL.Core.Tokens;
 using System;
+using TQL.CronExpression.Parser.Tokens;
+using TQL.CronExpression.Parser.Exceptions;
 
-namespace Cron.Parser
+namespace TQL.CronExpression.Parser
 {
     public class Lexer : LexerBase<Token>
     {

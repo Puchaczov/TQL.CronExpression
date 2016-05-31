@@ -1,7 +1,7 @@
-﻿using Cron.Visitors;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TQL.CronExpression.Visitors;
 
-namespace Cron.Converter
+namespace TQL.CronExpression.Converter
 {
     public class ConvertionResponse<T>
     {
