@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using TQL.Core.Converters;
 using TQL.CronExpression.Visitors;
 
 namespace TQL.CronExpression.Converter
 {
-    public class ConvertionResponse<T>
+    public class ConvertionResponse<T> : ConvertionResponseBase<T>
     {
 
         public ConvertionResponse(T output)
