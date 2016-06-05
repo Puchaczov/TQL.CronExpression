@@ -34,21 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="LowerCase.cs" />
-    <Compile Include="ReplaceChar.cs" />
     <Compile Include="ReplaceNonStandardDefinitions.cs" />
     <Compile Include="Preprocessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Trim.cs" />
-    <Compile Include="UpperCase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TQL.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Common.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
+    <Reference Include="TQL.Common, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Common.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TQL.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Core.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
+    <Reference Include="TQL.Core, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Core.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TQL.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

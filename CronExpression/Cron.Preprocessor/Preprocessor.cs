@@ -1,4 +1,5 @@
-﻿using TQL.Common.Pipeline;
+﻿using TQL.Common.Filters;
+using TQL.Common.Pipeline;
 using TQL.CronExpression.Filters;
 
 namespace TQL.CronExpression

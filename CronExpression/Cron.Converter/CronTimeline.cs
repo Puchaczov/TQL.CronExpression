@@ -40,5 +40,8 @@ namespace TQL.CronExpression.Converter
             }
             return base.Convert(request, (ast) => this.Convert(ast, request));
         }
+
+        protected override ConvertionResponse<ICronFireTimeEvaluator> GetErrorResponse(Exception exc) 
+            => new ConvertionResponse<ICronFireTimeEvaluator>(null, new FatalError(exc));
     }
 }

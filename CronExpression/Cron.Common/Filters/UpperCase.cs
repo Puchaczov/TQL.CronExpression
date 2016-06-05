@@ -1,6 +1,6 @@
-﻿using TQL.Common.Pipeline;
+﻿using Cron.Common.Pipeline;
 
-namespace TQL.CronExpression
+namespace Cron.Common.Filters
 {
     public class UpperCase : FilterBase<string>
     {

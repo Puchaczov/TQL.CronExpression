@@ -1,6 +1,11 @@
-﻿using TQL.Common.Pipeline;
+﻿using Cron.Common.Pipeline;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace TQL.CronExpression
+namespace Cron.Common.Filters
 {
     public class ReplaceChar : FilterBase<string>
     {

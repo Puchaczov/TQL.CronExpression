@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TQL.CronExpression.Exceptions;
 using TQL.CronExpression.Parser.Nodes;
 using TQL.CronExpression.Visitors;
@@ -12,6 +13,9 @@ namespace TQL.CronExpression.Converter
         { }
 
         public ConvertionResponse<bool> Convert(ConvertionRequest request) => base.Convert(request, Convert);
+
+        protected override ConvertionResponse<bool> GetErrorResponse(Exception exc)
+            => new ConvertionResponse<bool>(false, new FatalError(exc));
 
         private ConvertionResponse<bool> Convert(RootComponentNode ast)
         {

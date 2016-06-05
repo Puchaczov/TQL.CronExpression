@@ -11,6 +11,7 @@ namespace TQL.CronExpression.Converter
         protected readonly bool throwOnError;
 
         protected AbstractConverter(bool throwOnError)
+            : base(throwOnError)
         {
             this.throwOnError = throwOnError;
         }
