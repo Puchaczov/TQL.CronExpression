@@ -1,4 +1,4 @@
-﻿namespace Cron.Visitors.Tests.Helpers
+﻿namespace TQL.CronExpression.Visitors.Tests.Helpers
 {
     public class ArrayHelper
     {

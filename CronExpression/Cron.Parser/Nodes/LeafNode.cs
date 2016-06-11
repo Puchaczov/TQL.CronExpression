@@ -1,7 +1,7 @@
-﻿using Cron.Core.Tokens;
-using Cron.Parser.Tokens;
+﻿using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Tokens;
 
-namespace Cron.Parser.Nodes
+namespace TQL.CronExpression.Parser.Nodes
 {
     public abstract class LeafNode : CronSyntaxNode
     {

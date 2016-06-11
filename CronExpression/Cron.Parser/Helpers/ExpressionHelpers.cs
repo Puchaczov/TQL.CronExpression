@@ -1,6 +1,6 @@
-﻿using Cron.Parser.Nodes;
+﻿using TQL.CronExpression.Parser.Nodes;
 
-namespace Cron.Parser.Helpers
+namespace TQL.CronExpression.Parser.Helpers
 {
     public static partial class ExpressionHelpers
     {

@@ -1,6 +1,6 @@
 ﻿using Cron.Common.Pipeline;
 
-namespace Cron
+namespace Cron.Common.Filters
 {
     public class UpperCase : FilterBase<string>
     {

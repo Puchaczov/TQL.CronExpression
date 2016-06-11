@@ -8,8 +8,8 @@
     <ProjectGuid>{B8735922-C602-44EE-9DF5-45679E2A1436}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cron.Parser</RootNamespace>
-    <AssemblyName>CronExpression.Parser</AssemblyName>
+    <RootNamespace>TQL.CronExpression.Parser</RootNamespace>
+    <AssemblyName>TQL.CronExpression.Parser</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
@@ -93,10 +93,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Core\Cron.Core.csproj">
-      <Project>{E05C1DF2-ED14-4BEF-B1FB-A4FCCBF0312E}</Project>
-      <Name>Cron.Core</Name>
-    </ProjectReference>
+    <Reference Include="TQL.Common, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Common.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TQL.Core, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Core.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TQL.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Interfaces.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

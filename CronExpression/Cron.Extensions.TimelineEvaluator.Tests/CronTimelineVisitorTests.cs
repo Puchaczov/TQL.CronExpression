@@ -1,8 +1,8 @@
-﻿using Cron.Parser;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using TQL.CronExpression.Parser;
 
-namespace Cron.Visitors.Tests
+namespace TQL.CronExpression.Visitors.Tests
 {
     [TestClass]
     public class CronTimelineVisitorTests

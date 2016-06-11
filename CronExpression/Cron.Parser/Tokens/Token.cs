@@ -1,12 +1,11 @@
-﻿using System;
-using Cron.Core.Tokens;
-using Cron.Parser.Enums;
+﻿using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Enums;
 
-namespace Cron.Parser.Tokens
+namespace TQL.CronExpression.Parser.Tokens
 {
     public abstract class Token : GenericToken<TokenType>
     {
-        public Token(string value, TokenType type, Core.Tokens.TextSpan span) : base(value, type, span)
+        public Token(string value, TokenType type, TextSpan span) : base(value, type, span)
         { }
     }
 }

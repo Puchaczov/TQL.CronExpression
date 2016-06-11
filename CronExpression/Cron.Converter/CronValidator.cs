@@ -1,10 +1,10 @@
-﻿using Cron.Exceptions;
-using Cron.Parser.Nodes;
-using Cron.Visitors;
+﻿using System;
 using System.Linq;
-using Cron.Converter;
+using TQL.CronExpression.Exceptions;
+using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.Visitors;
 
-namespace Cron.Converter
+namespace TQL.CronExpression.Converter
 {
     public class CronValidator : AbstractConverter<bool>, IConverter<ConvertionRequest, ConvertionResponse<bool>>
     {
@@ -13,6 +13,9 @@ namespace Cron.Converter
         { }
 
         public ConvertionResponse<bool> Convert(ConvertionRequest request) => base.Convert(request, Convert);
+
+        protected override ConvertionResponse<bool> GetErrorResponse(Exception exc)
+            => new ConvertionResponse<bool>(false, new FatalError(exc));
 
         private ConvertionResponse<bool> Convert(RootComponentNode ast)
         {

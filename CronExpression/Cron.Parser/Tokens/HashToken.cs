@@ -1,7 +1,7 @@
-﻿using Cron.Core.Tokens;
-using Cron.Parser.Enums;
+﻿using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Enums;
 
-namespace Cron.Parser.Tokens
+namespace TQL.CronExpression.Parser.Tokens
 {
     public class HashToken : Token
     {

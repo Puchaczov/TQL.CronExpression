@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}</ProjectGuid>
+    <ProjectGuid>{8A4E2440-5844-4870-ABD1-C30BD1784AE3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cron.Converter.Tests</RootNamespace>
-    <AssemblyName>CronExpression.Converter.Tests</AssemblyName>
+    <RootNamespace>TQL.CronExpression.Preprocessor.Tests</RootNamespace>
+    <AssemblyName>TQL.CronExpression.Preprocessor.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,6 +36,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="TQL.Common, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Common.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TQL.Core, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Core.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TQL.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Interfaces.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,38 +62,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ConverterTests.cs" />
+    <Compile Include="PreprocessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cron.Common\Cron.Common.csproj">
-      <Project>{cfaed496-76e0-4f27-9d16-b28fcc2637be}</Project>
-      <Name>Cron.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Converter\Cron.Converter.csproj">
-      <Project>{f2615061-9615-4855-addc-d3bd8e6528cf}</Project>
-      <Name>Cron.Converter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Interfaces\Cron.Interfaces.csproj">
-      <Project>{61f64fdf-e01e-4425-b2ea-44ee3d144812}</Project>
-      <Name>Cron.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Parser\Cron.Parser.csproj">
-      <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
-      <Name>Cron.Parser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Preprocessor\Cron.Preprocessor.csproj">
+    <ProjectReference Include="..\Cron.Preprocessor\TQL.CronExpression.Preprocessor.csproj">
       <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
-      <Name>Cron.Preprocessor</Name>
+      <Name>TQL.CronExpression.Preprocessor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cron.TimeLineEvaluator\Cron.Extensions.TimelineEvaluator.csproj">
-      <Project>{f20e2414-19dd-4204-aa76-654520285e42}</Project>
-      <Name>Cron.Extensions.TimelineEvaluator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cron.Visitors\Cron.Visitors.csproj">
-      <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
-      <Name>Cron.Visitors</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

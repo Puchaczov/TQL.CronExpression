@@ -1,16 +1,16 @@
-﻿using Cron.Extensions.TimelineEvaluator.List;
-using Cron.Extensions.TimelineEvaluator.Lists.ComputableLists;
-using Cron.Parser.Enums;
-using Cron.Parser.Exceptions;
-using Cron.Parser.Extensions;
-using Cron.Parser.Nodes;
-using Cron.Parser.Utils;
-using Cron.Visitors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TQL.CronExpression.Extensions.TimelineEvaluator.List;
+using TQL.CronExpression.Extensions.TimelineEvaluator.Lists.ComputableLists;
+using TQL.CronExpression.Parser.Enums;
+using TQL.CronExpression.Parser.Exceptions;
+using TQL.CronExpression.Parser.Extensions;
+using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.Parser.Utils;
+using TQL.CronExpression.Visitors;
 
-namespace Cron.Extensions.TimelineEvaluator
+namespace TQL.CronExpression.Extensions.TimelineEvaluator
 {
     public class CronNodeVisitorBase : CronRulesNodeVisitor
     {

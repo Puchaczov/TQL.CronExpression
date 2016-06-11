@@ -1,7 +1,7 @@
 ﻿using System;
-using Cron.Parser.Enums;
+using TQL.CronExpression.Parser.Enums;
 
-namespace Cron.Parser.Exceptions
+namespace TQL.CronExpression.Parser.Exceptions
 {
     public class UnexpectedSegmentException : Exception
     {

@@ -1,9 +1,9 @@
-﻿using Cron.Parser.Extensions;
-using Cron.Parser.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using TQL.CronExpression.Parser.Extensions;
+using TQL.CronExpression.Parser.Utils;
 
-namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
+namespace TQL.CronExpression.Extensions.TimelineEvaluator.Lists.ComputableLists
 {
     public class LastDayOfWeekInMonthBasedOnCurrentMonthComputeList : DateTimeBasedComputeList
     {

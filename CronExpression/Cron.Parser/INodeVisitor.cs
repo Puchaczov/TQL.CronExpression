@@ -1,6 +1,6 @@
-﻿using Cron.Parser.Nodes;
+﻿using TQL.CronExpression.Parser.Nodes;
 
-namespace Cron.Parser.Visitors
+namespace TQL.CronExpression.Parser.Visitors
 {
     public interface INodeVisitor
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Cron.Parser.Extensions
+namespace TQL.CronExpression.Parser.Extensions
 {
     public static class ListExtension
     {

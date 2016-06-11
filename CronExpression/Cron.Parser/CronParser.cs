@@ -1,11 +1,12 @@
-﻿using Cron.Core.Tokens;
-using Cron.Parser.Enums;
-using Cron.Parser.Exceptions;
-using Cron.Parser.Nodes;
-using Cron.Parser.Tokens;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TQL.Core.Exceptions;
+using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Enums;
+using TQL.CronExpression.Parser.Exceptions;
+using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.Parser.Tokens;
 
-namespace Cron.Parser
+namespace TQL.CronExpression.Parser
 {
     public class CronParser
     {

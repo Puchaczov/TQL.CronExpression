@@ -1,8 +1,8 @@
-﻿using Cron.Parser.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using TQL.CronExpression.Parser.Enums;
 
-namespace Cron.Parser.Extensions
+namespace TQL.CronExpression.Parser.Extensions
 {
     public static class CronWordHelper
     {
@@ -14,43 +14,43 @@ namespace Cron.Parser.Extensions
         static CronWordHelper()
         {
             monthsStringToMonth = new Dictionary<string, Month>();
-            monthsStringToMonth.Add("january", Cron.Parser.Enums.Month.January);
-            monthsStringToMonth.Add("february", Cron.Parser.Enums.Month.February);
-            monthsStringToMonth.Add("march", Cron.Parser.Enums.Month.February);
-            monthsStringToMonth.Add("april", Cron.Parser.Enums.Month.April);
-            monthsStringToMonth.Add("may", Cron.Parser.Enums.Month.May);
-            monthsStringToMonth.Add("june", Cron.Parser.Enums.Month.June);
-            monthsStringToMonth.Add("july", Cron.Parser.Enums.Month.July);
-            monthsStringToMonth.Add("august", Cron.Parser.Enums.Month.August);
-            monthsStringToMonth.Add("september", Cron.Parser.Enums.Month.September);
-            monthsStringToMonth.Add("october", Cron.Parser.Enums.Month.October);
-            monthsStringToMonth.Add("november", Cron.Parser.Enums.Month.November);
-            monthsStringToMonth.Add("december", Cron.Parser.Enums.Month.December);
+            monthsStringToMonth.Add("january", Enums.Month.January);
+            monthsStringToMonth.Add("february", Enums.Month.February);
+            monthsStringToMonth.Add("march", Enums.Month.February);
+            monthsStringToMonth.Add("april", Enums.Month.April);
+            monthsStringToMonth.Add("may", Enums.Month.May);
+            monthsStringToMonth.Add("june", Enums.Month.June);
+            monthsStringToMonth.Add("july", Enums.Month.July);
+            monthsStringToMonth.Add("august", Enums.Month.August);
+            monthsStringToMonth.Add("september", Enums.Month.September);
+            monthsStringToMonth.Add("october", Enums.Month.October);
+            monthsStringToMonth.Add("november", Enums.Month.November);
+            monthsStringToMonth.Add("december", Enums.Month.December);
 
-            monthsStringToMonth.Add("jan", Cron.Parser.Enums.Month.January);
-            monthsStringToMonth.Add("feb", Cron.Parser.Enums.Month.February);
-            monthsStringToMonth.Add("mar", Cron.Parser.Enums.Month.March);
-            monthsStringToMonth.Add("ap", Cron.Parser.Enums.Month.April);
-            monthsStringToMonth.Add("jun", Cron.Parser.Enums.Month.June);
-            monthsStringToMonth.Add("jul", Cron.Parser.Enums.Month.July);
-            monthsStringToMonth.Add("aug", Cron.Parser.Enums.Month.August);
-            monthsStringToMonth.Add("sep", Cron.Parser.Enums.Month.September);
-            monthsStringToMonth.Add("oct", Cron.Parser.Enums.Month.October);
-            monthsStringToMonth.Add("nov", Cron.Parser.Enums.Month.November);
-            monthsStringToMonth.Add("dec", Cron.Parser.Enums.Month.December);
+            monthsStringToMonth.Add("jan", Enums.Month.January);
+            monthsStringToMonth.Add("feb", Enums.Month.February);
+            monthsStringToMonth.Add("mar", Enums.Month.March);
+            monthsStringToMonth.Add("ap", Enums.Month.April);
+            monthsStringToMonth.Add("jun", Enums.Month.June);
+            monthsStringToMonth.Add("jul", Enums.Month.July);
+            monthsStringToMonth.Add("aug", Enums.Month.August);
+            monthsStringToMonth.Add("sep", Enums.Month.September);
+            monthsStringToMonth.Add("oct", Enums.Month.October);
+            monthsStringToMonth.Add("nov", Enums.Month.November);
+            monthsStringToMonth.Add("dec", Enums.Month.December);
 
-            monthsStringToMonth.Add("1", Cron.Parser.Enums.Month.January);
-            monthsStringToMonth.Add("2", Cron.Parser.Enums.Month.February);
-            monthsStringToMonth.Add("3", Cron.Parser.Enums.Month.March);
-            monthsStringToMonth.Add("4", Cron.Parser.Enums.Month.April);
-            monthsStringToMonth.Add("5", Cron.Parser.Enums.Month.May);
-            monthsStringToMonth.Add("6", Cron.Parser.Enums.Month.June);
-            monthsStringToMonth.Add("7", Cron.Parser.Enums.Month.July);
-            monthsStringToMonth.Add("8", Cron.Parser.Enums.Month.August);
-            monthsStringToMonth.Add("9", Cron.Parser.Enums.Month.September);
-            monthsStringToMonth.Add("10", Cron.Parser.Enums.Month.October);
-            monthsStringToMonth.Add("11", Cron.Parser.Enums.Month.November);
-            monthsStringToMonth.Add("12", Cron.Parser.Enums.Month.December);
+            monthsStringToMonth.Add("1", Enums.Month.January);
+            monthsStringToMonth.Add("2", Enums.Month.February);
+            monthsStringToMonth.Add("3", Enums.Month.March);
+            monthsStringToMonth.Add("4", Enums.Month.April);
+            monthsStringToMonth.Add("5", Enums.Month.May);
+            monthsStringToMonth.Add("6", Enums.Month.June);
+            monthsStringToMonth.Add("7", Enums.Month.July);
+            monthsStringToMonth.Add("8", Enums.Month.August);
+            monthsStringToMonth.Add("9", Enums.Month.September);
+            monthsStringToMonth.Add("10", Enums.Month.October);
+            monthsStringToMonth.Add("11", Enums.Month.November);
+            monthsStringToMonth.Add("12", Enums.Month.December);
 
             dayOfWeekStringToDayOfWeek = new Dictionary<string, DayOfWeek>();
             dayOfWeekStringToDayOfWeek.Add("monday", System.DayOfWeek.Monday);

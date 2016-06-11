@@ -1,7 +1,7 @@
-﻿using Cron.Parser.Utils;
-using System;
+﻿using System;
+using TQL.CronExpression.Parser.Utils;
 
-namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
+namespace TQL.CronExpression.Extensions.TimelineEvaluator.Lists.ComputableLists
 {
     public class NthDayOfMonthLimitedByNumberOfWeekComputeList : NthDayOfMonthComputeList
     {

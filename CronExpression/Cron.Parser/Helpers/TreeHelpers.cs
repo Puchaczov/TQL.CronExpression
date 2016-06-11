@@ -1,12 +1,11 @@
-﻿using Cron.Core.Tokens;
-using Cron.Parser.Enums;
-using Cron.Parser.Nodes;
-using Cron.Parser.Tokens;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Enums;
+using TQL.CronExpression.Parser.Nodes;
 
-namespace Cron.Parser.Helpers
+namespace TQL.CronExpression.Parser.Helpers
 {
     public static class TreeHelpers
     {

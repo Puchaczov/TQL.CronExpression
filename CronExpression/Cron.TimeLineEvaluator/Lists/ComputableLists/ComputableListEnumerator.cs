@@ -1,9 +1,9 @@
-﻿using Cron.Extensions.TimelineEvaluator.List;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TQL.CronExpression.Extensions.TimelineEvaluator.List;
 
-namespace Cron.Extensions.TimelineEvaluator.Lists.ComputableLists
+namespace TQL.CronExpression.Extensions.TimelineEvaluator.Lists.ComputableLists
 {
     public class ComputableElementsEnumerator<T> : IEnumerator<T>
     {

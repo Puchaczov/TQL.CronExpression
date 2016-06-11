@@ -1,7 +1,7 @@
-﻿using Cron.Interfaces;
-using System;
+﻿using System;
+using TQL.Interfaces;
 
-namespace Cron.Extensions.TimelineEvaluator.Evaluators
+namespace TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators
 {
     public interface ICronFireTimeEvaluator : IFireTimeEvaluator
     {

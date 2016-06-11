@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cron.Parser.Exceptions
+namespace TQL.CronExpression.Parser.Exceptions
 {
     public class UnknownSegmentException : Exception
     {

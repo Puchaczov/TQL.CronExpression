@@ -1,6 +1,8 @@
-﻿namespace Cron.Converter
+﻿using TQL.Core.Converters;
+
+namespace TQL.CronExpression.Converter
 {
-    public class ConvertionRequest
+    public class ConvertionRequest : ConvertionRequestBase
     {
 
         private readonly string input;

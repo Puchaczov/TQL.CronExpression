@@ -1,6 +1,6 @@
-﻿using Cron.Core.Tokens;
+﻿using TQL.Core.Tokens;
 
-namespace Cron.Parser.Helpers
+namespace TQL.CronExpression.Parser.Helpers
 {
     public static class TextSpanHelpers
     {

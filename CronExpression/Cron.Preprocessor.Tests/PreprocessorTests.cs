@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Cron.Tests
+namespace TQL.CronExpression.Tests
 {
     [TestClass]
     public class PreprocessorTests

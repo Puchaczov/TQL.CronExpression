@@ -1,10 +1,10 @@
-﻿using Cron.Exceptions;
-using Cron.Visitors;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using TQL.CronExpression.Exceptions;
+using TQL.CronExpression.Visitors;
 
-namespace Cron.Converter.Tests
+namespace TQL.CronExpression.Converter.Tests
 {
     [TestClass]
     public class ConverterTests

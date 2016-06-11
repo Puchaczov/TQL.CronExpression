@@ -1,8 +1,8 @@
-﻿using Cron.Extensions.TimelineEvaluator.Evaluators;
-using Cron.Parser;
-using Cron.Parser.Visitors;
+﻿using TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators;
+using TQL.CronExpression.Parser;
+using TQL.CronExpression.Parser.Visitors;
 
-namespace Cron.Extensions.TimelineEvaluator.Helpers
+namespace TQL.CronExpression.Extensions.TimelineEvaluator.Helpers
 {
     public static class ExpressionHelpers
     {

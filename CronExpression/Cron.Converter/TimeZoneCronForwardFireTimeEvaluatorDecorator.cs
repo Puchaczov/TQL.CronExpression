@@ -1,7 +1,7 @@
 ﻿using System;
-using Cron.Extensions.TimelineEvaluator.Evaluators;
+using TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators;
 
-namespace Cron.Converter
+namespace TQL.CronExpression.Converter
 {
     class TimeZoneCronForwardFireTimeEvaluatorDecorator : ICronFireTimeEvaluator
     {

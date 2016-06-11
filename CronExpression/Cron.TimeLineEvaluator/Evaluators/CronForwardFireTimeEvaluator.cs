@@ -1,8 +1,8 @@
-﻿using Cron.Extensions.TimelineEvaluator.List;
-using Cron.Parser.Utils;
-using System;
+﻿using System;
+using TQL.CronExpression.Extensions.TimelineEvaluator.List;
+using TQL.CronExpression.Parser.Utils;
 
-namespace Cron.Extensions.TimelineEvaluator.Evaluators
+namespace TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators
 {
     class CronForwardFireTimeEvaluator : ICronFireTimeEvaluator
     {

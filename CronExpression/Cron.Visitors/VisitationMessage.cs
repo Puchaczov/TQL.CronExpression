@@ -1,10 +1,9 @@
-﻿using Cron.Core.Tokens;
-using Cron.Parser.Enums;
-using Cron.Parser.Tokens;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Enums;
 
-namespace Cron.Visitors
+namespace TQL.CronExpression.Visitors
 {
     public enum SyntaxErrorKind
     {

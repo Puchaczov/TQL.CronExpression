@@ -1,7 +1,7 @@
-﻿using Cron.Visitors;
-using System;
+﻿using System;
+using TQL.CronExpression.Visitors;
 
-namespace Cron.Exceptions
+namespace TQL.CronExpression.Exceptions
 {
     public class FatalError : VisitationMessage
     {

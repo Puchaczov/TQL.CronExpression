@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cron.Visitors.Exceptions
+namespace TQL.CronExpression.Visitors.Exceptions
 {
     public class RangeNodeException : Exception
     {

@@ -1,9 +1,9 @@
-﻿using Cron.Parser.Enums;
-using Cron.Parser.Tokens;
-using Cron.Parser.Visitors;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TQL.CronExpression.Parser.Enums;
+using TQL.CronExpression.Parser.Tokens;
+using TQL.CronExpression.Parser.Visitors;
 
-namespace Cron.Parser.Nodes
+namespace TQL.CronExpression.Parser.Nodes
 {
     public class NumberNode : LeafNode
     {

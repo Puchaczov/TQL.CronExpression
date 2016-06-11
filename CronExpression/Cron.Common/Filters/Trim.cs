@@ -1,6 +1,11 @@
 ﻿using Cron.Common.Pipeline;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Cron.Filters
+namespace Cron.Common.Filters
 {
     public class Trim : FilterBase<string>
     {

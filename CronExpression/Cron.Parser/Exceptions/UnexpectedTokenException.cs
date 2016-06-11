@@ -1,7 +1,7 @@
-﻿using Cron.Parser.Tokens;
-using System;
+﻿using System;
+using TQL.CronExpression.Parser.Tokens;
 
-namespace Cron.Parser.Exceptions
+namespace TQL.CronExpression.Parser.Exceptions
 {
     public class UnexpectedTokenException : Exception
     {
