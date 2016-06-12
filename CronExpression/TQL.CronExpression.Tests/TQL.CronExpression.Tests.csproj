@@ -6,8 +6,8 @@
     <ProjectGuid>{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TQL.CronExpression.Converter.Tests</RootNamespace>
-    <AssemblyName>TQL.CronExpression.Converter.Tests</AssemblyName>
+    <RootNamespace>TQL.CronExpression.Tests</RootNamespace>
+    <AssemblyName>TQL.CronExpression.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -66,10 +66,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TQL.CronExpression.Converter\TQL.CronExpression.Converter.csproj">
-      <Project>{F2615061-9615-4855-ADDC-D3BD8E6528CF}</Project>
-      <Name>TQL.CronExpression.Converter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TQL.CronExpression.Parser\TQL.CronExpression.Parser.csproj">
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
       <Name>TQL.CronExpression.Parser</Name>
@@ -85,6 +81,10 @@
     <ProjectReference Include="..\TQL.CronExpression.Visitors\TQL.CronExpression.Visitors.csproj">
       <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
       <Name>TQL.CronExpression.Visitors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TQL.CronExpression\TQL.CronExpression.csproj">
+      <Project>{f2615061-9615-4855-addc-d3bd8e6528cf}</Project>
+      <Name>TQL.CronExpression</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

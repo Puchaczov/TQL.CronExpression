@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TQL.CronExpression.Parser.Extensions;
 using TQL.CronExpression.Parser.Utils;
 
-namespace TQL.CronExpression.Extensions.TimelineEvaluator.Lists.ComputableLists
+namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
 {
     public class LastDayOfWeekInMonthBasedOnCurrentMonthComputeList : DateTimeBasedComputeList
     {

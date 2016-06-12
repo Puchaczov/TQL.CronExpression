@@ -1,5 +1,5 @@
 ﻿using System;
-using TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators;
+using TQL.CronExpression.TimelineEvaluator.Evaluators;
 
 namespace TQL.CronExpression.Converter
 {

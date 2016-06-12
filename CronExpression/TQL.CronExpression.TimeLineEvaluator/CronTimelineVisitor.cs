@@ -1,8 +1,8 @@
 ﻿using System;
-using TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators;
+using TQL.CronExpression.TimelineEvaluator.Evaluators;
 using TQL.CronExpression.Parser.Nodes;
 
-namespace TQL.CronExpression.Extensions.TimelineEvaluator
+namespace TQL.CronExpression.TimelineEvaluator
 {
     public class CronTimelineVisitor : CronNodeVisitorBase, IEvaluable<ICronFireTimeEvaluator>
     {

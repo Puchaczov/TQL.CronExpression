@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using TQL.CronExpression.Extensions.TimelineEvaluator.List;
+using TQL.CronExpression.TimelineEvaluator.List;
 using TQL.CronExpression.Parser.Utils;
 
-namespace TQL.CronExpression.Extensions.TimelineEvaluator.Lists.ComputableLists
+namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
 {
     /// <summary>
     /// Fully virtual list.

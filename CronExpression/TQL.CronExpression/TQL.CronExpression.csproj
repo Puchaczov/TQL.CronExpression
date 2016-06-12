@@ -7,8 +7,8 @@
     <ProjectGuid>{F2615061-9615-4855-ADDC-D3BD8E6528CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TQL.CronExpression.Converter</RootNamespace>
-    <AssemblyName>TQL.CronExpression.Converter</AssemblyName>
+    <RootNamespace>TQL.CronExpression</RootNamespace>
+    <AssemblyName>TQL.CronExpression</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TQL.CronExpression.Extensions.TimelineEvaluator.List
+namespace TQL.CronExpression.TimelineEvaluator.List
 {
     public class PersistentList<T> : List<T>, IComputableElementsList<T>
     {

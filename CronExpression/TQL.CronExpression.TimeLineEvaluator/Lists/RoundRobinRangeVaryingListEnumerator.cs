@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace TQL.CronExpression.Extensions.TimelineEvaluator.List
+namespace TQL.CronExpression.TimelineEvaluator.List
 {
     internal class RoundRobinRangeVaryingListEnumerator<T> : IEnumerator<T>
     {

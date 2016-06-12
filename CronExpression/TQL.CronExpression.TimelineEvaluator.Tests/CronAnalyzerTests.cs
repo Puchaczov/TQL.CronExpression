@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators;
-using TQL.CronExpression.Extensions.TimelineEvaluator.Helpers;
+using TQL.CronExpression.TimelineEvaluator.Evaluators;
+using TQL.CronExpression.TimelineEvaluator.Helpers;
 
 namespace TQL.CronExpression.Parser.Tests
 {

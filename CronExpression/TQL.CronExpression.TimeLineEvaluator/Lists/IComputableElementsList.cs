@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TQL.CronExpression.Extensions.TimelineEvaluator.List
+namespace TQL.CronExpression.TimelineEvaluator.List
 {
     public interface IComputableElementsList<T> : IEnumerable<T>
     {

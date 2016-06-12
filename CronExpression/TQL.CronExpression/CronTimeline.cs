@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using TQL.CronExpression.Exceptions;
-using TQL.CronExpression.Extensions.TimelineEvaluator;
-using TQL.CronExpression.Extensions.TimelineEvaluator.Evaluators;
+using TQL.CronExpression.TimelineEvaluator;
+using TQL.CronExpression.TimelineEvaluator.Evaluators;
 using TQL.CronExpression.Parser.Nodes;
 using TQL.CronExpression.Visitors;
 

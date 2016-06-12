@@ -1,7 +1,7 @@
 ﻿using System;
 using TQL.CronExpression.Parser.Utils;
 
-namespace TQL.CronExpression.Extensions.TimelineEvaluator.Lists.ComputableLists
+namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
 {
     public class LastWeekdayOfMonthComputeList : DateTimeBasedComputeList
     {
