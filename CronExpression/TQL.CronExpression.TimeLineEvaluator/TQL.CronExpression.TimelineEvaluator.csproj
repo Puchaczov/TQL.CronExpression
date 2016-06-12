@@ -8,8 +8,8 @@
     <ProjectGuid>{F20E2414-19DD-4204-AA76-654520285E42}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TQL.CronExpression.Extensions.TimelineEvaluator</RootNamespace>
-    <AssemblyName>TQL.CronExpression.Extensions.TimelineEvaluator</AssemblyName>
+    <RootNamespace>TQL.CronExpression.TimelineEvaluator</RootNamespace>
+    <AssemblyName>TQL.CronExpression.TimelineEvaluator</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

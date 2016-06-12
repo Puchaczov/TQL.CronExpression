@@ -54,9 +54,9 @@
       <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
       <Name>TQL.CronExpression.Preprocessor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TQL.CronExpression.TimeLineEvaluator\TQL.CronExpression.Extensions.TimelineEvaluator.csproj">
+    <ProjectReference Include="..\TQL.CronExpression.TimeLineEvaluator\TQL.CronExpression.TimelineEvaluator.csproj">
       <Project>{f20e2414-19dd-4204-aa76-654520285e42}</Project>
-      <Name>TQL.CronExpression.Extensions.TimelineEvaluator</Name>
+      <Name>TQL.CronExpression.TimelineEvaluator</Name>
     </ProjectReference>
     <ProjectReference Include="..\TQL.CronExpression.Visitors\TQL.CronExpression.Visitors.csproj">
       <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>

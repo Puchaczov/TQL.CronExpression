@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TQL.CronExpression.Converter")]
-[assembly: AssemblyDescription("https://github.com/Puchaczov/CronExpression")]
+[assembly: AssemblyDescription("https://github.com/Puchaczov/TQL.CronExpression")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jakub Puchała")]
 [assembly: AssemblyProduct("TQL.CronExpression.Converter")]

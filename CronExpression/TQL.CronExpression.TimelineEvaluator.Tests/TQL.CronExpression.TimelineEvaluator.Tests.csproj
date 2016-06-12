@@ -71,9 +71,9 @@
       <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
       <Name>TQL.CronExpression.Parser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TQL.CronExpression.TimeLineEvaluator\TQL.CronExpression.Extensions.TimelineEvaluator.csproj">
+    <ProjectReference Include="..\TQL.CronExpression.TimeLineEvaluator\TQL.CronExpression.TimelineEvaluator.csproj">
       <Project>{F20E2414-19DD-4204-AA76-654520285E42}</Project>
-      <Name>TQL.CronExpression.Extensions.TimelineEvaluator</Name>
+      <Name>TQL.CronExpression.TimelineEvaluator</Name>
     </ProjectReference>
     <ProjectReference Include="..\TQL.CronExpression.Visitors\TQL.CronExpression.Visitors.csproj">
       <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
@@ -84,7 +84,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
