@@ -3,29 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Visitors", "Cron.Visitors\TQL.CronExpression.Visitors.csproj", "{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Parser.Tests", "Cron.Parser.Tests\TQL.CronExpression.Parser.Tests.csproj", "{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Parser", "Cron.Parser\TQL.CronExpression.Parser.csproj", "{B8735922-C602-44EE-9DF5-45679E2A1436}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Visitors.Tests", "Cron.Visitors.Tests\TQL.CronExpression.Visitors.Tests.csproj", "{F515377A-5038-4BBF-8ACC-55FB005C06B3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Preprocessor", "Cron.Preprocessor\TQL.CronExpression.Preprocessor.csproj", "{0E5073F4-2FAE-4A2F-9B53-650B5E644C0C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Converter", "Cron.Converter\TQL.CronExpression.Converter.csproj", "{F2615061-9615-4855-ADDC-D3BD8E6528CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Preprocessor.Tests", "Cron.Preprocessor.Tests\TQL.CronExpression.Preprocessor.Tests.csproj", "{8A4E2440-5844-4870-ABD1-C30BD1784AE3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Converter.Tests", "Cron.Converter.Tests\TQL.CronExpression.Converter.Tests.csproj", "{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Extensions.TimelineEvaluator", "Cron.TimeLineEvaluator\TQL.CronExpression.Extensions.TimelineEvaluator.csproj", "{F20E2414-19DD-4204-AA76-654520285E42}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Extensions.TimelineEvaluator.Tests", "Cron.Extensions.TimelineEvaluator.Tests\TQL.CronExpression.Extensions.TimelineEvaluator.Tests.csproj", "{537C895F-EFA3-45E3-8721-D6621C880046}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Performance.Tests", "Cron.Performance.Tests\TQL.CronExpression.Performance.Tests.csproj", "{F9498DB7-0826-4D17-BF7E-8332D326F33A}"
-EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Build", "Build\Build.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Parser", "TQL.CronExpression.Parser\TQL.CronExpression.Parser.csproj", "{B8735922-C602-44EE-9DF5-45679E2A1436}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Parser.Tests", "TQL.CronExpression.Parser.Tests\TQL.CronExpression.Parser.Tests.csproj", "{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Visitors", "TQL.CronExpression.Visitors\TQL.CronExpression.Visitors.csproj", "{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Visitors.Tests", "TQL.CronExpression.Visitors.Tests\TQL.CronExpression.Visitors.Tests.csproj", "{F515377A-5038-4BBF-8ACC-55FB005C06B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Preprocessor", "TQL.CronExpression.Preprocessor\TQL.CronExpression.Preprocessor.csproj", "{0E5073F4-2FAE-4A2F-9B53-650B5E644C0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Preprocessor.Tests", "TQL.CronExpression.Preprocessor.Tests\TQL.CronExpression.Preprocessor.Tests.csproj", "{8A4E2440-5844-4870-ABD1-C30BD1784AE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.TimelineEvaluator", "TQL.CronExpression.TimeLineEvaluator\TQL.CronExpression.TimelineEvaluator.csproj", "{F20E2414-19DD-4204-AA76-654520285E42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.TimelineEvaluator.Tests", "TQL.CronExpression.TimelineEvaluator.Tests\TQL.CronExpression.TimelineEvaluator.Tests.csproj", "{537C895F-EFA3-45E3-8721-D6621C880046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression", "TQL.CronExpression\TQL.CronExpression.csproj", "{F2615061-9615-4855-ADDC-D3BD8E6528CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TQL.CronExpression.Tests", "TQL.CronExpression.Tests\TQL.CronExpression.Tests.csproj", "{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,18 +31,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B8735922-C602-44EE-9DF5-45679E2A1436}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8735922-C602-44EE-9DF5-45679E2A1436}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8735922-C602-44EE-9DF5-45679E2A1436}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8735922-C602-44EE-9DF5-45679E2A1436}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0845FC87-614B-4479-BBF6-4E3D0FF51CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3CBF7C1-87C6-4500-85C5-3D7D4580C309}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F515377A-5038-4BBF-8ACC-55FB005C06B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F515377A-5038-4BBF-8ACC-55FB005C06B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F515377A-5038-4BBF-8ACC-55FB005C06B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,18 +55,10 @@ Global
 		{0E5073F4-2FAE-4A2F-9B53-650B5E644C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E5073F4-2FAE-4A2F-9B53-650B5E644C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E5073F4-2FAE-4A2F-9B53-650B5E644C0C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2615061-9615-4855-ADDC-D3BD8E6528CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2615061-9615-4855-ADDC-D3BD8E6528CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2615061-9615-4855-ADDC-D3BD8E6528CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2615061-9615-4855-ADDC-D3BD8E6528CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A4E2440-5844-4870-ABD1-C30BD1784AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A4E2440-5844-4870-ABD1-C30BD1784AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A4E2440-5844-4870-ABD1-C30BD1784AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A4E2440-5844-4870-ABD1-C30BD1784AE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F20E2414-19DD-4204-AA76-654520285E42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F20E2414-19DD-4204-AA76-654520285E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F20E2414-19DD-4204-AA76-654520285E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,14 +67,14 @@ Global
 		{537C895F-EFA3-45E3-8721-D6621C880046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{537C895F-EFA3-45E3-8721-D6621C880046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{537C895F-EFA3-45E3-8721-D6621C880046}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9498DB7-0826-4D17-BF7E-8332D326F33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9498DB7-0826-4D17-BF7E-8332D326F33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9498DB7-0826-4D17-BF7E-8332D326F33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9498DB7-0826-4D17-BF7E-8332D326F33A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2615061-9615-4855-ADDC-D3BD8E6528CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2615061-9615-4855-ADDC-D3BD8E6528CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2615061-9615-4855-ADDC-D3BD8E6528CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2615061-9615-4855-ADDC-D3BD8E6528CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C2E925B-39DE-4CD6-8715-7407CFB7E7FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

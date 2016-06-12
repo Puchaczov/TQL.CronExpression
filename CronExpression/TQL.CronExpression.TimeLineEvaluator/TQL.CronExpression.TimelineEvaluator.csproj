@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F20E2414-19DD-4204-AA76-654520285E42}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TQL.CronExpression.TimelineEvaluator</RootNamespace>
+    <AssemblyName>TQL.CronExpression.TimelineEvaluator</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CronNodeVisitorBase.cs" />
+    <Compile Include="CronTimelineVisitor.cs" />
+    <Compile Include="Evaluators\CronForwardFireTimeEvaluator.cs" />
+    <Compile Include="Evaluators\ICronFireTimeEvaluator.cs" />
+    <Compile Include="Helpers\ExpressionHelpers.cs" />
+    <Compile Include="IEvaluable.cs" />
+    <Compile Include="Lists\ComputableLists\ComputableListEnumerator.cs" />
+    <Compile Include="Lists\ComputableLists\DateTimeBasedComputeList.cs" />
+    <Compile Include="Lists\ComputableLists\DayOfWeekBasedComputeList.cs" />
+    <Compile Include="Lists\ComputableLists\EverydayOfWeekComputeList.cs" />
+    <Compile Include="Lists\ComputableLists\LastDayOfWeekInMonthBasedOnCurrentMonthComputeList.cs" />
+    <Compile Include="Lists\ComputableLists\LastWeekdayOfMonthComputeList.cs" />
+    <Compile Include="Lists\ComputableLists\MonthBasedComputeList.cs" />
+    <Compile Include="Lists\ComputableLists\NearWeekdayComputeList.cs" />
+    <Compile Include="Lists\ComputableLists\NthDayOfMonthLimitedByNumberOfWeekComputeList.cs" />
+    <Compile Include="Lists\ComputableLists\NthDayOfMonthComputeList.cs" />
+    <Compile Include="Lists\IComputableElementsList.cs" />
+    <Compile Include="Lists\PersistentList.cs" />
+    <Compile Include="Lists\RangeVaryingList.cs" />
+    <Compile Include="Lists\RoundRobinRangeVaryingList.cs" />
+    <Compile Include="Lists\RoundRobinRangeVaryingListEnumerator.cs" />
+    <Compile Include="Lists\VirtualList.cs" />
+    <Compile Include="Lists\VirtuallyJoinedList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TQL.Common, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Common.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TQL.Core, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Core.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TQL.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Interfaces.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TQL.CronExpression.Parser\TQL.CronExpression.Parser.csproj">
+      <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
+      <Name>TQL.CronExpression.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TQL.CronExpression.Preprocessor\TQL.CronExpression.Preprocessor.csproj">
+      <Project>{0e5073f4-2fae-4a2f-9b53-650b5e644c0c}</Project>
+      <Name>TQL.CronExpression.Preprocessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TQL.CronExpression.Visitors\TQL.CronExpression.Visitors.csproj">
+      <Project>{d3cbf7c1-87c6-4500-85c5-3d7d4580c309}</Project>
+      <Name>TQL.CronExpression.Visitors</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
