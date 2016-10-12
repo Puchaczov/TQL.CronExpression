@@ -9,6 +9,7 @@ using TQL.CronExpression.Parser.Extensions;
 using TQL.CronExpression.Parser.Nodes;
 using TQL.CronExpression.Parser.Utils;
 using TQL.CronExpression.Visitors;
+using TQL.CronExpression.Parser.Tokens;
 
 namespace TQL.CronExpression.TimelineEvaluator
 {
@@ -157,11 +158,19 @@ namespace TQL.CronExpression.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new MonthBasedComputeList(time, new int[] { 0 }));
+                    var token = node.Token as LToken;
+                    //Default value of the token is 1 but L in this segment can be placed as L without 1 (eg.1L). But compute list operates on values from 0 to n
+                    //TO DO: is it correct?????? 
+                    var number = int.Parse(node.Token.Value);
+                    if(number == 1)
+                    {
+                        number = 0;
+                    }
+                    values[lastSegment].Add(new MonthBasedComputeList(time, new int[] { number }));
                     values[lastSegment].SetRange(0, values[lastSegment].Count);
                     break;
                 case Segment.DayOfWeek:
-                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputeList(time, new int[] { 0 }));
+                    values[lastSegment].Add(new LastDayOfWeekInMonthBasedOnCurrentMonthComputeList(time, new int[] { int.Parse(node.Token.Value) }));
                     values[lastSegment].SetRange(0, values[lastSegment].Count);
                     break;
             }
@@ -173,7 +182,7 @@ namespace TQL.CronExpression.TimelineEvaluator
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
-                    values[lastSegment].Add(new NearWeekdayComputeList(time, 1));
+                    values[lastSegment].Add(new NearWeekdayComputeList(time, int.Parse(node.Token.Value)));
                     break;
             }
         }

@@ -176,7 +176,9 @@ namespace TQL.CronExpression.Visitors
                 switch (segment)
                 {
                     case Segment.DayOfMonth:
+                        break;
                     case Segment.DayOfWeek:
+                        ReportIfLNodeIsOutOfRange(node);
                         break;
                     default:
                         AddSemanticError(
@@ -225,14 +227,20 @@ namespace TQL.CronExpression.Visitors
                 switch (segment)
                 {
                     case Segment.DayOfMonth:
-                        ReportIfWNodeAmongOtherValues(node);
-                        ReportIfDayOfMonthIsOutOfRange(node);
-                        return;
+                        var siblings = currentSegment.Siblings(node);
+                        if (siblings.Count() != 0)
+                        {
+                            AddSemanticError(node.FullSpan,
+                                string.Format(Properties.Resources.CannotBeUsedInThisContext, node.Token.Value, Properties.Resources.DoNotMixValues),
+                                SemanticErrorKind.UnsupportedValue);
+                        }
+                        break;
+                    default:
+                        AddSemanticError(node.FullSpan,
+                            string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType, string.Join(",", GetSupportedTypes(segment))),
+                            SemanticErrorKind.UnsupportedValue);
+                        break;
                 }
-                AddSemanticError(
-                    node.FullSpan,
-                    string.Format(Properties.Resources.UnsupportedFieldValue, node.Token.Value, node.Token.TokenType, string.Join(",", GetSupportedTypes(segment))),
-                    SemanticErrorKind.UnsupportedValue);
             }
             catch (BaseCronValidationException exc)
             {
@@ -291,6 +299,7 @@ namespace TQL.CronExpression.Visitors
                                 string.Format(Properties.Resources.CannotBeUsedInThisContext, node.Token.Value, Properties.Resources.DoNotMixValues),
                                 SemanticErrorKind.UnsupportedValue);
                         }
+                        ReportIfWNodeIsOutOfRange(node);
                         break;
                     default:
                         AddSemanticError(node.FullSpan,
@@ -629,7 +638,33 @@ namespace TQL.CronExpression.Visitors
             }
             AddSemanticError(
                 node.FullSpan,
-                string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "0", "31"),
+                string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, "1", "31"),
+                SemanticErrorKind.ValueOutOfRange);
+        }
+
+        private void ReportIfWNodeIsOutOfRange(CronSyntaxNode node)
+        {
+            int number = 0;
+            if (int.TryParse(node.Token.Value, out number) && number >= 1 && number <= 31)
+            {
+                return;
+            }
+            AddSemanticError(
+                node.FullSpan,
+                string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, "1", "31"),
+                SemanticErrorKind.ValueOutOfRange);
+        }
+
+        private void ReportIfLNodeIsOutOfRange(CronSyntaxNode node)
+        {
+            int number = 0;
+            if (int.TryParse(node.Token.Value, out number) && number >= 1 && number <= 7)
+            {
+                return;
+            }
+            AddSemanticError(
+                node.FullSpan,
+                string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, "2", "7"),
                 SemanticErrorKind.ValueOutOfRange);
         }
 
@@ -639,7 +674,7 @@ namespace TQL.CronExpression.Visitors
             {
                 AddSemanticError(
                     node.FullSpan,
-                    string.Format(Properties.Resources.OutOfRange, node.Token.Value, node.Token.TokenType, "1/MON", "7/SUN"),
+                    string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), node.Token.TokenType, "1/MON", "7/SUN"),
                     SemanticErrorKind.ValueOutOfRange);
             }
         }
@@ -751,7 +786,7 @@ namespace TQL.CronExpression.Visitors
             {
                 AddSemanticError(
                     node.FullSpan,
-                    string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "1/JAN", "12/DEC"),
+                    string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, "1/JAN", "12/DEC"),
                     SemanticErrorKind.ValueOutOfRange);
             }
         }
@@ -826,7 +861,7 @@ namespace TQL.CronExpression.Visitors
             {
                 AddSemanticError(
                     node.FullSpan,
-                    string.Format(Properties.Resources.OutOfRange, value, segment, minValue, maxValue),
+                    string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, minValue, maxValue),
                     SemanticErrorKind.ValueOutOfRange);
             }
         }
@@ -841,7 +876,7 @@ namespace TQL.CronExpression.Visitors
             {
                 AddSemanticError(
                     items.Select(f => f.FullSpan).ToArray(),
-                    string.Format(Properties.Resources.RangeValueSwapped, items[0].Token.Value, items[1].Token.Value),
+                    string.Format(Properties.Resources.RangeValueSwapped, items[0].Token.ToString(), items[1].Token.ToString()),
                     SemanticErrorKind.SwappedValue);
             }
         }

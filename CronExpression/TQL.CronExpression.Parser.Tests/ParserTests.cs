@@ -337,6 +337,13 @@ namespace TQL.CronExpression.Parser.Tests
             CheckLastSegmentIsOfType<EndOfFileNode>(tree);
         }
 
+        [TestMethod]
+        public void CheckSyntaxTree_WithIncorrectValues_ShouldProcueTree()
+        {
+            var tree = CheckSyntaxTree("*a * * * * * *", "*a * * * * * *", false);
+            CheckHasAppropiateCountsOfSegments(tree);
+        }
+
         private static void CheckFullSpan(string expression, params TextSpan[] spans)
         {
             var exp = expression.Parse();

@@ -8,9 +8,12 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class WNode : NumberNode
     {
-        public WNode(Token token)
+        private WToken token;
+        public WNode(WToken token)
             : base(token)
-        { }
+        {
+            this.token = token;
+        }
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -19,6 +22,6 @@ namespace TQL.CronExpression.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment) => ListExtension.Empty();
 
-        public override string ToString() => "W";
+        public override string ToString() => this.token.Number != 1 ? (base.Token as WToken).Value + "W" : "W";
     }
 }

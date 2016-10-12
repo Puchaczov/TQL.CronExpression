@@ -18,7 +18,7 @@ namespace TQL.CronExpression.Parser.Nodes
             {
                 var start = Left.Token.Span.Start;
                 var stop = Right.Token.Span.End;
-                return new TextSpan(start, stop - start);
+                return new TextSpan(start, (stop - start));
             }
         }
 

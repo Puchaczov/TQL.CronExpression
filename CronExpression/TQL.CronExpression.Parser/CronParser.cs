@@ -191,13 +191,13 @@ namespace TQL.CronExpression.Parser
                     return new WordNode(token);
                 case TokenType.L:
                     Consume(TokenType.L);
-                    return new LNode(token);
+                    return new LNode(token as LToken);
                 case TokenType.W:
                     Consume(TokenType.W);
-                    return new WNode(token);
+                    return new WNode(token as WToken);
                 case TokenType.LW:
                     Consume(TokenType.LW);
-                    return new LWNode(token);
+                    return new LWNode(token as LWToken);
                 case TokenType.Star:
                     Consume(TokenType.Star);
                     return new StarNode(currentSegment, token);

@@ -3,109 +3,193 @@ using TQL.Core.Tokens;
 using System;
 using TQL.CronExpression.Parser.Tokens;
 using TQL.CronExpression.Parser.Exceptions;
+using TQL.CronExpression.Parser.Enums;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace TQL.CronExpression.Parser
 {
+    /// <summary>
+    /// Idea how to implement this piece of code where founded here:
+    /// https://blogs.msdn.microsoft.com/drew/2009/12/31/a-simple-lexer-in-c-that-uses-regular-expressions/
+    /// </summary>
     public class Lexer : LexerBase<Token>
     {
-        public Lexer(string input)
-            : base(input, new NoneToken(new TextSpan(0, 0)))
-        { }
+        private class TokenDefinition
+        {
+            public Regex Regex { get; }
 
-        public Token Last => (Token)lastToken.Clone();
+            public TokenDefinition(string pattern)
+            {
+                Regex = new Regex(pattern);
+            }
+
+            public TokenDefinition(string pattern, RegexOptions options)
+            {
+                Regex = new Regex(pattern, options);
+            }
+        }
+
+        private class TokenPosition
+        {
+            public int Index { get; }
+            public int Length { get; }
+
+            public TokenPosition(int index, int length)
+            {
+                this.Index = index;
+                this.Length = length;
+            }
+        }
+
+
+        private TokenDefinition[] definitions;
+
+        public Lexer(string input) : 
+            base(input, new NoneToken(new TextSpan(0, 0)))
+        {
+            definitions = new TokenDefinition[] {
+                new TokenDefinition(@"[\*]{1}(?=[\s,]{1,})"),
+                new TokenDefinition(@"[_]{1}(?=[\s,]{1,})"),
+                new TokenDefinition(@"[?]{1}(?=[\s,]{1,})"),
+                new TokenDefinition(@"[#]{1}"),
+                new TokenDefinition(@"(\r\n)|(\r)|(\n)|([\s]{1})", RegexOptions.Singleline),
+                new TokenDefinition(@"[\,]{1}"),
+                new TokenDefinition(@"[\-]{1}"),
+                new TokenDefinition(@"[\/]{1}"),
+                new TokenDefinition(@"[\r\n]{1}"),
+                new TokenDefinition(@"((\b\d*)(LW|L|W)(?=[\s,]{1,})|(\b\d*)(LW|L|W)$)"),
+                new TokenDefinition(@"[\d]{1,}"),
+                new TokenDefinition(@"\w{1,3}"),
+                new TokenDefinition(@"(([\w*?_]{1,}))", RegexOptions.Singleline),
+            };
+        }
 
         public override Token NextToken()
         {
-            if (pos > input.Length - 1)
+            while(!IsOutOfRange)
             {
-                AssignTokenOfType(() => new EndOfFileToken(new TextSpan(input.Length, 0)));
-                return currentToken;
-            }
-
-            var currentChar = input[pos];
-
-            if (IsEndLine(currentChar))
-            {
-                var token = new WhiteSpaceToken(new TextSpan(pos, 2));
-                pos += 2;
-                return token;
-            }
-
-            if (IsDigit(currentChar))
-            {
-                return ConsumeInterger();
-            }
-
-            if (IsLetter(currentChar))
-            {
-                var tmpStartPos = Position;
-                var letters = ConsumeLetters();
-                var tmpStopPos = Position;
-                switch (letters.Value)
+                TokenDefinition matchedDefinition = null;
+                int matchLength = 0;
+                
+                foreach(var rule in definitions)
                 {
-                    case "W":
-                        return AssignTokenOfType(() => new WToken(new TextSpan(tmpStartPos, tmpStopPos - tmpStartPos)));
-                    case "L":
-                        return AssignTokenOfType(() => new LToken(new TextSpan(tmpStartPos, tmpStopPos - tmpStartPos)));
-                    case "LW":
-                        return AssignTokenOfType(() => new LWToken(new TextSpan(tmpStartPos, tmpStopPos - tmpStartPos)));
-                    default:
-                        return letters;
+                    var match = rule.Regex.Match(input, pos);
+
+                    if(match.Success && match.Index - pos == 0)
+                    {
+                        matchedDefinition = rule;
+                        matchLength = match.Length;
+                        break;
+                    }
+                }
+
+                if(matchedDefinition == null)
+                {
+                    throw new UnknownTokenException(pos, input[pos], string.Format("Unrecognized token exception at {0} for {1}", pos, input.Substring(pos)));
+                }
+                else
+                {
+                    var value = input.Substring(pos, matchLength);
+
+                    var oldPos = pos;
+                    pos += matchLength;
+
+                    switch (GetTokenCandidate(value))
+                    {
+                        case TokenType.Hash:
+                            return AssignTokenOfType(() => new HashToken(new TextSpan(oldPos, 1)));
+                        case TokenType.WhiteSpace:
+                            return AssignTokenOfType(() => new WhiteSpaceToken(new TextSpan(oldPos, 1)));
+                        case TokenType.QuestionMark:
+                            return AssignTokenOfType(() => new QuestionMarkToken(new TextSpan(oldPos, 1)));
+                        case TokenType.Comma:
+                            return AssignTokenOfType(() => new CommaToken(new TextSpan(oldPos, 1)));
+                        case TokenType.Star:
+                            return AssignTokenOfType(() => new StarToken(new TextSpan(oldPos, 1)));
+                        case TokenType.Range:
+                            return AssignTokenOfType(() => new RangeToken(new TextSpan(oldPos, 1)));
+                        case TokenType.Inc:
+                            return AssignTokenOfType(() => new IncrementByToken(new TextSpan(oldPos, 1)));
+                        case TokenType.Missing:
+                            return AssignTokenOfType(() => new MissingToken(new TextSpan(oldPos, 1)));
+                        case TokenType.Integer:
+                            return AssignTokenOfType(() => new IntegerToken(value, new TextSpan(oldPos, value.Length)));
+                    }
+
+                    var splited = matchedDefinition.Regex.Split(value).Where(f => f != value).ToArray();
+
+                    if(splited.Length > 2)
+                    {
+                        if (splited[1] == string.Empty)
+                        {
+                            splited[1] = "1";
+                        }
+                        if(splited[2] == string.Empty)
+                        {
+                            splited[2] = value;
+                        }
+
+                        switch (splited[2])
+                        {
+                            case "L":
+                                return AssignTokenOfType(() => new LToken(int.Parse(splited[1]), new TextSpan(oldPos, matchLength)));
+                            case "LW":
+                                return AssignTokenOfType(() => new LWToken(int.Parse(splited[1]), new TextSpan(oldPos, matchLength)));
+                            case "W":
+                                return AssignTokenOfType(() => new WToken(int.Parse(splited[1]), new TextSpan(oldPos, matchLength)));
+                        }
+                    }
+
+                    return AssignTokenOfType(() => new NameToken(value, new TextSpan(oldPos, matchLength)));
+
                 }
             }
 
-            if (IsMissing(currentChar))
-            {
-                return AssignTokenOfType(() => new MissingToken(new TextSpan(Position, 0)));
-            }
-
-            var lastPos = pos;
-            pos += 1;
-            switch (currentChar)
-            {
-                case '#':
-                    return AssignTokenOfType(() => new HashToken(new TextSpan(lastPos, 1)));
-                case ' ':
-                    return AssignTokenOfType(() => new WhiteSpaceToken(new TextSpan(lastPos, 1)));
-                case '?':
-                    return AssignTokenOfType(() => new QuestionMarkToken(new TextSpan(lastPos, 1)));
-                case ',':
-                    return AssignTokenOfType(() => new CommaToken(new TextSpan(lastPos, 1)));
-                case '*':
-                    return AssignTokenOfType(() => new StarToken(new TextSpan(lastPos, 1)));
-                case '-':
-                    return AssignTokenOfType(() => new RangeToken(new TextSpan(lastPos, 1)));
-                case '/':
-                    return AssignTokenOfType(() => new IncrementByToken(new TextSpan(lastPos, 1)));
-            }
-
-            throw new UnknownTokenException(pos, currentChar);
+            return AssignTokenOfType(() => new EndOfFileToken(new TextSpan(pos, 0)));
         }
 
-        private static bool IsMissing(char currentChar) => currentChar == '_';
-
-        private Token ConsumeInterger()
+        private bool IsOutOfRange => pos >= input.Length;
+        
+        private TokenType GetTokenCandidate(string text)
         {
-            var startPos = pos;
-            var cnt = input.Length;
-            while (cnt > pos && IsDigit(input[pos]))
+            switch (text)
             {
-                ++pos;
+                case "#":
+                    return TokenType.Hash;
+                case "?":
+                    return TokenType.QuestionMark;
+                case "*":
+                    return TokenType.Star;
+                case "-":
+                    return TokenType.Range;
+                case "/":
+                    return TokenType.Inc;
+                case " ":
+                    return TokenType.WhiteSpace;
+                case ",":
+                    return TokenType.Comma;
+                case "_":
+                    return TokenType.Missing;
             }
 
-            return AssignTokenOfType(() => new IntegerToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos)));
+            if(this.IsEndLine(text))
+            {
+                return TokenType.WhiteSpace;
+            }
+
+            int number = 0;
+            if (int.TryParse(text, out number) && !text.Contains(" "))
+            {
+                return TokenType.Integer;
+            }
+
+            return TokenType.Name;
         }
 
-        private NameToken ConsumeLetters()
+        private bool IsEndLine(string text)
         {
-            var startPos = pos;
-            var cnt = input.Length;
-            while (cnt > pos && IsLetter(input[pos]))
-            {
-                ++pos;
-            }
-
-            return AssignTokenOfType(() => new NameToken(input.Substring(startPos, pos - startPos), new TextSpan(startPos, pos - startPos))) as NameToken;
+            return text == Environment.NewLine || text == "\r" || text == "\n";
         }
 
         public override Token LastToken()

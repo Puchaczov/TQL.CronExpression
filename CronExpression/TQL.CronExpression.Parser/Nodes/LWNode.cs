@@ -8,9 +8,12 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class LWNode : LeafNode
     {
-        public LWNode(Token token)
+        private LWToken token;
+        public LWNode(LWToken token)
             : base(token)
-        { }
+        {
+            this.token = token;
+        }
 
         public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
 
@@ -21,6 +24,6 @@ namespace TQL.CronExpression.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment) => ListExtension.Empty();
 
-        public override string ToString() => "LW";
+        public override string ToString() => this.token.Number != 1 ? (base.Token as LToken).Value + "LW" : "LW";
     }
 }

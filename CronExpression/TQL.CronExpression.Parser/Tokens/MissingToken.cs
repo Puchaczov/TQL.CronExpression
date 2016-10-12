@@ -1,8 +1,10 @@
-﻿using TQL.Core.Tokens;
+﻿using System.Diagnostics;
+using TQL.Core.Tokens;
 using TQL.CronExpression.Parser.Enums;
 
 namespace TQL.CronExpression.Parser.Tokens
 {
+    [DebuggerDisplay("{GetType().Name,nq}: _")]
     public class MissingToken : Token
     {
         public MissingToken(TextSpan span)
