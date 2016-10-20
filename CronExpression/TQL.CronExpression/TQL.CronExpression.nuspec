@@ -11,7 +11,7 @@
     <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>This release is the second release of CronExpression library after project renaming and incorporating in TQL software</releaseNotes>
+    <releaseNotes>User mistakes when typing expressions should be handle properly</releaseNotes>
     <copyright>Jakub Puchała 2016</copyright>
     <tags>TQL TQL.CronExpression CronExpression Cron</tags>
   </metadata>

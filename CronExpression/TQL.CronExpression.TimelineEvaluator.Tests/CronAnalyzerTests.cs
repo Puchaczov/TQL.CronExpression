@@ -557,6 +557,13 @@ namespace TQL.CronExpression.Parser.Tests
             //Check L doesn't generate few times same date.
             Assert.AreNotEqual(new DateTimeOffset(2016, 1, 10, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
         }
+        
+        [TestMethod]
+        public void TestWithInproperValuesInSegment_ShouldReturnNullEvaluator()
+        {
+            var evaluator = "*a * * * * * *".TakeEvaluator();
+            Assert.IsNull(evaluator);
+        }
 
         private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
         {

@@ -414,7 +414,9 @@ namespace TQL.CronExpression.Parser.Tests
             Assert.IsFalse(visitor.IsValid);
             Assert.AreEqual(2, visitor.Errors.Count());
             Assert.AreEqual(SemanticErrorKind.ValueOutOfRange, visitor.Errors.OfType<SemanticError>().First().Kind);
+            Assert.AreEqual("Value 150 cannot be used in segment Minutes. Value must be ranged from 0 - 59.", visitor.Errors.First().Message);
             Assert.AreEqual(SemanticErrorKind.ValueOutOfRange, visitor.Errors.OfType<SemanticError>().ElementAt(1).Kind);
+            Assert.AreEqual("Value 200 cannot be used in segment Minutes. Value must be ranged from 0 - 59.", visitor.Errors.ElementAt(1).Message);
         }
 
         private static void CheckRange_ShouldReportError(string expression, int expectedCount, SemanticErrorKind expectedError)
