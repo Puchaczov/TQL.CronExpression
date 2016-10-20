@@ -124,8 +124,6 @@ namespace TQL.CronExpression.TimelineEvaluator
                             new PersistentList<int>(new List<int> { CronWordHelper.Month(node.Token.Value).AsInt() })
                         );
                     break;
-                default:
-                    throw new Exception("Bad segment");
             }
         }
 

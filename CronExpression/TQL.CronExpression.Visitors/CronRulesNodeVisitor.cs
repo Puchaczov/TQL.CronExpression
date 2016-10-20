@@ -638,7 +638,7 @@ namespace TQL.CronExpression.Visitors
             }
             AddSemanticError(
                 node.FullSpan,
-                string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, "1", "31"),
+                string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "1", "31"),
                 SemanticErrorKind.ValueOutOfRange);
         }
 
@@ -651,7 +651,7 @@ namespace TQL.CronExpression.Visitors
             }
             AddSemanticError(
                 node.FullSpan,
-                string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, "1", "31"),
+                string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "1", "31"),
                 SemanticErrorKind.ValueOutOfRange);
         }
 
@@ -664,7 +664,7 @@ namespace TQL.CronExpression.Visitors
             }
             AddSemanticError(
                 node.FullSpan,
-                string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, "2", "7"),
+                string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, "2", "7"),
                 SemanticErrorKind.ValueOutOfRange);
         }
 
@@ -674,7 +674,7 @@ namespace TQL.CronExpression.Visitors
             {
                 AddSemanticError(
                     node.FullSpan,
-                    string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), node.Token.TokenType, "1/MON", "7/SUN"),
+                    string.Format(Properties.Resources.OutOfRange, node.Token.Value, node.Token.TokenType, "1/MON", "7/SUN"),
                     SemanticErrorKind.ValueOutOfRange);
             }
         }
@@ -861,7 +861,7 @@ namespace TQL.CronExpression.Visitors
             {
                 AddSemanticError(
                     node.FullSpan,
-                    string.Format(Properties.Resources.OutOfRange, node.Token.ToString(), segment, minValue, maxValue),
+                    string.Format(Properties.Resources.OutOfRange, node.Token.Value, segment, minValue, maxValue),
                     SemanticErrorKind.ValueOutOfRange);
             }
         }
@@ -876,7 +876,7 @@ namespace TQL.CronExpression.Visitors
             {
                 AddSemanticError(
                     items.Select(f => f.FullSpan).ToArray(),
-                    string.Format(Properties.Resources.RangeValueSwapped, items[0].Token.ToString(), items[1].Token.ToString()),
+                    string.Format(Properties.Resources.RangeValueSwapped, items[0].Token.Value, items[1].Token.Value),
                     SemanticErrorKind.SwappedValue);
             }
         }
