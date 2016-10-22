@@ -69,8 +69,7 @@ namespace TQL.CronExpression.Converter.Tests
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Messages);
             Assert.IsNull(response.Output);
-            Assert.AreEqual(4, response.Messages.Count);
-            Assert.IsTrue(response.Messages.OfType<FatalVisitError>().Any());
+            Assert.AreEqual(3, response.Messages.Count);
         }
 
         [TestMethod]

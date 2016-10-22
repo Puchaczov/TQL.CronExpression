@@ -11,7 +11,7 @@
     <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>User mistakes when typing expressions should be handle properly</releaseNotes>
+    <releaseNotes>Multiple small fixes</releaseNotes>
     <copyright>Jakub Puchała 2016</copyright>
     <tags>TQL TQL.CronExpression CronExpression Cron</tags>
   </metadata>

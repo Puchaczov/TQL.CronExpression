@@ -16,20 +16,25 @@ namespace TQL.CronExpression.Converter
 
         private ConvertionResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast, CreateEvaluatorRequest request)
         {
-            var visitor = new CronTimelineVisitor();
-            ast.Accept(visitor);
-            if (throwOnError && visitor.Errors.Any(f => f.Level == MessageLevel.Error))
+            var rulesVisitor = new CronRulesNodeVisitor();
+            ast.Accept(rulesVisitor);
+            if (throwOnError && rulesVisitor.Errors.Any(f => f.Level == MessageLevel.Error))
             {
-                throw new IncorrectCronExpressionException(visitor.Errors.ToArray());
+                throw new IncorrectCronExpressionException(rulesVisitor.Errors.ToArray());
             }
-            var evaluator = visitor.Evaluator;
-            if(evaluator != null)
+            if(rulesVisitor.IsValid)
             {
+                var timelineVisitor = new CronTimelineVisitor();
+                ast.Accept(timelineVisitor);
+
+                var evaluator = timelineVisitor.Evaluator;
+
                 evaluator.ReferenceTime = request.ReferenceTime;
                 evaluator = new TimeZoneCronForwardFireTimeEvaluatorDecorator(request.TargetTimeZoneInfo, evaluator);
-                return new ConvertionResponse<ICronFireTimeEvaluator>(visitor.Errors.Count() == 0 ? evaluator : null, visitor.Errors.ToArray());
+
+                return new ConvertionResponse<ICronFireTimeEvaluator>(evaluator, rulesVisitor.Errors.ToArray());
             }
-            return new ConvertionResponse<ICronFireTimeEvaluator>(null, visitor.Errors.ToArray());
+            return new ConvertionResponse<ICronFireTimeEvaluator>(null, rulesVisitor.Errors.ToArray());
         }
 
         public ConvertionResponse<ICronFireTimeEvaluator> Convert(CreateEvaluatorRequest request)

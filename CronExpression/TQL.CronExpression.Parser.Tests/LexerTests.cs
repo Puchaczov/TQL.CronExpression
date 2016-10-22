@@ -182,5 +182,23 @@ namespace TQL.CronExpression.Parser.Tests
             token = lexer.NextToken();
             Assert.AreEqual(Enums.TokenType.Eof, token.TokenType);
         }
+
+        [TestMethod]
+        public void Lexer_OneOfSegmentComponentNameIsTooLong_ShouldTokenize()
+        {
+            var lexer = new Lexer("*,ama,beta");
+            var token = lexer.NextToken();
+            Assert.AreEqual(Enums.TokenType.Star, token.TokenType);
+            token = lexer.NextToken();
+            Assert.AreEqual(Enums.TokenType.Comma, token.TokenType);
+            token = lexer.NextToken();
+            Assert.AreEqual(Enums.TokenType.Name, token.TokenType);
+            token = lexer.NextToken();
+            Assert.AreEqual(Enums.TokenType.Comma, token.TokenType);
+            token = lexer.NextToken();
+            Assert.AreEqual(Enums.TokenType.Name, token.TokenType);
+            token = lexer.NextToken();
+            Assert.AreEqual(Enums.TokenType.Eof, token.TokenType);
+        }
     }
 }

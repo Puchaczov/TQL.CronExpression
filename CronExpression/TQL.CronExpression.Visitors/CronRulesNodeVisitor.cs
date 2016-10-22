@@ -15,10 +15,12 @@ namespace TQL.CronExpression.Visitors
     public class CronRulesNodeVisitor : INodeVisitor
     {
         protected readonly List<Exception> criticalErrors;
-        private SegmentNode currentSegment;
         private readonly List<VisitationMessage> errors;
-        private CronSyntaxNode parent;
         private readonly bool reportWhenExpressionTooShort;
+
+        private SegmentNode currentSegment;
+        private CronSyntaxNode parent;
+
         private Segment segment;
         private short segmentsCount;
 
@@ -546,18 +548,11 @@ namespace TQL.CronExpression.Visitors
 
         public virtual void Visit(CommaNode node)
         {
-            if (node.Left.IsLeaf && node.Left.Token.TokenType == TokenType.Missing)
-            {
-                ReportMissingValue(node.Left);
-            }
-            if (node.Right.IsLeaf && node.Right.Token.TokenType == TokenType.Missing)
-            {
-                ReportMissingValue(node.Right);
-            }
         }
 
         public void Visit(MissingNode node)
         {
+            ReportMissingValue(node);
         }
 
         private static TokenType[] GetSupportedTypes(Segment segment)
@@ -608,7 +603,7 @@ namespace TQL.CronExpression.Visitors
             }
             if (items[1].Token.TokenType == TokenType.Missing)
             {
-                ReportMissingValue(items[0]);
+                ReportMissingValue(items[1]);
                 hasUnsupportedRightValue = true;
             }
             else

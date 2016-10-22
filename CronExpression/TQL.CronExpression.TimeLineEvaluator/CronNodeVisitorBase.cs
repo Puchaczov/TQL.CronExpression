@@ -8,16 +8,17 @@ using TQL.CronExpression.Parser.Exceptions;
 using TQL.CronExpression.Parser.Extensions;
 using TQL.CronExpression.Parser.Nodes;
 using TQL.CronExpression.Parser.Utils;
-using TQL.CronExpression.Visitors;
 using TQL.CronExpression.Parser.Tokens;
+using TQL.CronExpression.Parser.Visitors;
 
 namespace TQL.CronExpression.TimelineEvaluator
 {
-    public class CronNodeVisitorBase : CronRulesNodeVisitor
+    public class CronNodeVisitorBase : INodeVisitor
     {
-        protected readonly Ref<DateTimeOffset> time;
-        private Segment lastSegment;
         private readonly Dictionary<Segment, RoundRobinRangeVaryingList<int>> values;
+        protected readonly Ref<DateTimeOffset> time;
+
+        private Segment lastSegment;
 
         public CronNodeVisitorBase()
         {
@@ -30,14 +31,10 @@ namespace TQL.CronExpression.TimelineEvaluator
 
         public RoundRobinRangeVaryingList<int> this[Segment segment] => Result[segment];
 
-        public override void Visit(CommaNode node)
-        {
-            base.Visit(node);
-        }
+        public void Visit(CommaNode node) { }
 
-        public override void Visit(StarNode node)
+        public void Visit(StarNode node)
         {
-            base.Visit(node);
             switch (lastSegment)
             {
                 case Segment.DayOfWeek:
@@ -48,11 +45,10 @@ namespace TQL.CronExpression.TimelineEvaluator
             }
         }
 
-        public override void Visit(SegmentNode node)
+        public void Visit(SegmentNode node)
         {
             try
             {
-                base.Visit(node);
                 lastSegment = node.Segment;
                 values.Add(lastSegment, new RoundRobinRangeVaryingList<int>());
                 var evaluated = node.Evaluate(node.Segment);
@@ -60,21 +56,16 @@ namespace TQL.CronExpression.TimelineEvaluator
                 values[lastSegment].Add(persistent);
                 values[lastSegment].SetRange(0, persistent.Count - 1);
             }
-            catch(EvaluationException ex)
+            catch(EvaluationException)
             {
-                criticalErrors.Add(ex);
+                throw;
             }
         }
 
-        public override void Visit(RootComponentNode node)
-        {
-            base.Visit(node);
-        }
+        public void Visit(RootComponentNode node) { }
 
-        public override void Visit(RangeNode node)
+        public void Visit(RangeNode node)
         {
-            base.Visit(node);
-
             var left = 0;
             var right = 0;
             var skipNumericEvaluation = false;
@@ -108,10 +99,8 @@ namespace TQL.CronExpression.TimelineEvaluator
             }
         }
 
-        public override void Visit(WordNode node)
+        public void Visit(WordNode node)
         {
-            base.Visit(node);
-
             switch (lastSegment)
             {
                 case Segment.DayOfWeek:
@@ -127,14 +116,10 @@ namespace TQL.CronExpression.TimelineEvaluator
             }
         }
 
-        public override void Visit(NumberNode node)
-        {
-            base.Visit(node);
-        }
+        public void Visit(NumberNode node){ }
 
-        public override void Visit(QuestionMarkNode node)
+        public void Visit(QuestionMarkNode node)
         {
-            base.Visit(node);
             switch (lastSegment)
             {
                 case Segment.DayOfWeek:
@@ -145,14 +130,10 @@ namespace TQL.CronExpression.TimelineEvaluator
             }
         }
 
-        public override void Visit(IncrementByNode node)
-        {
-            base.Visit(node);
-        }
+        public void Visit(IncrementByNode node){}
 
-        public override void Visit(LNode node)
+        public void Visit(LNode node)
         {
-            base.Visit(node);
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
@@ -174,9 +155,8 @@ namespace TQL.CronExpression.TimelineEvaluator
             }
         }
 
-        public override void Visit(WNode node)
+        public void Visit(WNode node)
         {
-            base.Visit(node);
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
@@ -185,23 +165,19 @@ namespace TQL.CronExpression.TimelineEvaluator
             }
         }
 
-        public override void Visit(HashNode node)
+        public void Visit(HashNode node)
         {
-            base.Visit(node);
             var dayOfWeek = CronWordHelper.DayOfWeek(node.Left.Token.Value);
             var nthOfMonth = int.Parse(node.Right.Token.Value);
             values[lastSegment].Add(new NthDayOfMonthLimitedByNumberOfWeekComputeList(time, dayOfWeek, nthOfMonth));
             values[lastSegment].SetRange(0, values[lastSegment].Count);
         }
 
-        public override void Visit(EndOfFileNode node)
-        {
-            base.Visit(node);
-        }
+        public virtual void Visit(EndOfFileNode node)
+        { }
 
-        public override void Visit(NumericPrecededLNode node)
+        public void Visit(NumericPrecededLNode node)
         {
-            base.Visit(node);
             var count = values[lastSegment].Count;
             switch (lastSegment)
             {
@@ -216,9 +192,8 @@ namespace TQL.CronExpression.TimelineEvaluator
             }
         }
 
-        public override void Visit(NumericPrecededWNode node)
+        public void Visit(NumericPrecededWNode node)
         {
-            base.Visit(node);
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
@@ -227,9 +202,8 @@ namespace TQL.CronExpression.TimelineEvaluator
             }
         }
 
-        public override void Visit(LWNode node)
+        public void Visit(LWNode node)
         {
-            base.Visit(node);
             switch (lastSegment)
             {
                 case Segment.DayOfMonth:
@@ -237,5 +211,8 @@ namespace TQL.CronExpression.TimelineEvaluator
                     break;
             }
         }
+
+        public void Visit(MissingNode node)
+        { }
     }
 }

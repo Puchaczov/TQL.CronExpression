@@ -60,7 +60,7 @@ namespace TQL.CronExpression.Parser
                 new TokenDefinition(@"[\r\n]{1}"),
                 new TokenDefinition(@"((\b\d*)(LW|L|W)(?=[\s,]{1,})|(\b\d*)(LW|L|W)$)"),
                 new TokenDefinition(@"[\d]{1,}"),
-                new TokenDefinition(@"\w{1,3}"),
+                new TokenDefinition(@"\w{1,3}(?=([\s,#-]|$))"),
                 new TokenDefinition(@"(([\w*?_]{1,}))", RegexOptions.Singleline),
             };
         }
@@ -187,10 +187,7 @@ namespace TQL.CronExpression.Parser
             return TokenType.Name;
         }
 
-        private bool IsEndLine(string text)
-        {
-            return text == Environment.NewLine || text == "\r" || text == "\n";
-        }
+        private bool IsEndLine(string text) => text == Environment.NewLine || text == "\r" || text == "\n";
 
         public override Token LastToken()
         {
