@@ -199,10 +199,10 @@
 </table>
 <p>&nbsp;</p>
 <h2 class="western" lang="en-US">API &amp; Documentation</h2>
-<p lang="en-US">To successfully use this library, you won’t need to learn a lot, just read short introduction in appropriate section of documentation (<b>go here</b>). If you would like to bring something new to library, read documents <b>here</b>.</p>
+<p lang="en-US">To successfully use this library, you won’t need to learn a lot, just read short introduction in appropriate section of documentation (<b><a href="https://github.com/Puchaczov/TQL.CronExpression/wiki">go here</a></b>). If you would like to bring something new to library, open new issue</b>.</p>
 <h2 class="western" lang="en-US">Contribute</h2>
-<p lang="en-US">If you like this library, please contribute and
-appreciate my efforts. You can do it by creating fixes, new
+<p lang="en-US">If you like this library, please
+appreciate my effort. You can do it by creating fixes, new
 features, reporting issues or starring library. Feel free to report ideas,
 It's good place to consider implementation of it.</p>
 <h2 class="western" lang="en-US">License</h2>
