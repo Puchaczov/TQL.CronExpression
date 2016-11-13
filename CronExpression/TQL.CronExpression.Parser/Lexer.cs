@@ -34,8 +34,11 @@ namespace TQL.CronExpression.Parser
             return new EndOfFileToken(new TextSpan(input.Length, 0));
         }
 
-        protected override Token GetToken(string token, TokenDefinition matchedDefinition, int matchLength)
+        protected override Token GetToken(TokenDefinition matchedDefinition, Match match)
         {
+            string token = match.Value;
+            int matchLength = match.Length;
+
             switch (GetTokenCandidate(token))
             {
                 case TokenType.Hash:

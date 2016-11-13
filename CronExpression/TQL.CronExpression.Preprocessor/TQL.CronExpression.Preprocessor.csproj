@@ -43,8 +43,8 @@
       <HintPath>..\packages\TQL.Common.1.0.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TQL.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Core.2.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
+    <Reference Include="TQL.Core, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Core.3.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TQL.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
