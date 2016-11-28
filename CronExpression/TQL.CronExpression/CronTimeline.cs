@@ -5,16 +5,18 @@ using TQL.CronExpression.TimelineEvaluator;
 using TQL.CronExpression.TimelineEvaluator.Evaluators;
 using TQL.CronExpression.Parser.Nodes;
 using TQL.CronExpression.Visitors;
+using TQL.Common.Evaluators;
+using TQL.Interfaces;
 
 namespace TQL.CronExpression.Converter
 {
-    public class CronTimeline : AbstractConverter<ICronFireTimeEvaluator>, IConverter<CreateEvaluatorRequest, ConvertionResponse<ICronFireTimeEvaluator>>
+    public class CronTimeline : AbstractConverter<IFireTimeEvaluator>, IConverter<CreateEvaluatorRequest, ConvertionResponse<IFireTimeEvaluator>>
     {
         public CronTimeline(bool throwOnError = false)
             : base(throwOnError)
         { }
 
-        private ConvertionResponse<ICronFireTimeEvaluator> Convert(RootComponentNode ast, CreateEvaluatorRequest request)
+        private ConvertionResponse<IFireTimeEvaluator> Convert(RootComponentNode ast, CreateEvaluatorRequest request)
         {
             var rulesVisitor = new CronRulesNodeVisitor();
             ast.Accept(rulesVisitor);
@@ -30,14 +32,13 @@ namespace TQL.CronExpression.Converter
                 var evaluator = timelineVisitor.Evaluator;
 
                 evaluator.ReferenceTime = request.ReferenceTime;
-                evaluator = new TimeZoneCronForwardFireTimeEvaluatorDecorator(request.TargetTimeZoneInfo, evaluator);
 
-                return new ConvertionResponse<ICronFireTimeEvaluator>(evaluator, rulesVisitor.Errors.ToArray());
+                return new ConvertionResponse<IFireTimeEvaluator>(new TimeZoneChangerDecorator(request.TargetTimeZoneInfo, evaluator), rulesVisitor.Errors.ToArray());
             }
-            return new ConvertionResponse<ICronFireTimeEvaluator>(null, rulesVisitor.Errors.ToArray());
+            return new ConvertionResponse<IFireTimeEvaluator>(null, rulesVisitor.Errors.ToArray());
         }
 
-        public ConvertionResponse<ICronFireTimeEvaluator> Convert(CreateEvaluatorRequest request)
+        public ConvertionResponse<IFireTimeEvaluator> Convert(CreateEvaluatorRequest request)
         {
             if (!request.Options.ProduceEndOfFileNode)
             {
@@ -46,7 +47,7 @@ namespace TQL.CronExpression.Converter
             return base.Convert(request, (ast) => this.Convert(ast, request));
         }
 
-        protected override ConvertionResponse<ICronFireTimeEvaluator> GetErrorResponse(Exception exc) 
-            => new ConvertionResponse<ICronFireTimeEvaluator>(null, new FatalError(exc));
+        protected override ConvertionResponse<IFireTimeEvaluator> GetErrorResponse(Exception exc) 
+            => new ConvertionResponse<IFireTimeEvaluator>(null, new FatalError(exc));
     }
 }
