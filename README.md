@@ -3,7 +3,7 @@
 <h2 class="western" lang="en-US">What is CronExpression</h2>
 <p lang="en-US">CronExpression is .NET CRON expression validator and fire time evaluator. It pretend to support the broadest spectrum of available syntax. It’s even powerful enough to point why you’re expression is wrong!</p>
 <h2 class="western" lang="en-US">Latest release</h2>
-<p lang="en-US">Version 2.0</p>
+<p lang="en-US">Version 3.0</p>
 <ul>
 	<li>
 <p><span lang="en-US">Support mixable complex types such as L, LW, W, #, -(range), /(Hyphen), *(star) in defined by CRON rules segment</span></p>
