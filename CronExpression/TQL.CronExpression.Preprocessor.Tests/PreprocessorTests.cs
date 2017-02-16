@@ -5,7 +5,6 @@ namespace TQL.CronExpression.Preprocessor.Tests
     [TestClass]
     public class PreprocessorTests
     {
-
         [TestMethod]
         public void Preprocessor_UppercaseInput_ShouldPass()
         {
@@ -24,6 +23,7 @@ namespace TQL.CronExpression.Preprocessor.Tests
             Assert.AreEqual("0 0 0 * * * *", preprocessor.Execute("@daily"));
             Assert.AreEqual("0 0 * * * * *", preprocessor.Execute("@hourly"));
         }
+
         [TestMethod]
         public void Preprocessor_TrimInput_ShouldPass()
         {

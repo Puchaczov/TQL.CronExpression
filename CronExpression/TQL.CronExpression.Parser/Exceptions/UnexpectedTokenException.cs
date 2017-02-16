@@ -7,8 +7,8 @@ namespace TQL.CronExpression.Parser.Exceptions
     {
         public UnexpectedTokenException(int pos, Token token)
         {
-            this.Position = pos;
-            this.Token = token;
+            Position = pos;
+            Token = token;
         }
 
         public override string Message => $"Unexpected token {Token.Value} occured at position {Position}";

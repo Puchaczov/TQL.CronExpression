@@ -41,6 +41,7 @@
     <Compile Include="Extensions\CronWordHelper.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="Helpers\ExpressionHelpers.cs" />
+    <Compile Include="Helpers\NodeTraverseResult.cs" />
     <Compile Include="Helpers\TextSpanHelpers.cs" />
     <Compile Include="Helpers\TreeHelpers.cs" />
     <Compile Include="INodeVisitor.cs" />
@@ -64,10 +65,10 @@
     <Compile Include="CronParser.cs" />
     <Compile Include="Nodes\HashNode.cs" />
     <Compile Include="Nodes\LNode.cs" />
-    <Compile Include="Nodes\SyntaxNode.cs" />
+    <Compile Include="Nodes\CronSyntaxNode.cs" />
     <Compile Include="Nodes\StarNode.cs" />
     <Compile Include="Nodes\IncrementByNode.cs" />
-    <Compile Include="Nodes\IVisitedOperator.cs" />
+    <Compile Include="Nodes\IVisitedNode.cs" />
     <Compile Include="Nodes\WNode.cs" />
     <Compile Include="Tokens\CommaToken.cs" />
     <Compile Include="Tokens\HashToken.cs" />

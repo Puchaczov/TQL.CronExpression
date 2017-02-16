@@ -33,14 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Codes.cs" />
     <Compile Include="CronRulesNodeVisitor.cs" />
     <Compile Include="Exceptions\BaseCronValidationException.cs" />
     <Compile Include="Exceptions\RangeNodeException.cs" />
+    <Compile Include="FatalVisitError.cs" />
+    <Compile Include="MessageLevel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SemanticError.cs" />
+    <Compile Include="SemanticErrorKind.cs" />
+    <Compile Include="SyntaxError.cs" />
+    <Compile Include="SyntaxErrorKind.cs" />
     <Compile Include="VisitationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

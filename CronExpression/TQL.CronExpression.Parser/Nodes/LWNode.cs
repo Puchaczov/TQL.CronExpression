@@ -5,13 +5,14 @@ using TQL.CronExpression.Parser.Tokens;
 
 namespace TQL.CronExpression.Parser.Nodes
 {
-    public class LWNode : LeafNode
+    public class LwNode : LeafNode
     {
-        private LWToken token;
-        public LWNode(LWToken token)
+        private readonly LwToken _token;
+
+        public LwNode(LwToken token)
             : base(token)
         {
-            this.token = token;
+            this._token = token;
         }
 
         public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
@@ -23,6 +24,6 @@ namespace TQL.CronExpression.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment) => ListExtension.Empty();
 
-        public override string ToString() => this.token.Number != 1 ? (base.Token as LToken).Value + "LW" : "LW";
+        public override string ToString() => _token.Number != 1 ? (Token as LToken).Value + "LW" : "LW";
     }
 }

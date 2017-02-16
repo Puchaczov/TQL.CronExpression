@@ -19,7 +19,7 @@ namespace TQL.CronExpression.Parser
         void Visit(EndOfFileNode node);
         void Visit(NumericPrecededLNode node);
         void Visit(NumericPrecededWNode node);
-        void Visit(LWNode node);
+        void Visit(LwNode node);
         void Visit(MissingNode node);
     }
 }

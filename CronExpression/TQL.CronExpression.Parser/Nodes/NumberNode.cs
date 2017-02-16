@@ -8,7 +8,8 @@ namespace TQL.CronExpression.Parser.Nodes
     {
         public NumberNode(Token token)
             : base(token)
-        { }
+        {
+        }
 
         public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
 
@@ -17,7 +18,7 @@ namespace TQL.CronExpression.Parser.Nodes
             visitor.Visit(this);
         }
 
-        public override IList<int> Evaluate(Segment segment) => new List<int> { int.Parse(Token.Value) };
+        public override IList<int> Evaluate(Segment segment) => new List<int> {int.Parse(Token.Value)};
 
         public override string ToString() => Token.Value;
     }

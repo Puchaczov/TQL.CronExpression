@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public StarToken(TextSpan span)
             : base("*", Enums.TokenType.Star, span)
-        { }
+        {
+        }
 
         public override GenericToken<TokenType> Clone() => new StarToken(Span.Clone());
     }

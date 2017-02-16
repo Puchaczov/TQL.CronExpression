@@ -7,7 +7,7 @@ namespace TQL.CronExpression.Visitors.Exceptions
     {
         public BaseCronValidationException(Token token)
         {
-            this.Token = token;
+            Token = token;
         }
 
         public Token Token { get; set; }

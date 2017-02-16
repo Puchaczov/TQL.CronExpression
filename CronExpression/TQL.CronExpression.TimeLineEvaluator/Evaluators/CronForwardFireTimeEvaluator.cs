@@ -6,20 +6,18 @@ namespace TQL.CronExpression.TimelineEvaluator.Evaluators
 {
     class CronForwardFireTimeEvaluator : ICronFireTimeEvaluator
     {
-        private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
-        private readonly RoundRobinRangeVaryingList<int> dayOfWeeks;
+        private readonly RoundRobinRangeVaryingList<int> _dayOfMonths;
+        private readonly RoundRobinRangeVaryingList<int> _dayOfWeeks;
+        private readonly VirtuallyJoinedList _filteredDayOfMonths;
+        private readonly RoundRobinRangeVaryingList<int> _hours;
+        private readonly RoundRobinRangeVaryingList<int> _minutes;
+        private readonly RoundRobinRangeVaryingList<int> _months;
 
-        private bool expressionExceedTimeBoundary;
-        private readonly VirtuallyJoinedList filteredDayOfMonths;
-        private readonly RoundRobinRangeVaryingList<int> hours;
-        private readonly RoundRobinRangeVaryingList<int> minutes;
-        private readonly RoundRobinRangeVaryingList<int> months;
+        private readonly Ref<DateTimeOffset> _referenceTime;
+        private readonly RoundRobinRangeVaryingList<int> _seconds;
+        private readonly RoundRobinRangeVaryingList<int> _years;
 
-        private readonly Ref<DateTimeOffset> referenceTime;
-        private readonly RoundRobinRangeVaryingList<int> seconds;
-        private readonly RoundRobinRangeVaryingList<int> years;
-
-        private DateTimeOffset oldReferenceTime;
+        private DateTimeOffset _oldReferenceTime;
 
         public CronForwardFireTimeEvaluator(
             RoundRobinRangeVaryingList<int> years,
@@ -31,22 +29,20 @@ namespace TQL.CronExpression.TimelineEvaluator.Evaluators
             RoundRobinRangeVaryingList<int> seconds,
             Ref<DateTimeOffset> referenceTime)
         {
-            this.expressionExceedTimeBoundary = false;
-            this.years = years;
-            this.months = months;
-            this.dayOfMonths = dayOfMonths;
-            this.dayOfWeeks = dayOfWeeks;
-            this.hours = hours;
-            this.minutes = minutes;
-            this.seconds = seconds;
-            this.referenceTime = referenceTime;
-            this.filteredDayOfMonths = new VirtuallyJoinedList(this.dayOfMonths, this.dayOfWeeks);
+            IsExceededTimeBoundary = false;
+            this._years = years;
+            this._months = months;
+            this._dayOfMonths = dayOfMonths;
+            this._dayOfWeeks = dayOfWeeks;
+            this._hours = hours;
+            this._minutes = minutes;
+            this._seconds = seconds;
+            this._referenceTime = referenceTime;
+            _filteredDayOfMonths = new VirtuallyJoinedList(this._dayOfMonths, this._dayOfWeeks);
             months.Overflowed += (sender, args) =>
             {
                 if (years.WillOverflow())
-                {
-                    expressionExceedTimeBoundary = true;
-                }
+                    IsExceededTimeBoundary = true;
                 years.Next();
                 var refTime = referenceTime.Value;
                 referenceTime.Value = new DateTimeOffset(years.Current, 1, 1, 0, 0, 0, refTime.Offset);
@@ -60,200 +56,196 @@ namespace TQL.CronExpression.TimelineEvaluator.Evaluators
             };
             hours.Overflowed += (sender, args) =>
             {
-                filteredDayOfMonths.Next();
+                _filteredDayOfMonths.Next();
                 var refTime = referenceTime.Value;
-                var newDay = filteredDayOfMonths.Count > 0 ? filteredDayOfMonths.Current : 1;
+                var newDay = _filteredDayOfMonths.Count > 0 ? _filteredDayOfMonths.Current : 1;
                 referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, newDay, 0, 0, 0, refTime.Offset);
             };
             minutes.Overflowed += (sender, args) =>
             {
                 hours.Next();
                 var refTime = referenceTime.Value;
-                referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, refTime.Day, hours.Current, 0, 0, refTime.Offset);
+                referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, refTime.Day, hours.Current, 0, 0,
+                    refTime.Offset);
             };
             seconds.Overflowed += (sender, args) =>
             {
                 minutes.Next();
                 var refTime = referenceTime.Value;
-                referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, refTime.Day, refTime.Hour, minutes.Current, 0, refTime.Offset);
+                referenceTime.Value = new DateTimeOffset(refTime.Year, refTime.Month, refTime.Day, refTime.Hour,
+                    minutes.Current, 0, refTime.Offset);
             };
-            this.Reset();
+            Reset();
         }
 
-        public bool IsExceededTimeBoundary => this.expressionExceedTimeBoundary;
+        public bool IsExceededTimeBoundary { get; private set; }
 
         public DateTimeOffset ReferenceTime
         {
             set
             {
                 Reset();
-                referenceTime.Value = value;
+                _referenceTime.Value = value;
             }
         }
 
         public bool IsSatisfiedBy(DateTimeOffset time)
         {
-            var timeWithoutMillis = new DateTimeOffset(time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second, time.Offset);
+            var timeWithoutMillis = new DateTimeOffset(time.Year, time.Month, time.Day, time.Hour, time.Minute,
+                time.Second, time.Offset);
             ReferenceTime = time.AddSeconds(-1);
             DateTimeOffset? score = null;
             Reset();
             do
             {
                 score = NextFire();
-            }
-            while (score.HasValue && referenceTime.Value < timeWithoutMillis);
-            return score.HasValue && referenceTime.Value == timeWithoutMillis;
-        }
-
-        public void LimitMonthRange()
-        {
-            var val = DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month) - 1;
-            filteredDayOfMonths.SetRange(0, val);
-            dayOfWeeks.SetRange(0, val);
-            filteredDayOfMonths.RebuildCorrespondingKeys();
+            } while (score.HasValue && _referenceTime.Value < timeWithoutMillis);
+            return score.HasValue && _referenceTime.Value == timeWithoutMillis;
         }
 
 
         public DateTimeOffset? NextFire()
         {
-            referenceTime.Value = referenceTime.Value.AddSeconds(1);
+            _referenceTime.Value = _referenceTime.Value.AddSeconds(1);
             LimitMonthRange();
             while (true)
             {
-                var referenceTime = this.referenceTime.Value;
-                while (!years.WillOverflow() && years.Current < referenceTime.Year)
-                {
-                    years.Next();
-                }
+                var referenceTime = this._referenceTime.Value;
+                while (!_years.WillOverflow() && _years.Current < referenceTime.Year)
+                    _years.Next();
 
                 if (IsExceededTimeBoundary)
-                {
                     break;
-                }
 
-                var sameOrFurtherYear = years.Current >= referenceTime.Year;
+                var sameOrFurtherYear = _years.Current >= referenceTime.Year;
                 var isChangedMonth = false;
-                while (!months.WillOverflow() && months.Current < referenceTime.Month && sameOrFurtherYear)
+                while (!_months.WillOverflow() && _months.Current < referenceTime.Month && sameOrFurtherYear)
                 {
-                    months.Next();
+                    _months.Next();
                     isChangedMonth = true;
                 }
-                if (IsDatePartBefore(years.Current, months.Current))
+                if (IsDatePartBefore(_years.Current, _months.Current))
                 {
-                    months.Overflow();
+                    _months.Overflow();
                     isChangedMonth = true;
                     continue;
                 }
-                if (months.Current > referenceTime.Month)
+                if (_months.Current > referenceTime.Month)
                 {
-                    referenceTime = new DateTimeOffset(referenceTime.Year, months.Current, 1, 0, 0, 0, referenceTime.Offset);
+                    referenceTime = new DateTimeOffset(referenceTime.Year, _months.Current, 1, 0, 0, 0,
+                        referenceTime.Offset);
                     isChangedMonth = true;
-                    this.referenceTime.Value = referenceTime;
+                    this._referenceTime.Value = referenceTime;
                 }
 
-                if(isChangedMonth)
-                {
+                if (isChangedMonth)
                     LimitMonthRange();
-                }
 
-                var sameOrFurtherMonth = months.Current >= referenceTime.Month;
-                var days = filteredDayOfMonths;
+                var sameOrFurtherMonth = _months.Current >= referenceTime.Month;
+                var days = _filteredDayOfMonths;
                 while (!days.WillOverflow() && days.Current < referenceTime.Day && sameOrFurtherMonth)
-                {
                     days.Next();
-                }
-                if (days.Count == 0 || (!sameOrFurtherMonth && IsDatePartBefore(years.Current, months.Current, days.Current)))
+                if (days.Count == 0 ||
+                    !sameOrFurtherMonth && IsDatePartBefore(_years.Current, _months.Current, days.Current))
                 {
                     days.Overflow();
                     continue;
                 }
                 if (days.Current > referenceTime.Day)
                 {
-                    referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, days.Current, 0, 0, 0, referenceTime.Offset);
-                    this.referenceTime.Value = referenceTime;
+                    referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, days.Current, 0, 0, 0,
+                        referenceTime.Offset);
+                    this._referenceTime.Value = referenceTime;
                 }
 
                 var sameOrFurtherDayOfMonth = days.Current >= referenceTime.Day;
-                while (!hours.WillOverflow() && hours.Current < referenceTime.Hour && sameOrFurtherDayOfMonth)
+                while (!_hours.WillOverflow() && _hours.Current < referenceTime.Hour && sameOrFurtherDayOfMonth)
+                    _hours.Next();
+                if (IsDatePartBefore(_years.Current, _months.Current, days.Current, _hours.Current))
                 {
-                    hours.Next();
-                }
-                if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current))
-                {
-                    hours.Overflow();
+                    _hours.Overflow();
                     continue;
                 }
-                if (hours.Current > referenceTime.Hour)
+                if (_hours.Current > referenceTime.Hour)
                 {
-                    referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, hours.Current, 0, 0, referenceTime.Offset);
-                    this.referenceTime.Value = referenceTime;
+                    referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day,
+                        _hours.Current, 0, 0, referenceTime.Offset);
+                    this._referenceTime.Value = referenceTime;
                 }
 
-                var sameOrFurtherHour = hours.Current >= referenceTime.Hour;
-                while (!minutes.WillOverflow() && minutes.Current < referenceTime.Minute && sameOrFurtherHour)
+                var sameOrFurtherHour = _hours.Current >= referenceTime.Hour;
+                while (!_minutes.WillOverflow() && _minutes.Current < referenceTime.Minute && sameOrFurtherHour)
+                    _minutes.Next();
+                if (IsDatePartBefore(_years.Current, _months.Current, days.Current, _hours.Current, _minutes.Current))
                 {
-                    minutes.Next();
-                }
-                if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current))
-                {
-                    minutes.Overflow();
+                    _minutes.Overflow();
                     continue;
                 }
-                if (minutes.Current > referenceTime.Minute)
+                if (_minutes.Current > referenceTime.Minute)
                 {
-                    referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, minutes.Current, 0, referenceTime.Offset);
-                    this.referenceTime.Value = referenceTime;
+                    referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day,
+                        referenceTime.Hour, _minutes.Current, 0, referenceTime.Offset);
+                    this._referenceTime.Value = referenceTime;
                 }
 
-                var sameOrFurtherMinute = minutes.Current >= referenceTime.Minute;
-                while (!seconds.WillOverflow() && seconds.Current < referenceTime.Second && sameOrFurtherMinute)
+                var sameOrFurtherMinute = _minutes.Current >= referenceTime.Minute;
+                while (!_seconds.WillOverflow() && _seconds.Current < referenceTime.Second && sameOrFurtherMinute)
+                    _seconds.Next();
+                if (IsDatePartBefore(_years.Current, _months.Current, days.Current, _hours.Current, _minutes.Current,
+                    _seconds.Current))
                 {
-                    seconds.Next();
-                }
-                if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
-                {
-                    seconds.Overflow();
+                    _seconds.Overflow();
                     continue;
                 }
-                if (seconds.Current > referenceTime.Second)
+                if (_seconds.Current > referenceTime.Second)
                 {
-                    referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, seconds.Current, referenceTime.Offset);
-                    this.referenceTime.Value = referenceTime;
+                    referenceTime = new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day,
+                        referenceTime.Hour, referenceTime.Minute, _seconds.Current, referenceTime.Offset);
+                    this._referenceTime.Value = referenceTime;
                 }
-                
-                if (IsDatePartBefore(years.Current, months.Current, days.Current, hours.Current, minutes.Current, seconds.Current))
+
+                if (IsDatePartBefore(_years.Current, _months.Current, days.Current, _hours.Current, _minutes.Current,
+                    _seconds.Current))
                 {
-                    seconds.Overflow();
+                    _seconds.Overflow();
                     continue;
                 }
 
                 referenceTime = new DateTimeOffset(
-                    years.Current,
-                    months.Current,
+                    _years.Current,
+                    _months.Current,
                     days.Current,
-                    hours.Current,
-                    minutes.Current,
-                    seconds.Current,
+                    _hours.Current,
+                    _minutes.Current,
+                    _seconds.Current,
                     referenceTime.Offset
                 );
 
-                this.referenceTime.Value = referenceTime;
+                this._referenceTime.Value = referenceTime;
 
                 //There is possibility to generate two times the same date for example 29,L which in
                 //leap year, in february. When it happens, just evaluate next date
-                if (referenceTime == oldReferenceTime)
+                if (referenceTime == _oldReferenceTime)
                 {
-                    this.referenceTime.Value = referenceTime.AddSeconds(1);
+                    this._referenceTime.Value = referenceTime.AddSeconds(1);
                     continue;
                 }
 
-                oldReferenceTime = referenceTime;
+                _oldReferenceTime = referenceTime;
 
                 return referenceTime;
             }
 
             //Time boundary had beed exceed.
             return null;
+        }
+
+        public void LimitMonthRange()
+        {
+            var val = DateTime.DaysInMonth(_referenceTime.Value.Year, _referenceTime.Value.Month) - 1;
+            _filteredDayOfMonths.SetRange(0, val);
+            _dayOfWeeks.SetRange(0, val);
+            _filteredDayOfMonths.RebuildCorrespondingKeys();
         }
 
         public DateTimeOffset? PreviousFire()
@@ -263,7 +255,7 @@ namespace TQL.CronExpression.TimelineEvaluator.Evaluators
 
         private bool IsDatePartBefore(int year1, int month1)
         {
-            var referenceTime = this.referenceTime.Value;
+            var referenceTime = this._referenceTime.Value;
             return
                 new DateTimeOffset(year1, month1, 1, 0, 0, 0, referenceTime.Offset) <
                 new DateTimeOffset(referenceTime.Year, referenceTime.Month, 1, 0, 0, 0, referenceTime.Offset);
@@ -271,48 +263,52 @@ namespace TQL.CronExpression.TimelineEvaluator.Evaluators
 
         private bool IsDatePartBefore(int year1, int month1, int day1)
         {
-            var referenceTime = this.referenceTime.Value;
+            var referenceTime = this._referenceTime.Value;
             return
                 new DateTimeOffset(year1, month1, day1, 0, 0, 0, referenceTime.Offset) <
-                new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, 0, 0, 0, referenceTime.Offset);
+                new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, 0, 0, 0,
+                    referenceTime.Offset);
         }
 
         private bool IsDatePartBefore(int year1, int month1, int day1, int hours1)
         {
-            var referenceTime = this.referenceTime.Value;
+            var referenceTime = this._referenceTime.Value;
             return
                 new DateTimeOffset(year1, month1, day1, hours1, 0, 0, 0, referenceTime.Offset) <
-                new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, 0, 0, referenceTime.Offset);
+                new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, 0, 0,
+                    referenceTime.Offset);
         }
 
         private bool IsDatePartBefore(int year1, int month1, int day1, int hours1, int minute1)
         {
-            var referenceTime = this.referenceTime.Value;
+            var referenceTime = this._referenceTime.Value;
             return
                 new DateTimeOffset(year1, month1, day1, hours1, minute1, 0, referenceTime.Offset) <
-                new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, 0, referenceTime.Offset);
+                new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour,
+                    referenceTime.Minute, 0, referenceTime.Offset);
         }
 
         private bool IsDatePartBefore(int year1, int month1, int day1, int hours1, int minute1, int second1)
         {
-            var referenceTime = this.referenceTime.Value;
+            var referenceTime = this._referenceTime.Value;
             return
                 new DateTimeOffset(year1, month1, day1, hours1, minute1, second1, referenceTime.Offset) <
-                new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour, referenceTime.Minute, referenceTime.Second, referenceTime.Offset);
+                new DateTimeOffset(referenceTime.Year, referenceTime.Month, referenceTime.Day, referenceTime.Hour,
+                    referenceTime.Minute, referenceTime.Second, referenceTime.Offset);
         }
 
         private void Reset()
         {
-            this.expressionExceedTimeBoundary = false;
-            this.years.Reset();
-            this.months.Reset();
-            this.dayOfMonths.Reset();
-            this.dayOfWeeks.Reset();
-            this.hours.Reset();
-            this.minutes.Reset();
-            this.seconds.Reset();
-            this.oldReferenceTime = new DateTimeOffset();
-            this.filteredDayOfMonths.Reset();
+            IsExceededTimeBoundary = false;
+            _years.Reset();
+            _months.Reset();
+            _dayOfMonths.Reset();
+            _dayOfWeeks.Reset();
+            _hours.Reset();
+            _minutes.Reset();
+            _seconds.Reset();
+            _oldReferenceTime = new DateTimeOffset();
+            _filteredDayOfMonths.Reset();
         }
     }
 }

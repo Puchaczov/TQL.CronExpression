@@ -1,16 +1,15 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TQL.Core.Tokens;
-using TQL.CronExpression.Parser.Nodes;
 using TQL.CronExpression.Parser.Helpers;
+using TQL.CronExpression.Parser.Nodes;
 
 namespace TQL.CronExpression.Parser.Tests
 {
     [TestClass]
     public class TreeHelperTests
     {
-
         [TestMethod]
         [ExpectedException(typeof(IndexOutOfRangeException))]
         public void TreeHelper_FindByPath_IncorrectPath_ShouldFail()
@@ -18,6 +17,7 @@ namespace TQL.CronExpression.Parser.Tests
             var ast = "* * *".Parse();
             ast.FindByPath("0>10");
         }
+
         [TestMethod]
         public void TreeHelper_FindByPath_ShouldPass()
         {

@@ -7,7 +7,8 @@ namespace TQL.CronExpression.Parser.Nodes
     {
         public EndOfFileNode(Token token)
             : base(null, 0, token)
-        { }
+        {
+        }
 
         public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
 

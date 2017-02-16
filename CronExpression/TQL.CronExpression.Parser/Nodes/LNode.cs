@@ -7,11 +7,12 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class LNode : NumberNode
     {
-        private LToken token;
+        private readonly LToken _token;
+
         public LNode(LToken token)
             : base(token)
         {
-            this.token = token;
+            this._token = token;
         }
 
         public override void Accept(INodeVisitor visitor)
@@ -21,6 +22,6 @@ namespace TQL.CronExpression.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment) => ListExtension.Empty();
 
-        public override string ToString() => this.token.Number != 1 ? (base.Token as LToken).Value + "L" : "L";
+        public override string ToString() => _token.Number != 1 ? (Token as LToken).Value + "L" : "L";
     }
 }

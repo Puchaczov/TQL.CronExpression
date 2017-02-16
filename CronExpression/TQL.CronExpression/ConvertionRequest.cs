@@ -4,31 +4,27 @@ namespace TQL.CronExpression
 {
     public class ConvertionRequest : ConvertionRequestBase
     {
-
-        private readonly string input;
-        private readonly ConvertionOptions options;
-
-        public ConvertionRequest(string input, CronMode mode)
-            : this(input, ChoseOptionBasedOnMode(mode))
-        {
-            this.input = input;
-        }
-
-        public ConvertionRequest(string input, ConvertionOptions options)
-        {
-            this.input = input;
-            this.options = options;
-        }
-
         public enum CronMode
         {
             StandardDefinition,
             ModernDefinition
         }
 
-        public string Input => this.input;
+        public ConvertionRequest(string input, CronMode mode)
+            : this(input, ChoseOptionBasedOnMode(mode))
+        {
+            Input = input;
+        }
 
-        public ConvertionOptions Options => this.options;
+        public ConvertionRequest(string input, ConvertionOptions options)
+        {
+            Input = input;
+            Options = options;
+        }
+
+        public string Input { get; }
+
+        public ConvertionOptions Options { get; }
 
         private static ConvertionOptions ChoseOptionBasedOnMode(CronMode mode)
         {

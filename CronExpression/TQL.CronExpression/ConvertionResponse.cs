@@ -6,7 +6,6 @@ namespace TQL.CronExpression
 {
     public class ConvertionResponse<T> : ConvertionResponseBase<T>
     {
-
         public ConvertionResponse(T output)
             : this(new VisitationMessage[0])
         {
@@ -21,7 +20,7 @@ namespace TQL.CronExpression
 
         public ConvertionResponse(VisitationMessage message)
         {
-            Messages = new List<VisitationMessage> { message };
+            Messages = new List<VisitationMessage> {message};
             Output = default(T);
         }
 

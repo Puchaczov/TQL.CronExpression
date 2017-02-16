@@ -5,11 +5,9 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public abstract class BinaryExpressionNode : CronSyntaxNode
     {
-        private readonly Token token;
-
         protected BinaryExpressionNode(Token token)
         {
-            this.token = token;
+            Token = token;
         }
 
         public override TextSpan FullSpan
@@ -18,7 +16,7 @@ namespace TQL.CronExpression.Parser.Nodes
             {
                 var start = Left.Token.Span.Start;
                 var stop = Right.Token.Span.End;
-                return new TextSpan(start, (stop - start));
+                return new TextSpan(start, stop - start);
             }
         }
 
@@ -26,6 +24,6 @@ namespace TQL.CronExpression.Parser.Nodes
         public abstract CronSyntaxNode Left { get; }
         public abstract CronSyntaxNode Right { get; }
 
-        public override Token Token => token;
+        public override Token Token { get; }
     }
 }

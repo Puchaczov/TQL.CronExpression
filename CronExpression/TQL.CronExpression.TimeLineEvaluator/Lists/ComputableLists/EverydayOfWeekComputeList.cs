@@ -6,30 +6,30 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
 {
     public class EverydayOfWeekComputeList : DateTimeBasedComputeList
     {
-        private int daysInMonth;
-        private int lastYear;
-        private int lastMonth;
+        private int _daysInMonth;
+        private int _lastMonth;
+        private int _lastYear;
 
         public EverydayOfWeekComputeList(Ref<DateTimeOffset> referenceTime)
             : base(referenceTime, new List<int>())
         {
-            lastYear = referenceTime.Value.Year;
-            lastMonth = referenceTime.Value.Month;
-            daysInMonth = DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month);
+            _lastYear = referenceTime.Value.Year;
+            _lastMonth = referenceTime.Value.Month;
+            _daysInMonth = DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month);
         }
 
         public override int Count
         {
             get
             {
-                if(lastYear != referenceTime.Value.Year || lastMonth != referenceTime.Value.Month)
+                if (_lastYear != ReferenceTime.Value.Year || _lastMonth != ReferenceTime.Value.Month)
                 {
-                    lastYear = referenceTime.Value.Year;
-                    lastMonth = referenceTime.Value.Month;
-                    daysInMonth = DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month);
-                    return daysInMonth;
+                    _lastYear = ReferenceTime.Value.Year;
+                    _lastMonth = ReferenceTime.Value.Month;
+                    _daysInMonth = DateTime.DaysInMonth(ReferenceTime.Value.Year, ReferenceTime.Value.Month);
+                    return _daysInMonth;
                 }
-                return daysInMonth;
+                return _daysInMonth;
             }
         }
 

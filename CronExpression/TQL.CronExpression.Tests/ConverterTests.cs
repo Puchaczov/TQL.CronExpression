@@ -7,7 +7,6 @@ namespace TQL.CronExpression.Tests
     [TestClass]
     public class ConverterTests
     {
-
         [TestMethod]
         public void Evaluator_CheckProduceAst_ShouldPass()
         {
@@ -35,7 +34,8 @@ namespace TQL.CronExpression.Tests
         public void Evaluator_ModernDefinition_ShouldThrowAggregatedException()
         {
             new CronTimeline(true)
-                .Convert(new CreateEvaluatorRequest("* *", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
+                .Convert(new CreateEvaluatorRequest("* *", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now,
+                    TimeZoneInfo.Local));
         }
 
         [TestMethod]
@@ -43,14 +43,16 @@ namespace TQL.CronExpression.Tests
         public void Evaluator_StandardDefinition_ShouldThrowAggregatedException()
         {
             new CronTimeline(true)
-                .Convert(new CreateEvaluatorRequest("* *", ConvertionRequest.CronMode.StandardDefinition, DateTime.Now, TimeZoneInfo.Local));
+                .Convert(new CreateEvaluatorRequest("* *", ConvertionRequest.CronMode.StandardDefinition, DateTime.Now,
+                    TimeZoneInfo.Local));
         }
 
         [TestMethod]
         public void Evaluator_ModernDefinition_Issue01_ShouldReturnTwoErrorMessages()
         {
             var response = new CronTimeline(false)
-                .Convert(new CreateEvaluatorRequest("0 0 0 29 2 * 2015-201", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
+                .Convert(new CreateEvaluatorRequest("0 0 0 29 2 * 2015-201", ConvertionRequest.CronMode.ModernDefinition,
+                    DateTime.Now, TimeZoneInfo.Local));
 
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Messages);
@@ -62,7 +64,8 @@ namespace TQL.CronExpression.Tests
         public void Evaluator_IncorrectExpressionProvidedWithMissingNode_ShouldContainCriticalErrorMessage()
         {
             var response = new CronTimeline(false)
-                .Convert(new CreateEvaluatorRequest("0 0 0 29 2, * 2015-201", ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
+                .Convert(new CreateEvaluatorRequest("0 0 0 29 2, * 2015-201",
+                    ConvertionRequest.CronMode.ModernDefinition, DateTime.Now, TimeZoneInfo.Local));
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Messages);
             Assert.IsNull(response.Output);
@@ -88,7 +91,8 @@ namespace TQL.CronExpression.Tests
             var referenceTime = new DateTimeOffset(2015, 1, 1, 15, 0, 0, timeZoneReferenceTime.BaseUtcOffset);
 
             var response = new CronTimeline(false)
-                .Convert(new CreateEvaluatorRequest("0 0 * * * * *", ConvertionRequest.CronMode.ModernDefinition, referenceTime, destinationZoneReferenceTime));
+                .Convert(new CreateEvaluatorRequest("0 0 * * * * *", ConvertionRequest.CronMode.ModernDefinition,
+                    referenceTime, destinationZoneReferenceTime));
 
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Messages);
@@ -105,26 +109,27 @@ namespace TQL.CronExpression.Tests
         public void Evaluator_CheckEvaluatedValues_ShouldPass()
         {
             new CronTimeline()
-                .Convert(new CreateEvaluatorRequest("0 30 14 ? * 7L *", ConvertionRequest.CronMode.ModernDefinition, DateTimeOffset.Now, TimeZoneInfo.Local));
+                .Convert(new CreateEvaluatorRequest("0 30 14 ? * 7L *", ConvertionRequest.CronMode.ModernDefinition,
+                    DateTimeOffset.Now, TimeZoneInfo.Local));
         }
 
         [TestMethod]
         public void Validator_CheckCanHandleUnbreakableSpace_ShouldPass()
         {
             new CronValidator()
-                .Convert(new CreateEvaluatorRequest("0 0 2/4 8-14 * 2#5 *", ConvertionRequest.CronMode.ModernDefinition, DateTimeOffset.Now, TimeZoneInfo.Local));
+                .Convert(new CreateEvaluatorRequest("0 0 2/4 8-14 * 2#5 *", ConvertionRequest.CronMode.ModernDefinition,
+                    DateTimeOffset.Now, TimeZoneInfo.Local));
         }
 
         [TestMethod]
         public void Validator_CheckWillProduceUninstantiableDateTime_ShouldFail()
         {
             var timeline = new CronTimeline()
-                .Convert(new CreateEvaluatorRequest("0 0 0 L 2 * 2015-2150", ConvertionRequest.CronMode.ModernDefinition, DateTimeOffset.Now, TimeZoneInfo.Local));
+                .Convert(new CreateEvaluatorRequest("0 0 0 L 2 * 2015-2150", ConvertionRequest.CronMode.ModernDefinition,
+                    DateTimeOffset.Now, TimeZoneInfo.Local));
 
-            for (int i = 0; i < 5; ++i)
-            {
+            for (var i = 0; i < 5; ++i)
                 timeline.Output.NextFire();
-            }
         }
 
         private static void CheckExpressionType(string input, ConvertionRequest.CronMode mode)

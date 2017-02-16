@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Nodes
     {
         public MissingNode(Token token)
             : base(token)
-        { }
+        {
+        }
 
         public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
 
@@ -23,6 +24,6 @@ namespace TQL.CronExpression.Parser.Nodes
             throw new EvaluationException(segment, "Cannot evaluate missing node.");
         }
 
-        public override string ToString() => this.Token.Value;
+        public override string ToString() => Token.Value;
     }
 }

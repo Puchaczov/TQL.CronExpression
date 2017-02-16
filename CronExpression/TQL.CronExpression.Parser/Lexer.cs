@@ -1,18 +1,17 @@
-﻿using TQL.Core.Syntax;
-using TQL.Core.Tokens;
-using System;
-using TQL.CronExpression.Parser.Tokens;
-using TQL.CronExpression.Parser.Enums;
-using System.Text.RegularExpressions;
+﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
+using TQL.Core.Syntax;
+using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Enums;
+using TQL.CronExpression.Parser.Tokens;
 
 namespace TQL.CronExpression.Parser
 {
     public class Lexer : LexerBase<Token>
     {
-
-        public Lexer(string input) : 
-            base(input, new NoneToken(new TextSpan(0, 0)), 
+        public Lexer(string input) :
+            base(input, new NoneToken(new TextSpan(0, 0)),
                 new TokenDefinition(@"[\*]{1}(?=[\s,]{1,})"),
                 new TokenDefinition(@"[_]{1}(?=[\s,]{1,})"),
                 new TokenDefinition(@"[?]{1}(?=[\s,]{1,})"),
@@ -26,7 +25,8 @@ namespace TQL.CronExpression.Parser
                 new TokenDefinition(@"[\d]{1,}"),
                 new TokenDefinition(@"\w{1,3}(?=([\s,#-]|$))"),
                 new TokenDefinition(@"(([\w*?_]{1,}))", RegexOptions.Singleline))
-        { }
+        {
+        }
 
         protected override Token GetEndOfFileToken()
         {
@@ -35,8 +35,8 @@ namespace TQL.CronExpression.Parser
 
         protected override Token GetToken(TokenDefinition matchedDefinition, Match match)
         {
-            string token = match.Value;
-            int matchLength = match.Length;
+            var token = match.Value;
+            var matchLength = match.Length;
 
             switch (GetTokenCandidate(token))
             {
@@ -65,22 +65,24 @@ namespace TQL.CronExpression.Parser
             if (splited.Length > 2)
             {
                 if (splited[1] == string.Empty)
-                {
                     splited[1] = "1";
-                }
                 if (splited[2] == string.Empty)
-                {
                     splited[2] = token;
-                }
 
                 switch (splited[2])
                 {
                     case "L":
-                        return AssignTokenOfType(() => new LToken(int.Parse(splited[1]), new TextSpan(Position, matchLength)));
+                        return
+                            AssignTokenOfType(
+                                () => new LToken(int.Parse(splited[1]), new TextSpan(Position, matchLength)));
                     case "LW":
-                        return AssignTokenOfType(() => new LWToken(int.Parse(splited[1]), new TextSpan(Position, matchLength)));
+                        return
+                            AssignTokenOfType(
+                                () => new LwToken(int.Parse(splited[1]), new TextSpan(Position, matchLength)));
                     case "W":
-                        return AssignTokenOfType(() => new WToken(int.Parse(splited[1]), new TextSpan(Position, matchLength)));
+                        return
+                            AssignTokenOfType(
+                                () => new WToken(int.Parse(splited[1]), new TextSpan(Position, matchLength)));
                 }
             }
 
@@ -109,16 +111,12 @@ namespace TQL.CronExpression.Parser
                     return TokenType.Missing;
             }
 
-            if(this.IsEndLine(text))
-            {
+            if (IsEndLine(text))
                 return TokenType.WhiteSpace;
-            }
 
-            int number = 0;
+            var number = 0;
             if (int.TryParse(text, out number) && !text.Contains(" "))
-            {
                 return TokenType.Integer;
-            }
 
             return TokenType.Name;
         }

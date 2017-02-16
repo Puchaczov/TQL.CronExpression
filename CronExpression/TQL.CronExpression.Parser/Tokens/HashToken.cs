@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public HashToken(TextSpan span)
             : base("#", Enums.TokenType.Hash, span)
-        { }
+        {
+        }
 
         public override GenericToken<TokenType> Clone() => new HashToken(Span.Clone());
     }

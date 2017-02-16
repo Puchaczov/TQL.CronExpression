@@ -1,24 +1,25 @@
 ﻿using System;
-using TQL.CronExpression.TimelineEvaluator.Evaluators;
 using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.TimelineEvaluator.Evaluators;
 
 namespace TQL.CronExpression.TimelineEvaluator
 {
     public class CronTimelineVisitor : CronNodeVisitorBase, IEvaluable<ICronFireTimeEvaluator>
     {
-        private bool isVisited;
-        private readonly DateTimeOffset referenceTime;
+        private readonly DateTimeOffset _referenceTime;
+        private bool _isVisited;
 
         public CronTimelineVisitor(DateTimeOffset referenceTime)
         {
-            this.referenceTime = referenceTime;
+            this._referenceTime = referenceTime;
         }
 
         public CronTimelineVisitor()
             : this(DateTimeOffset.UtcNow)
-        { }
+        {
+        }
 
-        public ICronFireTimeEvaluator Evaluator => 
+        public ICronFireTimeEvaluator Evaluator =>
             new CronForwardFireTimeEvaluator(
                 this[Parser.Enums.Segment.Year],
                 this[Parser.Enums.Segment.Month],
@@ -27,12 +28,12 @@ namespace TQL.CronExpression.TimelineEvaluator
                 this[Parser.Enums.Segment.Hours],
                 this[Parser.Enums.Segment.Minutes],
                 this[Parser.Enums.Segment.Seconds],
-                time
+                Time
             );
 
         public override void Visit(EndOfFileNode node)
         {
-            isVisited = true;
+            _isVisited = true;
         }
     }
 }

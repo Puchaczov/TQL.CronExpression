@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public QuestionMarkToken(TextSpan span)
             : base("?", Enums.TokenType.QuestionMark, span)
-        { }
+        {
+        }
 
         public override GenericToken<TokenType> Clone() => new QuestionMarkToken(Span.Clone());
     }

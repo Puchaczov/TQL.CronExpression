@@ -8,11 +8,12 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
     {
         public DayOfWeekBasedComputeList(Ref<DateTimeOffset> referenceTime, IList<int> list)
             : base(referenceTime, list)
-        { }
+        {
+        }
 
         public override int Element(int index)
         {
-            var elem = list[index];
+            var elem = List[index];
             return 7 - elem;
         }
     }

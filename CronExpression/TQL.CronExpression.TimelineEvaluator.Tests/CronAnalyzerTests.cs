@@ -69,7 +69,6 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
 
             cal = new DateTime(2005, 6, 1, 10, 14, 0).ToUniversalTime();
             Assert.IsFalse(analyzer.IsSatisfiedBy(cal));
-
         }
 
         [TestMethod]
@@ -110,7 +109,7 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
 
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 12, analyzer, (datetime, monthsToAdd) =>
             {
-                var val1 = (DateTimeOffset)referenceTime.AddMonths(monthsToAdd);
+                var val1 = referenceTime.AddMonths(monthsToAdd);
                 var val2 = datetime;
                 Assert.AreEqual(val1, val2);
             });
@@ -123,10 +122,8 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
             var analyzer = "* * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
-            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 2, analyzer, (datetime, monthsToAdd) =>
-            {
-                Assert.AreEqual(referenceTime.AddSeconds(monthsToAdd), datetime);
-            });
+            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 2, analyzer,
+                (datetime, monthsToAdd) => { Assert.AreEqual(referenceTime.AddSeconds(monthsToAdd), datetime); });
         }
 
         [TestMethod]
@@ -136,10 +133,8 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
             var analyzer = "0 0 0 * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
-            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, daysToAdd) =>
-            {
-                Assert.AreEqual(referenceTime.AddDays(daysToAdd), datetime);
-            });
+            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer,
+                (datetime, daysToAdd) => { Assert.AreEqual(referenceTime.AddDays(daysToAdd), datetime); });
         }
 
         [TestMethod]
@@ -149,10 +144,8 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
             var analyzer = "0 0 * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
-            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, hoursToAdd) =>
-            {
-                Assert.AreEqual(referenceTime.AddHours(hoursToAdd), datetime);
-            });
+            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer,
+                (datetime, hoursToAdd) => { Assert.AreEqual(referenceTime.AddHours(hoursToAdd), datetime); });
         }
 
         [TestMethod]
@@ -162,11 +155,10 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
             var analyzer = "0 * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
-            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, minutesToAdd) =>
-            {
-                Assert.AreEqual(referenceTime.AddMinutes(minutesToAdd), datetime);
-            });
+            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer,
+                (datetime, minutesToAdd) => { Assert.AreEqual(referenceTime.AddMinutes(minutesToAdd), datetime); });
         }
+
         [TestMethod]
         public void TestWillFireEverySecond_ShouldPass()
         {
@@ -174,10 +166,8 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
             var analyzer = "* * * * * *".TakeEvaluator();
             analyzer.ReferenceTime = referenceTime;
 
-            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer, (datetime, secondsToAdd) =>
-            {
-                Assert.AreEqual(referenceTime.AddSeconds(secondsToAdd), datetime);
-            });
+            CheckNextFireExecutionTimeForSpecificPartOfDateTime(1, 60, analyzer,
+                (datetime, secondsToAdd) => { Assert.AreEqual(referenceTime.AddSeconds(secondsToAdd), datetime); });
         }
 
         [TestMethod]
@@ -317,10 +307,8 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
             analyzer.ReferenceTime = referenceTime;
 
             Assert.AreEqual(new DateTime(2016, 2, 29, 0, 0, 0), analyzer.NextFire());
-            CheckNextFireExecutionTimeForSpecificPartOfDateTime(0, 20, 4, analyzer, (time, years) =>
-            {
-                Assert.AreEqual(new DateTime(2020, 2, 29, 0, 0, 0).AddYears(years), time);
-            });
+            CheckNextFireExecutionTimeForSpecificPartOfDateTime(0, 20, 4, analyzer,
+                (time, years) => { Assert.AreEqual(new DateTime(2020, 2, 29, 0, 0, 0).AddYears(years), time); });
         }
 
         [TestMethod]
@@ -360,8 +348,8 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
         public void TestWillRunAt2ndHourAtNightEveryDay_ShouldPass()
         {
             var analyzer = "* * 1 * * ?".TakeEvaluator();
-            DateTimeOffset cal = new DateTimeOffset(2005, 7, 31, 22, 59, 57, TimeSpan.Zero);
-            DateTimeOffset nextExpectedFireTime = new DateTimeOffset(2005, 8, 1, 1, 0, 0, TimeSpan.Zero);
+            var cal = new DateTimeOffset(2005, 7, 31, 22, 59, 57, TimeSpan.Zero);
+            var nextExpectedFireTime = new DateTimeOffset(2005, 8, 1, 1, 0, 0, TimeSpan.Zero);
             analyzer.ReferenceTime = cal;
             var value = analyzer.NextFire();
             Assert.AreEqual(nextExpectedFireTime, value);
@@ -477,7 +465,7 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
         }
 
         [TestCategory("Not implemented features")]
-        [Ignore()]
+        [Ignore]
         [TestMethod]
         public void TestLastDayOffset()
         {
@@ -508,7 +496,7 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
         public void TestNthWeekDay_ShouldPass()
         {
             var analyzer = "0 30 10-13 ? * FRI#3 *".TakeEvaluator();
-            DateTimeOffset start = new DateTimeOffset(2016, 5, 13, 0, 0, 0, TimeSpan.Zero);
+            var start = new DateTimeOffset(2016, 5, 13, 0, 0, 0, TimeSpan.Zero);
 
             analyzer.ReferenceTime = start;
 
@@ -558,22 +546,20 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
             Assert.AreNotEqual(new DateTimeOffset(2016, 1, 10, 9, 43, 0, TimeSpan.Zero), analyzer.NextFire());
         }
 
-        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
+        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to,
+            ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
         {
             CheckNextFireExecutionTimeForSpecificPartOfDateTime(from, to, 1, analyzer, assertCallback);
         }
 
-        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, int inc, ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
+        private static void CheckNextFireExecutionTimeForSpecificPartOfDateTime(int from, int to, int inc,
+            ICronFireTimeEvaluator analyzer, Action<DateTimeOffset, int> assertCallback)
         {
             if (assertCallback == null)
-            {
                 throw new ArgumentNullException(nameof(assertCallback));
-            }
 
-            for (int i = from; i < to; i += inc)
-            {
+            for (var i = from; i < to; i += inc)
                 assertCallback(analyzer.NextFire().Value, i);
-            }
         }
     }
 }

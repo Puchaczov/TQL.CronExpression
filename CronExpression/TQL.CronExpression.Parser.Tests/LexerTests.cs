@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TQL.CronExpression.Parser.Tests
 {
@@ -63,7 +63,7 @@ namespace TQL.CronExpression.Parser.Tests
         {
             var lexer = new Lexer("LW 1");
             var token = lexer.Next();
-            Assert.AreEqual(Enums.TokenType.LW, token.TokenType);
+            Assert.AreEqual(Enums.TokenType.Lw, token.TokenType);
             token = lexer.Next();
             Assert.AreEqual(Enums.TokenType.WhiteSpace, token.TokenType);
             token = lexer.Next();
@@ -81,7 +81,7 @@ namespace TQL.CronExpression.Parser.Tests
             token = lexer.Next();
             Assert.AreEqual(Enums.TokenType.Comma, token.TokenType);
             token = lexer.Next();
-            Assert.AreEqual(Enums.TokenType.LW, token.TokenType);
+            Assert.AreEqual(Enums.TokenType.Lw, token.TokenType);
             token = lexer.Next();
             Assert.AreEqual(Enums.TokenType.Comma, token.TokenType);
             token = lexer.Next();
@@ -107,7 +107,7 @@ namespace TQL.CronExpression.Parser.Tests
             token = lexer.Next();
             Assert.AreEqual(Enums.TokenType.Comma, token.TokenType);
             token = lexer.Next();
-            Assert.AreEqual(Enums.TokenType.LW, token.TokenType);
+            Assert.AreEqual(Enums.TokenType.Lw, token.TokenType);
             token = lexer.Next();
             Assert.AreEqual(Enums.TokenType.Eof, token.TokenType);
         }

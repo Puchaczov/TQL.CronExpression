@@ -9,127 +9,127 @@ namespace TQL.CronExpression.Parser
 {
     public class CronParser
     {
-        private Segment currentSegment;
-        private Token currentToken;
-        private Token lastToken;
-        private readonly Lexer lexer;
-        private readonly bool produceEndOfFileNode = true;
+        private readonly Lexer _lexer;
+        private readonly bool _produceEndOfFileNode = true;
 
-        private readonly bool produceMissingYearSegment = true;
-        private readonly bool produceMissingSecondSegment;
+        private Segment _currentSegment;
+        private Token _currentToken;
+        private Token _lastToken;
 
-        public CronParser(Lexer lexer, bool produceMissingYearSegment, bool produceEndOfFileNode, bool produceMissingSecondSegment)
+        public CronParser(Lexer lexer, bool produceMissingYearSegment, bool produceEndOfFileNode,
+            bool produceMissingSecondSegment)
             : this(lexer)
         {
-            this.produceMissingYearSegment = produceMissingYearSegment;
-            this.produceMissingSecondSegment = produceMissingSecondSegment;
-            this.produceEndOfFileNode = produceEndOfFileNode;
+            WithYearComponentWhenMissing = produceMissingYearSegment;
+            WithSecondsComponentWhenMissing = produceMissingSecondSegment;
+            this._produceEndOfFileNode = produceEndOfFileNode;
         }
 
         public CronParser(Lexer lexer)
         {
-            this.lexer = lexer;
-            lastToken = new NoneToken(new TextSpan(0, 0));
-            currentToken = lexer.Next();
+            this._lexer = lexer;
+            _lastToken = new NoneToken(new TextSpan(0, 0));
+            _currentToken = lexer.Next();
         }
 
-        public bool WithYearComponentWhenMissing => produceMissingYearSegment;
+        public bool WithYearComponentWhenMissing { get; } = true;
 
-        public bool WithSecondsComponentWhenMissing => produceMissingSecondSegment;
+        public bool WithSecondsComponentWhenMissing { get; }
 
         public RootComponentNode ComposeRootComponents()
         {
             var rootComponents = new List<SegmentNode>();
             var i = 0;
 
-            if (produceMissingSecondSegment)
+            if (WithSecondsComponentWhenMissing)
             {
                 rootComponents.Add(ComposeValueBasedSecondsSegmentComponent());
                 i += 1;
             }
-            for (; currentToken.TokenType != TokenType.Eof; ++i)
+            for (; _currentToken.TokenType != TokenType.Eof; ++i)
             {
-                while (currentToken.TokenType == TokenType.WhiteSpace || currentToken.TokenType == TokenType.NewLine)
-                {
-                    Consume(currentToken.TokenType);
-                }
-                rootComponents.Add(ComposeSegmentComponent((Segment)i));
+                while (_currentToken.TokenType == TokenType.WhiteSpace || _currentToken.TokenType == TokenType.NewLine)
+                    Consume(_currentToken.TokenType);
+                rootComponents.Add(ComposeSegmentComponent((Segment) i));
             }
-            if (produceMissingYearSegment && rootComponents[rootComponents.Count - 1].Segment == Segment.DayOfWeek)
-            {
+            if (WithYearComponentWhenMissing && rootComponents[rootComponents.Count - 1].Segment == Segment.DayOfWeek)
                 rootComponents.Add(ComposeStarYearSegmentComponent());
-            }
-            if (produceEndOfFileNode && currentToken.TokenType == TokenType.Eof)
-            {
-                rootComponents.Add(new EndOfFileNode(new EndOfFileToken(currentToken.Span)));
-            }
+            if (_produceEndOfFileNode && _currentToken.TokenType == TokenType.Eof)
+                rootComponents.Add(new EndOfFileNode(new EndOfFileToken(_currentToken.Span)));
             return new RootComponentNode(rootComponents.ToArray());
         }
 
         private SegmentNode ComposeComplexSegment(Segment segment) => new SegmentNode(SeparateCommas(), segment, null);
 
-        private LeafNode ComposeMissingNodeOnCurrentPosition() => new MissingNode(new MissingToken(new TextSpan(lexer.Position, 0)));
+        private LeafNode ComposeMissingNodeOnCurrentPosition()
+            => new MissingNode(new MissingToken(new TextSpan(_lexer.Position, 0)));
 
         private SegmentNode ComposeSegmentComponent(Segment segment)
         {
             switch (segment)
             {
                 case Segment.Seconds:
-                    currentSegment = Segment.Seconds;
+                    _currentSegment = Segment.Seconds;
                     break;
                 case Segment.Minutes:
-                    currentSegment = Segment.Minutes;
+                    _currentSegment = Segment.Minutes;
                     break;
                 case Segment.Hours:
-                    currentSegment = Segment.Hours;
+                    _currentSegment = Segment.Hours;
                     break;
                 case Segment.DayOfMonth:
-                    currentSegment = Segment.DayOfMonth;
+                    _currentSegment = Segment.DayOfMonth;
                     break;
                 case Segment.Month:
-                    currentSegment = Segment.Month;
+                    _currentSegment = Segment.Month;
                     break;
                 case Segment.DayOfWeek:
-                    currentSegment = Segment.DayOfWeek;
+                    _currentSegment = Segment.DayOfWeek;
                     break;
                 case Segment.Year:
-                    currentSegment = Segment.Year;
+                    _currentSegment = Segment.Year;
                     break;
                 default:
-                    currentSegment = Segment.Unknown;
+                    _currentSegment = Segment.Unknown;
                     break;
             }
             return ComposeComplexSegment(segment);
         }
 
-        private SegmentNode ComposeStarYearSegmentComponent() => new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(lexer.Position, 0))), Segment.Year, null);
+        private SegmentNode ComposeStarYearSegmentComponent()
+            =>
+                new SegmentNode(new StarNode(Segment.Year, new StarToken(new TextSpan(_lexer.Position, 0))), Segment.Year,
+                    null);
 
-        private SegmentNode ComposeValueBasedSecondsSegmentComponent() => new SegmentNode(new NumberNode(new IntegerToken("0", new TextSpan(lexer.Position, 1))), Segment.Seconds, null);
+        private SegmentNode ComposeValueBasedSecondsSegmentComponent()
+            =>
+                new SegmentNode(new NumberNode(new IntegerToken("0", new TextSpan(_lexer.Position, 1))), Segment.Seconds,
+                    null);
 
         private void Consume(TokenType type)
         {
-            if (currentToken.TokenType == type)
+            if (_currentToken.TokenType == type)
             {
-                lastToken = currentToken;
-                currentToken = lexer.Next();
+                _lastToken = _currentToken;
+                _currentToken = _lexer.Next();
                 return;
             }
-            throw new UnexpectedTokenException(lexer.Position, currentToken);
+            throw new UnexpectedTokenException(_lexer.Position, _currentToken);
         }
 
         private CronSyntaxNode SeparateCommas()
         {
             var node = TakeComplex();
-            while (currentToken.TokenType == TokenType.Comma)
+            while (_currentToken.TokenType == TokenType.Comma)
             {
-                switch (currentToken.TokenType)
+                switch (_currentToken.TokenType)
                 {
                     case TokenType.Comma:
                         Consume(TokenType.Comma);
                         break;
                 }
 
-                var comma = lastToken;
+                var comma = _lastToken;
                 node = new CommaNode(node, TakeComplex(), comma);
             }
             return node;
@@ -139,10 +139,11 @@ namespace TQL.CronExpression.Parser
         {
             CronSyntaxNode node = TakePrimitives();
 
-            while (currentToken.TokenType == TokenType.Range || currentToken.TokenType == TokenType.Inc || currentToken.TokenType == TokenType.Hash)
+            while (_currentToken.TokenType == TokenType.Range || _currentToken.TokenType == TokenType.Inc ||
+                   _currentToken.TokenType == TokenType.Hash)
             {
-                var token = currentToken;
-                Consume(currentToken.TokenType);
+                var token = _currentToken;
+                Consume(_currentToken.TokenType);
 
                 switch (token.TokenType)
                 {
@@ -163,9 +164,9 @@ namespace TQL.CronExpression.Parser
 
         private LeafNode TakePrimitiveInteger()
         {
-            var token = currentToken;
-            Consume(currentToken.TokenType);
-            switch (currentToken.TokenType)
+            var token = _currentToken;
+            Consume(_currentToken.TokenType);
+            switch (_currentToken.TokenType)
             {
                 case TokenType.L:
                     Consume(TokenType.L);
@@ -174,14 +175,14 @@ namespace TQL.CronExpression.Parser
                     Consume(TokenType.W);
                     return new NumericPrecededWNode(token);
                 default:
-                    return new NumberNode(lastToken);
+                    return new NumberNode(_lastToken);
             }
         }
 
         private LeafNode TakePrimitives()
         {
-            var token = currentToken;
-            switch (currentToken.TokenType)
+            var token = _currentToken;
+            switch (_currentToken.TokenType)
             {
                 case TokenType.Integer:
                     return TakePrimitiveInteger();
@@ -194,12 +195,12 @@ namespace TQL.CronExpression.Parser
                 case TokenType.W:
                     Consume(TokenType.W);
                     return new WNode(token as WToken);
-                case TokenType.LW:
-                    Consume(TokenType.LW);
-                    return new LWNode(token as LWToken);
+                case TokenType.Lw:
+                    Consume(TokenType.Lw);
+                    return new LwNode(token as LwToken);
                 case TokenType.Star:
                     Consume(TokenType.Star);
-                    return new StarNode(currentSegment, token);
+                    return new StarNode(_currentSegment, token);
                 case TokenType.QuestionMark:
                     Consume(TokenType.QuestionMark);
                     return new QuestionMarkNode(token);

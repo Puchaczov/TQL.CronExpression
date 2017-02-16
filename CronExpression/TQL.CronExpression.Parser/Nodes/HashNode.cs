@@ -7,24 +7,25 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class HashNode : BinaryExpressionNode
     {
-        private readonly CronSyntaxNode left;
-        private readonly CronSyntaxNode right;
+        private readonly CronSyntaxNode _left;
+        private readonly CronSyntaxNode _right;
 
         public HashNode(CronSyntaxNode left, CronSyntaxNode right, Token token)
             : base(token)
         {
-            this.left = left;
-            this.right = right;
+            this._left = left;
+            this._right = right;
         }
 
-        public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[] {
-                    left,
-                    right
-                };
+        public override CronSyntaxNode[] Desecendants => new[]
+        {
+            _left,
+            _right
+        };
 
-        public override CronSyntaxNode Left => left;
+        public override CronSyntaxNode Left => _left;
 
-        public override CronSyntaxNode Right => right;
+        public override CronSyntaxNode Right => _right;
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -33,6 +34,6 @@ namespace TQL.CronExpression.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment) => ListExtension.Empty();
 
-        public override string ToString() => Left.ToString() + Token.Value + Right.ToString();
+        public override string ToString() => Left + Token.Value + Right;
     }
 }

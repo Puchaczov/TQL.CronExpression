@@ -10,16 +10,14 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class RootComponentNode : CronSyntaxNode
     {
-        private readonly SegmentNode[] cronComponents;
-
         public RootComponentNode(SegmentNode[] cronComponents)
         {
-            this.cronComponents = cronComponents;
+            Segments = cronComponents;
         }
 
-        public override CronSyntaxNode[] Desecendants => cronComponents;
+        public override CronSyntaxNode[] Desecendants => Segments;
 
-        public SegmentNode[] Segments => cronComponents;
+        public SegmentNode[] Segments { get; }
 
         public override TextSpan FullSpan
         {
@@ -38,10 +36,8 @@ namespace TQL.CronExpression.Parser.Nodes
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
-            foreach (var item in cronComponents)
-            {
+            foreach (var item in Segments)
                 item.Accept(visitor);
-            }
         }
 
         public override IList<int> Evaluate(Segment segment)
@@ -54,10 +50,10 @@ namespace TQL.CronExpression.Parser.Nodes
             var stringifiedNodes = new StringBuilder();
             for (int i = 0, j = Desecendants.Count() - 2; i < j; ++i)
             {
-                stringifiedNodes.Append(Desecendants[i].ToString());
+                stringifiedNodes.Append(Desecendants[i]);
                 stringifiedNodes.Append(' ');
             }
-            return stringifiedNodes.Append(Desecendants[Desecendants.Count() - 2].ToString()).ToString();
+            return stringifiedNodes.Append(Desecendants[Desecendants.Count() - 2]).ToString();
         }
     }
 }

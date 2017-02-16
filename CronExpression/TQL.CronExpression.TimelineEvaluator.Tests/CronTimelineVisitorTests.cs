@@ -8,7 +8,6 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
     [TestClass]
     public class CronTimelineVisitorTests
     {
-
         [TestMethod]
         public void CronExpresion3()
         {
@@ -152,6 +151,7 @@ namespace TQL.CronExpression.Extensions.TimelineEvaluator.Tests
             Assert.AreNotEqual(null, visitor.Errors);
             Assert.AreEqual(0, visitor.Errors.Count());
         }
+
         [TestMethod]
         public void ValidateExpression_AllStars_ShouldNotContainErrors()
         {

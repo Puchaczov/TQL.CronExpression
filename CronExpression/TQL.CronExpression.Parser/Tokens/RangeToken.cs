@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public RangeToken(TextSpan span)
             : base("-", Enums.TokenType.Range, span)
-        { }
+        {
+        }
 
         public override GenericToken<TokenType> Clone() => new RangeToken(Span.Clone());
     }

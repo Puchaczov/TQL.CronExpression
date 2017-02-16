@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public WhiteSpaceToken(TextSpan span)
             : base(" ", Enums.TokenType.WhiteSpace, span)
-        { }
+        {
+        }
 
         public override GenericToken<TokenType> Clone() => new WhiteSpaceToken(Span.Clone());
     }

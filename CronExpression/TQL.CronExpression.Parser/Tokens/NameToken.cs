@@ -9,10 +9,11 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public NameToken(string word, TextSpan span)
             : base(word, Enums.TokenType.Name, span)
-        { }
+        {
+        }
 
-        public int Length => base.Value.Length;
+        public int Length => Value.Length;
 
-        public override GenericToken<TokenType> Clone() => new NameToken(base.Value, Span.Clone());
+        public override GenericToken<TokenType> Clone() => new NameToken(Value, Span.Clone());
     }
 }

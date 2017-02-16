@@ -40,7 +40,7 @@
     <Compile Include="Evaluators\ICronFireTimeEvaluator.cs" />
     <Compile Include="Helpers\ExpressionHelpers.cs" />
     <Compile Include="IEvaluable.cs" />
-    <Compile Include="Lists\ComputableLists\ComputableListEnumerator.cs" />
+    <Compile Include="Lists\ComputableLists\ComputableElementsEnumerator.cs" />
     <Compile Include="Lists\ComputableLists\DateTimeBasedComputeList.cs" />
     <Compile Include="Lists\ComputableLists\DayOfWeekBasedComputeList.cs" />
     <Compile Include="Lists\ComputableLists\EverydayOfWeekComputeList.cs" />
@@ -51,6 +51,7 @@
     <Compile Include="Lists\ComputableLists\NthDayOfMonthLimitedByNumberOfWeekComputeList.cs" />
     <Compile Include="Lists\ComputableLists\NthDayOfMonthComputeList.cs" />
     <Compile Include="Lists\IComputableElementsList.cs" />
+    <Compile Include="Lists\OverflowedEventHandler.cs" />
     <Compile Include="Lists\PersistentList.cs" />
     <Compile Include="Lists\RangeVaryingList.cs" />
     <Compile Include="Lists\RoundRobinRangeVaryingList.cs" />

@@ -1,5 +1,5 @@
-﻿using System.Resources;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Resources;
 
 [assembly: AssemblyTitle("TQL.CronExpression.TimeLineEvaluator")]
 [assembly: AssemblyDescription("https://github.com/Puchaczov/TQL.CronExpression")]

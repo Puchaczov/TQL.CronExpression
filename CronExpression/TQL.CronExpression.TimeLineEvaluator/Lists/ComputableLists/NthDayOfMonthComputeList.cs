@@ -6,17 +6,17 @@ using TQL.CronExpression.Parser.Utils;
 namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
 {
     /// <summary>
-    /// Fully virtual list.
+    ///     Fully virtual list.
     /// </summary>
     public class NthDayOfMonthComputeList : IComputableElementsList<int>
     {
-        private readonly DayOfWeek dayOfWeekToFind;
-        private readonly Ref<DateTimeOffset> referenceTime;
+        private readonly DayOfWeek _dayOfWeekToFind;
+        private readonly Ref<DateTimeOffset> _referenceTime;
 
         public NthDayOfMonthComputeList(Ref<DateTimeOffset> referenceTime, DayOfWeek dayOfWeekToFind)
         {
-            this.referenceTime = referenceTime;
-            this.dayOfWeekToFind = dayOfWeekToFind;
+            this._referenceTime = referenceTime;
+            this._dayOfWeekToFind = dayOfWeekToFind;
         }
 
         public virtual int Count
@@ -26,37 +26,23 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
                 var foundedDate = GetFirstMatchingDateInMonth();
                 var daysInMonth = DateTime.DaysInMonth(foundedDate.Year, foundedDate.Month);
                 var day = foundedDate.Day;
-                if(day + 28 <= daysInMonth)
-                {
+                if (day + 28 <= daysInMonth)
                     return 5;
-                }
-                else if(day + 21 <= daysInMonth)
-                {
+                if (day + 21 <= daysInMonth)
                     return 4;
-                }
-                else if(day + 14 <= daysInMonth)
-                {
+                if (day + 14 <= daysInMonth)
                     return 3;
-                }
-                else if(day + 7 <= daysInMonth)
-                {
+                if (day + 7 <= daysInMonth)
                     return 2;
-                }
                 return 1;
             }
         }
 
         public int this[int index]
         {
-            get
-            {
-                return Element(index);
-            }
+            get { return Element(index); }
 
-            set
-            {
-                throw new NotSupportedException();
-            }
+            set { throw new NotSupportedException(); }
         }
 
         public void Add(IComputableElementsList<int> list)
@@ -90,17 +76,14 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
 
         private DateTimeOffset GetFirstMatchingDateInMonth()
         {
-            var val = referenceTime.Value;
-            var refTime = new DateTimeOffset(val.Year, val.Month, 1, 0, 0, 0, new TimeSpan(val.Offset.Days, val.Offset.Hours, val.Offset.Minutes, val.Offset.Seconds));
-            var diff = refTime.DayOfWeek - dayOfWeekToFind;
-            if(diff > 0)
-            {
-                return refTime.AddDays((int)((DayOfWeek.Saturday - refTime.DayOfWeek) + 1 + dayOfWeekToFind));
-            }
-            else if(diff < 0)
-            {
+            var val = _referenceTime.Value;
+            var refTime = new DateTimeOffset(val.Year, val.Month, 1, 0, 0, 0,
+                new TimeSpan(val.Offset.Days, val.Offset.Hours, val.Offset.Minutes, val.Offset.Seconds));
+            var diff = refTime.DayOfWeek - _dayOfWeekToFind;
+            if (diff > 0)
+                return refTime.AddDays((int) (DayOfWeek.Saturday - refTime.DayOfWeek + 1 + _dayOfWeekToFind));
+            if (diff < 0)
                 return refTime.AddDays(diff * -1);
-            }
             return refTime;
         }
     }

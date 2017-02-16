@@ -8,6 +8,7 @@ namespace TQL.CronExpression.Parser.Tokens
     public abstract class Token : GenericToken<TokenType>
     {
         public Token(string value, TokenType type, TextSpan span) : base(value, type, span)
-        { }
+        {
+        }
     }
 }

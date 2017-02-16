@@ -5,19 +5,16 @@ using TQL.CronExpression.Parser.Enums;
 namespace TQL.CronExpression.Parser.Tokens
 {
     [DebuggerDisplay("{GetType().Name,nq}: {Value,nq}LW")]
-    public class LWToken : Token
+    public class LwToken : Token
     {
-        public LWToken(int value, TextSpan span)
-            : base(value.ToString(), Enums.TokenType.LW, span)
+        public LwToken(int value, TextSpan span)
+            : base(value.ToString(), Enums.TokenType.Lw, span)
         {
-            this.Number = value;
+            Number = value;
         }
 
-        public int Number
-        {
-            get;
-        }
+        public int Number { get; }
 
-        public override GenericToken<TokenType> Clone() => new LWToken(Number, Span.Clone());
+        public override GenericToken<TokenType> Clone() => new LwToken(Number, Span.Clone());
     }
 }

@@ -1,17 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Linq;
-using TQL.Core.Tokens;
-using TQL.CronExpression.Parser.Nodes;
-using TQL.CronExpression.Parser.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TQL.Core.Exceptions;
+using TQL.Core.Tokens;
+using TQL.CronExpression.Parser.Helpers;
+using TQL.CronExpression.Parser.Nodes;
 
 namespace TQL.CronExpression.Parser.Tests
 {
     [TestClass]
     public class ParserTests
     {
-
         [TestMethod]
         public void CheckSyntaxTree_AllStarNodes_ShouldPass()
         {
@@ -175,7 +174,8 @@ namespace TQL.CronExpression.Parser.Tests
         [TestMethod]
         public void CheckSyntaxTree_MixedComplexExpression_WithNestedRangeInIncNode_ShouldPass()
         {
-            var lexer = new Lexer("0,3#2,1-5,2-6,6,1,0 0/5 14,18-20,25 * FEB-MAY,1-8/2,JANUARY,FEBRUARY MON-FRI,1W,1545L,6#3 ?");
+            var lexer =
+                new Lexer("0,3#2,1-5,2-6,6,1,0 0/5 14,18-20,25 * FEB-MAY,1-8/2,JANUARY,FEBRUARY MON-FRI,1W,1545L,6#3 ?");
             var parser = new CronParser(lexer);
             parser.ComposeRootComponents();
         }
@@ -195,6 +195,7 @@ namespace TQL.CronExpression.Parser.Tests
             var tree = "* * * * * * * * *".Parse(false, false);
             Assert.AreEqual(9, tree.Desecendants.Count());
         }
+
         [TestMethod]
         public void CheckSyntaxTree_NodesSeparatedByNewLine_ShouldPass()
         {
@@ -347,7 +348,7 @@ namespace TQL.CronExpression.Parser.Tests
         private static void CheckFullSpan(string expression, params TextSpan[] spans)
         {
             var exp = expression.Parse();
-            for (int i = 0; i < 7; ++i)
+            for (var i = 0; i < 7; ++i)
             {
                 var child = exp.Desecendants[i];
                 var span = child.FullSpan;
@@ -366,13 +367,15 @@ namespace TQL.CronExpression.Parser.Tests
             Assert.AreEqual(typeof(T), tree.Desecendants.Last().GetType());
         }
 
-        private static RootComponentNode CheckSyntaxTree(string expression, string expectedOutputExpression, bool produceMissingYearSegment = true)
+        private static RootComponentNode CheckSyntaxTree(string expression, string expectedOutputExpression,
+            bool produceMissingYearSegment = true)
         {
             var ast = expression.Parse(produceMissingYearSegment);
             Assert.AreEqual(expectedOutputExpression, ast.ToString());
             return ast;
         }
 
-        private static RootComponentNode CheckSyntaxTree(string expression, bool produceMissingYearSegment = true) => CheckSyntaxTree(expression, expression, produceMissingYearSegment);
+        private static RootComponentNode CheckSyntaxTree(string expression, bool produceMissingYearSegment = true)
+            => CheckSyntaxTree(expression, expression, produceMissingYearSegment);
     }
 }

@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Nodes
     {
         public NumericPrecededWNode(Token token)
             : base(token)
-        { }
+        {
+        }
 
         public override void Accept(INodeVisitor visitor)
         {

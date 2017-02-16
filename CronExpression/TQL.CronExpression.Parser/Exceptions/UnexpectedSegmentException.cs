@@ -5,11 +5,11 @@ namespace TQL.CronExpression.Parser.Exceptions
 {
     public class UnexpectedSegmentException : Exception
     {
-        private readonly Segment segment;
+        private readonly Segment _segment;
 
         public UnexpectedSegmentException(Segment segment)
         {
-            this.segment = segment;
+            this._segment = segment;
         }
     }
 }

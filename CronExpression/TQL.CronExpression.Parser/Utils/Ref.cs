@@ -7,10 +7,10 @@ namespace TQL.CronExpression.Parser.Utils
         private readonly Func<T> _get;
         private readonly Action<T> _set;
 
-        public Ref(Func<T> @get, Action<T> @set)
+        public Ref(Func<T> get, Action<T> set)
         {
-            _get = @get;
-            _set = @set;
+            _get = get;
+            _set = set;
         }
 
         public T Value

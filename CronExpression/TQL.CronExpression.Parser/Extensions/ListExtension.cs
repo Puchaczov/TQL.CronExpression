@@ -8,9 +8,7 @@ namespace TQL.CronExpression.Parser.Extensions
         public static void AddRange(this IList<int> list, IEnumerable<int> values)
         {
             foreach (var item in values)
-            {
                 list.Add(item);
-            }
         }
 
         public static void Cut(this IList<int> list, int min, int max, int cutNotEveryNth)
@@ -25,7 +23,7 @@ namespace TQL.CronExpression.Parser.Extensions
 
         public static IList<int> CutMe(this IList<int> list, string min, string max, string cutNotEveryNth)
         {
-            ListExtension.Cut(list, min, max, cutNotEveryNth);
+            list.Cut(min, max, cutNotEveryNth);
             return list;
         }
 
@@ -35,14 +33,10 @@ namespace TQL.CronExpression.Parser.Extensions
         {
             var values = new List<int>();
             var i = from;
-            for (int j = to - inc; i <= j; i += inc)
-            {
+            for (var j = to - inc; i <= j; i += inc)
                 values.Add(i);
-            }
             if (i <= to)
-            {
                 values.Add(i);
-            }
             return values;
         }
     }

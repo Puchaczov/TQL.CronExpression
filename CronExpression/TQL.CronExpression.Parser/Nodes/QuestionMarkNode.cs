@@ -10,7 +10,8 @@ namespace TQL.CronExpression.Parser.Nodes
     {
         public QuestionMarkNode(Token token)
             : base(token)
-        { }
+        {
+        }
 
         public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
 

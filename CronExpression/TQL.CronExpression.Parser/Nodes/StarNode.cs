@@ -8,17 +8,15 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class StarNode : LeafNode
     {
-        private readonly Segment segment;
-
         public StarNode(Segment segment, Token token)
             : base(token)
         {
-            this.segment = segment;
+            Segment = segment;
         }
 
         public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];
 
-        public Segment Segment => segment;
+        public Segment Segment { get; }
 
         public override void Accept(INodeVisitor visitor)
         {

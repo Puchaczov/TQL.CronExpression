@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public IncrementByToken(TextSpan span)
             : base("/", Enums.TokenType.Inc, span)
-        { }
+        {
+        }
 
         public override GenericToken<TokenType> Clone() => new IncrementByToken(Span.Clone());
     }

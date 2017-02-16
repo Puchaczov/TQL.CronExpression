@@ -7,11 +7,11 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists
 {
     public class VirtualList<T> : IComputableElementsList<T>, IEnumerable<T>
     {
-        protected readonly IList<IComputableElementsList<T>> sources;
+        protected readonly IList<IComputableElementsList<T>> Sources;
 
         public VirtualList()
         {
-            this.sources = new List<IComputableElementsList<T>>();
+            Sources = new List<IComputableElementsList<T>>();
         }
 
         public virtual int Count
@@ -19,30 +19,22 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists
             get
             {
                 var count = 0;
-                foreach (var list in sources)
-                {
+                foreach (var list in Sources)
                     count += list.Count;
-                }
                 return count;
             }
         }
 
         public T this[int index]
         {
-            get
-            {
-                return Element(index);
-            }
+            get { return Element(index); }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
+            set { throw new NotImplementedException(); }
         }
 
         public virtual void Add(IComputableElementsList<T> list)
         {
-            sources.Add(list);
+            Sources.Add(list);
         }
 
         public virtual T Element(int index)
@@ -50,17 +42,13 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists
             var i = 0;
             var f = -1;
             var nidx = index;
-            for(var j = sources.Count; i < j && nidx >= 0; ++i, ++f)
-            {
-                nidx -= sources[i].Count;
-            }
+            for (var j = Sources.Count; i < j && nidx >= 0; ++i, ++f)
+                nidx -= Sources[i].Count;
             nidx += 1;
-            if(nidx > 0)
-            {
+            if (nidx > 0)
                 throw new IndexOutOfRangeException(nameof(index));
-            }
-            var cnt = sources[f].Count;
-            return sources[f][cnt - 1 + nidx];
+            var cnt = Sources[f].Count;
+            return Sources[f][cnt - 1 + nidx];
         }
 
         public virtual IEnumerator<T> GetEnumerator() => new ComputableElementsEnumerator<T>(this);

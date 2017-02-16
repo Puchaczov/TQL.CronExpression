@@ -4,11 +4,11 @@ namespace TQL.CronExpression.Parser.Exceptions
 {
     public class UnknownSegmentException : Exception
     {
-        private readonly int v;
+        private readonly int _v;
 
         public UnknownSegmentException(int v)
         {
-            this.v = v;
+            this._v = v;
         }
     }
 }

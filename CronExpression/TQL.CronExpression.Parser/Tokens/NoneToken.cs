@@ -7,7 +7,8 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public NoneToken(TextSpan span)
             : base(string.Empty, Enums.TokenType.None, span)
-        { }
+        {
+        }
 
         public override GenericToken<TokenType> Clone() => new NoneToken(Span.Clone());
     }

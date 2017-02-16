@@ -6,7 +6,7 @@ namespace TQL.CronExpression.Preprocessor
     {
         protected override string Process(string input)
         {
-            switch(input)
+            switch (input)
             {
                 case "@YEARLY":
                 case "@ANNUALLY":

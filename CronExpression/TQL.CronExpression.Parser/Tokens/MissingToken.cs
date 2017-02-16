@@ -9,7 +9,8 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public MissingToken(TextSpan span)
             : base("_", Enums.TokenType.Missing, span)
-        { }
+        {
+        }
 
         public override GenericToken<TokenType> Clone() => new MissingToken(Span.Clone());
     }

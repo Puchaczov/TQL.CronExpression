@@ -7,12 +7,12 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class WordNode : LeafNode
     {
-        private readonly Token token;
+        private readonly Token _token;
 
         public WordNode(Token token)
             : base(token)
         {
-            this.token = token;
+            this._token = token;
         }
 
         public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[0];

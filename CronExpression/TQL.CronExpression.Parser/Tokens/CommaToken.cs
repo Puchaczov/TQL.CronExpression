@@ -9,8 +9,9 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public CommaToken(TextSpan span)
             : base(",", Enums.TokenType.Comma, span)
-        { }
+        {
+        }
 
-        public override GenericToken<TokenType> Clone() => new CommaToken(this.Span.Clone());
+        public override GenericToken<TokenType> Clone() => new CommaToken(Span.Clone());
     }
 }

@@ -8,12 +8,13 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists
     {
         public MonthBasedComputeList(Ref<DateTimeOffset> referenceTime, IList<int> list)
             : base(referenceTime, list)
-        { }
+        {
+        }
 
         public override int Element(int index)
         {
-            var elem = list[index];
-            return DateTime.DaysInMonth(referenceTime.Value.Year, referenceTime.Value.Month) - elem;
+            var elem = List[index];
+            return DateTime.DaysInMonth(ReferenceTime.Value.Year, ReferenceTime.Value.Month) - elem;
         }
     }
 }

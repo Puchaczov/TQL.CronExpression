@@ -7,7 +7,7 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists
     {
         public PersistentList(IEnumerable<T> enumerable)
         {
-            this.AddRange(enumerable);
+            AddRange(enumerable);
         }
 
         public void Add(IComputableElementsList<T> list)

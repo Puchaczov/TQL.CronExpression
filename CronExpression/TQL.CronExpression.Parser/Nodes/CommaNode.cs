@@ -8,14 +8,14 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class CommaNode : BinaryExpressionNode
     {
-        private readonly CronSyntaxNode left;
-        private readonly CronSyntaxNode right;
+        private readonly CronSyntaxNode _left;
+        private readonly CronSyntaxNode _right;
 
         public CommaNode(CronSyntaxNode left, CronSyntaxNode right, Token token)
             : base(token)
         {
-            this.left = left;
-            this.right = right;
+            this._left = left;
+            this._right = right;
         }
 
         public override CronSyntaxNode[] Desecendants
@@ -23,8 +23,8 @@ namespace TQL.CronExpression.Parser.Nodes
             get
             {
                 var commaItems = new List<CronSyntaxNode>();
-                var current = left;
-                commaItems.Add(right);
+                var current = _left;
+                commaItems.Add(_right);
                 while (current != null)
                 {
                     var commaCurrent = current as CommaNode;
@@ -55,27 +55,25 @@ namespace TQL.CronExpression.Parser.Nodes
             }
         }
 
-        public override CronSyntaxNode Left => left;
+        public override CronSyntaxNode Left => _left;
 
-        public override CronSyntaxNode Right => right;
+        public override CronSyntaxNode Right => _right;
 
         public override void Accept(INodeVisitor visitor)
         {
             visitor.Visit(this);
-            left.Accept(visitor);
-            right.Accept(visitor);
+            _left.Accept(visitor);
+            _right.Accept(visitor);
         }
 
         public override IList<int> Evaluate(Segment segment)
         {
             var list = new List<int>();
             foreach (var item in Desecendants)
-            {
                 list.AddRange(item.Evaluate(segment));
-            }
             return list;
         }
 
-        public override string ToString() => left.ToString() + Token.Value + right.ToString();
+        public override string ToString() => _left + Token.Value + _right;
     }
 }

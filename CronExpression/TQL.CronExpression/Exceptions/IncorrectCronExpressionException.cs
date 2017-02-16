@@ -8,32 +8,31 @@ namespace TQL.CronExpression.Exceptions
 {
     public class IncorrectCronExpressionException : Exception
     {
-        private readonly IEnumerable<VisitationMessage> messages = new VisitationMessage[0];
+        private readonly IEnumerable<VisitationMessage> _messages = new VisitationMessage[0];
 
         public IncorrectCronExpressionException(VisitationMessage message, params VisitationMessage[] messages)
-            : this(messages.Concat(new VisitationMessage[] { message }).ToArray())
-        { }
+            : this(messages.Concat(new[] {message}).ToArray())
+        {
+        }
 
         public IncorrectCronExpressionException(params VisitationMessage[] messages)
         {
-            this.messages = messages;
+            this._messages = messages;
         }
 
-        public VisitationMessage[] Messages => messages.ToArray();
+        public VisitationMessage[] Messages => _messages.ToArray();
 
         public override string ToString()
         {
             var builder = new StringBuilder();
-            var count = messages.Count();
-            for(int i = 0; i < count - 1; ++i)
+            var count = _messages.Count();
+            for (var i = 0; i < count - 1; ++i)
             {
-                builder.Append(messages.ElementAt(i).ToString());
+                builder.Append(_messages.ElementAt(i));
                 builder.Append(Environment.NewLine);
             }
-            if(count > 0)
-            {
-                builder.Append(messages.Last());
-            }
+            if (count > 0)
+                builder.Append(_messages.Last());
             return builder.ToString();
         }
     }

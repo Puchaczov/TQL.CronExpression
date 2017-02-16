@@ -5,26 +5,27 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists
 {
     internal class RoundRobinRangeVaryingListEnumerator<T> : IEnumerator<T>
     {
-        private int index = -1;
-        private readonly RoundRobinRangeVaryingList<T> roundRobinRangeVaryingList;
+        private readonly RoundRobinRangeVaryingList<T> _roundRobinRangeVaryingList;
+        private int _index = -1;
 
         public RoundRobinRangeVaryingListEnumerator(RoundRobinRangeVaryingList<T> roundRobinRangeVaryingList)
         {
-            this.roundRobinRangeVaryingList = roundRobinRangeVaryingList;
+            this._roundRobinRangeVaryingList = roundRobinRangeVaryingList;
         }
 
-        public T Current => roundRobinRangeVaryingList.Element(index);
+        public T Current => _roundRobinRangeVaryingList.Element(_index);
 
-        object IEnumerator.Current => roundRobinRangeVaryingList.Element(index);
+        object IEnumerator.Current => _roundRobinRangeVaryingList.Element(_index);
 
         public void Dispose()
-        { }
+        {
+        }
 
         public bool MoveNext()
         {
-            if (index + 1 < roundRobinRangeVaryingList.Count)
+            if (_index + 1 < _roundRobinRangeVaryingList.Count)
             {
-                index += 1;
+                _index += 1;
                 return true;
             }
             return false;
@@ -32,7 +33,7 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists
 
         public void Reset()
         {
-            index = -1;
+            _index = -1;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-
 [assembly: AssemblyTitle("TQL.CronExpression.Converter.Tests")]
 [assembly: AssemblyDescription("https://github.com/Puchaczov/TQL.CronExpression")]
 [assembly: AssemblyConfiguration("")]

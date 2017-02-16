@@ -5,14 +5,16 @@ using TQL.CronExpression.Parser.Nodes;
 
 namespace TQL.CronExpression
 {
-    public abstract class AbstractConverter<TOutput> : ConverterBase<TOutput, ConvertionResponse<TOutput>, INodeVisitor, TokenType, RootComponentNode, ConvertionRequest>
+    public abstract class AbstractConverter<TOutput> :
+        ConverterBase
+        <TOutput, ConvertionResponse<TOutput>, INodeVisitor, TokenType, RootComponentNode, ConvertionRequest>
     {
-        protected readonly bool throwOnError;
+        protected readonly bool ThrowOnError;
 
         protected AbstractConverter(bool throwOnError)
             : base(throwOnError)
         {
-            this.throwOnError = throwOnError;
+            this.ThrowOnError = throwOnError;
         }
 
         protected override RootComponentNode InstantiateRootNodeFromRequest(ConvertionRequest request)
@@ -20,7 +22,8 @@ namespace TQL.CronExpression
             var preprocessor = new Preprocessor.Preprocessor();
             var input = preprocessor.Execute(request.Input);
             var lexer = new Lexer(input);
-            var parser = new CronParser(lexer, request.Options.ProduceYearIfMissing, request.Options.ProduceEndOfFileNode, request.Options.ProduceSecondsIfMissing);
+            var parser = new CronParser(lexer, request.Options.ProduceYearIfMissing,
+                request.Options.ProduceEndOfFileNode, request.Options.ProduceSecondsIfMissing);
             return parser.ComposeRootComponents();
         }
 

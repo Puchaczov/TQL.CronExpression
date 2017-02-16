@@ -15,28 +15,33 @@ namespace TQL.CronExpression.Visitors.Tests
             CheckErrors("5-1 * * * * * *", false, 1, SemanticErrorKind.SwappedValue);
             CheckErrors("1-4-1 * * * * * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("1-200-1 * * * * * *", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("150-12 * * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.SwappedValue);
+            CheckErrors("150-12 * * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.SwappedValue);
 
             CheckErrors("* 5-1 * * * * *", false, 1, SemanticErrorKind.SwappedValue);
             CheckErrors("* 1-4-1 * * * * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* 1-200-1 * * * * *", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("* 150-12 * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.SwappedValue);
+            CheckErrors("* 150-12 * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.SwappedValue);
 
             CheckErrors("* * 5-1 * * * *", false, 1, SemanticErrorKind.SwappedValue);
             CheckErrors("* * 1-4-1 * * * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * 1-200-1 * * * *", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("* * 150-12 * * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.SwappedValue);
+            CheckErrors("* * 150-12 * * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.SwappedValue);
 
             CheckErrors("* * * 5-1 * * *", false, 1, SemanticErrorKind.SwappedValue);
             CheckErrors("* * * 1-4-1 * * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * 1-200-1 * * *", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("* * * 150-12 * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.SwappedValue);
+            CheckErrors("* * * 150-12 * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.SwappedValue);
 
             CheckErrors("* * * * MAR-JAN * *", false, 1, SemanticErrorKind.SwappedValue);
             CheckErrors("* * * * 5-1 * *", false, 1, SemanticErrorKind.SwappedValue);
             CheckErrors("* * * * 1-4-1 * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * * 1-200-1 * *", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("* * * * MON-TUE,JAN-14 * *", false, 3, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * MON-TUE,JAN-14 * *", false, 3, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
 
             //Here behaviour is different. Regulary it should return ValueOutOfRange and SwappedValue errors.
             //However, due to it's in month/dayofweek field, 150 is uncomparable to 12. That won't trigger SwappedValue error.
@@ -52,19 +57,27 @@ namespace TQL.CronExpression.Visitors.Tests
             CheckErrors("* * * * * * 2010-2000", false, 1, SemanticErrorKind.SwappedValue);
             CheckErrors("* * * * * * 2000-2010-2000", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * * * * 2000-2010-2000", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("* * * * * * 3500-2000", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.SwappedValue);
+            CheckErrors("* * * * * * 3500-2000", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.SwappedValue);
         }
 
         [TestMethod]
         public void CheckRange_RangesExceed_ShouldReportError()
         {
-            CheckErrors("150-200 * * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("* 150-200 * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("* * 150-200 * * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("* * * 150-200 * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("* * * * 150-200 * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("* * * * * 150-200 *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("* * * * * * 150-200", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("150-200 * * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* 150-200 * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * 150-200 * * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * 150-200 * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * 150-200 * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * * 150-200 *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * * * 150-200", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
         }
 
         [TestMethod]
@@ -186,7 +199,8 @@ namespace TQL.CronExpression.Visitors.Tests
             CheckErrors("* * * 1#5 * * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * * 1#5 * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * * * * 1#5", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("* * * * * 0#5 *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * * 0#5 *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
         }
 
         [TestMethod]
@@ -204,12 +218,13 @@ namespace TQL.CronExpression.Visitors.Tests
             //check won't throw exception when short expression without seconds and years passed.
             //Should pass becouse parser will prepend and append missing seconds, year values. Used for old way
             //provided expressions when such segments doesn't exists.
-            CheckErrors<SemanticErrorKind>(() => {
+            CheckErrors(() =>
+            {
                 var nodes = "* * * * *".Parse(true, true, true);
                 var visitor = new CronRulesNodeVisitor(true);
                 nodes.Accept(visitor);
                 return visitor;
-            }, (error, type) => ((SemanticError)error).Kind == type, true, 0, ArrayHelper.Empty<SemanticErrorKind>());
+            }, (error, type) => ((SemanticError) error).Kind == type, true, 0, ArrayHelper.Empty<SemanticErrorKind>());
         }
 
         [TestMethod]
@@ -221,7 +236,8 @@ namespace TQL.CronExpression.Visitors.Tests
             CheckErrors("* * * * W * *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * * * W *", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * * * * W", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("* * * * * * 1,W", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("* * * * * * 1,W", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.UnsupportedValue);
             CheckErrors("* * * 1,W,1-5 * *", false, 1, SemanticErrorKind.UnsupportedValue);
         }
 
@@ -271,14 +287,16 @@ namespace TQL.CronExpression.Visitors.Tests
             CheckErrors("* * * * * 8 *", false, 1, SemanticErrorKind.ValueOutOfRange);
             CheckErrors("* * * * * * 3001", false, 1, SemanticErrorKind.ValueOutOfRange);
             CheckErrors("* * * * * * 1000", false, 1, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("* * * * * * 1000,3001", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * * * 1000,3001", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.ValueOutOfRange);
         }
 
         [TestMethod]
         public void CheckIncrementByNode_ShouldReportError()
         {
             CheckErrors("1-2/60 * * * * * *", false, 1, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("2-1/60 * * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange, SemanticErrorKind.SwappedValue);
+            CheckErrors("2-1/60 * * * * * *", false, 2, SemanticErrorKind.ValueOutOfRange,
+                SemanticErrorKind.SwappedValue);
             CheckErrors("* 1-2/60 * * * * *", false, 1, SemanticErrorKind.ValueOutOfRange);
             CheckErrors("* * 1-2/24 * * * *", false, 1, SemanticErrorKind.ValueOutOfRange);
             CheckErrors("* * * 1-2/32 * * *", false, 1, SemanticErrorKind.ValueOutOfRange);
@@ -316,10 +334,13 @@ namespace TQL.CronExpression.Visitors.Tests
             CheckErrors("*,1 1 1 1 1 1 2000", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("1 1,* 1 1 1 1 2000", false, 1, SemanticErrorKind.UnsupportedValue);
             CheckErrors("1 1 2-3,* 1 1 1 2000", false, 1, SemanticErrorKind.UnsupportedValue);
-            CheckErrors("1 1 1 *,1#4 1 1 2000", false, 2, SemanticErrorKind.UnsupportedValue, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("1 1 1 *,1#4 1 1 2000", false, 2, SemanticErrorKind.UnsupportedValue,
+                SemanticErrorKind.UnsupportedValue);
             CheckErrors("1 1 1 1 *, 1 2000", false, 2, SemanticErrorKind.UnsupportedValue, SyntaxErrorKind.MissingValue);
-            CheckErrors("1 1 1 1 1 *#5 2000", false, 2, SemanticErrorKind.UnsupportedValue, SemanticErrorKind.ValueOutOfRange);
-            CheckErrors("1 1 1 1 1 *#* 2000", false, 2, SemanticErrorKind.UnsupportedValue, SemanticErrorKind.UnsupportedValue);
+            CheckErrors("1 1 1 1 1 *#5 2000", false, 2, SemanticErrorKind.UnsupportedValue,
+                SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("1 1 1 1 1 *#* 2000", false, 2, SemanticErrorKind.UnsupportedValue,
+                SemanticErrorKind.UnsupportedValue);
             CheckErrors("1 1 1 1 1 *## 2000", false, 1, SemanticErrorKind.UnsupportedValue);
         }
 
@@ -331,22 +352,25 @@ namespace TQL.CronExpression.Visitors.Tests
             CheckErrors("* * ,1 * * * *", false, 1, SyntaxErrorKind.MissingValue);
             CheckErrors("* * * 1,1, * * *", false, 1, SyntaxErrorKind.MissingValue);
             CheckErrors("* * * * ,1,1 * *", false, 1, SyntaxErrorKind.MissingValue);
-            CheckErrors("* * * * ,1,2000,1 * *", false, 2, SyntaxErrorKind.MissingValue, SemanticErrorKind.ValueOutOfRange);
+            CheckErrors("* * * * ,1,2000,1 * *", false, 2, SyntaxErrorKind.MissingValue,
+                SemanticErrorKind.ValueOutOfRange);
             CheckErrors("* * * * * ,1,2, *", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
             CheckErrors("* * * * * * ,", false, 2, SyntaxErrorKind.MissingValue, SyntaxErrorKind.MissingValue);
         }
 
-        public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors, params SyntaxErrorKind[] types)
+        public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors,
+            params SyntaxErrorKind[] types)
         {
             CheckErrors(
                 () => expression.TakeVisitor(),
-                (error, expectedKind) => ((SyntaxError)error).Kind == expectedKind,
+                (error, expectedKind) => ((SyntaxError) error).Kind == expectedKind,
                 shouldBeValid,
                 expectedCountOfErrors,
                 types);
         }
 
-        public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors, params object[] types)
+        public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors,
+            params object[] types)
         {
             CheckErrors(
                 () => expression.TakeVisitor(),
@@ -355,25 +379,29 @@ namespace TQL.CronExpression.Visitors.Tests
                     switch (expectedKind.GetType().Name)
                     {
                         case nameof(SyntaxErrorKind):
-                            return error is SyntaxError && ((SyntaxError)error).Kind == (SyntaxErrorKind)expectedKind;
+                            return error is SyntaxError && ((SyntaxError) error).Kind == (SyntaxErrorKind) expectedKind;
                         case nameof(SemanticErrorKind):
-                            return error is SemanticError && ((SemanticError)error).Kind == (SemanticErrorKind)expectedKind;
+                            return error is SemanticError &&
+                                   ((SemanticError) error).Kind == (SemanticErrorKind) expectedKind;
                     }
                     return false;
                 }, shouldBeValid, expectedCountOfErrors, types);
         }
 
-        public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors, params SemanticErrorKind[] types)
+        public static void CheckErrors(string expression, bool shouldBeValid, int expectedCountOfErrors,
+            params SemanticErrorKind[] types)
         {
             CheckErrors(
                 () => expression.TakeVisitor(),
-                (error, expectedKind) => ((SemanticError)error).Kind == expectedKind,
+                (error, expectedKind) => ((SemanticError) error).Kind == expectedKind,
                 shouldBeValid,
                 expectedCountOfErrors,
                 types);
         }
 
-        public static void CheckErrors<TErrorKind>(Func<CronRulesNodeVisitor> createFunc, Func<VisitationMessage, TErrorKind, bool> compareFunc, bool shouldBeValid, int expectedCountOfErrors, params TErrorKind[] types)
+        public static void CheckErrors<TErrorKind>(Func<CronRulesNodeVisitor> createFunc,
+            Func<VisitationMessage, TErrorKind, bool> compareFunc, bool shouldBeValid, int expectedCountOfErrors,
+            params TErrorKind[] types)
         {
             Assert.IsNotNull(compareFunc);
             Assert.IsNotNull(createFunc);
@@ -413,12 +441,15 @@ namespace TQL.CronExpression.Visitors.Tests
             Assert.IsFalse(visitor.IsValid);
             Assert.AreEqual(2, visitor.Errors.Count());
             Assert.AreEqual(SemanticErrorKind.ValueOutOfRange, visitor.Errors.OfType<SemanticError>().First().Kind);
-            Assert.AreEqual("Value 150 cannot be used in segment Minutes. Value must be ranged from 0 - 59.", visitor.Errors.First().Message);
+            Assert.AreEqual("Value 150 cannot be used in segment Minutes. Value must be ranged from 0 - 59.",
+                visitor.Errors.First().Message);
             Assert.AreEqual(SemanticErrorKind.ValueOutOfRange, visitor.Errors.OfType<SemanticError>().ElementAt(1).Kind);
-            Assert.AreEqual("Value 200 cannot be used in segment Minutes. Value must be ranged from 0 - 59.", visitor.Errors.ElementAt(1).Message);
+            Assert.AreEqual("Value 200 cannot be used in segment Minutes. Value must be ranged from 0 - 59.",
+                visitor.Errors.ElementAt(1).Message);
         }
 
-        private static void CheckRange_ShouldReportError(string expression, int expectedCount, SemanticErrorKind expectedError)
+        private static void CheckRange_ShouldReportError(string expression, int expectedCount,
+            SemanticErrorKind expectedError)
         {
             var visitor = expression.TakeVisitor();
             Assert.IsFalse(visitor.IsValid);
@@ -486,6 +517,7 @@ namespace TQL.CronExpression.Visitors.Tests
         {
             TestsHelper.CheckExpressionDidNotReturnsValidationErrors("* * * * 1-5 * *");
         }
+
         [TestMethod]
         public void CheckRange_RangeInSeconds_ShouldPass()
         {

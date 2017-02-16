@@ -7,8 +7,7 @@ namespace TQL.CronExpression.Preprocessor
     {
         public Preprocessor()
         {
-            base
-                .Register(new ReplaceChar(char.ConvertFromUtf32(160)[0], ' '))
+            Register(new ReplaceChar(char.ConvertFromUtf32(160)[0], ' '))
                 .Register(new Trim())
                 .Register(new UpperCase())
                 .Register(new ReplaceNonStandardDefinitions());

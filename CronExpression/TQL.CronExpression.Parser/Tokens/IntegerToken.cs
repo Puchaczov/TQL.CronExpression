@@ -9,8 +9,9 @@ namespace TQL.CronExpression.Parser.Tokens
     {
         public IntegerToken(string number, TextSpan span)
             : base(number, Enums.TokenType.Integer, span)
-        { }
+        {
+        }
 
-        public override GenericToken<TokenType> Clone() => new IntegerToken(base.Value, Span.Clone());
+        public override GenericToken<TokenType> Clone() => new IntegerToken(Value, Span.Clone());
     }
 }

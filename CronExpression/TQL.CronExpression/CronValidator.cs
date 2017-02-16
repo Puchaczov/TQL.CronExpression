@@ -10,7 +10,8 @@ namespace TQL.CronExpression
     {
         public CronValidator(bool throwOnError = false)
             : base(throwOnError)
-        { }
+        {
+        }
 
         public ConvertionResponse<bool> Convert(ConvertionRequest request) => base.Convert(request, Convert);
 
@@ -21,10 +22,8 @@ namespace TQL.CronExpression
         {
             var visitor = new CronRulesNodeVisitor(true);
             ast.Accept(visitor);
-            if (throwOnError && visitor.Errors.Any(f => f.Level == MessageLevel.Error))
-            {
+            if (ThrowOnError && visitor.Errors.Any(f => f.Level == MessageLevel.Error))
                 throw new IncorrectCronExpressionException(visitor.Errors.ToArray());
-            }
             return new ConvertionResponse<bool>(visitor.IsValid, visitor.Errors.ToArray());
         }
     }

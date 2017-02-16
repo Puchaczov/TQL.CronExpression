@@ -7,34 +7,29 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists
 {
     internal class VirtuallyJoinedList : IComputableElementsList<int>
     {
-        private readonly Dictionary<int, int> correspondingKeys;
-        private readonly RoundRobinRangeVaryingList<int> dayOfMonths;
-        private readonly RoundRobinRangeVaryingList<int> dayOfWeeks;
-        private int index;
+        private readonly Dictionary<int, int> _correspondingKeys;
+        private readonly RoundRobinRangeVaryingList<int> _dayOfMonths;
+        private readonly RoundRobinRangeVaryingList<int> _dayOfWeeks;
+        private int _index;
 
-        public VirtuallyJoinedList(RoundRobinRangeVaryingList<int> dayOfMonths, RoundRobinRangeVaryingList<int> dayOfWeeks)
+        public VirtuallyJoinedList(RoundRobinRangeVaryingList<int> dayOfMonths,
+            RoundRobinRangeVaryingList<int> dayOfWeeks)
         {
-            this.dayOfMonths = dayOfMonths;
-            this.dayOfWeeks = dayOfWeeks;
-            correspondingKeys = new Dictionary<int, int>();
-            index = 0;
+            this._dayOfMonths = dayOfMonths;
+            this._dayOfWeeks = dayOfWeeks;
+            _correspondingKeys = new Dictionary<int, int>();
+            _index = 0;
         }
 
-        public int Count => correspondingKeys.Count;
+        public int Current => Element(_index);
 
-        public int Current => Element(index);
+        public int Count => _correspondingKeys.Count;
 
         public int this[int index]
         {
-            get
-            {
-                return Element(index);
-            }
+            get { return Element(index); }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
+            set { throw new NotImplementedException(); }
         }
 
         public void Add(IComputableElementsList<int> list)
@@ -42,56 +37,50 @@ namespace TQL.CronExpression.TimelineEvaluator.Lists
             throw new NotImplementedException();
         }
 
-        public int Element(int index) => dayOfMonths[correspondingKeys[index]];
+        public int Element(int index) => _dayOfMonths[_correspondingKeys[index]];
 
         public IEnumerator<int> GetEnumerator() => new ComputableElementsEnumerator<int>(this);
 
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         public void Next()
         {
-            if (index + 1 >= Count)
+            if (_index + 1 >= Count)
             {
-                dayOfMonths.Overflow();
+                _dayOfMonths.Overflow();
                 RebuildCorrespondingKeys();
-                index = 0;
+                _index = 0;
                 return;
             }
-            index += 1;
+            _index += 1;
         }
 
         public void Overflow()
         {
-            dayOfMonths.Overflow();
+            _dayOfMonths.Overflow();
             RebuildCorrespondingKeys();
         }
 
         public void RebuildCorrespondingKeys()
         {
             var index = 0;
-            correspondingKeys.Clear();
-            for (int i = 0, k = dayOfMonths.Count; i < k; ++i)
-            {
-                for (int j = 0, f = dayOfWeeks.Count; j < f; ++j)
-                {
-                    if (dayOfMonths[i] == dayOfWeeks[j])
-                    {
-                        correspondingKeys.Add(index++, i);
-                    }
-                }
-            }
+            _correspondingKeys.Clear();
+            for (int i = 0, k = _dayOfMonths.Count; i < k; ++i)
+            for (int j = 0, f = _dayOfWeeks.Count; j < f; ++j)
+                if (_dayOfMonths[i] == _dayOfWeeks[j])
+                    _correspondingKeys.Add(index++, i);
         }
 
         public void Reset()
         {
-            index = 0;
+            _index = 0;
         }
 
         public void SetRange(int minRange, int maxRange)
         {
-            dayOfMonths.SetRange(minRange, maxRange);
+            _dayOfMonths.SetRange(minRange, maxRange);
         }
 
-        public bool WillOverflow() => index + 1 >= Count;
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public bool WillOverflow() => _index + 1 >= Count;
     }
 }

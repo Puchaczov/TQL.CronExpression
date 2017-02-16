@@ -10,13 +10,10 @@ namespace TQL.CronExpression.Parser.Tokens
         public LToken(int value, TextSpan span)
             : base(value.ToString(), Enums.TokenType.L, span)
         {
-            this.Number = value;
+            Number = value;
         }
 
-        public int Number
-        {
-            get;
-        }
+        public int Number { get; }
 
         public override GenericToken<TokenType> Clone() => new LToken(Number, Span.Clone());
     }

@@ -9,24 +9,25 @@ namespace TQL.CronExpression.Parser.Nodes
 {
     public class IncrementByNode : BinaryExpressionNode
     {
-        private readonly CronSyntaxNode left;
-        private readonly CronSyntaxNode right;
+        private readonly CronSyntaxNode _left;
+        private readonly CronSyntaxNode _right;
 
         public IncrementByNode(CronSyntaxNode left, CronSyntaxNode right, Token token)
             : base(token)
         {
-            this.left = left;
-            this.right = right;
+            this._left = left;
+            this._right = right;
         }
 
-        public override CronSyntaxNode[] Desecendants => new CronSyntaxNode[] {
-                    left,
-                    right
-                };
+        public override CronSyntaxNode[] Desecendants => new[]
+        {
+            _left,
+            _right
+        };
 
-        public override CronSyntaxNode Left => left;
+        public override CronSyntaxNode Left => _left;
 
-        public override CronSyntaxNode Right => right;
+        public override CronSyntaxNode Right => _right;
 
         public override void Accept(INodeVisitor visitor)
         {
@@ -35,35 +36,43 @@ namespace TQL.CronExpression.Parser.Nodes
 
         public override IList<int> Evaluate(Segment segment)
         {
-            switch(left.Token.TokenType)
+            switch (_left.Token.TokenType)
             {
                 case TokenType.Range:
-                    return left.Evaluate(segment).CutMe(left.Desecendants[0].Token.Value, left.Desecendants[1].Token.Value, right.Token.Value);
+                    return _left.Evaluate(segment)
+                        .CutMe(_left.Desecendants[0].Token.Value, _left.Desecendants[1].Token.Value, _right.Token.Value);
                 case TokenType.Name:
                 case TokenType.Integer:
-                    switch(segment)
+                    switch (segment)
                     {
                         case Segment.DayOfWeek:
-                            return ListExtension.Expand(left.Evaluate(segment).First(), 7, right.Evaluate(segment).First());
+                            return ListExtension.Expand(_left.Evaluate(segment).First(), 7,
+                                _right.Evaluate(segment).First());
                         case Segment.Month:
-                            return ListExtension.Expand(left.Evaluate(segment).First(), 12, right.Evaluate(segment).First());
+                            return ListExtension.Expand(_left.Evaluate(segment).First(), 12,
+                                _right.Evaluate(segment).First());
                         case Segment.Year:
-                            return ListExtension.Expand(left.Evaluate(segment).First(), 3000, right.Evaluate(segment).First());
+                            return ListExtension.Expand(_left.Evaluate(segment).First(), 3000,
+                                _right.Evaluate(segment).First());
                         case Segment.DayOfMonth:
-                            return ListExtension.Expand(left.Evaluate(segment).First(), 32, right.Evaluate(segment).First());
+                            return ListExtension.Expand(_left.Evaluate(segment).First(), 32,
+                                _right.Evaluate(segment).First());
                         case Segment.Hours:
-                            return ListExtension.Expand(left.Evaluate(segment).First(), 23, right.Evaluate(segment).First());
+                            return ListExtension.Expand(_left.Evaluate(segment).First(), 23,
+                                _right.Evaluate(segment).First());
                         case Segment.Minutes:
-                            return ListExtension.Expand(left.Evaluate(segment).First(), 59, right.Evaluate(segment).First());
+                            return ListExtension.Expand(_left.Evaluate(segment).First(), 59,
+                                _right.Evaluate(segment).First());
                         case Segment.Seconds:
-                            return ListExtension.Expand(left.Evaluate(segment).First(), 59, right.Evaluate(segment).First());
+                            return ListExtension.Expand(_left.Evaluate(segment).First(), 59,
+                                _right.Evaluate(segment).First());
                     }
                     throw new UnexpectedSegmentException(segment);
                 default:
-                    throw new UnexpectedTokenException(0, left.Token);
+                    throw new UnexpectedTokenException(0, _left.Token);
             }
         }
 
-        public override string ToString() => Left.ToString() + Token.Value + Right.ToString();
+        public override string ToString() => Left + Token.Value + Right;
     }
 }
