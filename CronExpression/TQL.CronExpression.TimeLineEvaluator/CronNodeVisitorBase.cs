@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TQL.CronExpression.TimelineEvaluator.List;
+using TQL.CronExpression.Parser;
 using TQL.CronExpression.TimelineEvaluator.Lists.ComputableLists;
 using TQL.CronExpression.Parser.Enums;
 using TQL.CronExpression.Parser.Exceptions;
@@ -9,7 +9,7 @@ using TQL.CronExpression.Parser.Extensions;
 using TQL.CronExpression.Parser.Nodes;
 using TQL.CronExpression.Parser.Utils;
 using TQL.CronExpression.Parser.Tokens;
-using TQL.CronExpression.Parser.Visitors;
+using TQL.CronExpression.TimelineEvaluator.Lists;
 
 namespace TQL.CronExpression.TimelineEvaluator
 {

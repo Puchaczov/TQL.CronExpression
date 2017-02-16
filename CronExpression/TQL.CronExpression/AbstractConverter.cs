@@ -2,9 +2,8 @@
 using TQL.CronExpression.Parser;
 using TQL.CronExpression.Parser.Enums;
 using TQL.CronExpression.Parser.Nodes;
-using TQL.CronExpression.Parser.Visitors;
 
-namespace TQL.CronExpression.Converter
+namespace TQL.CronExpression
 {
     public abstract class AbstractConverter<TOutput> : ConverterBase<TOutput, ConvertionResponse<TOutput>, INodeVisitor, TokenType, RootComponentNode, ConvertionRequest>
     {
@@ -18,7 +17,7 @@ namespace TQL.CronExpression.Converter
 
         protected override RootComponentNode InstantiateRootNodeFromRequest(ConvertionRequest request)
         {
-            var preprocessor = new Preprocessor();
+            var preprocessor = new Preprocessor.Preprocessor();
             var input = preprocessor.Execute(request.Input);
             var lexer = new Lexer(input);
             var parser = new CronParser(lexer, request.Options.ProduceYearIfMissing, request.Options.ProduceEndOfFileNode, request.Options.ProduceSecondsIfMissing);

@@ -2,7 +2,6 @@
 using TQL.Core.Tokens;
 using System;
 using TQL.CronExpression.Parser.Tokens;
-using TQL.CronExpression.Parser.Exceptions;
 using TQL.CronExpression.Parser.Enums;
 using System.Text.RegularExpressions;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace TQL.CronExpression.Parser
 
         protected override Token GetEndOfFileToken()
         {
-            return new EndOfFileToken(new TextSpan(input.Length, 0));
+            return new EndOfFileToken(new TextSpan(Input.Length, 0));
         }
 
         protected override Token GetToken(TokenDefinition matchedDefinition, Match match)

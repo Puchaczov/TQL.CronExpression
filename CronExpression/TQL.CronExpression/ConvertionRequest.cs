@@ -1,6 +1,6 @@
 ﻿using TQL.Core.Converters;
 
-namespace TQL.CronExpression.Converter
+namespace TQL.CronExpression
 {
     public class ConvertionRequest : ConvertionRequestBase
     {

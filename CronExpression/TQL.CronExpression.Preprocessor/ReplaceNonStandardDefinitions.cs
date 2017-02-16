@@ -1,6 +1,6 @@
-﻿using TQL.Common.Pipeline;
+﻿using TQL.Common.Filters.Pipeline;
 
-namespace TQL.CronExpression.Filters
+namespace TQL.CronExpression.Preprocessor
 {
     public class ReplaceNonStandardDefinitions : FilterBase<string>
     {

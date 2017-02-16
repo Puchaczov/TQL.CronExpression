@@ -51,27 +51,27 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TQL.Common, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Common.1.1.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
+    <ProjectReference Include="..\TQL.CronExpression.Parser\TQL.CronExpression.Parser.csproj">
+      <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
+      <Name>TQL.CronExpression.Parser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TQL.Common, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Common.1.2.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TQL.Core, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Core.3.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
+    <Reference Include="TQL.Core, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Core.5.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TQL.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Interfaces.1.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Interfaces.dll</HintPath>
+    <Reference Include="TQL.Interfaces, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Interfaces.2.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TQL.CronExpression.Parser\TQL.CronExpression.Parser.csproj">
-      <Project>{b8735922-c602-44ee-9df5-45679e2a1436}</Project>
-      <Name>TQL.CronExpression.Parser</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

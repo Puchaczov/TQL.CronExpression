@@ -2,7 +2,7 @@
 using TQL.Core.Converters;
 using TQL.CronExpression.Visitors;
 
-namespace TQL.CronExpression.Converter
+namespace TQL.CronExpression
 {
     public class ConvertionResponse<T> : ConvertionResponseBase<T>
     {

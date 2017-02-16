@@ -1,11 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TQL.CronExpression.Exceptions;
-using TQL.CronExpression.TimelineEvaluator;
-using TQL.CronExpression.Visitors;
 
-namespace TQL.CronExpression.Converter.Tests
+namespace TQL.CronExpression.Tests
 {
     [TestClass]
     public class ConverterTests

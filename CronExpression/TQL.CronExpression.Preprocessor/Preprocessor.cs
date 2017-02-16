@@ -1,8 +1,7 @@
 ﻿using TQL.Common.Filters;
-using TQL.Common.Pipeline;
-using TQL.CronExpression.Filters;
+using TQL.Common.Filters.Pipeline;
 
-namespace TQL.CronExpression
+namespace TQL.CronExpression.Preprocessor
 {
     public class Preprocessor : Pipeline<string>
     {

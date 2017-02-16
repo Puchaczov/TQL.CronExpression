@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TQL.CronExpression.TimelineEvaluator.List
+namespace TQL.CronExpression.TimelineEvaluator.Lists
 {
     public class RangeVaryingList<T> : VirtualList<T>
     {

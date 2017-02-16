@@ -1,4 +1,4 @@
-﻿namespace TQL.CronExpression.Converter
+﻿namespace TQL.CronExpression
 {
     public interface IConverter<in TRequest, out TResponse>
     {

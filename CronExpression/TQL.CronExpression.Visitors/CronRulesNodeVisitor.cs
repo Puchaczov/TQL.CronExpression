@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using TQL.Core.Tokens;
+using TQL.CronExpression.Parser;
 using TQL.CronExpression.Parser.Enums;
 using TQL.CronExpression.Parser.Exceptions;
 using TQL.CronExpression.Parser.Extensions;
 using TQL.CronExpression.Parser.Helpers;
 using TQL.CronExpression.Parser.Nodes;
-using TQL.CronExpression.Parser.Visitors;
 using TQL.CronExpression.Visitors.Exceptions;
 
 namespace TQL.CronExpression.Visitors

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TQL.Core.Exceptions;
 using TQL.Core.Tokens;
 using TQL.CronExpression.Parser.Enums;
 using TQL.CronExpression.Parser.Exceptions;
@@ -31,7 +30,7 @@ namespace TQL.CronExpression.Parser
         {
             this.lexer = lexer;
             lastToken = new NoneToken(new TextSpan(0, 0));
-            currentToken = lexer.NextToken();
+            currentToken = lexer.Next();
         }
 
         public bool WithYearComponentWhenMissing => produceMissingYearSegment;
@@ -112,7 +111,7 @@ namespace TQL.CronExpression.Parser
             if (currentToken.TokenType == type)
             {
                 lastToken = currentToken;
-                currentToken = lexer.NextToken();
+                currentToken = lexer.Next();
                 return;
             }
             throw new UnexpectedTokenException(lexer.Position, currentToken);

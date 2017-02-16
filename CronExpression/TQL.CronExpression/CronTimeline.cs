@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
-using TQL.CronExpression.Exceptions;
-using TQL.CronExpression.TimelineEvaluator;
-using TQL.CronExpression.TimelineEvaluator.Evaluators;
-using TQL.CronExpression.Parser.Nodes;
-using TQL.CronExpression.Visitors;
 using TQL.Common.Evaluators;
+using TQL.CronExpression.Exceptions;
+using TQL.CronExpression.Parser.Nodes;
+using TQL.CronExpression.TimelineEvaluator;
+using TQL.CronExpression.Visitors;
 using TQL.Interfaces;
 
-namespace TQL.CronExpression.Converter
+namespace TQL.CronExpression
 {
     public class CronTimeline : AbstractConverter<IFireTimeEvaluator>, IConverter<CreateEvaluatorRequest, ConvertionResponse<IFireTimeEvaluator>>
     {
@@ -33,7 +32,7 @@ namespace TQL.CronExpression.Converter
 
                 evaluator.ReferenceTime = request.ReferenceTime;
 
-                return new ConvertionResponse<IFireTimeEvaluator>(new TimeZoneChangerDecorator(request.TargetTimeZoneInfo, evaluator), rulesVisitor.Errors.ToArray());
+                return new ConvertionResponse<IFireTimeEvaluator>(new TimeZoneChangerDecorator(TimeZoneInfo.Local, request.TargetTimeZoneInfo, evaluator), rulesVisitor.Errors.ToArray());
             }
             return new ConvertionResponse<IFireTimeEvaluator>(null, rulesVisitor.Errors.ToArray());
         }

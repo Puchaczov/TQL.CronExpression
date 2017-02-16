@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TQL.CronExpression.Converter
+namespace TQL.CronExpression
 {
     public class CreateEvaluatorRequest : ConvertionRequest
     {

@@ -4,7 +4,7 @@ using TQL.CronExpression.Exceptions;
 using TQL.CronExpression.Parser.Nodes;
 using TQL.CronExpression.Visitors;
 
-namespace TQL.CronExpression.Converter
+namespace TQL.CronExpression
 {
     public class CronValidator : AbstractConverter<bool>, IConverter<ConvertionRequest, ConvertionResponse<bool>>
     {
