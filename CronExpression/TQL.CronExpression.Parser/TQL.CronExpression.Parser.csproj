@@ -93,8 +93,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TQL.Common, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Common.1.3.1\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
+    <Reference Include="TQL.Common, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TQL.Common.1.3.2\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TQL.Core, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
