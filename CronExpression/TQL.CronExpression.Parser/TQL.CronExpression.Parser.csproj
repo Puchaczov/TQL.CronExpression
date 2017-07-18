@@ -1,120 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B8735922-C602-44EE-9DF5-45679E2A1436}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TQL.CronExpression.Parser</RootNamespace>
-    <AssemblyName>TQL.CronExpression.Parser</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <Authors>Jakub Puchała</Authors>
+    <Description>Cron Parser</Description>
+    <Copyright>Jakub Puchała @ 2016</Copyright>
+    <AssemblyVersion>2.1.1.0</AssemblyVersion>
+    <FileVersion>2.1.1.0</FileVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>2.1.1.0</Version>
+    <PackageProjectUrl>https://github.com/Puchaczov/TQL.CronExpression</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Puchaczov/TQL.CronExpression/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/Puchaczov/TQL.CronExpression</RepositoryUrl>
+    <PackageTags>TQL TQL.CronExpression.Parser</PackageTags>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\EvaluationException.cs" />
-    <Compile Include="Exceptions\UnexpectedSegmentException.cs" />
-    <Compile Include="Exceptions\UnexpectedTokenException.cs" />
-    <Compile Include="Exceptions\UnknownSegmentException.cs" />
-    <Compile Include="Extensions\CronWordHelper.cs" />
-    <Compile Include="Extensions\ListExtension.cs" />
-    <Compile Include="Helpers\ExpressionHelpers.cs" />
-    <Compile Include="Helpers\NodeTraverseResult.cs" />
-    <Compile Include="Helpers\TextSpanHelpers.cs" />
-    <Compile Include="Helpers\TreeHelpers.cs" />
-    <Compile Include="INodeVisitor.cs" />
-    <Compile Include="Nodes\LeafNode.cs" />
-    <Compile Include="Nodes\LWNode.cs" />
-    <Compile Include="Nodes\MissingNode.cs" />
-    <Compile Include="Nodes\NumericPrecededLNode.cs" />
-    <Compile Include="Nodes\NumericPrecededWNode.cs" />
-    <Compile Include="Nodes\UnaryExpressionNode.cs" />
-    <Compile Include="Tokens\EndOfFileToken.cs" />
-    <Compile Include="Tokens\LWToken.cs" />
-    <Compile Include="Tokens\MissingToken.cs" />
-    <Compile Include="Tokens\Token.cs" />
-    <Compile Include="Utils\Ref.cs" />
-    <Compile Include="Nodes\CommaNode.cs" />
-    <Compile Include="Nodes\EndOfFileNode.cs" />
-    <Compile Include="Enums\Segment.cs" />
-    <Compile Include="Enums\Month.cs" />
-    <Compile Include="Enums\TokenType.cs" />
-    <Compile Include="Enums\WeekDay.cs" />
-    <Compile Include="CronParser.cs" />
-    <Compile Include="Nodes\HashNode.cs" />
-    <Compile Include="Nodes\LNode.cs" />
-    <Compile Include="Nodes\CronSyntaxNode.cs" />
-    <Compile Include="Nodes\StarNode.cs" />
-    <Compile Include="Nodes\IncrementByNode.cs" />
-    <Compile Include="Nodes\IVisitedNode.cs" />
-    <Compile Include="Nodes\WNode.cs" />
-    <Compile Include="Tokens\CommaToken.cs" />
-    <Compile Include="Tokens\HashToken.cs" />
-    <Compile Include="Tokens\IncrementByToken.cs" />
-    <Compile Include="Tokens\LToken.cs" />
-    <Compile Include="Tokens\NoneToken.cs" />
-    <Compile Include="Tokens\IntegerToken.cs" />
-    <Compile Include="Tokens\QuestionMarkToken.cs" />
-    <Compile Include="Tokens\RangeToken.cs" />
-    <Compile Include="Tokens\StarToken.cs" />
-    <Compile Include="Tokens\WhiteSpaceToken.cs" />
-    <Compile Include="Tokens\NameToken.cs" />
-    <Compile Include="Tokens\WToken.cs" />
-    <Compile Include="Nodes\NumberNode.cs" />
-    <Compile Include="Nodes\RangeNode.cs" />
-    <Compile Include="Nodes\RootComponentNode.cs" />
-    <Compile Include="Nodes\SegmentNode.cs" />
-    <Compile Include="Nodes\BinaryExpressionNode.cs" />
-    <Compile Include="Nodes\QuestionMarkNode.cs" />
-    <Compile Include="Nodes\WordNode.cs" />
-    <Compile Include="Lexer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <PackageReference Include="TQL.Common" Version="1.3.3" />
+    <PackageReference Include="TQL.Core" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TQL.Common, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Common.1.3.2\lib\portable45-net45+win8+wp8+wpa81\TQL.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TQL.Core, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Core.5.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TQL.Interfaces, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TQL.Interfaces.2.0.0\lib\portable45-net45+win8+wp8+wpa81\TQL.Interfaces.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

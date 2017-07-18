@@ -84,6 +84,17 @@ namespace TQL.CronExpression.Tests
         }
 
         [TestMethod]
+        public void Validator_IncorrectExpressionProvidedMalformedExpression_ShouldContainErrorMessages()
+        {
+            var validator = new CronValidator(false)
+                .Convert(new ConvertionRequest("* * * ? * *A&/5:", ConvertionRequest.CronMode.ModernDefinition));
+
+            Assert.IsNotNull(validator);
+            Assert.IsNotNull(validator.Messages);
+            Assert.AreEqual(false, validator.Output);
+        }
+
+        [TestMethod]
         public void Evaluator_CheckEvaluatedValuesTakeIntoTargetTimeZone_ShouldPass()
         {
             var timeZoneReferenceTime = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time"); //+1
