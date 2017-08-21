@@ -4,10 +4,10 @@
     <Authors>Jakub Puchała</Authors>
     <Description>Cron expression evaluator</Description>
     <Copyright>Jakub Puchała @ 2016</Copyright>
-    <AssemblyVersion>4.0.1.1</AssemblyVersion>
-    <FileVersion>4.0.1.1</FileVersion>
+    <AssemblyVersion>4.0.1.2</AssemblyVersion>
+    <FileVersion>4.0.1.2</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>4.0.1.1</Version>
+    <Version>4.0.1.2</Version>
     <PackageProjectUrl>https://github.com/Puchaczov/TQL.RDL/tree/master/TQL.RDL</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Puchaczov/TQL.RDL/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/Puchaczov/TQL.RDL/tree/master/TQL.RDL</RepositoryUrl>
