@@ -4,10 +4,10 @@
     <Authors>Jakub Puchała</Authors>
     <Description>TQL.CronExpressions visitors</Description>
     <Copyright>Jakub Puchała @ 2016</Copyright>
-    <AssemblyVersion>1.2.1.0</AssemblyVersion>
-    <FileVersion>1.2.1.0</FileVersion>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
+    <FileVersion>1.2.2.0</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.2.1.0</Version>
+    <Version>1.2.2.0</Version>
     <PackageProjectUrl>https://github.com/Puchaczov/TQL.RDL/tree/master/TQL.RDL</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Puchaczov/TQL.RDL/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/Puchaczov/TQL.RDL/tree/master/TQL.RDL</RepositoryUrl>

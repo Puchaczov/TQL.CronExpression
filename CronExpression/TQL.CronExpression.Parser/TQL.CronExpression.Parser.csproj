@@ -4,10 +4,10 @@
     <Authors>Jakub Puchała</Authors>
     <Description>Cron Parser</Description>
     <Copyright>Jakub Puchała @ 2016</Copyright>
-    <AssemblyVersion>2.1.1.0</AssemblyVersion>
-    <FileVersion>2.1.1.0</FileVersion>
+    <AssemblyVersion>2.1.2.0</AssemblyVersion>
+    <FileVersion>2.1.2.0</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>2.1.1.0</Version>
+    <Version>2.1.2.0</Version>
     <PackageProjectUrl>https://github.com/Puchaczov/TQL.CronExpression</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Puchaczov/TQL.CronExpression/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/Puchaczov/TQL.CronExpression</RepositoryUrl>
